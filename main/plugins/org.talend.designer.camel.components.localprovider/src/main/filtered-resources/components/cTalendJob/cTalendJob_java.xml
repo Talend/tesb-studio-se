@@ -92,7 +92,8 @@
 	<CODEGENERATION>
 		<IMPORTS>
 			<IMPORT NAME="${tesb-camel-talendjob}"
-			    MODULE="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-talendjob}"
+			    MODULE="${tesb-camel-talendjob}"
+                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-talendjob}"
                 REQUIRED="true" />
 		</IMPORTS>
 	</CODEGENERATION>

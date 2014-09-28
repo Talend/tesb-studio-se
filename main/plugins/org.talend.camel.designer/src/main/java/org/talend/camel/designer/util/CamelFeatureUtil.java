@@ -27,7 +27,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
-import org.eclipse.emf.common.util.EList;
 import org.talend.camel.designer.ui.editor.RouteProcess;
 import org.talend.commons.exception.ExceptionHandler;
 import org.talend.core.model.process.EConnectionType;
@@ -74,10 +73,6 @@ public final class CamelFeatureUtil {
 	private static final Map<String, Collection<FeatureModel>> camelFeaturesMap =
 			new HashMap<String, Collection<FeatureModel>>();
 
-//	private static final Map<String, Collection<BundleModel>> camelBundlesMap =
-//			new HashMap<String, Collection<BundleModel>>();
-
-
 	private static final String JAVA_SCRIPT = "javaScript";
 
 	private static final String LANGUAGES = "LANGUAGES";
@@ -108,7 +103,7 @@ public final class CamelFeatureUtil {
 	 * @return
 	 */
 	protected static boolean computeCheckElementValue(String paramName,
-			EList<?> elementParameterTypes) {
+			List<?> elementParameterTypes) {
 		ElementParameterType cpType = findElementParameterByName(paramName,
 				elementParameterTypes);
 		if (cpType == null) {
@@ -151,20 +146,19 @@ public final class CamelFeatureUtil {
 		String interName = libraryName;
 		int lastIndexOf = interName.lastIndexOf('-');
 		while(lastIndexOf != -1){
-			try{
-				Integer.parseInt(Character.toString(interName.charAt(lastIndexOf+1)));
-				interName = interName.substring(0, lastIndexOf);
+			char followChar = interName.charAt(lastIndexOf+1);
+			boolean isFollowNum = followChar >='0' && followChar<='9';
+			interName = interName.substring(0,lastIndexOf);
+			if(isFollowNum) {
 				break;
-			}catch(Exception e){
-				interName = interName.substring(0, lastIndexOf);
-				lastIndexOf = interName.lastIndexOf('-');
 			}
+			lastIndexOf = interName.lastIndexOf('-');
 		}
 		return interName;
 	}
 
 	protected static ElementParameterType findElementParameterByName(
-			String paramName, EList<?> elementParameterTypes) {
+			String paramName, List<?> elementParameterTypes) {
 		for (Object obj : elementParameterTypes) {
 			ElementParameterType cpType = (ElementParameterType) obj;
 			if (paramName.equals(cpType.getName())) {
@@ -175,7 +169,7 @@ public final class CamelFeatureUtil {
 	}
 	
 	protected static Map<String, ElementParameterType> findElementParameterByNames(
-			List<String> paramNames, EList<?> elementParameterTypes) {
+			List<String> paramNames, List<?> elementParameterTypes) {
 		Map<String, ElementParameterType> map = new HashMap<String, ElementParameterType>(paramNames.size());
 		for (Object obj : elementParameterTypes) {
 			ElementParameterType cpType = (ElementParameterType) obj;
@@ -188,24 +182,6 @@ public final class CamelFeatureUtil {
 		}
 		return map;
 	}
-
-	/**
-	 * Get bundle in feature.xml
-	 * 
-	 * @param node
-	 * @return
-	 */
-//	private static Collection<BundleModel> getBundlesOfRoute(
-//			Collection<String> neededLibraries) {
-//		Collection<BundleModel> bundles = new HashSet<BundleModel>();
-//		for (String lib : neededLibraries) {
-//			Collection<BundleModel> model = computeBundle(lib);
-//			if (model != null) {
-//				bundles.addAll(model);
-//			}
-//		}
-//		return bundles;
-//	}
 
 	/**
 	 * 
@@ -272,8 +248,8 @@ public final class CamelFeatureUtil {
 
 	private static void addConnectionsSpecialFeatures(
 			Collection<FeatureModel> features, ProcessType processType) {
-		EList connections = processType.getConnection();
-		Iterator iterator = connections.iterator();
+		List<?> connections = processType.getConnection();
+		Iterator<?> iterator = connections.iterator();
 		while(iterator.hasNext()){
 			Object next = iterator.next();
 			if(!(next instanceof ConnectionType)){
@@ -283,8 +259,8 @@ public final class CamelFeatureUtil {
 			if(!EConnectionType.ROUTE_WHEN.getName().equals(con.getConnectorName())){
 				continue;
 			}
-			EList elementParameters = con.getElementParameter();
-			Iterator paraIter = elementParameters.iterator();
+			List<?> elementParameters = con.getElementParameter();
+			Iterator<?> paraIter = elementParameters.iterator();
 			while(paraIter.hasNext()){
 				Object paraNext = paraIter.next();
 				if(!(paraNext instanceof ElementParameterType)){
@@ -309,8 +285,8 @@ public final class CamelFeatureUtil {
 	protected static void handleSetHeaderCase(Collection<FeatureModel> features,
 			NodeType currentNode) {
 		ElementParameterType element = findElementParameterByName("VALUES", currentNode.getElementParameter());
-		EList elementValue = element.getElementValue();
-		Iterator iterator = elementValue.iterator();
+		List<?> elementValue = element.getElementValue();
+		Iterator<?> iterator = elementValue.iterator();
 		while(iterator.hasNext()){
 			Object next = iterator.next();
 			if(!(next instanceof ElementValueType)){
@@ -328,7 +304,7 @@ public final class CamelFeatureUtil {
 
 	protected static void handleSetBodyCase(Collection<FeatureModel> features,
 			NodeType currentNode) {
-		EList parameters = currentNode.getElementParameter();
+		List<?> parameters = currentNode.getElementParameter();
 
 		ElementParameterType languages = findElementParameterByName(LANGUAGES, parameters);
 		if(!JAVA_SCRIPT.equals(languages.getValue())){
@@ -339,7 +315,7 @@ public final class CamelFeatureUtil {
 
 	private static void handleRecipientListCase(Collection<FeatureModel> features,
 			NodeType currentNode) {
-		EList parameters = currentNode.getElementParameter();
+		List<?> parameters = currentNode.getElementParameter();
 
 		ElementParameterType languages = findElementParameterByName(LANGUAGES, parameters);
 		if(!JAVA_SCRIPT.equals(languages.getValue())){
@@ -350,7 +326,7 @@ public final class CamelFeatureUtil {
 
 	protected static void handleMessageFilterCase(Collection<FeatureModel> features,
 			NodeType currentNode) {
-		EList parameters = currentNode.getElementParameter();
+		List<?> parameters = currentNode.getElementParameter();
 
 		ElementParameterType languages = findElementParameterByName(LANGUAGES, parameters);
 		if(!JAVA_SCRIPT.equals(languages.getValue())){
@@ -361,7 +337,7 @@ public final class CamelFeatureUtil {
 
 	protected static void handleLoopCase(Collection<FeatureModel> features,
 			NodeType currentNode) {
-		EList parameters = currentNode.getElementParameter();
+		List<?> parameters = currentNode.getElementParameter();
 		List<String> paraNames = new ArrayList<String>();
 		paraNames.add(LOOP_TYPE);
 		paraNames.add(LANGUAGES);
@@ -432,27 +408,6 @@ public final class CamelFeatureUtil {
 					features.add(new FeatureModel(featureName,
 							featureVersion));
 				}
-//				list = (NodeList) newXPath.evaluate("//FeatureMap/Bundle",
-//						document, XPathConstants.NODESET);
-//
-//				for (int index = 0; index < list.getLength(); index++) {
-//
-//					Node node = list.item(index);
-//					String hotLib = node.getParentNode().getAttributes()
-//							.getNamedItem("HotLib").getNodeValue();
-//					Collection<BundleModel> bundles = camelBundlesMap.get(hotLib);
-//					if (bundles == null) {
-//						bundles = new HashSet<BundleModel>();
-//						camelBundlesMap.put(hotLib, bundles);
-//					}
-//
-//					String version = node.getAttributes()
-//							.getNamedItem("version").getNodeValue();
-//					String groupId = node.getAttributes()
-//							.getNamedItem("groupId").getNodeValue();
-//					String name = node.getFirstChild().getNodeValue();
-//					bundles.add(new BundleModel(groupId, name, version));
-//				}
 			} finally {
 				input.close();
 			}
@@ -489,11 +444,6 @@ public final class CamelFeatureUtil {
 		for (FeatureModel model : features) {
 			featuresModel.addFeature(model);
 		}
-
-//		Collection<BundleModel> bundles = getBundlesOfRoute(neededLibraries);
-//		for (BundleModel model : bundles) {
-//			featuresModel.addBundle(model);
-//		}
 
 		process.dispose();
 

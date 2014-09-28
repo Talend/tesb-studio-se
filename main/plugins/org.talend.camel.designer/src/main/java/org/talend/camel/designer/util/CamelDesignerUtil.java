@@ -21,44 +21,25 @@ public class CamelDesignerUtil {
 					IJobletProviderService.class);
 		}
 	}
-		
+
 	public static boolean checkRouteInputExistInJob(ProcessItem pi) {
 		if(pi == null){
 			return false;
 		}
-		EList<?> nodes = pi.getProcess().getNode();
-		Iterator<?> iterator = nodes.iterator();
-		while (iterator.hasNext()) {
-			Object next = iterator.next();
-			if (!(next instanceof NodeType)) {
-				continue;
-			}
-			NodeType nt = (NodeType) next;
-			if(!EmfModelUtils.isComponentActive(nt) && !EmfModelUtils.computeCheckElementValue("ACTIVATE", nt)){
-				continue;
-			}
-			String componentName = nt.getComponentName();
-			if ("tRouteInput".equals(componentName)) {
-				return true;
-			}else if(service != null){
-				ProcessType jobletProcess = service.getJobletProcess(nt);
-				if(jobletProcess == null){
-					continue;
-				}
-				if(checkRouteInputExistInJoblet(jobletProcess)){
-					return true;
-				}
-			}
-		}
-		
-		return false;
+		return recursiveCheckRouteInputExistInProcess(pi.getProcess());
 	}
-	
+
 	public static boolean checkRouteInputExistInJoblet(ProcessType jobletProcess) {
-		if(jobletProcess == null){
+		
+		return recursiveCheckRouteInputExistInProcess(jobletProcess);
+	}
+
+	private static boolean recursiveCheckRouteInputExistInProcess(
+			ProcessType process) {
+		if(process == null){
 			return false;
 		}
-		EList<?> node = jobletProcess.getNode();
+		EList<?> node = process.getNode();
 		Iterator<?> iterator = node.iterator();
 		while(iterator.hasNext()){
 			Object next = iterator.next();
@@ -74,10 +55,7 @@ public class CamelDesignerUtil {
 				return true;
 			}else if(service != null){
 				ProcessType subProcess = service.getJobletProcess(nt);
-				if(subProcess == null){
-					continue;
-				}
-				if(checkRouteInputExistInJoblet(subProcess)){
+				if(recursiveCheckRouteInputExistInProcess(subProcess)){
 					return true;
 				}
 			}

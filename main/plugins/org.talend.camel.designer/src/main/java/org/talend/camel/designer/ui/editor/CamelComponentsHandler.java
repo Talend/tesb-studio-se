@@ -25,24 +25,26 @@ import org.talend.core.model.components.IComponentsHandler;
  */
 public class CamelComponentsHandler implements IComponentsHandler {
 
-	private List<IComponent> camelComponents = new ArrayList<IComponent>();
-	
+    // private List<IComponent> camelComponents = new ArrayList<IComponent>();
+
     /*
      * (non-Javadoc)
      * 
      * @see org.talend.core.model.components.IComponentsHandler#filterComponents(java.util.List)
      */
+    @Override
     public List<IComponent> filterComponents(List<IComponent> allComponents) {
-    	if(allComponents == null || allComponents.isEmpty() || !camelComponents.isEmpty()){
-    		return camelComponents;
-    	}
-		String categoryName = extractComponentsCategory().getName();
-		for (IComponent component : allComponents) {
-			String compType = component.getPaletteType();
-			if (compType != null && categoryName.equals(compType)) {
-				camelComponents.add(component);
-			}
-		}
+        if (allComponents == null || allComponents.isEmpty()) {
+            return allComponents;
+        }
+        List<IComponent> camelComponents = new ArrayList<IComponent>();
+        String categoryName = extractComponentsCategory().getName();
+        for (IComponent component : allComponents) {
+            String compType = component.getPaletteType();
+            if (compType != null && categoryName.equals(compType)) {
+                camelComponents.add(component);
+            }
+        }
         return camelComponents;
     }
 
@@ -51,6 +53,7 @@ public class CamelComponentsHandler implements IComponentsHandler {
      * 
      * @see org.talend.core.model.components.IComponentsHandler#sortComponents(java.util.List)
      */
+    @Override
     public List<IComponent> sortComponents(List<IComponent> filteredComponents) {
         return filteredComponents;
     }
@@ -60,6 +63,7 @@ public class CamelComponentsHandler implements IComponentsHandler {
      * 
      * @see org.talend.core.model.components.IComponentsHandler#extractComponentsCategory()
      */
+    @Override
     public ComponentCategory extractComponentsCategory() {
         return ComponentCategory.CATEGORY_4_CAMEL;
     }

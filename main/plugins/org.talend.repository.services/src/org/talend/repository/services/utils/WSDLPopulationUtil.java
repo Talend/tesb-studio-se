@@ -13,6 +13,8 @@
 package org.talend.repository.services.utils;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
@@ -43,6 +45,17 @@ public class WSDLPopulationUtil extends XSDPopulationUtil2 {
         resourceSet.getAdapterFactories().add(new XSDSchemaLocationResolverAdapterFactory());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.datatools.xml.utils.XSDPopulationUtil2#getXSDSchema(java.lang.String, boolean)
+     */
+    @Override
+    public XSDSchema getXSDSchema(String fileName, boolean forceReload) throws URISyntaxException, MalformedURLException {
+        return getXSDSchemaFromNamespace(fileName);
+    }
+
+    @Override
     public XSDSchema getXSDSchemaFromNamespace(String namespace) {
         if (loadFromWSDL) {
             if (resourceSet.getResources().size() == 1) {
@@ -72,7 +85,7 @@ public class WSDLPopulationUtil extends XSDPopulationUtil2 {
      * @throws CoreException
      * @throws IOException
      */
-    public void loadWSDL(String wsdlFile) throws IOException, CoreException {
+    public void loadWSDL(String wsdlFile) throws IOException {
         WSDLResourceFactoryImpl resourceFactory = new WSDLResourceFactoryImpl();
         Resource resource = resourceFactory.createResource(URI.createURI(wsdlFile));
         resourceSet.getResources().add(resource);

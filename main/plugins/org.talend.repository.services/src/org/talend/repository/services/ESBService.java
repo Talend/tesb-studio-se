@@ -57,6 +57,7 @@ import org.talend.core.model.repository.IRepositoryViewObject;
 import org.talend.core.repository.model.ProjectRepositoryNode;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.core.runtime.CoreRuntimePlugin;
+import org.talend.core.utils.IXSDPopulationUtil;
 import org.talend.core.utils.KeywordsValidator;
 import org.talend.designer.core.IDesignerCoreService;
 import org.talend.designer.core.model.components.EParameterName;
@@ -85,6 +86,7 @@ import org.talend.repository.services.model.services.ServicesPackage;
 import org.talend.repository.services.utils.ESBRepositoryNodeType;
 import org.talend.repository.services.utils.OperationRepositoryObject;
 import org.talend.repository.services.utils.PortRepositoryObject;
+import org.talend.repository.services.utils.WSDLPopulationUtil;
 import org.talend.repository.services.utils.WSDLUtils;
 
 /**
@@ -883,7 +885,7 @@ public class ESBService implements IESBService {
             String temp = value;
             while (validJobName(node, temp) != null) {
                 if (j > 'z') {
-                    throw new BusinessException(Messages.ESBService_cannotGenerateItem); //$NON-NLS-1$
+                    throw new BusinessException(Messages.ESBService_cannotGenerateItem);
                 }
                 temp = value + "_" + (j++) + ""; //$NON-NLS-1$ //$NON-NLS-2$
             }
@@ -973,5 +975,15 @@ public class ESBService implements IESBService {
                 arraysList.add(repositoryNodeType);
             }
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.core.IESBService#getXSDPopulationUtil()
+     */
+    @Override
+    public IXSDPopulationUtil getXSDPopulationUtil() {
+        return new WSDLPopulationUtil();
     }
 }

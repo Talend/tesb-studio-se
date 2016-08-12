@@ -13,16 +13,14 @@
 package org.talend.repository.services.action;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import javax.wsdl.Binding;
@@ -36,7 +34,6 @@ import javax.wsdl.Output;
 import javax.wsdl.Part;
 import javax.xml.namespace.QName;
 
-import org.apache.ws.commons.schema.XmlSchema;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -53,7 +50,6 @@ import org.talend.commons.exception.PersistenceException;
 import org.talend.core.model.properties.ConnectionItem;
 import org.talend.core.model.properties.XmlFileConnectionItem;
 import org.talend.cwm.helper.ConnectionHelper;
-import org.talend.datatools.xml.utils.XSDPopulationUtil2;
 import org.talend.designer.core.DesignerPlugin;
 import org.talend.metadata.managment.ui.utils.XsdMetadataUtils;
 import org.talend.repository.services.Activator;
@@ -61,7 +57,7 @@ import org.talend.repository.services.Messages;
 import org.talend.repository.services.ui.RewriteSchemaDialog;
 import org.talend.repository.services.ui.preferences.EsbSoapServicePreferencePage;
 import org.talend.repository.services.utils.FolderNameUtil;
-import org.talend.repository.services.utils.SchemaUtil;
+import org.talend.repository.services.utils.WSDLPopulationUtil;
 import org.talend.repository.services.utils.WSDLUtils;
 
 public class PublishMetadataRunnable implements IRunnableWithProgress {
@@ -70,7 +66,7 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
 
     private final Shell shell;
 
-    private XSDPopulationUtil2 populationUtil;
+    private WSDLPopulationUtil populationUtil;
 
     public PublishMetadataRunnable(Definition wsdlDefinition, Shell shell) {
         this.wsdlDefinition = wsdlDefinition;
@@ -248,23 +244,21 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
     }
 
     @SuppressWarnings("unchecked")
-    private void process(Definition wsdlDefinition, Collection<XmlFileConnectionItem> selectTables) throws IOException {
-        Map<String, File> fileToSchemaMap = new HashMap<String, File>();
-        File zip = null;
-        final SchemaUtil schemaUtil = new SchemaUtil(wsdlDefinition);
-
+    private void process(Definition wsdlDefinition, Collection<XmlFileConnectionItem> selectTables) throws IOException,
+            CoreException {
         try {
-            populationUtil = new XSDPopulationUtil2();
-            for (XmlSchema schema : schemaUtil.getSchemas()) {
-                File file = initFileContent(schema);
-                String ns = schema.getTargetNamespace();
-                fileToSchemaMap.put(ns != null ? ns : "", file);
-                populationUtil.addSchema(file.getPath());
+            File wsdlFile = null;
+            String baseUri = wsdlDefinition.getDocumentBaseURI();
+            try {
+                URI uri = new URI(baseUri);
+                wsdlFile = new File(uri.toURL().getFile());
+            } catch (URISyntaxException e) {
+                wsdlFile = new File(baseUri);
             }
-
-            zip = File.createTempFile("tempXSDFile", ".zip");
-            Collection<File> files = fileToSchemaMap.values();
-            org.talend.utils.io.FilesUtils.zips(files.toArray(new File[files.size()]), zip.getPath());
+            if (populationUtil == null) {
+                populationUtil = new WSDLPopulationUtil();
+                populationUtil.loadWSDL(baseUri);
+            }
 
             final Set<QName> portTypes = new HashSet<QName>();
             final Set<QName> alreadyCreated = new HashSet<QName>();
@@ -283,11 +277,8 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
                                     continue;
                                 }
                                 if (alreadyCreated.add(parameterFromMessage)) {
-                                    File schemaFile = fileToSchemaMap.get(parameterFromMessage.getNamespaceURI());
-                                    if (null != schemaFile) {
-                                        XsdMetadataUtils.createMetadataFromXSD(parameterFromMessage, portType.getLocalPart(), oper.getName(),
-                                                schemaFile, selectTables, zip, populationUtil);
-                                    }
+                                    XsdMetadataUtils.createMetadataFromXSD(parameterFromMessage, portType.getLocalPart(),
+                                            oper.getName(), selectTables, wsdlFile, populationUtil);
                                 }
                             }
                         }
@@ -301,11 +292,8 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
                                     continue;
                                 }
                                 if (alreadyCreated.add(parameterFromMessage)) {
-                                    File schemaFile = fileToSchemaMap.get(parameterFromMessage.getNamespaceURI());
-                                    if (null != schemaFile) {
-                                        XsdMetadataUtils.createMetadataFromXSD(parameterFromMessage, portType.getLocalPart(), oper.getName(),
-                                                schemaFile, selectTables, zip, populationUtil);
-                                    }
+                                    XsdMetadataUtils.createMetadataFromXSD(parameterFromMessage, portType.getLocalPart(),
+                                            oper.getName(), selectTables, wsdlFile, populationUtil);
                                 }
                             }
                         }
@@ -317,11 +305,8 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
                                     continue;
                                 }
                                 if (alreadyCreated.add(parameterFromMessage)) {
-                                    File schemaFile = fileToSchemaMap.get(parameterFromMessage.getNamespaceURI());
-                                    if (null != schemaFile) {
-                                        XsdMetadataUtils.createMetadataFromXSD(parameterFromMessage, portType.getLocalPart(), oper.getName(),
-                                                schemaFile, selectTables, zip, populationUtil);
-                                    }
+                                    XsdMetadataUtils.createMetadataFromXSD(parameterFromMessage, portType.getLocalPart(),
+                                            oper.getName(), selectTables, wsdlFile, populationUtil);
                                 }
                             }
                         }
@@ -330,27 +315,6 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
             }
         } catch (IOException e) {
             throw e;
-        } finally {
-            for (File file : fileToSchemaMap.values()) {
-                file.delete();
-            }
-            if (null != zip) {
-                zip.delete();
-            }
-        }
-    }
-
-    private static File initFileContent(final XmlSchema schema) throws IOException {
-        FileOutputStream outStream = null;
-        try {
-            File temfile = File.createTempFile("tempXSDFile", ".xsd"); //$NON-NLS-1$ //$NON-NLS-2$
-            outStream = new FileOutputStream(temfile);
-            schema.write(outStream); // this method hangs when using invalid wsdl.
-            return temfile;
-        } finally {
-            if (outStream != null) {
-                outStream.close();
-            }
         }
     }
 

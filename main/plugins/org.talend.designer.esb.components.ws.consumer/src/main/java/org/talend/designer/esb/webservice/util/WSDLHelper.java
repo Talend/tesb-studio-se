@@ -32,46 +32,56 @@ import org.xml.sax.InputSource;
  */
 public class WSDLHelper {
 
-	private WSDLHelper() {
-	}
+    private WSDLHelper() {
+    }
 
-	public static Definition load(String wsdlLocation, String filenamePrefix) throws InvocationTargetException, WSDLException {
+    public static Definition load(String wsdlLocation, String filenamePrefix) throws InvocationTargetException, WSDLException {
         WSDLFactory wsdlFactory = WSDLFactory.newInstance();
         WSDLReader newWSDLReader = wsdlFactory.newWSDLReader();
 
         newWSDLReader.setExtensionRegistry(wsdlFactory.newPopulatedExtensionRegistry());
         newWSDLReader.setFeature(com.ibm.wsdl.Constants.FEATURE_VERBOSE, false);
-        return newWSDLReader.readWSDL(new InMemoryWSDLLocator(new WSDLLoader().load(wsdlLocation, filenamePrefix + "%d.wsdl")));
-	}
+        return newWSDLReader.readWSDL(new InMemoryWSDLLocator(wsdlLocation, new WSDLLoader().load(wsdlLocation, filenamePrefix
+                + "%d.wsdl")));
+    }
 
-	private static class InMemoryWSDLLocator implements WSDLLocator {
+    private static class InMemoryWSDLLocator implements WSDLLocator {
 
-		private final Map<String, InputStream> definitions;
-		private String latestImportURI;
+        private final Map<String, InputStream> definitions;
 
-		public InMemoryWSDLLocator(Map<String, InputStream> definitions) {
-			this.definitions = definitions;
-		}
+        private String latestImportURI;
 
-		public void close() {
-		}
+        private String wsdlLocation;
 
-		public InputSource getBaseInputSource() {
-			return new InputSource(definitions.get(WSDLLoader.DEFAULT_FILENAME));
-		}
+        public InMemoryWSDLLocator(String wsdlLocation, Map<String, InputStream> definitions) {
+            this.definitions = definitions;
+            this.wsdlLocation = wsdlLocation;
+        }
 
-		public String getBaseURI() {
-			return "";
-		}
+        @Override
+        public void close() {
+        }
 
-		public InputSource getImportInputSource(String parent, String importLocation) {
-			latestImportURI = importLocation;
-			return new InputSource(definitions.get(importLocation));
-		}
+        @Override
+        public InputSource getBaseInputSource() {
+            return new InputSource(definitions.get(WSDLLoader.DEFAULT_FILENAME));
+        }
 
-		public String getLatestImportURI() {
-			return latestImportURI;
-		}
+        @Override
+        public String getBaseURI() {
+            return wsdlLocation;
+        }
 
-	}
+        @Override
+        public InputSource getImportInputSource(String parent, String importLocation) {
+            latestImportURI = importLocation;
+            return new InputSource(definitions.get(importLocation));
+        }
+
+        @Override
+        public String getLatestImportURI() {
+            return latestImportURI;
+        }
+
+    }
 }

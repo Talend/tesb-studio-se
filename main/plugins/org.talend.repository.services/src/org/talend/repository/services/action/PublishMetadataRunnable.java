@@ -14,6 +14,7 @@ package org.talend.repository.services.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.wsdl.Binding;
@@ -34,12 +36,17 @@ import javax.wsdl.Output;
 import javax.wsdl.Part;
 import javax.xml.namespace.QName;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -47,11 +54,14 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.talend.commons.exception.PersistenceException;
+import org.talend.commons.utils.workbench.resources.ResourceUtils;
+import org.talend.core.model.general.Project;
 import org.talend.core.model.properties.ConnectionItem;
 import org.talend.core.model.properties.XmlFileConnectionItem;
 import org.talend.cwm.helper.ConnectionHelper;
 import org.talend.designer.core.DesignerPlugin;
 import org.talend.metadata.managment.ui.utils.XsdMetadataUtils;
+import org.talend.repository.ProjectManager;
 import org.talend.repository.services.Activator;
 import org.talend.repository.services.Messages;
 import org.talend.repository.services.ui.RewriteSchemaDialog;
@@ -59,6 +69,7 @@ import org.talend.repository.services.ui.preferences.EsbSoapServicePreferencePag
 import org.talend.repository.services.utils.FolderNameUtil;
 import org.talend.repository.services.utils.WSDLPopulationUtil;
 import org.talend.repository.services.utils.WSDLUtils;
+import org.talend.utils.wsdl.WSDLLoader;
 
 public class PublishMetadataRunnable implements IRunnableWithProgress {
 
@@ -117,7 +128,7 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
 
                 try {
                     process(wsdlDefinition, selectTables);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     throw new CoreException(new Status(IStatus.ERROR, Activator.PLUGIN_ID, "Error during schema processing", e));
                 }
                 monitor.done();
@@ -244,16 +255,20 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
     }
 
     @SuppressWarnings("unchecked")
-    private void process(Definition wsdlDefinition, Collection<XmlFileConnectionItem> selectTables) throws IOException,
+    private void process(Definition wsdlDefinition, Collection<XmlFileConnectionItem> selectTables) throws Exception,
             CoreException {
+        File tempFile = null;
         try {
             File wsdlFile = null;
             String baseUri = wsdlDefinition.getDocumentBaseURI();
-            try {
-                URI uri = new URI(baseUri);
+            URI uri = new URI(baseUri);
+            if ("file".equals(uri.getScheme())) {
                 wsdlFile = new File(uri.toURL().getFile());
-            } catch (URISyntaxException e) {
-                wsdlFile = new File(baseUri);
+            } else {
+                Map<String, InputStream> load = new WSDLLoader().load(baseUri, "tempWsdl" + "%d.wsdl");
+                InputStream inputStream = load.get(WSDLLoader.DEFAULT_FILENAME);
+                tempFile = getTempFile(inputStream);
+                wsdlFile = tempFile;
             }
             if (populationUtil == null) {
                 populationUtil = new WSDLPopulationUtil();
@@ -313,9 +328,25 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw e;
+        } finally {
+            if (tempFile != null) {
+                tempFile.delete();
+            }
         }
+    }
+
+    private File getTempFile(InputStream inputStream) throws PersistenceException, IOException, CoreException {
+        Project project = ProjectManager.getInstance().getCurrentProject();
+        IProject fsProject = null;
+        fsProject = ResourceUtils.getProject(project);
+        IPath path = new Path("temp");
+        String name = File.createTempFile("tESBConsumer", ".wsdl").getName();
+        path = path.append(name);
+        IFile file = fsProject.getFile(path);
+        file.create(inputStream, false, new NullProgressMonitor());
+        return new File(file.getLocation().toPortableString());
     }
 
 }

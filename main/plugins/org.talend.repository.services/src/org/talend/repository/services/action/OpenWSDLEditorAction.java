@@ -39,6 +39,7 @@ import org.talend.repository.services.utils.WSDLUtils;
 public class OpenWSDLEditorAction extends AbstractCreateAction implements IIntroAction {
 
     private final static String EDITOR_ID = "org.talend.repository.services.utils.LocalWSDLEditor";
+
     private final static String PERSPECTIVE_ID = IBrandingConfiguration.PERSPECTIVE_DI_ID;
 
     private ServiceItem serviceItem;
@@ -56,10 +57,11 @@ public class OpenWSDLEditorAction extends AbstractCreateAction implements IIntro
     @Override
     protected void init(RepositoryNode node) {
         // disable context menu action except service node
-        setEnabled(ESBRepositoryNodeType.SERVICES == node.getObjectType());
+        final boolean isServicesNode = ESBRepositoryNodeType.SERVICES == node.getObjectType();
+        setEnabled(isServicesNode);
 
         // anyway initialize for double-click
-        if (null != node.getObject()) {
+        if (isServicesNode && null != node.getObject()) {
             Item item = node.getObject().getProperty().getItem();
             if (item instanceof ServiceItem) {
                 serviceItem = (ServiceItem) item;
@@ -76,12 +78,13 @@ public class OpenWSDLEditorAction extends AbstractCreateAction implements IIntro
     protected void doRun() {
         ServiceEditorInput editorInput = new ServiceEditorInput(WSDLUtils.getWsdlFile(serviceItem), serviceItem);
         editorInput.setRepositoryNode(repositoryNode);
-        editorInput.setReadOnly(!DesignerPlugin.getDefault().getProxyRepositoryFactory().isEditableAndLockIfPossible(serviceItem));
+        editorInput
+                .setReadOnly(!DesignerPlugin.getDefault().getProxyRepositoryFactory().isEditableAndLockIfPossible(serviceItem));
         try {
             PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(editorInput, EDITOR_ID, true);
         } catch (CoreException e) {
             ExceptionHandler.process(e);
-        } 
+        }
     }
 
     public void setServiceItem(ServiceItem serviceItem) {
@@ -104,7 +107,8 @@ public class OpenWSDLEditorAction extends AbstractCreateAction implements IIntro
         }
 
         // find repository node
-        repositoryNode = (RepositoryNode) RepositorySeekerManager.getInstance().searchRepoViewNode(params.getProperty("nodeId"), false);
+        repositoryNode = (RepositoryNode) RepositorySeekerManager.getInstance().searchRepoViewNode(params.getProperty("nodeId"),
+                false);
         if (null != repositoryNode) {
             // expand/select node item
             RepositoryManagerHelper.getRepositoryView().getViewer().setSelection(new StructuredSelection(repositoryNode));

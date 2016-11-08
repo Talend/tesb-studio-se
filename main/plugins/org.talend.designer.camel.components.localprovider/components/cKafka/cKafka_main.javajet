@@ -57,14 +57,13 @@ imports="
     }
 
     String sslKeyPasswordField = "__SSL_KEY_PASSWORD__";
-    String sslKeyPassword = ElementParameterParser.getValue(node, sslKeyPasswordField).trim();
     %>
     <%if (ElementParameterParser.canEncrypt(node, sslKeyPasswordField)) {%> 
         final String decryptedSSLKeyPassword = routines.system.PasswordEncryptUtil.decryptPassword(<%=ElementParameterParser.getEncryptedValue(node, sslKeyPasswordField)%>);
     <%} else {%>
         final String decryptedSSLKeyPassword = <%=sslKeyPassword%>; 
-    <%}
-    %>
+    <%}%>
+    <%
     builder.addParam("sslKeyPassword", "decryptedSSLKeyPassword");
 
     String sslKeystoreLocation = ElementParameterParser.getValue(node, "__SSL_KEYSTORE_LOCATION__").trim();

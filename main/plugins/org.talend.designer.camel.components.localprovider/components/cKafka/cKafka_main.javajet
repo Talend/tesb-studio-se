@@ -56,10 +56,15 @@ imports="
         builder.addParam("reconnectBackoffMs", reconnectBackoffMs);
     }
 
-    String sslKeyPassword = ElementParameterParser.getValue(node, "__SSL_KEY_PASSWORD__").trim();
-    if (!"\"\"".equals(sslKeyPassword)) {
-        builder.addParam("sslKeyPassword", sslKeyPassword);
-    }
+    String sslKeyPasswordField = "__SSL_KEY_PASSWORD__";
+    %>
+    <%if (ElementParameterParser.canEncrypt(node, sslKeyPasswordField)) {%> 
+        final String decryptedSSLKeyPassword = routines.system.PasswordEncryptUtil.decryptPassword(<%=ElementParameterParser.getEncryptedValue(node, sslKeyPasswordField)%>);
+    <%} else {%>
+        final String decryptedSSLKeyPassword = <%=sslKeyPassword%>; 
+    <%}%>
+    <%
+    builder.addParam("sslKeyPassword", "decryptedSSLKeyPassword");
 
     String sslKeystoreLocation = ElementParameterParser.getValue(node, "__SSL_KEYSTORE_LOCATION__").trim();
     if (!"\"\"".equals(sslKeystoreLocation)) {

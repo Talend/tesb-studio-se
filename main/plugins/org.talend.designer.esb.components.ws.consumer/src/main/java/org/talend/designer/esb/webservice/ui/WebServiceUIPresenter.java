@@ -46,9 +46,9 @@ public class WebServiceUIPresenter implements WsdlFieldListener, ServicePortSele
         this.currentSetting = new ServiceSetting();
         nodeAdapter = AbstractNodeAdapter.getAdapter(webServiceNode);
 
-        List<Function> functionList = new ArrayList<Function>();
-        functionTableModel = new ExtendedTableModel<Function>(null, functionList);
-        portTableModel = new ExtendedTableModel<String>(null, new ArrayList<String>());
+        List<Function> functionList = new ArrayList<>();
+        functionTableModel = new ExtendedTableModel<>(null, functionList);
+        portTableModel = new ExtendedTableModel<>(null, new ArrayList<String>());
     }
 
     void initWithCurrentSetting() {
@@ -68,7 +68,7 @@ public class WebServiceUIPresenter implements WsdlFieldListener, ServicePortSele
         Definition definition = nodeAdapter.generateDefinition(wsdlLocationTemp);
         currentSetting.setWsdlLocation(TalendQuoteUtils.addQuotes(wsdlLocationTemp));
         currentSetting.setDefinition(definition);
-        List<Function> functionsAvailable = new ArrayList<Function>();
+        List<Function> functionsAvailable = new ArrayList<>();
         boolean hasRpcOperation = false;
         for (ServiceInfo serviceInfo : ComponentBuilder.buildModel(definition)) {
             if (serviceInfo.isHasRpcOperation()) {
@@ -81,11 +81,11 @@ public class WebServiceUIPresenter implements WsdlFieldListener, ServicePortSele
         }
         currentSetting.setHasRcpOperation(hasRpcOperation);
 
-        portFunctionsMap = new LinkedHashMap<String, List<Function>>();
+        portFunctionsMap = new LinkedHashMap<>();
         for (Function f : functionsAvailable) {
             List<Function> functions = portFunctionsMap.get(f.getPortName());
             if (functions == null) {
-                functions = new ArrayList<Function>();
+                functions = new ArrayList<>();
                 portFunctionsMap.put(f.getPortName(), functions);
             }
             functions.add(f);
@@ -136,7 +136,7 @@ public class WebServiceUIPresenter implements WsdlFieldListener, ServicePortSele
                 webServiceUI.setErrorMessage(Messages.getString("WebServiceUI.NotSupportRpc"));
             }
 
-            final List<String> ports = new ArrayList<String>(portFunctionsMap.keySet());
+            final List<String> ports = new ArrayList<>(portFunctionsMap.keySet());
             portTableModel.addAll(ports);
             if (!ports.isEmpty()) {
                 functionTableModel.addAll(portFunctionsMap.get(ports.get(0)));

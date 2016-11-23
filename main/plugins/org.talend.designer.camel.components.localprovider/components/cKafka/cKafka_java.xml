@@ -15,44 +15,59 @@
     </DOCUMENTATION>
 
     <CONNECTORS>
-        <CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1" MAX_OUTPUT="1" MIN_OUTPUT="0" />
-        <CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1" MAX_OUTPUT="0" />
-        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
+            MAX_OUTPUT="1" MIN_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
         <CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
-        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1" MAX_OUTPUT="0" />
-        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1" MAX_OUTPUT="0" />
-        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
     </CONNECTORS>
 
     <PARAMETERS>
         <!-- see https://github.com/apache/camel/blob/camel-2.17.x/components/camel-kafka/src/main/java/org/apache/camel/component/kafka/KafkaConfiguration.java -->
-
-        <PARAMETER NAME="BROKER_LIST" FIELD="TEXT" NUM_ROW="10" REQUIRED="true">
+        <PARAMETER NAME="BROKER_LIST" FIELD="TEXT" NUM_ROW="10"
+            REQUIRED="true">
             <DEFAULT>"localhost:9092"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="CLIENT_ID" FIELD="TEXT" NUM_ROW="11" REQUIRED="false">
+        <PARAMETER NAME="CLIENT_ID" FIELD="TEXT" NUM_ROW="11"
+            REQUIRED="false">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-       <PARAMETER NAME="TOPIC" FIELD="TEXT" NUM_ROW="12" REQUIRED="true">
+        <PARAMETER NAME="TOPIC" FIELD="TEXT" NUM_ROW="12"
+            REQUIRED="true">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-       <PARAMETER NAME="GROUP_ID" FIELD="TEXT" NUM_ROW="13" REQUIRED="true">
-            <DEFAULT>""</DEFAULT>
-       </PARAMETER>
-
-        <PARAMETER NAME="PARTITIONER" FIELD="TEXT" NUM_ROW="14" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
-            <DEFAULT>"org.apache.kafka.clients.producer.internals.DefaultPartitioner"</DEFAULT>
-        </PARAMETER>
-        <PARAMETER NAME="SERIALIZER_CLASS" FIELD="TEXT" NUM_ROW="15" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
-            <DEFAULT>"org.apache.kafka.common.serialization.StringSerializer"</DEFAULT>
-        </PARAMETER>
-        <PARAMETER NAME="KEY_SERIALIZER_CLASS" FIELD="TEXT" NUM_ROW="16" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="GROUP_ID" FIELD="TEXT" NUM_ROW="13"
+            REQUIRED="true">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="SEND_BUFFER_BYTES" FIELD="TEXT" NUM_ROW="17" REQUIRED="false">
+        <PARAMETER NAME="PARTITIONER" FIELD="TEXT" NUM_ROW="14"
+            REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+            <DEFAULT>"org.apache.kafka.clients.producer.internals.DefaultPartitioner"
+            </DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SERIALIZER_CLASS" FIELD="TEXT"
+            NUM_ROW="15" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+            <DEFAULT>"org.apache.kafka.common.serialization.StringSerializer"
+            </DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="KEY_SERIALIZER_CLASS" FIELD="TEXT"
+            NUM_ROW="16" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SEND_BUFFER_BYTES" FIELD="TEXT"
+            NUM_ROW="17" REQUIRED="false">
             <DEFAULT>"131072"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="REQUEST_REQUIRED_ACKS" FIELD="CLOSED_LIST" NUM_ROW="18" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="REQUEST_REQUIRED_ACKS" FIELD="CLOSED_LIST"
+            NUM_ROW="18" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
             <ITEMS DEFAULT="ONE">
                 <ITEM NAME="MINUS_ONE" VALUE="-1" />
                 <ITEM NAME="ZERO" VALUE="0" />
@@ -60,10 +75,12 @@
                 <ITEM NAME="ALL" VALUE="all" />
             </ITEMS>
         </PARAMETER>
-        <PARAMETER NAME="REQUEST_TIMEOUT_MS" FIELD="TEXT" NUM_ROW="19" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="REQUEST_TIMEOUT_MS" FIELD="TEXT"
+            NUM_ROW="19" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
             <DEFAULT>"30000"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="COMPRESSION_CODEC" FIELD="CLOSED_LIST" NUM_ROW="20" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="COMPRESSION_CODEC" FIELD="CLOSED_LIST"
+            NUM_ROW="20" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
             <ITEMS DEFAULT="NONE">
                 <ITEM NAME="NONE" VALUE="none" />
                 <ITEM NAME="GZIP" VALUE="gzip" />
@@ -71,121 +88,233 @@
                 <ITEM NAME="LZ4" VALUE="lz4" />
             </ITEMS>
         </PARAMETER>
-        <PARAMETER NAME="BUFFER_MEMORY_SIZE" FIELD="TEXT" NUM_ROW="21" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="BUFFER_MEMORY_SIZE" FIELD="TEXT"
+            NUM_ROW="21" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
             <DEFAULT>"33554432"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="RETRIES" FIELD="TEXT" NUM_ROW="22" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="RETRIES" FIELD="TEXT" NUM_ROW="22"
+            REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
             <DEFAULT>"0"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="RETRY_BACKOFF_MS" FIELD="TEXT" NUM_ROW="23" REQUIRED="false">
+        <PARAMETER NAME="RETRY_BACKOFF_MS" FIELD="TEXT"
+            NUM_ROW="23" REQUIRED="false">
             <DEFAULT>"100"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="PRODUCER_BATCH_SIZE" FIELD="TEXT" NUM_ROW="24" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="PRODUCER_BATCH_SIZE" FIELD="TEXT"
+            NUM_ROW="24" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
             <DEFAULT>"16384"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="CONNECTION_MAX_IDLE_MS" FIELD="TEXT" NUM_ROW="25" REQUIRED="false">
+        <PARAMETER NAME="CONNECTION_MAX_IDLE_MS" FIELD="TEXT"
+            NUM_ROW="25" REQUIRED="false">
             <DEFAULT>"540000"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="LINGER_MS" FIELD="TEXT" NUM_ROW="26" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="LINGER_MS" FIELD="TEXT" NUM_ROW="26"
+            REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
             <DEFAULT>"0"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="MAX_BLOCK_MS" FIELD="TEXT" NUM_ROW="27" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="MAX_BLOCK_MS" FIELD="TEXT" NUM_ROW="27"
+            REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
             <DEFAULT>"60000"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="MAX_REQUEST_SIZE" FIELD="TEXT" NUM_ROW="28" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="MAX_REQUEST_SIZE" FIELD="TEXT"
+            NUM_ROW="28" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
             <DEFAULT>"1048576"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="RECEIVE_BUFFER_BYTES" FIELD="TEXT" NUM_ROW="29" REQUIRED="false">
+        <PARAMETER NAME="RECEIVE_BUFFER_BYTES" FIELD="TEXT"
+            NUM_ROW="29" REQUIRED="false">
             <DEFAULT>"32768"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="MAX_IN_FLIGHT_REQUEST" FIELD="TEXT" NUM_ROW="30" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
+        <PARAMETER NAME="MAX_IN_FLIGHT_REQUEST" FIELD="TEXT"
+            NUM_ROW="30" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY &gt; '0'">
             <DEFAULT>"5"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="METADATA_MAX_AGE_MS" FIELD="TEXT" NUM_ROW="31" REQUIRED="false">
+        <PARAMETER NAME="METADATA_MAX_AGE_MS" FIELD="TEXT"
+            NUM_ROW="31" REQUIRED="false">
             <DEFAULT>"300000"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="RECONNECT_BACKOFF_MS" FIELD="TEXT" NUM_ROW="32" REQUIRED="false">
+        <PARAMETER NAME="RECONNECT_BACKOFF_MS" FIELD="TEXT"
+            NUM_ROW="32" REQUIRED="false">
             <DEFAULT>"50"</DEFAULT>
         </PARAMETER>
+<<<<<<< Upstream, based on master
 
         <PARAMETER NAME="BARRIER_AWAIT_TIMEOUT_MS" FIELD="TEXT" NUM_ROW="53" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
-            <DEFAULT>"10000"</DEFAULT>
+=======
+        <PARAMETER NAME="CONSUMER_STREAMS" FIELD="TEXT"
+            NUM_ROW="50" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+            <DEFAULT>"10"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="AUTO_COMMIT_ENABLE" FIELD="CHECK" NUM_ROW="54" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
-            <DEFAULT>true</DEFAULT>
-        </PARAMETER>
-        <PARAMETER NAME="AUTO_COMMIT_INTERVAL_MS" FIELD="TEXT" NUM_ROW="55" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY == '0') AND (AUTO_COMMIT_ENABLE=='true')">
-            <DEFAULT>"5000"</DEFAULT>
-        </PARAMETER>
-        <PARAMETER NAME="FETCH_MIN_BYTES" FIELD="TEXT" NUM_ROW="56" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+        <PARAMETER NAME="CONSUMERS_COUNT" FIELD="TEXT"
+            NUM_ROW="51" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
             <DEFAULT>"1"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="FETCH_WAIT_MAX_MS" FIELD="TEXT" NUM_ROW="57" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+        <PARAMETER NAME="BATCH_SIZE" FIELD="TEXT" NUM_ROW="52"
+            REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
             <DEFAULT>"100"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="AUTO_OFFSET_RESET" FIELD="CLOSED_LIST" NUM_ROW="58" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+        <PARAMETER NAME="BARRIER_AWAIT_TIMEOUT_MS" FIELD="TEXT"
+            NUM_ROW="53" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+>>>>>>> 4614d3a Cleanup XML format
+            <DEFAULT>"10000"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AUTO_COMMIT_ENABLE" FIELD="CHECK"
+            NUM_ROW="54" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+            <DEFAULT>true</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AUTO_COMMIT_INTERVAL_MS" FIELD="TEXT"
+            NUM_ROW="55" REQUIRED="false"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY == '0') AND (AUTO_COMMIT_ENABLE=='true')">
+            <DEFAULT>"5000"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="FETCH_MIN_BYTES" FIELD="TEXT"
+            NUM_ROW="56" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+            <DEFAULT>"1"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="FETCH_WAIT_MAX_MS" FIELD="TEXT"
+            NUM_ROW="57" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+            <DEFAULT>"100"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AUTO_OFFSET_RESET" FIELD="CLOSED_LIST"
+            NUM_ROW="58" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
             <ITEMS DEFAULT="LATEST">
                 <ITEM NAME="LATEST" VALUE="latest" />
                 <ITEM NAME="EARLIEST" VALUE="earliest" />
                 <ITEM NAME="NONE" VALUE="none" />
             </ITEMS>
         </PARAMETER>
-        <PARAMETER NAME="HEARTBEAT_INTERVAL_MS" FIELD="TEXT" NUM_ROW="59" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+        <PARAMETER NAME="HEARTBEAT_INTERVAL_MS" FIELD="TEXT"
+            NUM_ROW="59" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
             <DEFAULT>"3000"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="MAX_PARTITION_FETCH_BYTES" FIELD="TEXT" NUM_ROW="60" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+        <PARAMETER NAME="MAX_PARTITION_FETCH_BYTES" FIELD="TEXT"
+            NUM_ROW="60" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
             <DEFAULT>"1048576"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="SESSION_TIMEOUT_MS" FIELD="TEXT" NUM_ROW="61" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+        <PARAMETER NAME="SESSION_TIMEOUT_MS" FIELD="TEXT"
+            NUM_ROW="61" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
             <DEFAULT>"30000"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="PARTITION_ASSIGNOR" FIELD="TEXT" NUM_ROW="62" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
-            <DEFAULT>"org.apache.kafka.clients.consumer.RangeAssignor"</DEFAULT>
+        <PARAMETER NAME="PARTITION_ASSIGNOR" FIELD="TEXT"
+            NUM_ROW="62" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+            <DEFAULT>"org.apache.kafka.clients.consumer.RangeAssignor"
+            </DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="CONSUMER_REQUEST_TIMEOUT_MS" FIELD="TEXT" NUM_ROW="63" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+        <PARAMETER NAME="CONSUMER_REQUEST_TIMEOUT_MS" FIELD="TEXT"
+            NUM_ROW="63" REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
             <DEFAULT>"40000"</DEFAULT>
         </PARAMETER>
+<<<<<<< Upstream, based on master
+=======
+        <PARAMETER NAME="CHECK_CRC" FIELD="CHECK" NUM_ROW="64"
+            REQUIRED="false" SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+            <DEFAULT>true</DEFAULT>
+        </PARAMETER>
+>>>>>>> 4614d3a Cleanup XML format
     </PARAMETERS>
 
     <ADVANCED_PARAMETERS>
-         <PARAMETER NAME="URI_OPTIONS" FIELD="TABLE" NUM_ROW="7" NB_LINES="5">
+        <PARAMETER NAME="URI_OPTIONS" FIELD="TABLE" NUM_ROW="7"
+            NB_LINES="5">
             <ITEMS>
                 <ITEM NAME="NAME" FIELD="TEXT">
                 </ITEM>
                 <ITEM NAME="VALUE" />
             </ITEMS>
         </PARAMETER>
-        <PARAMETER NAME="SSL_KEY_PASSWORD" FIELD="PASSWORD" NUM_ROW="130" REQUIRED="false" GROUP="SSL">
+        <PARAMETER NAME="SSL_KEY_PASSWORD" FIELD="PASSWORD"
+            NUM_ROW="130" REQUIRED="false" GROUP="SSL">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="SSL_KEYSTORE_LOCATION" FIELD="TEXT" NUM_ROW="131" REQUIRED="false" GROUP="SSL">
+        <PARAMETER NAME="SSL_KEYSTORE_LOCATION" FIELD="TEXT"
+            NUM_ROW="131" REQUIRED="false" GROUP="SSL">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="SSL_KEYSTORE_PASSWORD" FIELD="PASSWORD" NUM_ROW="132" REQUIRED="false" GROUP="SSL">
+        <PARAMETER NAME="SSL_KEYSTORE_PASSWORD" FIELD="PASSWORD"
+            NUM_ROW="132" REQUIRED="false" GROUP="SSL">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
+<<<<<<< Upstream, based on master
         <PARAMETER NAME="SSL_TRUSTSTORE_LOCATION" FIELD="TEXT" NUM_ROW="134" REQUIRED="false" GROUP="SSL">
+=======
+        <PARAMETER NAME="SSL_KEYSTORE_TYPE" FIELD="TEXT"
+            NUM_ROW="133" REQUIRED="false" GROUP="SSL">
+            <DEFAULT>"JKS"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SSL_TRUSTSTORE_LOCATION" FIELD="TEXT"
+            NUM_ROW="134" REQUIRED="false" GROUP="SSL">
+>>>>>>> 4614d3a Cleanup XML format
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="SSL_TRUSTSTORE_PASSWORD" FIELD="PASSWORD" NUM_ROW="135" REQUIRED="false" GROUP="SSL">
+        <PARAMETER NAME="SSL_TRUSTSTORE_PASSWORD" FIELD="PASSWORD"
+            NUM_ROW="135" REQUIRED="false" GROUP="SSL">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
+<<<<<<< Upstream, based on master
         <PARAMETER NAME="SSL_CIPHER_SUITS" FIELD="TEXT" NUM_ROW="139" REQUIRED="false" GROUP="SSL">
+=======
+        <PARAMETER NAME="SSL_TRUSTSTORE_TYPE" FIELD="TEXT"
+            NUM_ROW="136" REQUIRED="false" GROUP="SSL">
+            <DEFAULT>"JKS"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SSL_ENABLED_PROTOCOLS" FIELD="TEXT"
+            NUM_ROW="137" REQUIRED="false" GROUP="SSL">
+            <DEFAULT>"TLSv1.2,TLSv1.1,TLSv1"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SSL_PROTOCOL" FIELD="TEXT" NUM_ROW="138"
+            REQUIRED="false" GROUP="SSL">
+            <DEFAULT>"TLS"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SSL_CIPHER_SUITS" FIELD="TEXT"
+            NUM_ROW="139" REQUIRED="false" GROUP="SSL">
+>>>>>>> 4614d3a Cleanup XML format
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="SSL_ENDPOINT_ALGORITHM" FIELD="TEXT" NUM_ROW="140" REQUIRED="false" GROUP="SSL">
+        <PARAMETER NAME="SSL_ENDPOINT_ALGORITHM" FIELD="TEXT"
+            NUM_ROW="140" REQUIRED="false" GROUP="SSL">
+            <DEFAULT>""</DEFAULT>
+<<<<<<< Upstream, based on master
+=======
+        </PARAMETER>
+        <PARAMETER NAME="SSL_KEYMANAGER_ALGORITHM" FIELD="TEXT"
+            NUM_ROW="141" REQUIRED="false" GROUP="SSL">
+            <DEFAULT>"SunX509"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SSL_TRUSTMANAGER_ALGORITHM" FIELD="TEXT"
+            NUM_ROW="142" REQUIRED="false" GROUP="SSL">
+            <DEFAULT>"PKIX"</DEFAULT>
+>>>>>>> 4614d3a Cleanup XML format
+        </PARAMETER>
+        <PARAMETER NAME="SASL_KERBEROS_SERVICE_NAME" FIELD="TEXT"
+            NUM_ROW="150" REQUIRED="false" GROUP="SASL">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="SASL_KERBEROS_SERVICE_NAME" FIELD="TEXT" NUM_ROW="150" REQUIRED="false" GROUP="SASL">
-            <DEFAULT>""</DEFAULT>
-        </PARAMETER>
-        <PARAMETER NAME="SECURITY_PROTOCOL" FIELD="CLOSED_LIST" NUM_ROW="151" REQUIRED="false" GROUP="SASL">
+        <PARAMETER NAME="SECURITY_PROTOCOL" FIELD="CLOSED_LIST"
+            NUM_ROW="151" REQUIRED="false" GROUP="SASL">
             <ITEMS DEFAULT="PLAINTEXT">
                 <ITEM NAME="PLAINTEXT" VALUE="PLAINTEXT" />
                 <ITEM NAME="SSL" VALUE="SSL" />
                 <ITEM NAME="SASL_PLAINTEXT" VALUE="SASL_PLAINTEXT" />
                 <ITEM NAME="SASL_SSL" VALUE="SASL_SSL" />
             </ITEMS>
+<<<<<<< Upstream, based on master
+=======
+        </PARAMETER>
+        <PARAMETER NAME="KERBEROS_INIT_CMD" FIELD="TEXT"
+            NUM_ROW="152" REQUIRED="false" GROUP="SASL">
+            <DEFAULT>"/usr/bin/kinit"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="KERBEROS_BEFORE_RELOGIN_MIN_TIME"
+            FIELD="TEXT" NUM_ROW="153" REQUIRED="false" GROUP="SASL">
+            <DEFAULT>"60000"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="KERBEROS_RENEW_JITTER" FIELD="TEXT"
+            NUM_ROW="154" REQUIRED="false" GROUP="SASL">
+            <DEFAULT>"0.05"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="KERBEROS_RENEW_WINDOW_FACTOR" FIELD="TEXT"
+            NUM_ROW="155" REQUIRED="false" GROUP="SASL">
+            <DEFAULT>"0.8"</DEFAULT>
+>>>>>>> 4614d3a Cleanup XML format
         </PARAMETER>
     </ADVANCED_PARAMETERS>
 
@@ -194,10 +323,14 @@
             <IMPORT MODULE_GROUP="camel-core" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-spring" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-kafka" REQUIRED="true" />
-            <IMPORT MODULE="camel-kafka-alldep-2.17.3.jar" MVN="mvn:org.talend.libraries/camel-kafka-alldep-2.17.3/6.0.0" NAME="talend-camel-kafka" 
-                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-kafka-alldep-2.17.3.jar" REQUIRED="true"/> 
-       </IMPORTS>
+            <IMPORT MODULE="camel-kafka-alldep-2.17.3.jar"
+                MVN="mvn:org.talend.libraries/camel-kafka-alldep-2.17.3/6.0.0"
+                NAME="talend-camel-kafka"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-kafka-alldep-2.17.3.jar"
+                REQUIRED="true" />
+        </IMPORTS>
     </CODEGENERATION>
 
     <RETURNS />
+
 </COMPONENT>

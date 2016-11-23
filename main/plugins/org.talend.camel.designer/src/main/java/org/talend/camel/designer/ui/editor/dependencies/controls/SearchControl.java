@@ -36,134 +36,133 @@ import org.eclipse.swt.widgets.ToolItem;
 
 public class SearchControl extends Composite implements PaintListener {
 
-	private Text text;
+    private Text text;
 
-	private int arcSize = 18;
+    private int arcSize = 18;
 
-	private int marginHorizon = 5;
+    private int marginHorizon = 5;
 
-	private ToolBar clear;
+    private ToolBar clear;
 
-	private Color backgroundColor;
+    private Color backgroundColor;
 
-	public SearchControl(Composite parent, int style) {
-		super(parent, SWT.TRANSPARENT);
-		this.backgroundColor = getDisplay().getSystemColor(SWT.COLOR_WHITE);
-		initialize(style);
-		addPaintListener(this);
-	}
+    public SearchControl(Composite parent, int style) {
+        super(parent, SWT.TRANSPARENT);
+        this.backgroundColor = getDisplay().getSystemColor(SWT.COLOR_WHITE);
+        initialize(style);
+        addPaintListener(this);
+    }
 
-	private void initialize(int style) {
-		text = new Text(this, style);
-		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		text.setMessage("search what you want");
-		text.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				text.selectAll();
-			}
-		});
-		
-		text.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				text.selectAll();
-			}
-		});
-		
-		clear = new ToolBar(this, SWT.FLAT);
-		ToolItem item = new ToolItem(clear, SWT.PUSH);
-		item.addSelectionListener(new SelectionAdapter() {
+    private void initialize(int style) {
+        text = new Text(this, style);
+        text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        text.setMessage("search what you want");
+        text.addFocusListener(new FocusAdapter() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                text.selectAll();
+            }
+        });
+
+        text.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseDown(MouseEvent e) {
+                text.selectAll();
+            }
+        });
+
+        clear = new ToolBar(this, SWT.FLAT);
+        ToolItem item = new ToolItem(clear, SWT.PUSH);
+        item.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
                 text.setText("");
             }
         });
 
-		Point computeSize = clear.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-		int height = computeSize.y+2;
-		arcSize = height > arcSize ?height:arcSize;
+        Point computeSize = clear.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+        int height = computeSize.y + 2;
+        arcSize = height > arcSize ? height : arcSize;
 
-		GridLayout layout = new GridLayout(2, false);
-		layout.horizontalSpacing = 0;
-		layout.verticalSpacing = 0;
-		layout.marginBottom = 0;
-		layout.marginHeight = 0;
-		layout.marginLeft = marginHorizon;
-		layout.marginRight = marginHorizon;
-		layout.marginTop = 1;
-		layout.marginWidth = 0;
-		setLayout(layout);
-		
-		setBackground(backgroundColor);
-	}
+        GridLayout layout = new GridLayout(2, false);
+        layout.horizontalSpacing = 0;
+        layout.verticalSpacing = 0;
+        layout.marginBottom = 0;
+        layout.marginHeight = 0;
+        layout.marginLeft = marginHorizon;
+        layout.marginRight = marginHorizon;
+        layout.marginTop = 1;
+        layout.marginWidth = 0;
+        setLayout(layout);
 
-	@Override
-	public void paintControl(PaintEvent e) {
-		GC gc = e.gc;
-		gc.setAntialias(SWT.ON);
-		Rectangle bounds = getBounds();
-		Path path = new Path(getDisplay());
-		path.addArc(bounds.x, bounds.y, arcSize, arcSize, 90, 180);
-//		path.addRectangle(bounds.x + arcSize / 2, bounds.y, bounds.width - arcSize,
-//				arcSize);
-		path.addArc(bounds.x + bounds.width - arcSize, bounds.y, arcSize, arcSize,
-				270, 180);
-//		gc.setClipping(path);
-		Color b = gc.getBackground();
-		gc.setBackground(backgroundColor);
-		gc.fillPath(path);
-		path.dispose();
-		gc.setAntialias(SWT.OFF);
-		gc.setBackground(b);
-	}
+        setBackground(backgroundColor);
+    }
 
-	@Override
-	public Rectangle getBounds() {
-		Rectangle bounds = super.getBounds();
-		bounds.height = arcSize;
-		bounds.x = 0;
-		bounds.y = 0;
-		return bounds;
-	}
+    @Override
+    public void paintControl(PaintEvent e) {
+        GC gc = e.gc;
+        gc.setAntialias(SWT.ON);
+        Rectangle bounds = getBounds();
+        Path path = new Path(getDisplay());
+        path.addArc(bounds.x, bounds.y, arcSize, arcSize, 90, 180);
+        path.addArc(bounds.x + bounds.width - arcSize, bounds.y, arcSize, arcSize, 270, 180);
+        Color b = gc.getBackground();
+        gc.setBackground(backgroundColor);
+        gc.fillPath(path);
+        path.dispose();
+        gc.setAntialias(SWT.OFF);
+        gc.setBackground(b);
+    }
 
-	@Override
-	public Point computeSize(int wHint, int hHint, boolean changed) {
-		Point computeSize = super.computeSize(wHint, hHint, changed);
-		computeSize.y = arcSize;
-		return computeSize;
-	}
+    @Override
+    public Rectangle getBounds() {
+        Rectangle bounds = super.getBounds();
+        bounds.height = arcSize;
+        bounds.x = 0;
+        bounds.y = 0;
+        return bounds;
+    }
 
-	@Override
-	public Rectangle computeTrim(int x, int y, int width, int height) {
-		Rectangle computeTrim = super.computeTrim(x, y, width, height);
-		computeTrim.width = width;
-		return computeTrim;
-	}
+    @Override
+    public Point computeSize(int wHint, int hHint, boolean changed) {
+        Point computeSize = super.computeSize(wHint, hHint, changed);
+        computeSize.y = arcSize;
+        return computeSize;
+    }
 
-	@Override
-	public Rectangle getClientArea() {
-		return getBounds();
-	}
+    @Override
+    public Rectangle computeTrim(int x, int y, int width, int height) {
+        Rectangle computeTrim = super.computeTrim(x, y, width, height);
+        computeTrim.width = width;
+        return computeTrim;
+    }
 
-	public Text getText() {
-		return text;
-	}
+    @Override
+    public Rectangle getClientArea() {
+        return getBounds();
+    }
 
-	@Override
-	public void setBackground(Color color) {
-		super.setBackground(getParent().getBackground());
-		this.backgroundColor = color;
-		text.setBackground(backgroundColor);
-		clear.setBackground(backgroundColor);
-		redraw();
-	}
+    public Text getText() {
+        return text;
+    }
 
-	public void setActiveImage(Image activeImage) {
-	    clear.getItem(0).setHotImage(activeImage);
-	}
+    @Override
+    public void setBackground(Color color) {
+        super.setBackground(getParent().getBackground());
+        this.backgroundColor = color;
+        text.setBackground(backgroundColor);
+        clear.setBackground(backgroundColor);
+        redraw();
+    }
 
-	public void setDeactiveImage(Image deactiveImage) {
-	    clear.getItem(0).setImage(deactiveImage);
-	}
+    public void setActiveImage(Image activeImage) {
+        clear.getItem(0).setHotImage(activeImage);
+    }
+
+    public void setDeactiveImage(Image deactiveImage) {
+        clear.getItem(0).setImage(deactiveImage);
+    }
 }

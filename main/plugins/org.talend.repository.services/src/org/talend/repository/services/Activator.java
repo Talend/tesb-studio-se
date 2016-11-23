@@ -27,11 +27,6 @@ public class Activator extends AbstractUIPlugin {
     // The shared instance
     private static Activator plugin;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
-     */
     @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
@@ -44,11 +39,6 @@ public class Activator extends AbstractUIPlugin {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-     */
     @Override
     public void stop(BundleContext context) throws Exception {
         plugin = null;
@@ -75,7 +65,6 @@ public class Activator extends AbstractUIPlugin {
     }
 
     private void copyConfigs() throws CoreException, IOException, URISyntaxException {
-
         // find ESB configuration files folder in plug-in
         URL esbConfigsFolderUrl = FileLocator.find(getBundle(), new Path("esb"), null);
         if (null == esbConfigsFolderUrl) {

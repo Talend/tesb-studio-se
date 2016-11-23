@@ -26,4 +26,5 @@ public class AssignJobWizardDialog extends WizardDialog {
     public Button doGetButton(int id) {
         return getButton(id);
     }
+
 }

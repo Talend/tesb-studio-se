@@ -23,32 +23,13 @@ import org.talend.repository.model.IRepositoryNode;
 import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.services.action.ServiceEditorInput;
 
-/**
- * DOC ggu class global comment. Detailled comment <br/>
- * 
- * $Id: talend.epf 55206 2011-02-15 17:32:14Z mhirt $
- * 
- */
 public class ServicesRepoViewLinker extends AbstractFileEditorInputLinker {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.talend.core.repository.link.AbstractFileEditorInputLinker#checkFileExtension(org.eclipse.core.resources.IFile
-     * )
-     */
     @Override
     protected boolean checkFileExtension(IFile file) {
         return file != null && file.getName().endsWith(FileConstants.WSDL_FILE_SUFFIX);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.repository.link.AbstractFileEditorInputLinker#getEditor(org.eclipse.ui.IWorkbenchPage,
-     * org.eclipse.ui.IEditorInput)
-     */
     @Override
     protected IEditorPart getEditor(IEditorInput editorInput) {
         IEditorPart wsdlEditor = super.getEditor(editorInput);
@@ -59,30 +40,24 @@ public class ServicesRepoViewLinker extends AbstractFileEditorInputLinker {
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.talend.core.repository.link.AbstractFileEditorInputLinker#getRepoNodeFromEditor(org.eclipse.ui.IEditorPart)
-     */
     @Override
     protected RepositoryNode getRepoNodeFromEditor(IEditorPart editorPart) {
-    	if (editorPart != null && editorPart instanceof org.talend.repository.services.utils.LocalWSDLEditor) {
+        if (editorPart != null && editorPart instanceof org.talend.repository.services.utils.LocalWSDLEditor) {
 
-    		IEditorInput editorInput= ((org.talend.repository.services.utils.LocalWSDLEditor) editorPart)
-    				.getEditorInput();
-    		if(editorInput instanceof ServiceEditorInput) {
-    			Item item=((ServiceEditorInput) editorInput).getItem();
-    			if(item!=null) {
-    				IRepositoryNode node = RepositorySeekerManager.getInstance().searchRepoViewNode(item.getProperty().getId(), false);
-    				if(node!=null&&node instanceof RepositoryNode) {
-    					return (RepositoryNode) node;
-    				}
-    			}
-    		}
+            IEditorInput editorInput = ((org.talend.repository.services.utils.LocalWSDLEditor) editorPart).getEditorInput();
+            if (editorInput instanceof ServiceEditorInput) {
+                Item item = ((ServiceEditorInput) editorInput).getItem();
+                if (item != null) {
+                    IRepositoryNode node = RepositorySeekerManager.getInstance().searchRepoViewNode(item.getProperty().getId(),
+                            false);
+                    if (node != null && node instanceof RepositoryNode) {
+                        return (RepositoryNode) node;
+                    }
+                }
+            }
 
-    	}
-    	return null;
+        }
+        return null;
     }
 
 }

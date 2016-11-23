@@ -51,8 +51,6 @@ import org.talend.designer.core.ui.editor.notes.NoteEditPart;
 import org.talend.designer.core.ui.editor.subjobcontainer.SubjobContainerPart;
 
 /**
- * DOC yyan class global comment. Detailled comment <br/>
- * 
  * @see org.talend.camel.designer.ui.editor.CamelEditorDropTargetListener
  */
 public class RoutePasteAction extends GEFPasteAction {
@@ -80,8 +78,8 @@ public class RoutePasteAction extends GEFPasteAction {
                 return;
             }
 
-            List<NodePart> nodeParts = new ArrayList<NodePart>();
-            List<NoteEditPart> noteParts = new ArrayList<NoteEditPart>();
+            List<NodePart> nodeParts = new ArrayList<>();
+            List<NoteEditPart> noteParts = new ArrayList<>();
 
             for (Object o : partsList) {
                 if (o instanceof NodePart) {
@@ -143,10 +141,9 @@ public class RoutePasteAction extends GEFPasteAction {
                 }
 
                 if (isDuplicateRoutelet) {
-                    MessageDialog
-                            .openInformation(editor.getEditorSite().getShell(),
-                                    "Copying Routelet", //$NON-NLS-1$
-                                    "Do not allow duplicate Routelets\nRoutelet \"" + duplicateRouteletName.substring(2) + "\" already exist."); //$NON-NLS-1$
+                    MessageDialog.openInformation(editor.getEditorSite().getShell(), "Copying Routelet", //$NON-NLS-1$
+                            "Do not allow duplicate Routelets\nRoutelet \"" + duplicateRouteletName.substring(2) //$NON-NLS-1$
+                                    + "\" already exist.");
                     return;
                 }
             }
@@ -157,8 +154,7 @@ public class RoutePasteAction extends GEFPasteAction {
                 mpc.setSelectedSubjobs(new ArrayList<SubjobContainerPart>());
                 execute(mpc);
             } else if (nodeParts.size() != 0) {
-                NodesPasteCommand cmd = new NodesPasteCommand(nodeParts,
-                        (org.talend.designer.core.ui.editor.process.Process) editor.getProcess(), gefPoint);
+                NodesPasteCommand cmd = new NodesPasteCommand(nodeParts, editor.getProcess(), gefPoint);
                 cmd.setSelectedSubjobs(new ArrayList<SubjobContainerPart>());
                 execute(cmd);
             } else if (noteParts.size() != 0) {

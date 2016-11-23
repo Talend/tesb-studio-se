@@ -31,9 +31,6 @@ import org.talend.repository.ui.actions.AContextualAction;
 
 /**
  * Action used to export job scripts. <br/>
- * 
- * $Id: ExportJobScriptAction.java 1 2006-12-13 下午03:12:05 bqian
- * 
  */
 public class ExporCameltJobScriptAction extends AContextualAction {
 
@@ -48,12 +45,7 @@ public class ExporCameltJobScriptAction extends AContextualAction {
         this.setImageDescriptor(ImageProvider.getImageDesc(EImage.EXPORT_JOB_ICON));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.repository.ui.actions.ITreeContextualAction#init(org.eclipse.jface.viewers.TreeViewer,
-     * org.eclipse.jface.viewers.IStructuredSelection)
-     */
+    @Override
     public void init(TreeViewer viewer, IStructuredSelection selection) {
         setEnabled(false);
         if (selection.isEmpty() || selection.size() != 1) {
@@ -68,6 +60,7 @@ public class ExporCameltJobScriptAction extends AContextualAction {
         }
     }
 
+    @Override
     protected void doRun() {
         JobCamelScriptsExportWizard processWizard = new JobCamelScriptsExportWizard();
         IWorkbench workbench = getWorkbench();

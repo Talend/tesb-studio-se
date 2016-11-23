@@ -18,19 +18,8 @@ import org.talend.camel.model.CamelRepositoryNodeType;
 import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.repository.seeker.AbstractCodeRepoViewSeeker;
 
-/**
- * DOC ggu class global comment. Detailled comment <br/>
- * 
- * $Id: talend.epf 55206 2011-02-15 17:32:14Z mhirt $
- * 
- */
 public class BeanRepositorySeeker extends AbstractCodeRepoViewSeeker {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.repository.seeker.AbstractRepoViewSeeker#getValidationTypes()
-     */
     @Override
     protected List<ERepositoryObjectType> getValidationTypes() {
         List<ERepositoryObjectType> validationTypes = super.getValidationTypes();

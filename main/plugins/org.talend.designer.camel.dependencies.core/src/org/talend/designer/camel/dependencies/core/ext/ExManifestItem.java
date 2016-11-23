@@ -16,7 +16,7 @@ abstract class ExManifestItem<T extends ManifestItem> {
 
     private static final String SEPARATOR = ":"; //$NON-NLS-1$
 
-    private final Map<String, String> predicates = new HashMap<String, String>();
+    private final Map<String, String> predicates = new HashMap<>();
 
     void addPredicate(String name, String value) {
         predicates.put(name, value);
@@ -48,7 +48,7 @@ abstract class ExManifestItem<T extends ManifestItem> {
                         boolean found = false;
                         for (Object e : ept.getElementValue()) {
                             final ElementValueType evt = (ElementValueType) e;
-                            if (valueName.equals(evt.getElementRef())&& attributeValue.equals(evt.getValue())) {
+                            if (valueName.equals(evt.getElementRef()) && attributeValue.equals(evt.getValue())) {
                                 found = true;
                                 break;
                             }

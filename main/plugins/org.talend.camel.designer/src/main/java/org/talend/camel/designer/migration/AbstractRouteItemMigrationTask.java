@@ -27,90 +27,85 @@ import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
 import org.talend.designer.core.model.utils.emf.talendfile.ProcessType;
 
 /**
- * The Class AbstractRouteMigrationTask. Migration task extends this class
- * restrict to only works on Route Repository Node. And provide some common
- * methodss.
- * @author GaoZone
+ * The Class AbstractRouteMigrationTask. Migration task extends this class restrict to only works on Route Repository
+ * Node. And provide some common methods.
  */
-public abstract class AbstractRouteItemMigrationTask extends
-		AbstractItemMigrationTask {
+public abstract class AbstractRouteItemMigrationTask extends AbstractItemMigrationTask {
 
-	/** FACTORY use to save item if changed in migration task. */
-	protected static final ProxyRepositoryFactory FACTORY = ProxyRepositoryFactory
-			.getInstance();
+    /** FACTORY use to save item if changed in migration task. */
+    protected static final ProxyRepositoryFactory FACTORY = ProxyRepositoryFactory.getInstance();
 
-	/**
-	 * Restrict only works on Route Repository Node.
-	 * 
-	 * @see org.talend.core.model.migration.AbstractItemMigrationTask#getTypes()
-	 */
-	@Override
-	public final List<ERepositoryObjectType> getTypes() {
-		return Collections
-				.singletonList(CamelRepositoryNodeType.repositoryRoutesType);
-	}
+    /**
+     * Restrict only works on Route Repository Node.
+     * 
+     * @see org.talend.core.model.migration.AbstractItemMigrationTask#getTypes()
+     */
+    @Override
+    public final List<ERepositoryObjectType> getTypes() {
+        return Collections.singletonList(CamelRepositoryNodeType.repositoryRoutesType);
+    }
 
-	protected void saveItem(Item item) throws PersistenceException {
-		FACTORY.save(item, true);
-	}
+    protected void saveItem(Item item) throws PersistenceException {
+        FACTORY.save(item, true);
+    }
 
-	/**
-	 * Find component nodes equals given name.
-	 *
-	 * @param item the item
-	 * @param component the component
-	 * @return the list
-	 */
-	protected List<NodeType> findComponentNodes(CamelProcessItem item, String component) {
-		return findComponentNodes(item, component, false);
-	}
-	
-	/**
-	 * Find component nodes match given regex.
-	 *
-	 * @param item the item
-	 * @param componentRegex the component regex
-	 * @return the list
-	 */
-	protected List<NodeType> findComponentNodesRegex(CamelProcessItem item, String componentRegex) {
-		return findComponentNodes(item,componentRegex,true);
-	}
-	
-	private List<NodeType> findComponentNodes(CamelProcessItem item,String search,boolean isRegex){
-		if(search == null) {
-			throw new RuntimeException("Can't search component node by \"null\" in "+this.getClass());
-		}
-		ProcessType processType = item.getProcess();
-		if (processType == null) {
-			return Collections.emptyList();
-		}
-		List<NodeType> returnList = new ArrayList<NodeType>();
-		for (Object o : processType.getNode()) {
-			if (o instanceof NodeType) {
-				NodeType currentNode = (NodeType) o;
-				String componentName = currentNode.getComponentName();
-				if(isRegex) {
-					if(componentName.matches(search)) {
-						returnList.add(currentNode);
-					}
-				}else {
-					if (componentName.equals(search)) {
-						returnList.add(currentNode);
-					}
-				}
-			}
-		}
-		return returnList;
-	}
+    /**
+     * Find component nodes equals given name.
+     *
+     * @param item the item
+     * @param component the component
+     * @return the list
+     */
+    protected List<NodeType> findComponentNodes(CamelProcessItem item, String component) {
+        return findComponentNodes(item, component, false);
+    }
 
-	@Override
-	public final ExecutionResult execute(Item item) {
-		if (item instanceof CamelProcessItem) {
-			return execute((CamelProcessItem) item);
-		}
-		//never goes here, all Item should be CamelProcessItem.
-		return ExecutionResult.FAILURE;
-	}
+    /**
+     * Find component nodes match given regex.
+     *
+     * @param item the item
+     * @param componentRegex the component regex
+     * @return the list
+     */
+    protected List<NodeType> findComponentNodesRegex(CamelProcessItem item, String componentRegex) {
+        return findComponentNodes(item, componentRegex, true);
+    }
 
-	protected abstract ExecutionResult execute(CamelProcessItem item) ;
+    private List<NodeType> findComponentNodes(CamelProcessItem item, String search, boolean isRegex) {
+        if (search == null) {
+            throw new RuntimeException("Can't search component node by \"null\" in " + this.getClass());
+        }
+        ProcessType processType = item.getProcess();
+        if (processType == null) {
+            return Collections.emptyList();
+        }
+        List<NodeType> returnList = new ArrayList<>();
+        for (Object o : processType.getNode()) {
+            if (o instanceof NodeType) {
+                NodeType currentNode = (NodeType) o;
+                String componentName = currentNode.getComponentName();
+                if (isRegex) {
+                    if (componentName.matches(search)) {
+                        returnList.add(currentNode);
+                    }
+                } else {
+                    if (componentName.equals(search)) {
+                        returnList.add(currentNode);
+                    }
+                }
+            }
+        }
+        return returnList;
+    }
+
+    @Override
+    public final ExecutionResult execute(Item item) {
+        if (item instanceof CamelProcessItem) {
+            return execute((CamelProcessItem) item);
+        }
+        // never goes here, all Item should be CamelProcessItem.
+        return ExecutionResult.FAILURE;
+    }
+
+    protected abstract ExecutionResult execute(CamelProcessItem item);
 }

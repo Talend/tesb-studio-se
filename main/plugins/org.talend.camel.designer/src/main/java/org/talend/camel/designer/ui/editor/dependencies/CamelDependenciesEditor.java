@@ -53,34 +53,39 @@ import org.talend.designer.core.ui.AbstractMultiPageTalendEditor;
 public class CamelDependenciesEditor extends EditorPart implements IRouterDependenciesChangedListener, IMessagePart {
 
     private final CommandStack commandStack;
+
     private final boolean isReadOnly;
 
     private Label statusLabel;
 
-	//show all datas
-	private CamelDependenciesPanel requireBundleViewer;
-	private CamelDependenciesPanel bundleClasspathViewer;
-	private CamelDependenciesPanel importPackageViewer;
-	private CamelDependenciesPanel exportPackageViewer;
-	private ManageRouteResourcePanel manageRouteResourcePanel;
+    // show all datas
+    private CamelDependenciesPanel requireBundleViewer;
 
-	public CamelDependenciesEditor(final AbstractMultiPageTalendEditor editor, boolean isReadOnly) {
-	    commandStack = editor.getTalendEditor().getCommandStack();
-	    this.isReadOnly = isReadOnly;
+    private CamelDependenciesPanel bundleClasspathViewer;
+
+    private CamelDependenciesPanel importPackageViewer;
+
+    private CamelDependenciesPanel exportPackageViewer;
+
+    private ManageRouteResourcePanel manageRouteResourcePanel;
+
+    public CamelDependenciesEditor(final AbstractMultiPageTalendEditor editor, boolean isReadOnly) {
+        commandStack = editor.getTalendEditor().getCommandStack();
+        this.isReadOnly = isReadOnly;
     }
 
-	@Override
-	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-		setInput(input);
-		setSite(site);
-	}
+    @Override
+    public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+        setInput(input);
+        setSite(site);
+    }
 
     @Override
-	public void createPartControl(Composite parent) {
-		FormToolkit toolkit = new FormToolkit(parent.getDisplay());
-		parent.setLayout(new GridLayout());
+    public void createPartControl(Composite parent) {
+        FormToolkit toolkit = new FormToolkit(parent.getDisplay());
+        parent.setLayout(new GridLayout());
 
-        //create search group, hide button and refresh button
+        // create search group, hide button and refresh button
         Composite toolsPanel = toolkit.createComposite(parent);
         toolsPanel.setLayout(new GridLayout(4, false));
         toolsPanel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -90,102 +95,97 @@ public class CamelDependenciesEditor extends EditorPart implements IRouterDepend
 
         SearchControl searchComposite = new SearchControl(toolsPanel, SWT.NONE);
         searchComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        searchComposite.setActiveImage(CamelDesignerPlugin
-                .getImage(CamelDesignerPlugin.HIGHLIGHT_REM_ICON));
-        searchComposite.setDeactiveImage(CamelDesignerPlugin
-                .getImage(CamelDesignerPlugin.GRAY_REM_ICON));
+        searchComposite.setActiveImage(CamelDesignerPlugin.getImage(CamelDesignerPlugin.HIGHLIGHT_REM_ICON));
+        searchComposite.setDeactiveImage(CamelDesignerPlugin.getImage(CamelDesignerPlugin.GRAY_REM_ICON));
         Text filterText = searchComposite.getText();
 
-        Button hideBuiltIn = toolkit.createButton(toolsPanel,
-                Messages.RouterDependenciesEditor_hideBuiltInItems, SWT.CHECK);
+        Button hideBuiltIn = toolkit.createButton(toolsPanel, Messages.RouterDependenciesEditor_hideBuiltInItems, SWT.CHECK);
 
         Button refreshBtn = toolkit.createButton(toolsPanel, null, SWT.PUSH);
         refreshBtn.setImage(CamelDesignerPlugin.getImage(CamelDesignerPlugin.REFRESH_ICON));
-        refreshBtn
-                .setToolTipText(Messages.RouterDependenciesEditor_refreshDependenciesTooltip);
+        refreshBtn.setToolTipText(Messages.RouterDependenciesEditor_refreshDependenciesTooltip);
         refreshBtn.setEnabled(!isReadOnly());
 
-		// create data tables
+        // create data tables
         ScrolledComposite top = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
         top.setLayoutData(new GridData(GridData.FILL_BOTH));
-		SashForm mainForm = new SashForm(top, SWT.VERTICAL);
+        SashForm mainForm = new SashForm(top, SWT.VERTICAL);
 
-        manageRouteResourcePanel =
-            createResourceTableViewer(mainForm, toolkit, Messages.CamelDependenciesEditor_Resources);
+        manageRouteResourcePanel = createResourceTableViewer(mainForm, toolkit, Messages.CamelDependenciesEditor_Resources);
 
         SashForm topPart = new SashForm(mainForm, SWT.HORIZONTAL);
         importPackageViewer = createTableViewer(topPart, toolkit, Messages.RouterDependenciesEditor_importPackageSec,
-            ManifestItem.IMPORT_PACKAGE);
+                ManifestItem.IMPORT_PACKAGE);
         bundleClasspathViewer = createTableViewer(topPart, toolkit, Messages.RouterDependenciesEditor_classpathSec,
-            ManifestItem.BUNDLE_CLASSPATH);
+                ManifestItem.BUNDLE_CLASSPATH);
 
         SashForm centerPart = new SashForm(mainForm, SWT.HORIZONTAL);
         exportPackageViewer = createTableViewer(centerPart, toolkit, Messages.RouterDependenciesEditor_exportPackage,
-            ManifestItem.EXPORT_PACKAGE);
-        requireBundleViewer = createTableViewer(centerPart, toolkit,
-            Messages.RouterDependenciesEditor_requireBundleSec, ManifestItem.REQUIRE_BUNDLE);
+                ManifestItem.EXPORT_PACKAGE);
+        requireBundleViewer = createTableViewer(centerPart, toolkit, Messages.RouterDependenciesEditor_requireBundleSec,
+                ManifestItem.REQUIRE_BUNDLE);
 
-		top.setExpandHorizontal(true);
-		top.setExpandVertical(true);
+        top.setExpandHorizontal(true);
+        top.setExpandVertical(true);
         top.setContent(mainForm);
-		top.setMinSize(mainForm.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+        top.setMinSize(mainForm.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
-		//create status
-		Composite statusComposite = toolkit.createComposite(parent);
-		statusComposite.setLayout(new GridLayout(2, false));
-		statusComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        // create status
+        Composite statusComposite = toolkit.createComposite(parent);
+        statusComposite.setLayout(new GridLayout(2, false));
+        statusComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		statusLabel = toolkit.createLabel(statusComposite, null);
-		statusLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-//		if (isReadOnly()) {
-//			statusLabel.setText(Messages.RouterDependenciesEditor_itemIsLockedByOther);
-//		}
+        statusLabel = toolkit.createLabel(statusComposite, null);
+        statusLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		Label shortCuts = toolkit.createLabel(statusComposite, Messages.RouterDependenciesEditor_KeyBindingw, SWT.SHADOW_OUT);
-		shortCuts.setEnabled(false);
+        Label shortCuts = toolkit.createLabel(statusComposite, Messages.RouterDependenciesEditor_KeyBindingw, SWT.SHADOW_OUT);
+        shortCuts.setEnabled(false);
 
-		// add filter listener
-		filterText.addModifyListener(new ModifyListener() {
-			@Override
-			public void modifyText(ModifyEvent e) {
-				final String filterString = ((Text) e.widget).getText().trim();
-				importPackageViewer.setFilterString(filterString);
-				requireBundleViewer.setFilterString(filterString);
-				bundleClasspathViewer.setFilterString(filterString);
-				exportPackageViewer.setFilterString(filterString);
-				manageRouteResourcePanel.setFilterString(filterString);
-			}
-		});
+        // add filter listener
+        filterText.addModifyListener(new ModifyListener() {
 
-		// add hide listener
-		hideBuiltIn.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				final boolean show = ((Button) e.widget).getSelection();
-				importPackageViewer.setShowBuiltIn(!show);
-				requireBundleViewer.setShowBuiltIn(!show);
-				bundleClasspathViewer.setShowBuiltIn(!show);
-				exportPackageViewer.setShowBuiltIn(!show);
+            @Override
+            public void modifyText(ModifyEvent e) {
+                final String filterString = ((Text) e.widget).getText().trim();
+                importPackageViewer.setFilterString(filterString);
+                requireBundleViewer.setFilterString(filterString);
+                bundleClasspathViewer.setFilterString(filterString);
+                exportPackageViewer.setFilterString(filterString);
+                manageRouteResourcePanel.setFilterString(filterString);
+            }
+        });
+
+        // add hide listener
+        hideBuiltIn.addSelectionListener(new SelectionAdapter() {
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                final boolean show = ((Button) e.widget).getSelection();
+                importPackageViewer.setShowBuiltIn(!show);
+                requireBundleViewer.setShowBuiltIn(!show);
+                bundleClasspathViewer.setShowBuiltIn(!show);
+                exportPackageViewer.setShowBuiltIn(!show);
                 manageRouteResourcePanel.setShowBuiltIn(!show);
-			}
-		});
+            }
+        });
 
-		refreshBtn.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-//	          setDirty(false);
-		        updateInput();
-			}
-		});
-	}
+        refreshBtn.addSelectionListener(new SelectionAdapter() {
 
-	public void setMessage(String message){
-		if(message == null){
-			message = ""; //$NON-NLS-1$
-		}
-		statusLabel.setText(message);
-		statusLabel.setToolTipText(message);
-	}
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                updateInput();
+            }
+        });
+    }
+
+    @Override
+    public void setMessage(String message) {
+        if (message == null) {
+            message = ""; //$NON-NLS-1$
+        }
+        statusLabel.setText(message);
+        statusLabel.setToolTipText(message);
+    }
 
     private JobEditorInput getJobEditorInput() {
         return (JobEditorInput) getEditorInput();
@@ -200,16 +200,15 @@ public class CamelDependenciesEditor extends EditorPart implements IRouterDepend
         bundleClasspathViewer.setInput(resolver.getBundleClasspaths());
         exportPackageViewer.setInput(resolver.getExportPackages());
 
-        manageRouteResourcePanel.setInput(
-            RouteResourceUtil.getResourceDependencies(getJobEditorInput().getLoadedProcess()));
+        manageRouteResourcePanel.setInput(RouteResourceUtil.getResourceDependencies(getJobEditorInput().getLoadedProcess()));
     }
 
     private CamelDependenciesPanel createTableViewer(Composite parent, FormToolkit toolkit, String title, String type) {
         Section section = toolkit.createSection(parent, Section.TITLE_BAR);
         section.setText(title);
         final CamelDependenciesPanel c = (type == ManifestItem.BUNDLE_CLASSPATH)
-            ? new CheckedCamelDependenciesPanel(section, type, isReadOnly(), this, this)
-            : new CamelDependenciesPanel(section, type, isReadOnly(), this, this);
+                ? new CheckedCamelDependenciesPanel(section, type, isReadOnly(), this, this)
+                : new CamelDependenciesPanel(section, type, isReadOnly(), this, this);
         section.setClient(c);
         toolkit.adapt(c);
         return c;
@@ -227,62 +226,59 @@ public class CamelDependenciesEditor extends EditorPart implements IRouterDepend
     }
 
     @Override
-	public void dependencesChanged(Composite source) {
-//		setDirty(true);
+    public void dependencesChanged(Composite source) {
         final Command cmd;
         if (source == manageRouteResourcePanel) {
             cmd = new Command() {
+
                 @Override
                 public void execute() {
-                    RouteResourceUtil.saveResourceDependency(
-                        getJobEditorInput().getLoadedProcess().getAdditionalProperties(),
-                        manageRouteResourcePanel.getInput());
+                    RouteResourceUtil.saveResourceDependency(getJobEditorInput().getLoadedProcess().getAdditionalProperties(),
+                            manageRouteResourcePanel.getInput());
                     RelationshipItemBuilder.getInstance().addOrUpdateItem(getJobEditorInput().getItem());
                 }
             };
         } else {
             cmd = new Command() {
+
                 @Override
                 public void execute() {
-                    //save all datas
-                    DependenciesCoreUtil.saveToMap(
-                            getJobEditorInput().getLoadedProcess().getAdditionalProperties(),
+                    // save all datas
+                    DependenciesCoreUtil.saveToMap(getJobEditorInput().getLoadedProcess().getAdditionalProperties(),
                             (Collection<BundleClasspath>) bundleClasspathViewer.getInput(),
                             (Collection<ImportPackage>) importPackageViewer.getInput(),
                             (Collection<RequireBundle>) requireBundleViewer.getInput(),
-                            (Collection<ExportPackage>)exportPackageViewer.getInput());
+                            (Collection<ExportPackage>) exportPackageViewer.getInput());
                 }
             };
         }
         commandStack.execute(cmd);
-//		doSave(new NullProgressMonitor());
-	}
+    }
 
     @Override
-	public void doSave(IProgressMonitor monitor) {
-	}
+    public void doSave(IProgressMonitor monitor) {
+    }
 
-	@Override
-	public boolean isDirty() {
-		return false;
-	}
+    @Override
+    public boolean isDirty() {
+        return false;
+    }
 
-	@Override
-	public boolean isSaveAsAllowed() {
-		return false;
-	}
+    @Override
+    public boolean isSaveAsAllowed() {
+        return false;
+    }
 
-	@Override
-	public void doSaveAs() {
-	}
+    @Override
+    public void doSaveAs() {
+    }
 
-	@Override
-	public void setFocus() {
-//		importPackageViewer.getTableViewer().getTable().setFocus();
+    @Override
+    public void setFocus() {
         // update all tables input
         updateInput();
         setMessage(null);
-	}
+    }
 
     private boolean isReadOnly() {
         return isReadOnly;

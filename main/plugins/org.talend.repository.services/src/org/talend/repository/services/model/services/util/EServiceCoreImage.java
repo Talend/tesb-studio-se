@@ -14,14 +14,11 @@ package org.talend.repository.services.model.services.util;
 
 import org.talend.commons.ui.runtime.image.IImage;
 
-/**
- * DOC dlin class global comment. Detailled comment
- */
 public enum EServiceCoreImage implements IImage {
-    SERVICE_ICON("/icons/services.png"), //$NON-NLS-1$
-    SERVICE_WIZ("/icons/services_big.png"),
-    PORT_ICON("/icons/port.gif"),
-    OPERATION_ICON("/icons/operation.gif");
+                                                 SERVICE_ICON("/icons/services.png"), //$NON-NLS-1$
+                                                 SERVICE_WIZ("/icons/services_big.png"),
+                                                 PORT_ICON("/icons/port.gif"),
+                                                 OPERATION_ICON("/icons/operation.gif");
 
     private String path;
 
@@ -33,21 +30,14 @@ public enum EServiceCoreImage implements IImage {
         this.path = path;
     }
 
-    /**
-     * Getter for path.
-     * 
-     * @return the path
-     */
+    @Override
     public String getPath() {
         return this.path;
     }
 
-    /**
-     * Getter for clazz.
-     * 
-     * @return the clazz
-     */
+    @Override
     public Class getLocation() {
         return EServiceCoreImage.class;
     }
+
 }

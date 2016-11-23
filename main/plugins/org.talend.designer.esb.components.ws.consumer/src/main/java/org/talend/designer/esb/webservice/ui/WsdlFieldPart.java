@@ -13,61 +13,65 @@ import org.talend.core.model.utils.TalendTextUtils;
 import org.talend.core.ui.proposal.TalendProposalUtils;
 
 interface WsdlFieldListener extends EventListener {
-	void refreshPageByWsdl(String filePath);
+
+    void refreshPageByWsdl(String filePath);
 }
 
 public class WsdlFieldPart extends AbstractWebServiceUIPart<WsdlFieldListener> implements RefreshEventListener {
 
-	public WsdlFieldPart(WsdlFieldListener eventListener) {
-		super(eventListener);
-	}
+    public WsdlFieldPart(WsdlFieldListener eventListener) {
+        super(eventListener);
+    }
 
-	private LabelledFileField wsdlField;
+    private LabelledFileField wsdlField;
 
-	@Override
-	public Control createControl(Composite parent) {
-		wsdlField = new LabelledFileField(parent, "WSDL:", new String[] { "*.wsdl", "*.*" }, 1, SWT.BORDER) {
+    @Override
+    public Control createControl(Composite parent) {
+        wsdlField = new LabelledFileField(parent, "WSDL:", new String[] { "*.wsdl", "*.*" }, 1, SWT.BORDER) {
 
-			protected void setFileFieldValue(String result) {
-				if (result != null) {
-					setRawFieldValue(result);
-				}
-			}
-		};
+            @Override
+            protected void setFileFieldValue(String result) {
+                if (result != null) {
+                    setRawFieldValue(result);
+                }
+            }
+        };
 
-		wsdlField.getTextControl().addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent event) {
-				switch (event.keyCode) {
-				case SWT.CR:
-				case SWT.KEYPAD_CR:
-					refreshTriggered();
-				}
-			}
-		});
-		return wsdlField.getTextControl();
-	}
+        wsdlField.getTextControl().addKeyListener(new KeyAdapter() {
 
-	public void setInitData(org.talend.core.model.process.AbstractNode node, String initialWsdlLocation) {
-		// add a listener for ctrl+space.
-		TalendProposalUtils.installOn(wsdlField.getTextControl(), node.getProcess(), node);
+            @Override
+            public void keyPressed(KeyEvent event) {
+                switch (event.keyCode) {
+                case SWT.CR:
+                case SWT.KEYPAD_CR:
+                    refreshTriggered();
+                }
+            }
+        });
+        return wsdlField.getTextControl();
+    }
 
-		if(initialWsdlLocation!=null) {
-			wsdlField.getTextControl().setText(initialWsdlLocation);
-		}
-	}
+    public void setInitData(org.talend.core.model.process.AbstractNode node, String initialWsdlLocation) {
+        // add a listener for ctrl+space.
+        TalendProposalUtils.installOn(wsdlField.getTextControl(), node.getProcess(), node);
 
-	public void setRawFieldValue(String rawValueWithoutQuotes) {
-		String locationWithQuotes = TalendTextUtils.addQuotes(PathUtils.getPortablePath(rawValueWithoutQuotes));
-		setFieldValue(locationWithQuotes);
-	}
+        if (initialWsdlLocation != null) {
+            wsdlField.getTextControl().setText(initialWsdlLocation);
+        }
+    }
 
-	public void setFieldValue(String wsdlLocationWithQuotes) {
-		wsdlField.setText(wsdlLocationWithQuotes);
-		listener.refreshPageByWsdl(wsdlField.getText());
-	}
+    public void setRawFieldValue(String rawValueWithoutQuotes) {
+        String locationWithQuotes = TalendTextUtils.addQuotes(PathUtils.getPortablePath(rawValueWithoutQuotes));
+        setFieldValue(locationWithQuotes);
+    }
 
-	@Override
-	public void refreshTriggered() {
-		listener.refreshPageByWsdl(wsdlField.getText());
-	}
+    public void setFieldValue(String wsdlLocationWithQuotes) {
+        wsdlField.setText(wsdlLocationWithQuotes);
+        listener.refreshPageByWsdl(wsdlField.getText());
+    }
+
+    @Override
+    public void refreshTriggered() {
+        listener.refreshPageByWsdl(wsdlField.getText());
+    }
 }

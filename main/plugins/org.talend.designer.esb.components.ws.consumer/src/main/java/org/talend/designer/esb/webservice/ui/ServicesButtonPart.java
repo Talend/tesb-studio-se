@@ -32,8 +32,6 @@ interface ServiceSelectionListener extends EventListener {
 
 /**
  * Provide a dialog to select a service node from Services. (separated from {@link WebServiceUI}
- * 
- * @author GaoZone
  */
 public class ServicesButtonPart extends AbstractButtonPart<ServiceSelectionListener> {
 

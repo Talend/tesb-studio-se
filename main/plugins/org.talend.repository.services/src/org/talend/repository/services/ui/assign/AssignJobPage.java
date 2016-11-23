@@ -25,61 +25,60 @@ import org.talend.repository.ui.dialog.RepositoryReviewDialog;
 
 public class AssignJobPage extends WizardPage {
 
-	private AssignJobAction assignJobAction;
-	private AssignJobReviewDialog dialog;
+    private AssignJobAction assignJobAction;
 
-	protected AssignJobPage(String pageName, AssignJobAction assignJobAction) {
-		super(pageName);
-		this.assignJobAction = assignJobAction;
-	}
+    private AssignJobReviewDialog dialog;
 
-	@Override
-	public void createControl(Composite parent) {
-		dialog = new AssignJobReviewDialog(
-				(AssignJobWizardDialog) getContainer(), parent.getShell(),
-				ERepositoryObjectType.PROCESS, "");
-		dialog.setJobIDList(assignJobAction.getAllReferenceJobId());
-		setControl(dialog.create(parent));
-	}
+    protected AssignJobPage(String pageName, AssignJobAction assignJobAction) {
+        super(pageName);
+        this.assignJobAction = assignJobAction;
+    }
 
-	@Override
-	public IWizardPage getNextPage() {
-		return null;
-	}
+    @Override
+    public void createControl(Composite parent) {
+        dialog = new AssignJobReviewDialog((AssignJobWizardDialog) getContainer(), parent.getShell(),
+                ERepositoryObjectType.PROCESS, "");
+        dialog.setJobIDList(assignJobAction.getAllReferenceJobId());
+        setControl(dialog.create(parent));
+    }
 
-	public boolean finish() {
-		dialog.finish();
-		assignJobAction.changeOldJob();
-		return assignJobAction.assign(dialog.getResult());
-	}
+    @Override
+    public IWizardPage getNextPage() {
+        return null;
+    }
 
-	private static class AssignJobReviewDialog extends RepositoryReviewDialog {
+    public boolean finish() {
+        dialog.finish();
+        assignJobAction.changeOldJob();
+        return assignJobAction.assign(dialog.getResult());
+    }
 
-		private final AssignJobWizardDialog container;
+    private static class AssignJobReviewDialog extends RepositoryReviewDialog {
 
-		public AssignJobReviewDialog(AssignJobWizardDialog container,
-				Shell parentShell, ERepositoryObjectType type,
-				String repositoryType) {
-			super(parentShell, type, repositoryType);
-			this.container = container;
-		}
+        private final AssignJobWizardDialog container;
 
-		public Control create(Composite parent) {
-			return createDialogArea(parent);
-		}
+        public AssignJobReviewDialog(AssignJobWizardDialog container, Shell parentShell, ERepositoryObjectType type,
+                String repositoryType) {
+            super(parentShell, type, repositoryType);
+            this.container = container;
+        }
 
-		@Override
-		protected Button getButton(int id) {
-			if (id == OK) {
-				return container.doGetButton(IDialogConstants.FINISH_ID);
-			} else if (id == CANCEL) {
-				return container.doGetButton(IDialogConstants.CANCEL_ID);
-			}
-			return super.getButton(id);
-		}
+        public Control create(Composite parent) {
+            return createDialogArea(parent);
+        }
 
-		public void finish() {
-			okPressed();
-		}
-	}
+        @Override
+        protected Button getButton(int id) {
+            if (id == OK) {
+                return container.doGetButton(IDialogConstants.FINISH_ID);
+            } else if (id == CANCEL) {
+                return container.doGetButton(IDialogConstants.CANCEL_ID);
+            }
+            return super.getButton(id);
+        }
+
+        public void finish() {
+            okPressed();
+        }
+    }
 }

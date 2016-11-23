@@ -1,6 +1,10 @@
 package org.talend.designer.esb.webservice.adapter;
 
-import static org.talend.designer.esb.webservice.WebServiceConstants.*;
+import static org.talend.designer.esb.webservice.WebServiceConstants.ENDPOINT;
+import static org.talend.designer.esb.webservice.WebServiceConstants.METHOD;
+import static org.talend.designer.esb.webservice.WebServiceConstants.PORT_NAME;
+import static org.talend.designer.esb.webservice.WebServiceConstants.SERVICE_NAME;
+import static org.talend.designer.esb.webservice.WebServiceConstants.SERVICE_NS;
 
 import javax.xml.namespace.QName;
 

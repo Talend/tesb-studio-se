@@ -91,6 +91,7 @@ public class OpenWSDLEditorAction extends AbstractCreateAction implements IIntro
         this.serviceItem = serviceItem;
     }
 
+    @Override
     public void run(IIntroSite site, Properties params) {
         PlatformUI.getWorkbench().getIntroManager().closeIntro(PlatformUI.getWorkbench().getIntroManager().getIntro());
 

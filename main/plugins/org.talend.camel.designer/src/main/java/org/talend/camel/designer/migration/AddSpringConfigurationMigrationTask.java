@@ -9,37 +9,35 @@ import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.exception.PersistenceException;
 
 /**
- * used to set the default spring configuration content
- * when importing an old version route item
+ * used to set the default spring configuration content when importing an old version route item
  */
-public class AddSpringConfigurationMigrationTask extends
-		AbstractRouteItemMigrationTask{
+public class AddSpringConfigurationMigrationTask extends AbstractRouteItemMigrationTask {
 
-	public Date getOrder() {
-		GregorianCalendar gc = new GregorianCalendar(2012, 11, 17, 14, 00, 00);
-		return gc.getTime();
-	}
+    @Override
+    public Date getOrder() {
+        GregorianCalendar gc = new GregorianCalendar(2012, 11, 17, 14, 00, 00);
+        return gc.getTime();
+    }
 
-	@Override
-	public ExecutionResult execute(CamelProcessItem item) {
+    @Override
+    public ExecutionResult execute(CamelProcessItem item) {
 
-		try {
-			addDefaultSpringContentFor(item);
-			return ExecutionResult.SUCCESS_NO_ALERT;
-		} catch (Exception e) {
-			ExceptionHandler.process(e);
-			return ExecutionResult.FAILURE;
-		}
+        try {
+            addDefaultSpringContentFor(item);
+            return ExecutionResult.SUCCESS_NO_ALERT;
+        } catch (Exception e) {
+            ExceptionHandler.process(e);
+            return ExecutionResult.FAILURE;
+        }
 
-	}
+    }
 
-	private void addDefaultSpringContentFor(CamelProcessItem item)
-			throws PersistenceException {
-		String springContent = item.getSpringContent();
-		if(springContent == null || "".equals(springContent.trim())){
-			String defaultContent = CamelSpringUtil.getDefaultContent(item);
-			item.setSpringContent(defaultContent);
-			saveItem(item);
-		}
-	}
+    private void addDefaultSpringContentFor(CamelProcessItem item) throws PersistenceException {
+        String springContent = item.getSpringContent();
+        if (springContent == null || "".equals(springContent.trim())) {
+            String defaultContent = CamelSpringUtil.getDefaultContent(item);
+            item.setSpringContent(defaultContent);
+            saveItem(item);
+        }
+    }
 }

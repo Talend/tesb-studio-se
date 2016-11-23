@@ -11,9 +11,6 @@
 // ============================================================================
 package org.talend.repository.services;
 
-/**
- * hwang class global comment. Detailled comment
- */
 public interface IESBConstant {
 
     String REF_TYPE = "-TYPE"; //$NON-NLS-1$

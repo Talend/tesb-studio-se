@@ -16,19 +16,8 @@ import org.talend.camel.designer.ui.editor.CamelProcessEditorInput;
 import org.talend.core.model.repository.IRepositoryEditorInput;
 import org.talend.core.repository.link.AbstractRepositoryEditorInputLinker;
 
-/**
- * DOC ggu class global comment. Detailled comment <br/>
- * 
- * $Id: talend.epf 55206 2011-02-15 17:32:14Z mhirt $
- * 
- */
 public class CamelProcessRepoViewLinker extends AbstractRepositoryEditorInputLinker {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.repository.link.AbstractRepositoryEditorInputLinker#getRepoEditorInputClass()
-     */
     @Override
     protected Class<? extends IRepositoryEditorInput> getRepoEditorInputClass() {
         return CamelProcessEditorInput.class;

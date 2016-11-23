@@ -12,23 +12,24 @@ import org.talend.designer.esb.components.router.Activator;
 
 public class ComponentsProvider extends AbstractComponentsProvider {
 
-	private static Logger logger = Logger.getLogger(ComponentsProvider.class);
+    private static Logger logger = Logger.getLogger(ComponentsProvider.class);
 
-	protected File getExternalComponentsLocation() {
-		Bundle bundle = Activator.getBundle();
-		try	{
-			URL localURL = FileLocator.toFileURL(
-					FileLocator.find(bundle, new Path("components"), null));
-			return new File(localURL.getPath());
-		} catch (Exception localException) {
-			logger.error(localException);
-			localException.printStackTrace();
-		}
-		return null;
-	}
+    @Override
+    protected File getExternalComponentsLocation() {
+        Bundle bundle = Activator.getBundle();
+        try {
+            URL localURL = FileLocator.toFileURL(FileLocator.find(bundle, new Path("components"), null));
+            return new File(localURL.getPath());
+        } catch (Exception localException) {
+            logger.error(localException);
+            localException.printStackTrace();
+        }
+        return null;
+    }
 
-	public String getFamilyTranslation(String paramString) {
-		return null;
-	}
+    @Override
+    public String getFamilyTranslation(String paramString) {
+        return null;
+    }
 
 }

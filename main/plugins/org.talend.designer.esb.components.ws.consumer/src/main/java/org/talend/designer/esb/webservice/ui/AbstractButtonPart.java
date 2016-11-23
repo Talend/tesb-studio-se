@@ -32,72 +32,68 @@ import org.talend.commons.ui.runtime.image.ImageProvider;
 
 public abstract class AbstractButtonPart<T extends EventListener> extends AbstractWebServiceUIPart<T> {
 
-	public AbstractButtonPart(T eventListener) {
-		super(eventListener);
-	}
+    public AbstractButtonPart(T eventListener) {
+        super(eventListener);
+    }
 
-	protected Button button;
+    protected Button button;
 
-	@Override
-	public final Control createControl(Composite parent) {
-		button = new Button(parent, SWT.PUSH | SWT.CENTER);
-		String messageKey = getMessageKey();
-		if (messageKey != null) {
-			button.setText(Messages.getString(messageKey));
-		}
-		Image image = getImage();
-		if (image != null) {
-			button.setImage(image);
-		}
-		button.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				buttonSelected(e);
-			}
-		});
-		return button;
-	}
+    @Override
+    public final Control createControl(Composite parent) {
+        button = new Button(parent, SWT.PUSH | SWT.CENTER);
+        String messageKey = getMessageKey();
+        if (messageKey != null) {
+            button.setText(Messages.getString(messageKey));
+        }
+        Image image = getImage();
+        if (image != null) {
+            button.setImage(image);
+        }
+        button.addSelectionListener(new SelectionAdapter() {
 
-	protected abstract void buttonSelected(SelectionEvent e);
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                buttonSelected(e);
+            }
+        });
+        return button;
+    }
 
-	protected abstract String getMessageKey();
+    protected abstract void buttonSelected(SelectionEvent e);
 
-	/**
-	 * Gets the image. Can use {@link #getImageFromBundle(String, String)} or
-	 * {@link #getImageFromIImage(IImage)}.
-	 * 
-	 * @return the image
-	 */
-	protected abstract Image getImage();
+    protected abstract String getMessageKey();
 
+    /**
+     * Gets the image. Can use {@link #getImageFromBundle(String, String)} or {@link #getImageFromIImage(IImage)}.
+     * 
+     * @return the image
+     */
+    protected abstract Image getImage();
 
-	/**
-	 * Gets the image from bundle. Will return null without any Exception when
-	 * failed.
-	 * 
-	 * @param bundle
-	 *            the bundle
-	 * @param path
-	 *            the path
-	 * @return the image from bundle
-	 */
-	protected static Image getImageFromBundle(String bundleId, String path) {
-		try {
-			Bundle bundle = Platform.getBundle(bundleId);
-			URL resource = bundle.getResource(path);
-			return ImageDescriptor.createFromURL(resource).createImage();
-		} catch (Exception e) {
-			// ignore when get icon failed.
-		    ExceptionHandler.process(e);
-		}
-		return null;
-	}
+    /**
+     * Gets the image from bundle. Will return null without any Exception when failed.
+     * 
+     * @param bundle the bundle
+     * @param path the path
+     * @return the image from bundle
+     */
+    protected static Image getImageFromBundle(String bundleId, String path) {
+        try {
+            Bundle bundle = Platform.getBundle(bundleId);
+            URL resource = bundle.getResource(path);
+            return ImageDescriptor.createFromURL(resource).createImage();
+        } catch (Exception e) {
+            // ignore when get icon failed.
+            ExceptionHandler.process(e);
+        }
+        return null;
+    }
 
-	protected static Image getImageFromIImage(IImage iImage) {
-		return ImageProvider.getImage(iImage);
-	}
+    protected static Image getImageFromIImage(IImage iImage) {
+        return ImageProvider.getImage(iImage);
+    }
 
-	protected Shell getShell() {
-		return button.getShell();
-	}
+    protected Shell getShell() {
+        return button.getShell();
+    }
 }

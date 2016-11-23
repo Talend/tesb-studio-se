@@ -25,10 +25,6 @@ import org.talend.core.ui.editor.JobEditorInput;
 import org.talend.designer.core.ICamelDesignerCoreService;
 import org.talend.designer.core.ICamelDesignerCoreUIService;
 
-/**
- * created by cmeng on Nov 25, 2015 Detailled comment
- *
- */
 public class CamelDesignerCoreUIService implements ICamelDesignerCoreUIService {
 
     /**
@@ -49,9 +45,10 @@ public class CamelDesignerCoreUIService implements ICamelDesignerCoreUIService {
     }
 
     private ICamelDesignerCoreService getCamelDesignerCoreService() {
-        if (_camelDesignerCoreService == null && GlobalServiceRegister.getDefault().isServiceRegistered(ICamelDesignerCoreService.class)) {
-            _camelDesignerCoreService = (ICamelDesignerCoreService) GlobalServiceRegister.getDefault().getService(
-                    ICamelDesignerCoreService.class);
+        if (_camelDesignerCoreService == null
+                && GlobalServiceRegister.getDefault().isServiceRegistered(ICamelDesignerCoreService.class)) {
+            _camelDesignerCoreService = (ICamelDesignerCoreService) GlobalServiceRegister.getDefault()
+                    .getService(ICamelDesignerCoreService.class);
         }
         return _camelDesignerCoreService;
     }

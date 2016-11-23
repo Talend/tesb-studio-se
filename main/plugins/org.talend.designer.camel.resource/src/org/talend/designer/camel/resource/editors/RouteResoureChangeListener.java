@@ -27,10 +27,6 @@ import org.talend.core.runtime.CoreRuntimePlugin;
 import org.talend.designer.camel.resource.editors.input.RouteResourceInput;
 import org.talend.repository.RepositoryWorkUnit;
 
-/**
- * @author xpli
- *
- */
 public class RouteResoureChangeListener implements IResourceChangeListener {
 
     private static final String SAVING_RESOURCE = "Saving resource"; //$NON-NLS-1$
@@ -50,10 +46,9 @@ public class RouteResoureChangeListener implements IResourceChangeListener {
 
     /*
      * yyan:Updated to use work unit
-     * 
-     * @see
-     * org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent
-     * )
+     *
+     * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.
+     * IResourceChangeEvent )
      */
     @Override
     public void resourceChanged(IResourceChangeEvent event) {
@@ -81,7 +76,8 @@ public class RouteResoureChangeListener implements IResourceChangeListener {
 
                     if (resource.equals(editorFile)) {
 
-                        final RepositoryWorkUnit<Object> repositoryWorkUnit = new RepositoryWorkUnit<Object>(SAVING_RESOURCE, this) {
+                        final RepositoryWorkUnit<Object> repositoryWorkUnit = new RepositoryWorkUnit<Object>(SAVING_RESOURCE,
+                                this) {
 
                             @Override
                             protected void run() throws LoginException, PersistenceException {

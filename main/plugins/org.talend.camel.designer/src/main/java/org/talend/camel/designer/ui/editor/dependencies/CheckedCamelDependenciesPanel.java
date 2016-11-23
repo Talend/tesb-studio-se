@@ -34,10 +34,12 @@ import org.talend.designer.camel.dependencies.core.model.ManifestItem;
 public class CheckedCamelDependenciesPanel extends CamelDependenciesPanel {
 
     private static final ICheckStateProvider checkStateProvider = new ICheckStateProvider() {
+
         @Override
         public boolean isChecked(Object element) {
             return !((ManifestItem) element).isOptional();
         }
+
         @Override
         public boolean isGrayed(Object element) {
             return ((ManifestItem) element).isBuiltIn();
@@ -45,10 +47,11 @@ public class CheckedCamelDependenciesPanel extends CamelDependenciesPanel {
     };
 
     private ToolItem selectAll;
-	private ToolItem deselectAll;
 
-    public CheckedCamelDependenciesPanel(Composite parent, String type, boolean isReadOnly,
-        final IMessagePart messagePart, final IRouterDependenciesChangedListener dependenciesChangedListener) {
+    private ToolItem deselectAll;
+
+    public CheckedCamelDependenciesPanel(Composite parent, String type, boolean isReadOnly, final IMessagePart messagePart,
+            final IRouterDependenciesChangedListener dependenciesChangedListener) {
         super(parent, type, isReadOnly, messagePart, dependenciesChangedListener);
 
         selectAll.setEnabled(!isReadOnly);
@@ -67,21 +70,21 @@ public class CheckedCamelDependenciesPanel extends CamelDependenciesPanel {
             ((CheckboxTableViewer) tableViewer).setChecked(bcp, state);
         }
         if (hasChanged) {
-            //((CheckboxTableViewer) tableViewer).setAllChecked(state);
             fireDependenciesChangedListener();
         }
     }
 
     @Override
     protected TableViewer createTableViewer() {
-        final CheckboxTableViewer viewer = CheckboxTableViewer.newCheckList(this, SWT.MULTI | SWT.H_SCROLL
-            | SWT.V_SCROLL | SWT.BORDER);
+        final CheckboxTableViewer viewer = CheckboxTableViewer.newCheckList(this,
+                SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
         viewer.setCheckStateProvider(checkStateProvider);
         viewer.addCheckStateListener(new ICheckStateListener() {
+
             @Override
             public void checkStateChanged(CheckStateChangedEvent event) {
                 if (((ManifestItem) event.getElement()).isBuiltIn()) {
-                    viewer.setChecked(event.getElement(), !event.getChecked()); 
+                    viewer.setChecked(event.getElement(), !event.getChecked());
                 } else {
                     ((ManifestItem) event.getElement()).setOptional(!event.getChecked());
                     fireDependenciesChangedListener();
@@ -94,6 +97,7 @@ public class CheckedCamelDependenciesPanel extends CamelDependenciesPanel {
     @Override
     protected void createButtons(ToolBar tb) {
         final SelectionListener selectionListener = new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if (e.getSource() == selectAll) {

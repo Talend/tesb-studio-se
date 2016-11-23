@@ -40,7 +40,6 @@ import org.talend.core.CorePlugin;
 import org.talend.core.model.components.ComponentUtilities;
 import org.talend.core.model.components.EComponentType;
 import org.talend.core.model.components.IComponent;
-import org.talend.core.model.process.IContext;
 import org.talend.core.model.process.IContextManager;
 import org.talend.core.model.process.INode;
 import org.talend.core.model.process.IProcess2;
@@ -77,7 +76,7 @@ import org.talend.repository.model.RepositoryNode;
 
 /**
  * Route builder DND listener. To handle specific exception and improve performance.
- * 
+ *
  * @since 6.3.0
  */
 public class CamelEditorDropTargetListener extends TalendEditorDropTargetListener {
@@ -86,7 +85,7 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
 
     private boolean isContextSource = false;
 
-    private List<Object> selectSourceList = new ArrayList<Object>();
+    private List<Object> selectSourceList = new ArrayList<>();
 
     public CamelEditorDropTargetListener(AbstractTalendEditor editor) {
         super(editor);
@@ -140,9 +139,9 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
         this.eraseTargetFeedback();
     }
 
-    /**
+    /*
      * Routelet and context types are validated
-     * 
+     *
      * @return true if validated
      */
     private boolean checkSelectionSource() {
@@ -184,7 +183,7 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
         }
 
         if (isRouteletSource) {
-            List<String> routeletList = new ArrayList<String>();
+            List<String> routeletList = new ArrayList<>();
             for (INode node : editor.getProcess().getGraphicalNodes()) {
                 if (node.getComponent().getComponentType() == EComponentType.JOBLET) {
                     routeletList.add(node.getComponent().getName());
@@ -206,7 +205,7 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
                     if (node.getComponent().getComponentType() == EComponentType.JOBLET) {
                         if (routeletList.contains(node.getComponent().getName())) {
                             isDuplicateRoutelet = true;
-                            duplicatesName += " ," + node.getComponent().getName(); //$NON-NLS-1$                            
+                            duplicatesName += " ," + node.getComponent().getName(); //$NON-NLS-1$
                         }
                     }
                 }
@@ -233,7 +232,7 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
                 if (item instanceof ContextItem) {
                     ContextItem contextItem = (ContextItem) item;
                     EList context = contextItem.getContext();
-                    Set<String> contextSet = new HashSet<String>();
+                    Set<String> contextSet = new HashSet<>();
                     Iterator iterator = context.iterator();
                     while (iterator.hasNext()) {
                         Object obj = iterator.next();
@@ -252,14 +251,14 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
                         JobEditorInput jobInput = (JobEditorInput) editorInput;
                         IProcess2 process = jobInput.getLoadedProcess();
                         IContextManager contextManager = process.getContextManager();
-                        List<IContext> listContext = contextManager.getListContext();
+                        contextManager.getListContext();
 
                         Set<String> addedVars = ConnectionContextHelper.checkAndAddContextVariables(contextItem, contextSet,
                                 process.getContextManager(), false);
                         if (addedVars != null && !addedVars.isEmpty()
                                 && !ConnectionContextHelper.isAddContextVar(contextItem, contextManager, contextSet)) {
                             // show
-                            Map<String, Set<String>> addedVarsMap = new HashMap<String, Set<String>>();
+                            Map<String, Set<String>> addedVarsMap = new HashMap<>();
                             addedVarsMap.put(item.getProperty().getLabel(), contextSet);
                             if (ConnectionContextHelper.showContextdialog(process, contextItem, process.getContextManager(),
                                     addedVarsMap, contextSet)) {
@@ -293,11 +292,12 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
 
     }
 
+    @Override
     public void createNewComponent(DropTargetEvent event1) {
         boolean quickCreateInput = event1.detail == DND.DROP_LINK;
         boolean quickCreateOutput = event1.detail == DND.DROP_COPY;
-        List<TempStore> list = new ArrayList<TempStore>();
-        List<IComponent> components = new ArrayList<IComponent>();
+        List<TempStore> list = new ArrayList<>();
+        List<IComponent> components = new ArrayList<>();
         for (Object obj : selectSourceList) {
             if (obj instanceof RepositoryNode) {
                 RepositoryNode sourceNode = (RepositoryNode) obj;
@@ -328,7 +328,8 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
             /*
              * translate to Viewport coordinate with zoom
              */
-            org.eclipse.draw2d.geometry.Point draw2dPosition = new org.eclipse.draw2d.geometry.Point(swtLocation.x, swtLocation.y);
+            org.eclipse.draw2d.geometry.Point draw2dPosition = new org.eclipse.draw2d.geometry.Point(swtLocation.x,
+                    swtLocation.y);
 
             /*
              * calcule the view port position. Take into acounte the scroll position
@@ -382,7 +383,8 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
             ProcessItem processItem = (ProcessItem) selectedNode.getObject().getProperty().getItem();
             // command used to set job
             String value = processItem.getProperty().getId();
-            PropertyChangeCommand command4 = new PropertyChangeCommand(node, EParameterName.PROCESS_TYPE_PROCESS.getName(), value);
+            PropertyChangeCommand command4 = new PropertyChangeCommand(node, EParameterName.PROCESS_TYPE_PROCESS.getName(),
+                    value);
             cc.add(command4);
             PropertyChangeCommand command5 = new PropertyChangeCommand(node, EParameterName.PROCESS_TYPE_CONTEXT.getName(),
                     processItem.getProcess().getDefaultContext());
@@ -432,6 +434,7 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
      * @param neededComponents
      * @return
      */
+    @Override
     protected List<IComponent> extractComponents(List<IComponent> neededComponents) {
         if (neededComponents != null && neededComponents.size() > 0) {
             Iterator<IComponent> componentsIterator = neededComponents.iterator();
@@ -486,6 +489,7 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
         }
     }
 
+    @Override
     public void setEditor(AbstractTalendEditor editor) {
         this.editor = editor;
     }

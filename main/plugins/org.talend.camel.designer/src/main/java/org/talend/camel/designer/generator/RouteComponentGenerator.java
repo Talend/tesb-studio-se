@@ -16,26 +16,18 @@ import org.talend.core.ui.properties.tab.IDynamicProperty;
 import org.talend.designer.core.ui.editor.properties.controllers.AbstractElementPropertySectionController;
 import org.talend.designer.core.ui.editor.properties.controllers.generator.IControllerGenerator;
 
-/**
- * @author xpli
- *
- */
 public class RouteComponentGenerator implements IControllerGenerator {
 
-	private IDynamicProperty dp;
+    private IDynamicProperty dp;
 
-	/* (non-Javadoc)
-	 * @see org.talend.designer.core.ui.editor.properties.controllers.generator.IControllerGenerator#generate()
-	 */
-	public AbstractElementPropertySectionController generate() {
-		return new RouteComponentController(dp);
-	}
+    @Override
+    public AbstractElementPropertySectionController generate() {
+        return new RouteComponentController(dp);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.talend.designer.core.ui.editor.properties.controllers.generator.IControllerGenerator#setDynamicProperty(org.talend.core.properties.tab.IDynamicProperty)
-	 */
-	public void setDynamicProperty(IDynamicProperty dp) {
-		this.dp = dp;
-	}
+    @Override
+    public void setDynamicProperty(IDynamicProperty dp) {
+        this.dp = dp;
+    }
 
 }

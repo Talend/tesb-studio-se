@@ -19,9 +19,6 @@ import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.model.RepositoryNodeUtilities;
 import org.talend.repository.services.model.services.ServiceItem;
 
-/**
- * hwang class global comment. Detailled comment
- */
 public class OpenWSDLWizard extends Wizard {
 
     private OpenWSDLPage wsdlPage;
@@ -44,7 +41,6 @@ public class OpenWSDLWizard extends Wizard {
         case REPOSITORY_ELEMENT:
             pathToSave = RepositoryNodeUtilities.getPath(repositoryNode);
             break;
-        //case SYSTEM_FOLDER:
         default:
             pathToSave = new Path(""); //$NON-NLS-1$
             break;

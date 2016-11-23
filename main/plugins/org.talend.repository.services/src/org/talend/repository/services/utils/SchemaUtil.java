@@ -55,7 +55,6 @@ public class SchemaUtil {
         xmlSchemaCollection.read(schemaElement, SCHEMA_SYSTEM_ID);
     }
 
-
     public XmlSchema[] getSchemas() {
         return xmlSchemaCollection.getXmlSchema(SCHEMA_SYSTEM_ID);
     }

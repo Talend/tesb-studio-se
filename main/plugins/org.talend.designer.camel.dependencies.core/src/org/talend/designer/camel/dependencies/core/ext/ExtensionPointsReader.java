@@ -19,49 +19,61 @@ import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
 public class ExtensionPointsReader {
 
     private static final String IMPORT_PACKAGE = "importPackage"; //$NON-NLS-1$
+
     private static final String REQUIRE_BUNDLE = "requireBundle"; //$NON-NLS-1$
+
     private static final String NAME = "name"; //$NON-NLS-1$
-	private static final String COMPONENT = "component"; //$NON-NLS-1$
-	private static final String ATTRIBUTE_VALUE = "attributeValue"; //$NON-NLS-1$
-	private static final String PREDICATE = "predicate"; //$NON-NLS-1$
-	private static final String ATTRIBUTE_NAME = "attributeName"; //$NON-NLS-1$
+
+    private static final String COMPONENT = "component"; //$NON-NLS-1$
+
+    private static final String ATTRIBUTE_VALUE = "attributeValue"; //$NON-NLS-1$
+
+    private static final String PREDICATE = "predicate"; //$NON-NLS-1$
+
+    private static final String ATTRIBUTE_NAME = "attributeName"; //$NON-NLS-1$
+
     private static final String PARAMETER = "parameter"; //$NON-NLS-1$
-	private static final String OPTIONAL = "optional"; //$NON-NLS-1$
-	private static final String COMPONENT_NAME = "componentName"; //$NON-NLS-1$
 
-	private static final String REQUIRE_BUNDLE_EXT = "org.talend.designer.camel.dependencies.requireBundle"; //$NON-NLS-1$
-	private static final String IMPORT_PACKAGE_EXT = "org.talend.designer.camel.dependencies.importPackage"; //$NON-NLS-1$
-	private static final String BUNDLE_CLASSPATH_EXT = "org.talend.designer.camel.dependencies.bundleClasspath"; //$NON-NLS-1$
+    private static final String OPTIONAL = "optional"; //$NON-NLS-1$
 
-	public static ExtensionPointsReader INSTANCE = new ExtensionPointsReader();
+    private static final String COMPONENT_NAME = "componentName"; //$NON-NLS-1$
 
-    private final Map<String, Collection<ExBundleClasspath>> componentBundleClasspaths =
-        new HashMap<String, Collection<ExBundleClasspath>>();
-    private final Map<String, Collection<ExImportPackage>> componentImportPackages =
-        new HashMap<String, Collection<ExImportPackage>>();
-    private final Map<String, Collection<ExRequireBundle>> componentRequireBundles =
-        new HashMap<String, Collection<ExRequireBundle>>();
-    private final Collection<ExRequireBundle> requireBundlesForAll = new ArrayList<ExRequireBundle>();
-    private final Collection<ExImportPackage> importPackagesForAll = new ArrayList<ExImportPackage>();
+    private static final String REQUIRE_BUNDLE_EXT = "org.talend.designer.camel.dependencies.requireBundle"; //$NON-NLS-1$
 
-	private ExtensionPointsReader() {
+    private static final String IMPORT_PACKAGE_EXT = "org.talend.designer.camel.dependencies.importPackage"; //$NON-NLS-1$
+
+    private static final String BUNDLE_CLASSPATH_EXT = "org.talend.designer.camel.dependencies.bundleClasspath"; //$NON-NLS-1$
+
+    public static ExtensionPointsReader INSTANCE = new ExtensionPointsReader();
+
+    private final Map<String, Collection<ExBundleClasspath>> componentBundleClasspaths = new HashMap<>();
+
+    private final Map<String, Collection<ExImportPackage>> componentImportPackages = new HashMap<>();
+
+    private final Map<String, Collection<ExRequireBundle>> componentRequireBundles = new HashMap<>();
+
+    private final Collection<ExRequireBundle> requireBundlesForAll = new ArrayList<>();
+
+    private final Collection<ExImportPackage> importPackagesForAll = new ArrayList<>();
+
+    private ExtensionPointsReader() {
         readRegisteredBundleClasspaths();
         readRegisteredImportPackages();
         readRegisteredRequireBundles();
-	}
+    }
 
     private void readRegisteredBundleClasspaths() {
         final IConfigurationElement[] configurationElements = Platform.getExtensionRegistry()
-            .getConfigurationElementsFor(BUNDLE_CLASSPATH_EXT);
+                .getConfigurationElementsFor(BUNDLE_CLASSPATH_EXT);
         for (IConfigurationElement e : configurationElements) {
             final String cmpName = e.getAttribute(NAME);
-            final ExBundleClasspath bc =
-                new ExBundleClasspath(e.getAttribute(PARAMETER), Boolean.parseBoolean(e.getAttribute(OPTIONAL)));
+            final ExBundleClasspath bc = new ExBundleClasspath(e.getAttribute(PARAMETER),
+                    Boolean.parseBoolean(e.getAttribute(OPTIONAL)));
             parsePredicates(bc, e);
 
             Collection<ExBundleClasspath> attributeSet = componentBundleClasspaths.get(cmpName);
             if (attributeSet == null) {
-                attributeSet = new ArrayList<ExBundleClasspath>();
+                attributeSet = new ArrayList<>();
                 componentBundleClasspaths.put(cmpName, attributeSet);
             }
             attributeSet.add(bc);
@@ -69,15 +81,15 @@ public class ExtensionPointsReader {
     }
 
     private void readRegisteredImportPackages() {
-        final IConfigurationElement[] configurationElements =
-            Platform.getExtensionRegistry().getConfigurationElementsFor(IMPORT_PACKAGE_EXT);
+        final IConfigurationElement[] configurationElements = Platform.getExtensionRegistry()
+                .getConfigurationElementsFor(IMPORT_PACKAGE_EXT);
         for (IConfigurationElement e : configurationElements) {
             final String name = e.getName();
             if (COMPONENT.equals(name)) {
                 final String cmpName = e.getAttribute(COMPONENT_NAME);
                 Collection<ExImportPackage> packageSet = componentImportPackages.get(cmpName);
                 if (packageSet == null) {
-                    packageSet = new ArrayList<ExImportPackage>();
+                    packageSet = new ArrayList<>();
                     componentImportPackages.put(cmpName, packageSet);
                 }
                 for (IConfigurationElement p : e.getChildren(IMPORT_PACKAGE)) {
@@ -90,22 +102,22 @@ public class ExtensionPointsReader {
     }
 
     private ExImportPackage createImportPackageFrom(final IConfigurationElement p) {
-        final ExImportPackage importPackage = new ExImportPackage(
-            p.getAttribute(NAME), Boolean.parseBoolean(p.getAttribute(OPTIONAL)));
+        final ExImportPackage importPackage = new ExImportPackage(p.getAttribute(NAME),
+                Boolean.parseBoolean(p.getAttribute(OPTIONAL)));
         parsePredicates(importPackage, p);
         return importPackage;
     }
 
     private void readRegisteredRequireBundles() {
-        final IConfigurationElement[] configurationElements =
-            Platform.getExtensionRegistry().getConfigurationElementsFor(REQUIRE_BUNDLE_EXT);
+        final IConfigurationElement[] configurationElements = Platform.getExtensionRegistry()
+                .getConfigurationElementsFor(REQUIRE_BUNDLE_EXT);
         for (IConfigurationElement e : configurationElements) {
             final String name = e.getName();
             if (COMPONENT.equals(name)) {
                 final String cmpName = e.getAttribute(COMPONENT_NAME);
                 Collection<ExRequireBundle> bundleSet = componentRequireBundles.get(cmpName);
                 if (bundleSet == null) {
-                    bundleSet = new ArrayList<ExRequireBundle>();
+                    bundleSet = new ArrayList<>();
                     componentRequireBundles.put(cmpName, bundleSet);
                 }
                 for (IConfigurationElement b : e.getChildren(REQUIRE_BUNDLE)) {
@@ -118,14 +130,13 @@ public class ExtensionPointsReader {
     }
 
     private ExRequireBundle createRequireBundleFrom(final IConfigurationElement b) {
-        final ExRequireBundle requireBundle = new ExRequireBundle(
-            b.getAttribute(NAME), Boolean.parseBoolean(b.getAttribute(OPTIONAL)));
+        final ExRequireBundle requireBundle = new ExRequireBundle(b.getAttribute(NAME),
+                Boolean.parseBoolean(b.getAttribute(OPTIONAL)));
         parsePredicates(requireBundle, b);
         return requireBundle;
     }
 
-    private static void parsePredicates(final ExManifestItem<?> abstractExPredicator,
-        final IConfigurationElement element) {
+    private static void parsePredicates(final ExManifestItem<?> abstractExPredicator, final IConfigurationElement element) {
         for (final IConfigurationElement pe : element.getChildren(PREDICATE)) {
             abstractExPredicator.addPredicate(pe.getAttribute(ATTRIBUTE_NAME), pe.getAttribute(ATTRIBUTE_VALUE));
         }
@@ -172,7 +183,7 @@ public class ExtensionPointsReader {
     }
 
     private static <T extends ManifestItem> Collection<T> getManifestItems(
-        final Collection<? extends ExManifestItem<T>> exManifestItems, final NodeType nodeType) {
+            final Collection<? extends ExManifestItem<T>> exManifestItems, final NodeType nodeType) {
         if (exManifestItems != null) {
             final Collection<T> result = new HashSet<>();
             for (ExManifestItem<T> ip : exManifestItems) {
@@ -184,7 +195,7 @@ public class ExtensionPointsReader {
     }
 
     private static <T extends ManifestItem> Collection<T> getManifestItems(
-        final Collection<? extends ExManifestItem<T>> exManifestItems, final INode node) {
+            final Collection<? extends ExManifestItem<T>> exManifestItems, final INode node) {
         if (exManifestItems != null) {
             final Collection<T> result = new HashSet<>();
             for (ExManifestItem<T> ip : exManifestItems) {

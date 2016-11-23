@@ -11,7 +11,7 @@ class ExImportPackage extends ExManifestItem<ImportPackage> {
 
     private static final String SEPARATOR = ","; //$NON-NLS-1$
 
-    private final Collection<ImportPackage> importPackages = new HashSet<ImportPackage>();
+    private final Collection<ImportPackage> importPackages = new HashSet<>();
 
     ExImportPackage(String names, boolean isOptional) {
         for (String name : names.split(SEPARATOR)) {

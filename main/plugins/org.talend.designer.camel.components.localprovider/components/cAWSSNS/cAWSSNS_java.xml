@@ -1,5 +1,8 @@
 <COMPONENT>
+<<<<<<< Upstream, based on master
 
+=======
+>>>>>>> 4614d3a Cleanup XML format
     <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.1" STATUS="ALPHA"
         COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20160919A"
         STARTABLE="true">
@@ -44,7 +47,19 @@
         </PARAMETER>
     </PARAMETERS>
 
+<<<<<<< Upstream, based on master
     <ADVANCED_PARAMETERS />
+=======
+    <ADVANCED_PARAMETERS>
+        <PARAMETER NAME="ENABLE_POLICY" FIELD="CHECK" NUM_ROW="10">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="POLICY" FIELD="MEMO" RAW="true"
+            NUM_ROW="11" NB_LINES="6" REQUIRED="false"
+            SHOW_IF="(ENABLE_POLICY == 'true')">
+        </PARAMETER>
+    </ADVANCED_PARAMETERS>
+>>>>>>> 4614d3a Cleanup XML format
 
     <CODEGENERATION>
         <IMPORTS>
@@ -83,4 +98,8 @@
 
     <RETURNS />
 
+<<<<<<< Upstream, based on master
 </COMPONENT>
+=======
+</COMPONENT>
+>>>>>>> 4614d3a Cleanup XML format

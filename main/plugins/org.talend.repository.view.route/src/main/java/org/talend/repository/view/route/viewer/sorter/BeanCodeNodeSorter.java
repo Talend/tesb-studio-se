@@ -17,9 +17,6 @@ import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.viewer.sorter.CodeRepositoryNodeSorter;
 
-/**
- * DOC ggu class global comment. Detailled comment
- */
 public class BeanCodeNodeSorter extends CodeRepositoryNodeSorter {
 
     /**
@@ -47,4 +44,5 @@ public class BeanCodeNodeSorter extends CodeRepositoryNodeSorter {
             swap(children, beansIndex, realIndex);
         }
     }
+
 }

@@ -17,60 +17,55 @@ import org.talend.designer.codegen.exception.CodeGeneratorException;
 
 public class PartGeneratorManager extends ArgumentBuilderHolder {
 
-	private PartGenerator<ECamelTemplate> templateGenerator;
-	private PartGenerator<IContext> contextGenerator;
-	private PartGenerator<INode> endpointIdGenerator;
+    private PartGenerator<ECamelTemplate> templateGenerator;
 
-    /**
-     * DOC yyan PartGeneratorManager constructor comment.
-     * Extract IRouteProcess interface
-     * @param process
-     * @param statistics
-     * @param trace
-     * @param options
-     */
+    private PartGenerator<IContext> contextGenerator;
+
+    private PartGenerator<INode> endpointIdGenerator;
+
     public PartGeneratorManager(IRouteProcess process, boolean statistics, boolean trace, String[] options) {
         super(new CodeGeneratorArgumentBuilder(process, statistics, trace, options));
         templateGenerator = new TemplatePartGenerator(argumentBuilder);
         contextGenerator = new ContextPartGenerator(argumentBuilder);
         endpointIdGenerator = new EndpointIdGenerator();
     }
-	   
-	public PartGenerator<ECamelTemplate> getTemplateGenerator() {
-		return templateGenerator;
-	}
 
-	public NodePartBuilder createNodePartBuilder() {
-		NodePartBuilder builder = new NodePartBuilder(this);
-		return builder;
-	}
+    public PartGenerator<ECamelTemplate> getTemplateGenerator() {
+        return templateGenerator;
+    }
 
-	public CharSequence genTemplatePart(ECamelTemplate template, Object... params) throws CodeGeneratorException {
-		return templateGenerator.generatePart(template, params);
-	}
+    public NodePartBuilder createNodePartBuilder() {
+        NodePartBuilder builder = new NodePartBuilder(this);
+        return builder;
+    }
 
-	public String generateContextCode(IContext designerContext) throws CodeGeneratorException {
-		return contextGenerator.generatePart(designerContext).toString();
-	}
+    public CharSequence genTemplatePart(ECamelTemplate template, Object... params) throws CodeGeneratorException {
+        return templateGenerator.generatePart(template, params);
+    }
 
-	public String generateProcessCode() throws CodeGeneratorException {
-		AbstractProcessPartBuilder builder = new ProcessPartBuilder(this);
-		builder.appendContent();
-		return builder.build().toString();
-	}
+    public String generateContextCode(IContext designerContext) throws CodeGeneratorException {
+        return contextGenerator.generatePart(designerContext).toString();
+    }
 
-	public CharSequence generateComponentsCode(NodesSubTree subProcess, INode node, ECodePart part, String incomingName) throws CodeGeneratorException {
-		return new ComponentsCodePartBuilder(this, subProcess, node, part, incomingName).appendContent().build();
-	}
+    public String generateProcessCode() throws CodeGeneratorException {
+        AbstractProcessPartBuilder builder = new ProcessPartBuilder(this);
+        builder.appendContent();
+        return builder.build().toString();
+    }
 
-	public CharSequence generateTreeCode(NodesSubTree subProcess, INode node, ECodePart part) throws CodeGeneratorException {
-		if(node == null) {
-			return "";
-		}
-		return new TreeCodePartBuilder(this, subProcess, node, part).appendContent().build();
-	}
+    public CharSequence generateComponentsCode(NodesSubTree subProcess, INode node, ECodePart part, String incomingName)
+            throws CodeGeneratorException {
+        return new ComponentsCodePartBuilder(this, subProcess, node, part, incomingName).appendContent().build();
+    }
 
-	public CharSequence generateEndpointId(INode node) throws CodeGeneratorException {
-		return endpointIdGenerator.generatePart(node);
-	}
+    public CharSequence generateTreeCode(NodesSubTree subProcess, INode node, ECodePart part) throws CodeGeneratorException {
+        if (node == null) {
+            return "";
+        }
+        return new TreeCodePartBuilder(this, subProcess, node, part).appendContent().build();
+    }
+
+    public CharSequence generateEndpointId(INode node) throws CodeGeneratorException {
+        return endpointIdGenerator.generatePart(node);
+    }
 }

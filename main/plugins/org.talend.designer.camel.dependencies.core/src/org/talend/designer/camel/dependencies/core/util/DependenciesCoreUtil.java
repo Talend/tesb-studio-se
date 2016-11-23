@@ -20,24 +20,27 @@ public class DependenciesCoreUtil {
 
     @Deprecated
     private static final String DELIMITER = "\\|"; //$NON-NLS-1$
+
     @Deprecated
     private static final String ID_PREFIX = "org.talend.designer.camel.dependencies.core."; //$NON-NLS-1$
+
     @Deprecated
     private static final String BUNDLE_CLASSPATH_ID = ID_PREFIX + "bundleClasspath"; //$NON-NLS-1$
+
     @Deprecated
     private static final String IMPORT_PACKAGE_ID = ID_PREFIX + "importPackage"; //$NON-NLS-1$
+
     @Deprecated
     private static final String REQUIRE_BUNDLE_ID = ID_PREFIX + "requireBundle"; //$NON-NLS-1$
+
     @Deprecated
     private static final String EXPORT_PACKAGE_ID = ID_PREFIX + "exportPackage"; //$NON-NLS-1$
 
     private static final char ITEM_SEPARATOR = ',';
 
-    public static void saveToMap(Map<Object, Object> map,
-        Collection<BundleClasspath> bundleClasspaths,
-        Collection<ImportPackage> importPackages,
-        Collection<RequireBundle> requiredBundles,
-        Collection<ExportPackage> exportPackages) {
+    public static void saveToMap(Map<Object, Object> map, Collection<BundleClasspath> bundleClasspaths,
+            Collection<ImportPackage> importPackages, Collection<RequireBundle> requiredBundles,
+            Collection<ExportPackage> exportPackages) {
         map.remove(BUNDLE_CLASSPATH_ID);
         String result = toManifestString(bundleClasspaths);
         if (result.isEmpty()) {
@@ -74,13 +77,13 @@ public class DependenciesCoreUtil {
     public static Collection<ImportPackage> getStoredImportPackages(Map<?, ?> map) {
         Collection<ImportPackage> list = (Collection<ImportPackage>) getManifestItems(map, ManifestItem.IMPORT_PACKAGE);
         if (null == list) {
-            list = new ArrayList<ImportPackage>();
+            list = new ArrayList<>();
             for (String s : getDependencies(map, IMPORT_PACKAGE_ID)) {
                 if (!s.isEmpty()) {
                     ImportPackage importPackage = new ImportPackage();
                     parse(importPackage, s);
-                    importPackage.setDescription(MessageFormat.format(Messages.DependenciesCoreUtil_userDefined,
-                        ManifestItem.IMPORT_PACKAGE));
+                    importPackage.setDescription(
+                            MessageFormat.format(Messages.DependenciesCoreUtil_userDefined, ManifestItem.IMPORT_PACKAGE));
                     list.add(importPackage);
                 }
             }
@@ -91,7 +94,7 @@ public class DependenciesCoreUtil {
     public static Collection<BundleClasspath> getStoredBundleClasspaths(Map<?, ?> map) {
         Collection<BundleClasspath> list = (Collection<BundleClasspath>) getManifestItems(map, ManifestItem.BUNDLE_CLASSPATH);
         if (null == list) {
-            list = new ArrayList<BundleClasspath>();
+            list = new ArrayList<>();
             for (String s : getDependencies(map, BUNDLE_CLASSPATH_ID)) {
                 if (!s.isEmpty()) {
                     BundleClasspath bcp = new BundleClasspath();
@@ -113,13 +116,13 @@ public class DependenciesCoreUtil {
     public static Collection<RequireBundle> getStoredRequireBundles(Map<?, ?> map) {
         Collection<RequireBundle> list = (Collection<RequireBundle>) getManifestItems(map, ManifestItem.REQUIRE_BUNDLE);
         if (null == list) {
-            list = new ArrayList<RequireBundle>();
+            list = new ArrayList<>();
             for (String s : getDependencies(map, REQUIRE_BUNDLE_ID)) {
                 if (!s.isEmpty()) {
                     RequireBundle requireBundle = new RequireBundle();
                     parse(requireBundle, s);
-                    requireBundle.setDescription(MessageFormat.format(Messages.DependenciesCoreUtil_userDefined,
-                        ManifestItem.REQUIRE_BUNDLE));
+                    requireBundle.setDescription(
+                            MessageFormat.format(Messages.DependenciesCoreUtil_userDefined, ManifestItem.REQUIRE_BUNDLE));
                     list.add(requireBundle);
                 }
             }
@@ -130,19 +133,19 @@ public class DependenciesCoreUtil {
     public static Collection<ExportPackage> getStoredExportPackages(Map<?, ?> map) {
         Collection<ExportPackage> list = (Collection<ExportPackage>) getManifestItems(map, ManifestItem.EXPORT_PACKAGE);
         if (null == list) {
-            list = new ArrayList<ExportPackage>();
+            list = new ArrayList<>();
             for (String s : getDependencies(map, EXPORT_PACKAGE_ID)) {
                 if (!s.isEmpty()) {
                     ExportPackage exportPackage = new ExportPackage();
                     parse(exportPackage, s);
-                    exportPackage.setDescription(MessageFormat.format(Messages.DependenciesCoreUtil_userDefined,
-                        ManifestItem.EXPORT_PACKAGE));
+                    exportPackage.setDescription(
+                            MessageFormat.format(Messages.DependenciesCoreUtil_userDefined, ManifestItem.EXPORT_PACKAGE));
                     list.add(exportPackage);
                 }
             }
         }
         return list;
-	}
+    }
 
     @Deprecated
     private static String[] getDependencies(Map<?, ?> map, String key) {
@@ -170,7 +173,7 @@ public class DependenciesCoreUtil {
     private static Collection<? extends ManifestItem> getManifestItems(Map<?, ?> map, String header) {
         final Object data = map.get(header);
         if (null != data) {
-            final Collection<ManifestItem> list = new ArrayList<ManifestItem>();
+            final Collection<ManifestItem> list = new ArrayList<>();
             final String s = data.toString();
             if (!s.isEmpty()) {
                 try {
@@ -178,8 +181,7 @@ public class DependenciesCoreUtil {
                         final ManifestItem item = ManifestItem.newItem(header);
                         item.setName(me.getValue());
                         item.setVersion(me.getAttribute(item.getVersionAttribute()));
-                        item.setOptional(Constants.RESOLUTION_OPTIONAL.equals(
-                            me.getDirective(Constants.RESOLUTION_DIRECTIVE)));
+                        item.setOptional(Constants.RESOLUTION_OPTIONAL.equals(me.getDirective(Constants.RESOLUTION_DIRECTIVE)));
                         item.setDescription(MessageFormat.format(Messages.DependenciesCoreUtil_userDefined, header));
                         list.add(item);
                     }
@@ -192,7 +194,8 @@ public class DependenciesCoreUtil {
         return null;
     }
 
-    public static String toManifestString(Collection<? extends ManifestItem> manifestItems, char separator, boolean includeBuiltIn) {
+    public static String toManifestString(Collection<? extends ManifestItem> manifestItems, char separator,
+            boolean includeBuiltIn) {
         final StringBuilder sb = new StringBuilder();
         for (ManifestItem manifestItem : manifestItems) {
             if (includeBuiltIn || !manifestItem.isBuiltIn()) {

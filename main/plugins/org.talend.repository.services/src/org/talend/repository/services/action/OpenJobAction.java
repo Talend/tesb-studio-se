@@ -51,8 +51,8 @@ public class OpenJobAction extends EditProcess {
             return;
         }
         IRepositoryNode node = (IRepositoryNode) selection.getFirstElement();
-        if (!ERepositoryObjectType.SERVICESOPERATION.equals((ERepositoryObjectType) node.getProperties(EProperties.CONTENT_TYPE))
-            || !WSDLUtils.isOperationInBinding(node)) { //not enabled if the operation doesn't define in binding
+        if (!ERepositoryObjectType.SERVICESOPERATION.equals(node.getProperties(EProperties.CONTENT_TYPE))
+                || !WSDLUtils.isOperationInBinding(node)) { // not enabled if the operation doesn't define in binding
             setEnabled(false);
             return;
         }
@@ -70,16 +70,20 @@ public class OpenJobAction extends EditProcess {
         final IStructuredSelection jobSelection = new StructuredSelection(jobNode);
         setSpecialSelection(new ISelectionProvider() {
 
+            @Override
             public void setSelection(ISelection arg0) {
             }
 
+            @Override
             public void removeSelectionChangedListener(ISelectionChangedListener arg0) {
             }
 
+            @Override
             public ISelection getSelection() {
                 return jobSelection;
             }
 
+            @Override
             public void addSelectionChangedListener(ISelectionChangedListener arg0) {
             }
         });
@@ -91,12 +95,12 @@ public class OpenJobAction extends EditProcess {
         return jobNode;
     }
 
+    @Override
     public Class<?> getClassForDoubleClick() {
         final IRepositoryNode repositoryNode = super.getCurrentRepositoryNode();
-        //not enabled if the operation doesn't define in binding
-        if (null != repositoryNode
-            && WSDLUtils.isOperationInBinding(repositoryNode)
-            && getReferenceJobId(repositoryNode) != null) {
+        // not enabled if the operation doesn't define in binding
+        if (null != repositoryNode && WSDLUtils.isOperationInBinding(repositoryNode)
+                && getReferenceJobId(repositoryNode) != null) {
             return ServiceOperation.class;
         }
         return Object.class; // for isDoubleClickAction

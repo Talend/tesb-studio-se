@@ -181,7 +181,7 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
 
     private Collection<XmlFileConnectionItem> initFileConnection() throws URISyntaxException, PersistenceException {
         Collection<String> paths = getAllPaths();
-        Collection<XmlFileConnectionItem> connItems = new ArrayList<XmlFileConnectionItem>();
+        Collection<XmlFileConnectionItem> connItems = new ArrayList<>();
 
         for (ConnectionItem item : DesignerPlugin.getDefault().getProxyRepositoryFactory().getMetadataConnectionsItem()) {
             if (item instanceof XmlFileConnectionItem && paths.contains(item.getState().getPath())
@@ -194,9 +194,9 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
 
     @SuppressWarnings("unchecked")
     private Collection<String> getAllPaths() throws URISyntaxException {
-        final Set<String> paths = new HashSet<String>();
-        final Set<QName> portTypes = new HashSet<QName>();
-        final Set<QName> alreadyCreated = new HashSet<QName>();
+        final Set<String> paths = new HashSet<>();
+        final Set<QName> portTypes = new HashSet<>();
+        final Set<QName> alreadyCreated = new HashSet<>();
         for (Binding binding : (Collection<Binding>) wsdlDefinition.getAllBindings().values()) {
             final QName portType = binding.getPortType().getQName();
             if (portTypes.add(portType)) {
@@ -255,8 +255,8 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
     }
 
     @SuppressWarnings("unchecked")
-    private void process(Definition wsdlDefinition, Collection<XmlFileConnectionItem> selectTables) throws Exception,
-            CoreException {
+    private void process(Definition wsdlDefinition, Collection<XmlFileConnectionItem> selectTables)
+            throws Exception, CoreException {
         File tempFile = null;
         try {
             File wsdlFile = null;
@@ -275,8 +275,8 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
                 populationUtil.loadWSDL(baseUri);
             }
 
-            final Set<QName> portTypes = new HashSet<QName>();
-            final Set<QName> alreadyCreated = new HashSet<QName>();
+            final Set<QName> portTypes = new HashSet<>();
+            final Set<QName> alreadyCreated = new HashSet<>();
             for (Binding binding : (Collection<Binding>) wsdlDefinition.getAllBindings().values()) {
                 final QName portType = binding.getPortType().getQName();
                 if (portTypes.add(portType)) {

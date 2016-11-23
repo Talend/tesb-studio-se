@@ -23,9 +23,6 @@ import org.talend.core.model.repository.IRepositoryViewObject;
 import org.talend.repository.model.IRepositoryNode;
 import org.talend.repository.services.model.services.ServicePort;
 
-/**
- * DOC Administrator class global comment. Detailled comment
- */
 public class PortRepositoryObject implements IRepositoryViewObject {
 
     protected final IRepositoryViewObject viewObject;
@@ -41,194 +38,106 @@ public class PortRepositoryObject implements IRepositoryViewObject {
         this.servicePort = servicePort;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getId()
-     */
+    @Override
     public String getId() {
         return servicePort.getId();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getLabel()
-     */
+    @Override
     public String getLabel() {
         return servicePort.getName();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getVersion()
-     */
+    @Override
     public String getVersion() {
         return viewObject.getVersion();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getAuthor()
-     */
+    @Override
     public User getAuthor() {
         return viewObject.getAuthor();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getStatusCode()
-     */
+    @Override
     public String getStatusCode() {
         return viewObject.getStatusCode();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getCreationDate()
-     */
+    @Override
     public Date getCreationDate() {
         return viewObject.getCreationDate();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getDescription()
-     */
+    @Override
     public String getDescription() {
         return viewObject.getDescription();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getModificationDate()
-     */
+    @Override
     public Date getModificationDate() {
         return viewObject.getModificationDate();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getPurpose()
-     */
+    @Override
     public String getPurpose() {
         return viewObject.getPurpose();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getRepositoryObjectType()
-     */
+    @Override
     public ERepositoryObjectType getRepositoryObjectType() {
         return ERepositoryObjectType.SERVICESPORT;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getChildren()
-     */
+    @Override
     public List<IRepositoryViewObject> getChildren() {
         return viewObject.getChildren();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.talend.core.model.repository.IRepositoryViewObject#setRepositoryNode(org.talend.repository.model.IRepositoryNode
-     * )
-     */
+    @Override
     public void setRepositoryNode(IRepositoryNode node) {
         viewObject.setRepositoryNode(node);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getRepositoryNode()
-     */
+    @Override
     public IRepositoryNode getRepositoryNode() {
         return viewObject.getRepositoryNode();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#isDeleted()
-     */
+    @Override
     public boolean isDeleted() {
         return viewObject.isDeleted();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getProjectLabel()
-     */
+    @Override
     public String getProjectLabel() {
         return viewObject.getProjectLabel();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getPath()
-     */
+    @Override
     public String getPath() {
         return viewObject.getPath();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getRepositoryStatus()
-     */
+    @Override
     public ERepositoryStatus getRepositoryStatus() {
         return viewObject.getRepositoryStatus();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#getInformationStatus()
-     */
+    @Override
     public ERepositoryStatus getInformationStatus() {
         return viewObject.getInformationStatus();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.repository.model.ISubRepositoryObject#removeFromParent()
-     */
     public void removeFromParent() {
         // TODO Auto-generated method stub
-
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.repository.model.ISubRepositoryObject#getProperty()
-     */
+    @Override
     public Property getProperty() {
         return viewObject.getProperty();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.model.repository.IRepositoryViewObject#isModified()
-     */
+    @Override
     public boolean isModified() {
         return viewObject.isModified();
     }

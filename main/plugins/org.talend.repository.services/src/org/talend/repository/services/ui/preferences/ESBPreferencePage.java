@@ -6,22 +6,21 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.talend.repository.services.Activator;
 import org.talend.repository.services.Messages;
 
-public class ESBPreferencePage extends FieldEditorPreferencePage implements
-		IWorkbenchPreferencePage {
-	
-	public ESBPreferencePage(){
-		super(GRID);
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription(Messages.ESBPreferencePage_description);
-	}
+public class ESBPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
-	public void init(IWorkbench workbench) {
-		
-	}
+    public ESBPreferencePage() {
+        super(GRID);
+        setPreferenceStore(Activator.getDefault().getPreferenceStore());
+        setDescription(Messages.ESBPreferencePage_description);
+    }
 
-	@Override
-	protected void createFieldEditors() {
-	}
+    @Override
+    public void init(IWorkbench workbench) {
 
+    }
+
+    @Override
+    protected void createFieldEditors() {
+    }
 
 }

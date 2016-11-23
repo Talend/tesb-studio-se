@@ -22,60 +22,52 @@ import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
 
 /**
  * http://jira.talendforge.org/browse/TESB-6440
- * 
- * @author LiXiaopeng
- * Update: Removed common functions to handle NodeType to {@link AbstractRouteItemComponentMigrationTask.UtilTool} - by GaoZone.
- * {@link }
+ *
+ * Update: Removed common functions to handle NodeType to {@link AbstractRouteItemComponentMigrationTask.UtilTool}
  */
 public class UpdatecJMSMigrationTask extends AbstractRouteItemComponentMigrationTask {
 
     @Override
-	public String getComponentNameRegex() {
-		return "cJMS";
-	}
+    public String getComponentNameRegex() {
+        return "cJMS";
+    }
 
     @Override
-	protected boolean execute(NodeType node) throws Exception {
-		return updateJMSComponent(node);
-	}
+    protected boolean execute(NodeType node) throws Exception {
+        return updateJMSComponent(node);
+    }
 
+    @Override
     public Date getOrder() {
-		GregorianCalendar gc = new GregorianCalendar(2012, 7, 10, 14, 00, 00);
+        GregorianCalendar gc = new GregorianCalendar(2012, 7, 10, 14, 00, 00);
         return gc.getTime();
     }
 
-    /**
+    /*
      * Update cJMS, add cJMSConnectionFactory.
-     * 
-     * @param item
-     * @throws PersistenceException
      */
     private boolean updateJMSComponent(NodeType currentNode) throws PersistenceException {
-    	ElementParameterType oldParam = UtilTool.findParameterType(currentNode, "CONNECTION_FACOTRY");
-    	if(oldParam == null) {
-    		return false;
-    	}
-		String oldId = oldParam.getValue();
-		boolean paramRemoved = UtilTool.removeParameterType(currentNode, oldParam);
-		
-		if(oldId == null) {
-			return paramRemoved;
-		}
+        ElementParameterType oldParam = UtilTool.findParameterType(currentNode, "CONNECTION_FACOTRY");
+        if (oldParam == null) {
+            return false;
+        }
+        String oldId = oldParam.getValue();
+        boolean paramRemoved = UtilTool.removeParameterType(currentNode, oldParam);
 
-		ElementParameterType newConnectionFactoryParam = UtilTool.createParameterType(
-				EParameterFieldType.ROUTE_COMPONENT_TYPE
-				.getName(),
-				"CONNECTION_FACOTRY_CONFIGURATION", "");
-		UtilTool.addParameterType(currentNode, newConnectionFactoryParam);
+        if (oldId == null) {
+            return paramRemoved;
+        }
 
-		String newId = oldId.replace("cJMSConnectionFactory", "cMQConnectionFactory_");
+        ElementParameterType newConnectionFactoryParam = UtilTool
+                .createParameterType(EParameterFieldType.ROUTE_COMPONENT_TYPE.getName(), "CONNECTION_FACOTRY_CONFIGURATION", "");
+        UtilTool.addParameterType(currentNode, newConnectionFactoryParam);
 
-		ElementParameterType idParam = UtilTool.createParameterType(
-				EParameterFieldType.TECHNICAL.getName(),
-				"CONNECTION_FACOTRY_CONFIGURATION:ROUTE_COMPONENT_TYPE_ID",
-				newId);
-		UtilTool.addParameterType(currentNode, idParam);
-		return true;
+        String newId = oldId.replace("cJMSConnectionFactory", "cMQConnectionFactory_");
+
+        ElementParameterType idParam = UtilTool.createParameterType(EParameterFieldType.TECHNICAL.getName(),
+                "CONNECTION_FACOTRY_CONFIGURATION:ROUTE_COMPONENT_TYPE_ID", newId);
+        UtilTool.addParameterType(currentNode, idParam);
+        return true;
     }
 
 }

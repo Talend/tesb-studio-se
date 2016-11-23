@@ -21,9 +21,6 @@ import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.ui.html.BrowserDynamicPartLocationListener;
 import org.talend.rcp.intro.starting.StartingBrowser;
 
-/**
- * DOC wchen class global comment. Detailled comment
- */
 public class EsbStartingBrowser extends StartingBrowser {
 
     public static final String ID = "org.talend.rcp.branding.esbstandard.starting.EsbStartingBrowser";

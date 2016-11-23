@@ -14,9 +14,6 @@ package org.talend.repository.services.utils;
 
 import org.talend.core.model.repository.ERepositoryObjectType;
 
-/**
- * DOC hwang class global comment. Detailled comment
- */
 public class ESBRepositoryNodeType {
 
     public static ERepositoryObjectType SERVICES = ERepositoryObjectType.valueOf(ERepositoryObjectType.class, "SERVICES");

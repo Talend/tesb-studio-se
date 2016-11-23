@@ -1,368 +1,323 @@
 <COMPONENT>
 
-	<HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+        COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
+        STARTABLE="false">
+        <SIGNATURE />
+    </HEADER>
 
-		COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
-		STARTABLE="false">
-		<SIGNATURE />
-	</HEADER>
+    <FAMILIES>
+        <FAMILY>Connectivity/Messaging</FAMILY>
+    </FAMILIES>
 
-	<FAMILIES>
-		<FAMILY>Connectivity/Messaging</FAMILY>
-	</FAMILIES>
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
 
-	<DOCUMENTATION>
-		<URL />
-	</DOCUMENTATION>
+    <CONNECTORS>
+        <CONNECTOR CTYPE="ROUTE" MAX_INPUT="0" MAX_OUTPUT="0" />
+    </CONNECTORS>
 
-	<CONNECTORS>
-		<CONNECTOR CTYPE="ROUTE" MAX_INPUT="0" MAX_OUTPUT="0" />
-	</CONNECTORS>
-
-	<PARAMETERS>
-		<PARAMETER NAME="MQ_TYPE" FIELD="CLOSED_LIST" NUM_ROW="2"
-			REQUIRED="true" READONLY="false">
-			<ITEMS DEFAULT="ACTIVEMQ">
-				<ITEM NAME="ACTIVEMQ" VALUE="ActiveMQ" />
-				<ITEM NAME="WMQ" VALUE="WebSphere MQ Jms" />
-				<ITEM NAME="WMQ_N" VALUE="WebSphere MQ Native" />
-				<ITEM NAME="AMQP" VALUE="AMQP" />
-				<ITEM NAME="MQTT" VALUE="MQTT" />
-				<ITEM NAME="OTHER" VALUE="Other" />
-			</ITEMS>
-		</PARAMETER>
-
-		<PARAMETER NAME="USE_TRANSACTION" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="2" SHOW_IF="(MQ_TYPE != 'AMQP') AND (MQ_TYPE != 'MQTT') AND (MQ_TYPE != 'WMQ_N')">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<!-- ActiveMQ -->
-		<PARAMETER NAME="AMQ_BROKER_URI" FIELD="TEXT" NUM_ROW="4"
-			REQUIRED="true" SHOW_IF="MQ_TYPE == 'ACTIVEMQ'">
-			<DEFAULT>"vm://localhost?broker.persistent=false"</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="IS_AMQ_HTTP_BROKER" FIELD="CHECK" NUM_ROW="6"
-			REQUIRED="true" SHOW_IF="MQ_TYPE == 'ACTIVEMQ'">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="AMQ_POOL" FIELD="CHECK" NUM_ROW="8"
-			REQUIRED="true" SHOW_IF="MQ_TYPE == 'ACTIVEMQ'">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="AMQ_POOL_MAX_CONNECTIONS" FIELD="TEXT"
-			NUM_ROW="9" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL == 'true')">
-			<DEFAULT>1</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="AMQ_POOL_MAX_ACTIVE" FIELD="TEXT"
-			NUM_ROW="10" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL == 'true')">
-			<DEFAULT>500</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="AMQ_POOL_IDLE_TIMEOUT" FIELD="TEXT"
-			NUM_ROW="11" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL == 'true')">
-			<DEFAULT>30000</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="AMQ_POOL_EXPIRY_TIMEOUT" FIELD="TEXT"
-			NUM_ROW="12" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL == 'true')">
-			<DEFAULT>60000</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="AMQ_AUTH" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="13" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ')">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="AMQ_USERNAME" FIELD="TEXT" NUM_ROW="14"
-			SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_AUTH == 'true')">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="AMQ_PASSWORD" FIELD="PASSWORD" NUM_ROW="14"
-			SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_AUTH == 'true')">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>	
-
-        <PARAMETER NAME="AMQ_USE_RETROACTIVE_CONSUMER" FIELD="CHECK" REQUIRED="false"
-            NUM_ROW="15" SHOW_IF="MQ_TYPE == 'ACTIVEMQ'">
+    <PARAMETERS>
+        <PARAMETER NAME="MQ_TYPE" FIELD="CLOSED_LIST" NUM_ROW="2"
+            REQUIRED="true" READONLY="false">
+            <ITEMS DEFAULT="ACTIVEMQ">
+                <ITEM NAME="ACTIVEMQ" VALUE="ActiveMQ" />
+                <ITEM NAME="WMQ" VALUE="WebSphere MQ Jms" />
+                <ITEM NAME="WMQ_N" VALUE="WebSphere MQ Native" />
+                <ITEM NAME="AMQP" VALUE="AMQP" />
+                <ITEM NAME="MQTT" VALUE="MQTT" />
+                <ITEM NAME="OTHER" VALUE="Other" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="USE_TRANSACTION" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="2"
+            SHOW_IF="(MQ_TYPE != 'AMQP') AND (MQ_TYPE != 'MQTT') AND (MQ_TYPE != 'WMQ_N')">
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
-
-		<!-- WebSphere MQ Jms-->
-		<PARAMETER NAME="WQM_SEVER" FIELD="TEXT" NUM_ROW="7"
-			REQUIRED="true" SHOW_IF="MQ_TYPE == 'WMQ'">
-			<DEFAULT>"localhost"</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_PORT" FIELD="TEXT" NUM_ROW="8"
-			REQUIRED="true" SHOW_IF="MQ_TYPE == 'WMQ'">
-			<DEFAULT>1414</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_TRANSPORT_TYPE" FIELD="CLOSED_LIST"
-			NUM_ROW="9" REQUIRED="true" READONLY="false" SHOW_IF="MQ_TYPE == 'WMQ'">
-			<ITEMS DEFAULT="CLIENT">
-				<ITEM NAME="BINDINGS" VALUE="0" />
-				<ITEM NAME="CLIENT" VALUE="1" />
-				<ITEM NAME="BINDINGS_CLIENT" VALUE="8" />
-				<!--<ITEM NAME="DIRECT_TCPIP" VALUE="2" /> <ITEM NAME="DIRECT_HTTP" VALUE="4"
-					/> -->
-			</ITEMS>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_QUEUE_MANAGER" FIELD="TEXT" NUM_ROW="10"
-			REQUIRED="true" SHOW_IF="MQ_TYPE == 'WMQ'">
-			<DEFAULT>"mq.queue.manager"</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_CHANNEL" FIELD="TEXT" NUM_ROW="11"
-			SHOW_IF="(MQ_TYPE == 'WMQ') AND (WMQ_TRANSPORT_TYPE == 'CLIENT')">
-			<DEFAULT>"SYSTEM.DEF.SVRCONN"</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_AUTH" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="12" SHOW_IF="MQ_TYPE == 'WMQ'">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_USERNAME" FIELD="TEXT" NUM_ROW="13"
-			SHOW_IF="(MQ_TYPE == 'WMQ') AND (WMQ_AUTH == 'true')">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_PASSWORD" FIELD="PASSWORD" NUM_ROW="13"
-			SHOW_IF="(MQ_TYPE == 'WMQ') AND (WMQ_AUTH == 'true')">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMA_JAR_LABEL" FIELD="LABEL" NUM_ROW="31"
-			REQUIRED="true" SHOW_IF="MQ_TYPE == 'WMQ'">
-			<DEFAULT>(Note:Need add com.ibm.mq.jar, com.ibm.mq.jmqi.jar,com.ibm.mqjms.jar, dhbcore.jar, connector.jar)</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_DRIVER_JAR" FIELD="TABLE" NUM_ROW="30"
-			NB_LINES="8" REPOSITORY_VALUE="DRIVER_JAR" SHOW_IF="MQ_TYPE == 'WMQ'">
-			<ITEMS>
-				<ITEM NAME="JAR_NAME" FIELD="MODULE_LIST" />
-			</ITEMS>
-		</PARAMETER>
-		
-		<!-- WebSphere MQ Native -->				
-		<PARAMETER NAME="WMQ_N_SEVER" FIELD="TEXT" NUM_ROW="7"
-			SHOW_IF="MQ_TYPE == 'WMQ_N'">
-			<DEFAULT>"localhost"</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_N_PORT" FIELD="TEXT" NUM_ROW="8"
-			SHOW_IF="MQ_TYPE == 'WMQ_N'">
-			<DEFAULT>"1414"</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="WMQ_N_CHANNEL" FIELD="TEXT" NUM_ROW="9"
-			SHOW_IF="MQ_TYPE == 'WMQ_N'">
-			<DEFAULT>"channel.name"</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="WMQ_N_NAME" FIELD="TEXT" NUM_ROW="10"
-			SHOW_IF="MQ_TYPE == 'WMQ_N'">
-			<DEFAULT>"default"</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_N_AUTH" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="12" SHOW_IF="MQ_TYPE == 'WMQ_N'">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="WMQ_N_CCSID" FIELD="CCSID" NUM_ROW="13"
-			SHOW_IF="(MQ_TYPE == 'WMQ_N') AND (WMQ_N_AUTH == 'true')">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_N_USERNAME" FIELD="TEXT" NUM_ROW="13"
-			SHOW_IF="(MQ_TYPE == 'WMQ_N') AND (WMQ_N_AUTH == 'true')">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="WMQ_N_PASSWORD" FIELD="PASSWORD" NUM_ROW="13"
-			SHOW_IF="(MQ_TYPE == 'WMQ_N') AND (WMQ_N_AUTH == 'true')">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-
-		
-		<PARAMETER NAME="WMQ_N_JAR_LABEL" FIELD="LABEL" NUM_ROW="41"
-			REQUIRED="true" SHOW_IF="MQ_TYPE == 'WMQ_N'">
-            <DEFAULT>(Note:Need add com.ibm.mq.jar, com.ibm.mq.commonservices.jar, com.ibm.mq.headers.jar, com.ibm.mq.jmqi.jar, connector.jar)</DEFAULT> 			
-			</PARAMETER>
-
-		<PARAMETER NAME="WMQ_N_DRIVER_JAR" FIELD="TABLE" NUM_ROW="40"
-			NB_LINES="8" REPOSITORY_VALUE="DRIVER_JAR" SHOW_IF="MQ_TYPE == 'WMQ_N'">
-			<ITEMS>
-				<ITEM NAME="JAR_NAME" FIELD="MODULE_LIST" />
-			</ITEMS>
-		</PARAMETER>
-
-		<!-- AMQP -->
-		<PARAMETER NAME="AMQP_BROKER_URI" FIELD="TEXT" NUM_ROW="4"
-			REQUIRED="true" SHOW_IF="MQ_TYPE == 'AMQP'">
-			<DEFAULT>"localhost"</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="AMQP_PORT" FIELD="TEXT" NUM_ROW="10"
-			SHOW_IF="MQ_TYPE == 'AMQP'">
-			<DEFAULT>"5672"</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="AMQP_SSL" FIELD="CHECK" NUM_ROW="20"
-			SHOW_IF="MQ_TYPE == 'AMQP'">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="AMQP_USE_AUTH" FIELD="CHECK" NUM_ROW="25"
-			SHOW_IF="MQ_TYPE == 'AMQP'">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="AMQP_USERNAME" FIELD="TEXT" NUM_ROW="30"
-			SHOW_IF="(MQ_TYPE == 'AMQP') AND (AMQP_USE_AUTH== 'true')">
-			<DEFAULT>"guest"</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="AMQP_PASSWORD" FIELD="PASSWORD" NUM_ROW="35"
-			SHOW_IF="(MQ_TYPE == 'AMQP') AND (AMQP_USE_AUTH== 'true')">
-			<DEFAULT>"guest"</DEFAULT>
-		</PARAMETER>
-
-		<!-- MQTT-->
-		<PARAMETER NAME="MQTT_HOST" FIELD="TEXT" NUM_ROW="4"
-			SHOW_IF="MQ_TYPE == 'MQTT'">
-			<DEFAULT>"127.0.0.1"</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="MQTT_PORT" FIELD="TEXT" NUM_ROW="5"
-			SHOW_IF="MQ_TYPE == 'MQTT'">
-			<DEFAULT>1883</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="MQTT_SSL" FIELD="CHECK" NUM_ROW="6"
-			SHOW_IF="MQ_TYPE == 'MQTT'">
-		</PARAMETER>
-		<PARAMETER NAME="MQTT_SSL_TRUST_STORE" FIELD="FILE" NUM_ROW="7"
-			SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
-		</PARAMETER>
-		<PARAMETER NAME="MQTT_SSL_TRUST_STORE_PASSWORD" FIELD="PASSWORD" NUM_ROW="7"
-			SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
-		</PARAMETER>
-		
-        <PARAMETER NAME="MQTT_SSL_KEY_STORE" FIELD="FILE" NUM_ROW="8"
-            SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
+        <!-- ActiveMQ -->
+        <PARAMETER NAME="AMQ_BROKER_URI" FIELD="TEXT" NUM_ROW="4"
+            REQUIRED="true" SHOW_IF="MQ_TYPE == 'ACTIVEMQ'">
+            <DEFAULT>"vm://localhost?broker.persistent=false"</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="MQTT_SSL_KEY_STORE_PASSWORD" FIELD="PASSWORD" NUM_ROW="8"
-            SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
-        </PARAMETER>		
-		
-		<PARAMETER NAME="MQTT_CONNECT_ATTEMPTS" FIELD="TEXT" NUM_ROW="11"
-			SHOW_IF="MQ_TYPE == 'MQTT'">
-			<DEFAULT>-1</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="MQTT_RECONNECT_ATTEMPTS" FIELD="TEXT" NUM_ROW="12"
-			SHOW_IF="MQ_TYPE == 'MQTT'">
-			<DEFAULT>-1</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="MQTT_RECONNECT_DELAY" FIELD="TEXT" NUM_ROW="13"
-			SHOW_IF="MQ_TYPE == 'MQTT'">
-			<DEFAULT>10</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="MQTT_QOS" FIELD="CLOSED_LIST" NUM_ROW="14"
-			SHOW_IF="MQ_TYPE == 'MQTT'">
-			<ITEMS DEFAULT="AT_LEAST_ONCE">
-				<ITEM NAME="AT_LEAST_ONCE" VALUE="AtLeastOnce" />
-				<ITEM NAME="AT_MOST_ONCE" VALUE="AtMostOnce" />
-				<ITEM NAME="EXACTLY_ONCE" VALUE="ExactlyOnce" />
-			</ITEMS>
-		</PARAMETER>
-		<PARAMETER NAME="MQTT_CONNECT_WAIT_IN_SECONDS" FIELD="TEXT" NUM_ROW="15"
-			SHOW_IF="MQ_TYPE == 'MQTT'">
-			<DEFAULT>10</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="MQTT_DISCONNECT_WAIT_IN_SECONDS" FIELD="TEXT" NUM_ROW="16"
-			SHOW_IF="MQ_TYPE == 'MQTT'">
-			<DEFAULT>5</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="MQTT_SEND_WAIT_IN_SECONDS" FIELD="TEXT" NUM_ROW="17"
-			SHOW_IF="MQ_TYPE == 'MQTT'">
-			<DEFAULT>5</DEFAULT>
-		</PARAMETER>
-		<!-- Customized -->
-		<PARAMETER NAME="OTHER_CODE" FIELD="MEMO_JAVA" REQUIRED="false"
-			NUM_ROW="7" NB_LINES="6" SHOW_IF="MQ_TYPE == 'OTHER'">
-			<DEFAULT>
-				/*
-				* Please specify "jmsConnectionFactory" here
-				*/
-				//jmsConnectionFactory = new org.apache.activemq.ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
-			</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="OTHER_DRIVER_JAR" FIELD="TABLE" NUM_ROW="30"
-			NB_LINES="8" REPOSITORY_VALUE="DRIVER_JAR" SHOW_IF="MQ_TYPE == 'OTHER'">
-			<ITEMS>
-				<ITEM NAME="JAR_NAME" FIELD="MODULE_LIST" />
-			</ITEMS>
-		</PARAMETER>
-		
+        <PARAMETER NAME="IS_AMQ_HTTP_BROKER" FIELD="CHECK"
+            NUM_ROW="6" REQUIRED="true" SHOW_IF="MQ_TYPE == 'ACTIVEMQ'">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQ_POOL" FIELD="CHECK" NUM_ROW="8"
+            REQUIRED="true" SHOW_IF="MQ_TYPE == 'ACTIVEMQ'">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQ_POOL_MAX_CONNECTIONS" FIELD="TEXT"
+            NUM_ROW="9" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL == 'true')">
+            <DEFAULT>1</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQ_POOL_MAX_ACTIVE" FIELD="TEXT"
+            NUM_ROW="10" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL == 'true')">
+            <DEFAULT>500</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQ_POOL_IDLE_TIMEOUT" FIELD="TEXT"
+            NUM_ROW="11" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL == 'true')">
+            <DEFAULT>30000</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQ_POOL_EXPIRY_TIMEOUT" FIELD="TEXT"
+            NUM_ROW="12" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL == 'true')">
+            <DEFAULT>60000</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQ_AUTH" FIELD="CHECK" REQUIRED="true"
+            NUM_ROW="13" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ')">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQ_USERNAME" FIELD="TEXT" NUM_ROW="14"
+            SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_AUTH == 'true')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQ_PASSWORD" FIELD="PASSWORD"
+            NUM_ROW="14" SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_AUTH == 'true')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQ_USE_RETROACTIVE_CONSUMER" FIELD="CHECK"
+            REQUIRED="false" NUM_ROW="15" SHOW_IF="MQ_TYPE == 'ACTIVEMQ'">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <!-- WebSphere MQ Jms -->
+        <PARAMETER NAME="WQM_SEVER" FIELD="TEXT" NUM_ROW="7"
+            REQUIRED="true" SHOW_IF="MQ_TYPE == 'WMQ'">
+            <DEFAULT>"localhost"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_PORT" FIELD="TEXT" NUM_ROW="8"
+            REQUIRED="true" SHOW_IF="MQ_TYPE == 'WMQ'">
+            <DEFAULT>1414</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_TRANSPORT_TYPE" FIELD="CLOSED_LIST"
+            NUM_ROW="9" REQUIRED="true" READONLY="false" SHOW_IF="MQ_TYPE == 'WMQ'">
+            <ITEMS DEFAULT="CLIENT">
+                <ITEM NAME="BINDINGS" VALUE="0" />
+                <ITEM NAME="CLIENT" VALUE="1" />
+                <ITEM NAME="BINDINGS_CLIENT" VALUE="8" />
+                <!--<ITEM NAME="DIRECT_TCPIP" VALUE="2" /> <ITEM NAME="DIRECT_HTTP" 
+                    VALUE="4" /> -->
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_QUEUE_MANAGER" FIELD="TEXT"
+            NUM_ROW="10" REQUIRED="true" SHOW_IF="MQ_TYPE == 'WMQ'">
+            <DEFAULT>"mq.queue.manager"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_CHANNEL" FIELD="TEXT" NUM_ROW="11"
+            SHOW_IF="(MQ_TYPE == 'WMQ') AND (WMQ_TRANSPORT_TYPE == 'CLIENT')">
+            <DEFAULT>"SYSTEM.DEF.SVRCONN"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_AUTH" FIELD="CHECK" REQUIRED="true"
+            NUM_ROW="12" SHOW_IF="MQ_TYPE == 'WMQ'">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_USERNAME" FIELD="TEXT" NUM_ROW="13"
+            SHOW_IF="(MQ_TYPE == 'WMQ') AND (WMQ_AUTH == 'true')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_PASSWORD" FIELD="PASSWORD"
+            NUM_ROW="13" SHOW_IF="(MQ_TYPE == 'WMQ') AND (WMQ_AUTH == 'true')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMA_JAR_LABEL" FIELD="LABEL" NUM_ROW="31"
+            REQUIRED="true" SHOW_IF="MQ_TYPE == 'WMQ'">
+            <DEFAULT>(Note:Need add com.ibm.mq.jar,
+                com.ibm.mq.jmqi.jar,com.ibm.mqjms.jar, dhbcore.jar,
+                connector.jar)</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_DRIVER_JAR" FIELD="TABLE"
+            NUM_ROW="30" NB_LINES="8" REPOSITORY_VALUE="DRIVER_JAR"
+            SHOW_IF="MQ_TYPE == 'WMQ'">
+            <ITEMS>
+                <ITEM NAME="JAR_NAME" FIELD="MODULE_LIST" />
+            </ITEMS>
+        </PARAMETER>
+        <!-- WebSphere MQ Native -->
+        <PARAMETER NAME="WMQ_N_SEVER" FIELD="TEXT" NUM_ROW="7"
+            SHOW_IF="MQ_TYPE == 'WMQ_N'">
+            <DEFAULT>"localhost"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_N_PORT" FIELD="TEXT" NUM_ROW="8"
+            SHOW_IF="MQ_TYPE == 'WMQ_N'">
+            <DEFAULT>"1414"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_N_CHANNEL" FIELD="TEXT" NUM_ROW="9"
+            SHOW_IF="MQ_TYPE == 'WMQ_N'">
+            <DEFAULT>"channel.name"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_N_NAME" FIELD="TEXT" NUM_ROW="10"
+            SHOW_IF="MQ_TYPE == 'WMQ_N'">
+            <DEFAULT>"default"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_N_AUTH" FIELD="CHECK" REQUIRED="true"
+            NUM_ROW="12" SHOW_IF="MQ_TYPE == 'WMQ_N'">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_N_CCSID" FIELD="CCSID" NUM_ROW="13"
+            SHOW_IF="(MQ_TYPE == 'WMQ_N') AND (WMQ_N_AUTH == 'true')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_N_USERNAME" FIELD="TEXT" NUM_ROW="13"
+            SHOW_IF="(MQ_TYPE == 'WMQ_N') AND (WMQ_N_AUTH == 'true')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_N_PASSWORD" FIELD="PASSWORD"
+            NUM_ROW="13" SHOW_IF="(MQ_TYPE == 'WMQ_N') AND (WMQ_N_AUTH == 'true')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_N_JAR_LABEL" FIELD="LABEL"
+            NUM_ROW="41" REQUIRED="true" SHOW_IF="MQ_TYPE == 'WMQ_N'">
+            <DEFAULT>(Note:Need add com.ibm.mq.jar,
+                com.ibm.mq.commonservices.jar, com.ibm.mq.headers.jar,
+                com.ibm.mq.jmqi.jar, connector.jar)</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="WMQ_N_DRIVER_JAR" FIELD="TABLE"
+            NUM_ROW="40" NB_LINES="8" REPOSITORY_VALUE="DRIVER_JAR"
+            SHOW_IF="MQ_TYPE == 'WMQ_N'">
+            <ITEMS>
+                <ITEM NAME="JAR_NAME" FIELD="MODULE_LIST" />
+            </ITEMS>
+        </PARAMETER>
+        <!-- AMQP -->
+        <PARAMETER NAME="AMQP_BROKER_URI" FIELD="TEXT"
+            NUM_ROW="4" REQUIRED="true" SHOW_IF="MQ_TYPE == 'AMQP'">
+            <DEFAULT>"localhost"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQP_PORT" FIELD="TEXT" NUM_ROW="10"
+            SHOW_IF="MQ_TYPE == 'AMQP'">
+            <DEFAULT>"5672"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQP_SSL" FIELD="CHECK" NUM_ROW="20"
+            SHOW_IF="MQ_TYPE == 'AMQP'">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQP_USE_AUTH" FIELD="CHECK" NUM_ROW="25"
+            SHOW_IF="MQ_TYPE == 'AMQP'">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQP_USERNAME" FIELD="TEXT" NUM_ROW="30"
+            SHOW_IF="(MQ_TYPE == 'AMQP') AND (AMQP_USE_AUTH== 'true')">
+            <DEFAULT>"guest"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="AMQP_PASSWORD" FIELD="PASSWORD"
+            NUM_ROW="35" SHOW_IF="(MQ_TYPE == 'AMQP') AND (AMQP_USE_AUTH== 'true')">
+            <DEFAULT>"guest"</DEFAULT>
+        </PARAMETER>
+        <!-- MQTT -->
+        <PARAMETER NAME="MQTT_HOST" FIELD="TEXT" NUM_ROW="4"
+            SHOW_IF="MQ_TYPE == 'MQTT'">
+            <DEFAULT>"127.0.0.1"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_PORT" FIELD="TEXT" NUM_ROW="5"
+            SHOW_IF="MQ_TYPE == 'MQTT'">
+            <DEFAULT>1883</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_SSL" FIELD="CHECK" NUM_ROW="6"
+            SHOW_IF="MQ_TYPE == 'MQTT'">
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_SSL_TRUST_STORE" FIELD="FILE"
+            NUM_ROW="7" SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_SSL_TRUST_STORE_PASSWORD" FIELD="PASSWORD"
+            NUM_ROW="7" SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_SSL_KEY_STORE" FIELD="FILE"
+            NUM_ROW="8" SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_SSL_KEY_STORE_PASSWORD" FIELD="PASSWORD"
+            NUM_ROW="8" SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_CONNECT_ATTEMPTS" FIELD="TEXT"
+            NUM_ROW="11" SHOW_IF="MQ_TYPE == 'MQTT'">
+            <DEFAULT>-1</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_RECONNECT_ATTEMPTS" FIELD="TEXT"
+            NUM_ROW="12" SHOW_IF="MQ_TYPE == 'MQTT'">
+            <DEFAULT>-1</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_RECONNECT_DELAY" FIELD="TEXT"
+            NUM_ROW="13" SHOW_IF="MQ_TYPE == 'MQTT'">
+            <DEFAULT>10</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_QOS" FIELD="CLOSED_LIST"
+            NUM_ROW="14" SHOW_IF="MQ_TYPE == 'MQTT'">
+            <ITEMS DEFAULT="AT_LEAST_ONCE">
+                <ITEM NAME="AT_LEAST_ONCE" VALUE="AtLeastOnce" />
+                <ITEM NAME="AT_MOST_ONCE" VALUE="AtMostOnce" />
+                <ITEM NAME="EXACTLY_ONCE" VALUE="ExactlyOnce" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_CONNECT_WAIT_IN_SECONDS" FIELD="TEXT"
+            NUM_ROW="15" SHOW_IF="MQ_TYPE == 'MQTT'">
+            <DEFAULT>10</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_DISCONNECT_WAIT_IN_SECONDS"
+            FIELD="TEXT" NUM_ROW="16" SHOW_IF="MQ_TYPE == 'MQTT'">
+            <DEFAULT>5</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="MQTT_SEND_WAIT_IN_SECONDS" FIELD="TEXT"
+            NUM_ROW="17" SHOW_IF="MQ_TYPE == 'MQTT'">
+            <DEFAULT>5</DEFAULT>
+        </PARAMETER>
+        <!-- Customized -->
+        <PARAMETER NAME="OTHER_CODE" FIELD="MEMO_JAVA"
+            REQUIRED="false" NUM_ROW="7" NB_LINES="6" SHOW_IF="MQ_TYPE == 'OTHER'">
+            <DEFAULT> /* * Please specify "jmsConnectionFactory" here */
+                //jmsConnectionFactory = new
+                org.apache.activemq.ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
+            </DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="OTHER_DRIVER_JAR" FIELD="TABLE"
+            NUM_ROW="30" NB_LINES="8" REPOSITORY_VALUE="DRIVER_JAR"
+            SHOW_IF="MQ_TYPE == 'OTHER'">
+            <ITEMS>
+                <ITEM NAME="JAR_NAME" FIELD="MODULE_LIST" />
+            </ITEMS>
+        </PARAMETER>
         <PARAMETER NAME="MQTT_AUTH" FIELD="CHECK" REQUIRED="true"
             NUM_ROW="31" SHOW_IF="(MQ_TYPE == 'MQTT')">
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
-        
         <PARAMETER NAME="MQTT_USERNAME" FIELD="TEXT" NUM_ROW="32"
             SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_AUTH == 'true')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-
-        <PARAMETER NAME="MQTT_PASSWORD" FIELD="PASSWORD" NUM_ROW="32"
-            SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_AUTH == 'true')">
+        <PARAMETER NAME="MQTT_PASSWORD" FIELD="PASSWORD"
+            NUM_ROW="32" SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_AUTH == 'true')">
             <DEFAULT>""</DEFAULT>
-        </PARAMETER>    		
+        </PARAMETER>
+    </PARAMETERS>
 
-	</PARAMETERS>
+    <ADVANCED_PARAMETERS />
 
-	<ADVANCED_PARAMETERS>
-	</ADVANCED_PARAMETERS>
-
-	<CODEGENERATION>
-		<IMPORTS>
+    <CODEGENERATION>
+        <IMPORTS>
             <IMPORT MODULE_GROUP="camel-core" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-spring" REQUIRED="true" />
-
-            <IMPORT MODULE_GROUP="camel-jms" REQUIRED="true"/>
-
-            <IMPORT MODULE="activemq-all"
-                    REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ')" />
-            <IMPORT MODULE="commons-pool" 
-                    REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL=='true')" />
-
+            <IMPORT MODULE_GROUP="camel-jms" REQUIRED="true" />
+            <IMPORT MODULE="activemq-all" REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ')" />
+            <IMPORT MODULE="commons-pool"
+                REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL=='true')" />
             <IMPORT MODULE_GROUP="httpclient"
-                    REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ') AND (IS_AMQ_HTTP_BROKER=='true')" />
+                REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ') AND (IS_AMQ_HTTP_BROKER=='true')" />
             <IMPORT MODULE="xstream"
-                    REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ') AND (IS_AMQ_HTTP_BROKER=='true')" />
+                REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ') AND (IS_AMQ_HTTP_BROKER=='true')" />
             <IMPORT MODULE="xpp3"
-                    REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ') AND (IS_AMQ_HTTP_BROKER=='true')" />
+                REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ') AND (IS_AMQ_HTTP_BROKER=='true')" />
+            <IMPORT MODULE_GROUP="camel-amqp" REQUIRED_IF="(MQ_TYPE == 'AMQP')" />
+            <IMPORT MODULE_GROUP="camel-mqtt" REQUIRED_IF="(MQ_TYPE == 'MQTT')" />
+            <IMPORT NAME="javax.transaction"
+                MODULE="javax.transaction_1.1.1.v201105210645.jar"
+                UrlPath="platform:/base/plugins/javax.transaction_1.1.1.v201105210645.jar"
+                REQUIRED_IF="(MQ_TYPE == 'WMQ')" />
+            <IMPORT MODULE="camel-wmq-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-wmq-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-wmq"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-wmq-alldep-${camel.version}.jar"
+                REQUIRED_IF="(MQ_TYPE == 'WMQ_N')" />
+        </IMPORTS>
+    </CODEGENERATION>
 
-            <IMPORT MODULE_GROUP="camel-amqp"
-                    REQUIRED_IF="(MQ_TYPE == 'AMQP')" />
+    <RETURNS />
 
-            <IMPORT MODULE_GROUP="camel-mqtt"
-                    REQUIRED_IF="(MQ_TYPE == 'MQTT')" />
-
-            <IMPORT NAME="javax.transaction" MODULE="javax.transaction_1.1.1.v201105210645.jar" 
-                    UrlPath="platform:/base/plugins/javax.transaction_1.1.1.v201105210645.jar"
-                    REQUIRED_IF="(MQ_TYPE == 'WMQ')" />
-
-            <IMPORT MODULE="camel-wmq-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-wmq-alldep-${camel.version}/6.0.0" NAME="talend-camel-wmq" 
-	            UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-wmq-alldep-${camel.version}.jar"
-                    REQUIRED_IF="(MQ_TYPE == 'WMQ_N')" /> 
-
-		</IMPORTS>
-	</CODEGENERATION>
-
-	<RETURNS />
 </COMPONENT>

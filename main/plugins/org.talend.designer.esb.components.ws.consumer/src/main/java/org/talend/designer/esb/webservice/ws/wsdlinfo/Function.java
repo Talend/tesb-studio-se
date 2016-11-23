@@ -2,14 +2,10 @@ package org.talend.designer.esb.webservice.ws.wsdlinfo;
 
 import javax.xml.namespace.QName;
 
-
-/**
- * 
- * @author gcui
- */
 public class Function {
 
     private static final String ONE_WAY = "one-way"; //$NON-NLS-1$
+
     private static final String REQUEST_RESPONSE = "request-response"; //$NON-NLS-1$
 
     private String name;
@@ -27,8 +23,8 @@ public class Function {
     private String communicationStyle;
 
     /**
-     * Instantiates a new function.
-     * Only for display item, will not save to component node.
+     * Instantiates a new function. Only for display item, will not save to component node.
+     * 
      * @param name the name
      * @param portName the port name
      * @param serviceName the service name
@@ -40,8 +36,8 @@ public class Function {
     }
 
     /**
-     * Instantiates a new function.
-     * May use for save values to component node.
+     * Instantiates a new function. May use for save values to component node.
+     * 
      * @param serviceInfo the service info
      * @param oper the operation info.
      */
@@ -60,7 +56,7 @@ public class Function {
         }
         operationName += "):"; //$NON-NLS-1$
 
-        // output parameters 
+        // output parameters
         ParameterInfo output = oper.getOutput();
         if (output != null) {
             communicationStyle = REQUEST_RESPONSE;
@@ -82,14 +78,15 @@ public class Function {
         this.name = operationName;
     }
 
-	public String getName() {
+    public String getName() {
         return name;
     }
 
     /**
      * Gets the soap action.
      *
-     * @return the soap action, may be <b>null</b> if no attribute <b>soapAction</b> for <b>&lt;soap:operation&gt;</b> in wsdl
+     * @return the soap action, may be <b>null</b> if no attribute <b>soapAction</b> for <b>&lt;soap:operation&gt;</b>
+     * in wsdl
      */
     public String getSoapAction() {
         return soapAction;

@@ -19,11 +19,13 @@ import org.talend.designer.codegen.config.NodesTree;
 
 public class CodeGeneratorArgumentBuilder {
 
-	private CodeGeneratorArgument template;
-	private IRouteProcess process;
-	private NodesTree processTree;
+    private CodeGeneratorArgument template;
 
-	private BeanInfo beanInfo;
+    private IRouteProcess process;
+
+    private NodesTree processTree;
+
+    private BeanInfo beanInfo;
 
     public CodeGeneratorArgumentBuilder(IRouteProcess process, boolean statistics, boolean trace, String[] options) {
         template = new CodeGeneratorArgument();
@@ -43,15 +45,14 @@ public class CodeGeneratorArgumentBuilder {
     }
 
     public CodeGeneratorArgument build() {
-		return cloneTemplate();
-	}
+        return cloneTemplate();
+    }
 
     private CodeGeneratorArgument cloneTemplate() {
         final CodeGeneratorArgument argument = new CodeGeneratorArgument();
         for (PropertyDescriptor propertyDescriptor : beanInfo.getPropertyDescriptors()) {
             final Method rm, wm;
-            if (null != (rm = propertyDescriptor.getReadMethod()) 
-                && null != (wm = propertyDescriptor.getWriteMethod())) {
+            if (null != (rm = propertyDescriptor.getReadMethod()) && null != (wm = propertyDescriptor.getWriteMethod())) {
                 try {
                     wm.invoke(argument, rm.invoke(template));
                 } catch (Exception e) {
@@ -62,57 +63,56 @@ public class CodeGeneratorArgumentBuilder {
         return argument;
     }
 
-	public void setOptions(String[] options) {
-		if (options == null || options.length < 4) {
-			options = new String[] { "", "", "", "" };
-		}
-		template.setInterpreterPath(options[0]);
-		template.setLibPath(options[1]);
-		template.setRuntimeFilePath(options[2]);
-		template.setCurrentProjectName(options[3]);
-	}
+    public void setOptions(String[] options) {
+        if (options == null || options.length < 4) {
+            options = new String[] { "", "", "", "" };
+        }
+        template.setInterpreterPath(options[0]);
+        template.setLibPath(options[1]);
+        template.setRuntimeFilePath(options[2]);
+        template.setCurrentProjectName(options[3]);
+    }
 
-	public void setProcess(IRouteProcess process) {
-		this.process = process;
-		template.setJobName(process.getName());
-		if (process.getVersion() != null) {
-			template.setJobVersion(process.getVersion().replace(".", "_"));
-		}
-		template.setContextName(process.getContextManager().getDefaultContext().getName());
+    public void setProcess(IRouteProcess process) {
+        this.process = process;
+        template.setJobName(process.getName());
+        if (process.getVersion() != null) {
+            template.setJobVersion(process.getVersion().replace(".", "_"));
+        }
+        template.setContextName(process.getContextManager().getDefaultContext().getName());
 
-		template.setIsRunInMultiThread(ProcessUtil.getRunInMultiThread(process));
-	}
+        template.setIsRunInMultiThread(ProcessUtil.getRunInMultiThread(process));
+    }
 
-    
-	public void setContextName(String contextName) {
-		template.setContextName(contextName);
-	}
+    public void setContextName(String contextName) {
+        template.setContextName(contextName);
+    }
 
-	public void setCheckingSyntax(boolean b) {
-		template.setCheckingSyntax(b);
-	}
+    public void setCheckingSyntax(boolean b) {
+        template.setCheckingSyntax(b);
+    }
 
-	public IRouteProcess getProcess() {
-		return process;
-	}
+    public IRouteProcess getProcess() {
+        return process;
+    }
 
-	public IContext getDefaultContext() {
-		return process.getContextManager().getDefaultContext();
-	}
+    public IContext getDefaultContext() {
+        return process.getContextManager().getDefaultContext();
+    }
 
-	public NodesTree getProcessTree() {
-		if (processTree == null) {
-			processTree = new NodesTree(process, getGeneratingNodes(), true, ETypeGen.CAMEL);
-		}
-		return processTree;
-	}
+    public NodesTree getProcessTree() {
+        if (processTree == null) {
+            processTree = new NodesTree(process, getGeneratingNodes(), true, ETypeGen.CAMEL);
+        }
+        return processTree;
+    }
 
-	public List<? extends INode> getGraphicalNodes() {
-		return process.getGraphicalNodes();
-	}
+    public List<? extends INode> getGraphicalNodes() {
+        return process.getGraphicalNodes();
+    }
 
-	public List<? extends INode> getGeneratingNodes() {
-		return process.getGeneratingNodes();
-	}
+    public List<? extends INode> getGeneratingNodes() {
+        return process.getGeneratingNodes();
+    }
 
 }

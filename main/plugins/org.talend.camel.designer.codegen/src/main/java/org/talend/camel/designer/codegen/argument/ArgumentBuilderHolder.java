@@ -5,17 +5,19 @@ import org.talend.designer.codegen.config.NodesTree;
 
 public abstract class ArgumentBuilderHolder {
 
-	protected final CodeGeneratorArgumentBuilder argumentBuilder;
-	protected final IRouteProcess process;
-	protected final NodesTree processTree;
+    protected final CodeGeneratorArgumentBuilder argumentBuilder;
 
-	public ArgumentBuilderHolder(CodeGeneratorArgumentBuilder argumentBuilder) {
-		this.argumentBuilder = argumentBuilder;
-		process = argumentBuilder.getProcess();
-		processTree = argumentBuilder.getProcessTree();
-	}
+    protected final IRouteProcess process;
 
-	public CodeGeneratorArgumentBuilder getArgumentBuilder() {
-		return argumentBuilder;
-	}
+    protected final NodesTree processTree;
+
+    public ArgumentBuilderHolder(CodeGeneratorArgumentBuilder argumentBuilder) {
+        this.argumentBuilder = argumentBuilder;
+        process = argumentBuilder.getProcess();
+        processTree = argumentBuilder.getProcessTree();
+    }
+
+    public CodeGeneratorArgumentBuilder getArgumentBuilder() {
+        return argumentBuilder;
+    }
 }

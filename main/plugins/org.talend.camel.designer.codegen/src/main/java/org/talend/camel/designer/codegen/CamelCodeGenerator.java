@@ -27,16 +27,12 @@ import org.talend.designer.codegen.exception.CodeGeneratorException;
 
 public class CamelCodeGenerator implements ICodeGenerator {
 
-	private static final boolean DEBUG = false;
+    private static final boolean DEBUG = false;
 
-	private final PartGeneratorManager partGeneratorManager;
+    private final PartGeneratorManager partGeneratorManager;
 
-   /**
-     * Constructor : use the process and language to initialize internal
-     * components.
-     * 
-     * @param process
-     * @param language
+    /**
+     * Constructor : use the process and language to initialize internal components.
      */
     public CamelCodeGenerator(IRouteProcess process, boolean statistics, boolean trace, String... options) {
         if (DEBUG) {
@@ -48,63 +44,53 @@ public class CamelCodeGenerator implements ICodeGenerator {
         }
         partGeneratorManager = new PartGeneratorManager(process, statistics, trace, options);
     }
-	/**
-	 * Generate the code for the process given to the constructor.
-	 * 
-	 * @return the generated code
-	 * @throws CodeGeneratorException
-	 *             if an error occurs during Code Generation
-	 */
-	@Override
-	public String generateProcessCode() throws CodeGeneratorException {
-		JetUtil.checkEmittersPoolFactoryIsReady();
-		return partGeneratorManager.generateProcessCode();
-	}
 
-	/**
-	 * Generate Part Code for a given Component.
-	 * 
-	 * @param node
-	 *            the component
-	 * @param part
-	 *            the component's part
-	 * @return the generated code
-	 * @throws CodeGeneratorException
-	 *             if an error occurs during Code Generation
-	 */
-	@Override
-	public String generateComponentCode(INode node, ECodePart part) throws CodeGeneratorException {
-		return partGeneratorManager.createNodePartBuilder()
-				.setNode(node)
-				.setPart(part)
-				.append(ECamelTemplate.PART_HEADER)
-				.appendContent()
-				.append(ECamelTemplate.PART_FOOTER)
-				.build().toString();
-	}
+    /**
+     * Generate the code for the process given to the constructor.
+     * 
+     * @return the generated code
+     * @throws CodeGeneratorException if an error occurs during Code Generation
+     */
+    @Override
+    public String generateProcessCode() throws CodeGeneratorException {
+        JetUtil.checkEmittersPoolFactoryIsReady();
+        return partGeneratorManager.generateProcessCode();
+    }
 
-	/**
-	 * Parse Process, and generate Code for Context Variables.
-	 * 
-	 * @param designerContext
-	 *            the context to generate code from
-	 * @return the generated code
-	 * @throws CodeGeneratorException
-	 *             if an error occurs during Code Generation
-	 */
-	@Override
-	public String generateContextCode(IContext designerContext) throws CodeGeneratorException {
-		return partGeneratorManager.generateContextCode(designerContext);
-	}
+    /**
+     * Generate Part Code for a given Component.
+     * 
+     * @param node the component
+     * @param part the component's part
+     * @return the generated code
+     * @throws CodeGeneratorException if an error occurs during Code Generation
+     */
+    @Override
+    public String generateComponentCode(INode node, ECodePart part) throws CodeGeneratorException {
+        return partGeneratorManager.createNodePartBuilder().setNode(node).setPart(part).append(ECamelTemplate.PART_HEADER)
+                .appendContent().append(ECamelTemplate.PART_FOOTER).build().toString();
+    }
 
-	@Override
-	public String generateComponentCodeWithRows(String nodeName, IAloneProcessNodeConfigurer nodeConfigurer) {
-		// TODO do more check if it invoked for route. Need do more checks.
-		throw new IllegalAccessError("method not support for route job. ");
-	}
+    /**
+     * Parse Process, and generate Code for Context Variables.
+     * 
+     * @param designerContext the context to generate code from
+     * @return the generated code
+     * @throws CodeGeneratorException if an error occurs during Code Generation
+     */
+    @Override
+    public String generateContextCode(IContext designerContext) throws CodeGeneratorException {
+        return partGeneratorManager.generateContextCode(designerContext);
+    }
 
-	@Override
-	public void setContextName(String contextName) {
-		partGeneratorManager.getArgumentBuilder().setContextName(contextName);
-	}
+    @Override
+    public String generateComponentCodeWithRows(String nodeName, IAloneProcessNodeConfigurer nodeConfigurer) {
+        // TODO do more check if it invoked for route. Need do more checks.
+        throw new IllegalAccessError("method not support for route job. ");
+    }
+
+    @Override
+    public void setContextName(String contextName) {
+        partGeneratorManager.getArgumentBuilder().setContextName(contextName);
+    }
 }

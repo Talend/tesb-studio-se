@@ -19,13 +19,11 @@ import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.repository.services.utils.ESBRepositoryNodeType;
 import org.talend.repository.tester.AbstractNodeTypeTester;
 
-/**
- * DOC ggu class global comment. Detailled comment
- */
 public class ServicesNodeTester extends AbstractNodeTypeTester {
 
     @SuppressWarnings("serial")
     private static final Map<String, ERepositoryObjectType> PROPERTY_MAPPING = new HashMap<String, ERepositoryObjectType>() {
+
         {
             put("isServicesNode", ESBRepositoryNodeType.SERVICES); //$NON-NLS-1$
             put("isServicesPortNode", ESBRepositoryNodeType.SERVICEPORT); //$NON-NLS-1$

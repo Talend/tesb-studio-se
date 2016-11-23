@@ -42,6 +42,7 @@ public class CamelNewProcessWizard extends NewProcessWizard {
     @Override
     protected NewProcessWizardPage createWizardPage(Property property, IPath destinationPath) {
         final NewProcessWizardPage page = new NewProcessWizardPage(property, destinationPath) {
+
             @Override
             public ERepositoryObjectType getRepositoryObjectType() {
                 return CamelRepositoryNodeType.repositoryRoutesType;
@@ -54,7 +55,7 @@ public class CamelNewProcessWizard extends NewProcessWizard {
 
     @Override
     protected void createProcessItem() {
-        //ADDED for TESB-7887 By GangLiu
+        // ADDED for TESB-7887 By GangLiu
         getProcess().setSpringContent(CamelSpringUtil.getDefaultContent(getProcess()));
         super.createProcessItem();
     }

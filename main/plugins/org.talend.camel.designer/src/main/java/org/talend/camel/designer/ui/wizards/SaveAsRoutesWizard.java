@@ -33,10 +33,7 @@ import org.talend.repository.model.IRepositoryService;
 import org.talend.repository.model.RepositoryNode;
 
 /**
- * Wizard for the creation of a new project. <br/>
- * 
- * $Id: NewProcessWizard.java 46332 2010-08-05 06:48:56Z cli $
- * 
+ * Wizard for the creation of a new project.
  */
 public class SaveAsRoutesWizard extends Wizard {
 

@@ -19,14 +19,8 @@ import org.talend.core.model.properties.ReferenceFileItem;
 import org.talend.repository.items.importexport.handlers.imports.ImportRepTypeHandler;
 import org.talend.repository.items.importexport.handlers.model.ImportItem;
 
-/**
- * DOC ggu class global comment. Detailled comment
- */
 public class RouteResourceImportHandler extends ImportRepTypeHandler {
 
-    /**
-     * DOC ggu RouteResourceImportHandler constructor comment.
-     */
     public RouteResourceImportHandler() {
         super();
     }

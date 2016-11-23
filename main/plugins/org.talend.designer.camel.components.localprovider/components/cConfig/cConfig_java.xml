@@ -1,73 +1,69 @@
 <COMPONENT>
-  <HEADER
-    PLATEFORM="ALL"
-       SERIAL=""
-      VERSION="0.101"
-       STATUS="ALPHA"
-         
-COMPATIBILITY="ALL"
-       AUTHOR="Talend"
- RELEASE_DATE="20070210A"
-    STARTABLE="false"
-  >
-    <SIGNATURE></SIGNATURE>
-  </HEADER>
 
-  <FAMILIES>
-    <FAMILY>Custom</FAMILY>
-  </FAMILIES>
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.101" STATUS="ALPHA"
+        COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20070210A"
+        STARTABLE="false">
+        <SIGNATURE></SIGNATURE>
+    </HEADER>
 
-  <DOCUMENTATION>
-    <URL/>
-  </DOCUMENTATION>
+    <FAMILIES>
+        <FAMILY>Custom</FAMILY>
+    </FAMILIES>
 
-  <CONNECTORS>
-  	<CONNECTOR CTYPE="ROUTE" MAX_INPUT="0" MAX_OUTPUT="0"/> 
-  </CONNECTORS>
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
 
-  <PARAMETERS>    
-  	<PARAMETER NAME="IMPORT" FIELD="MEMO_IMPORT" REQUIRED="false" NUM_ROW="2" NB_LINES="3">
-	    <DEFAULT>//import java.util.List;</DEFAULT>
-	 </PARAMETER>   
-	  <PARAMETER NAME="CODE" FIELD="MEMO_JAVA" REQUIRED="false" NUM_ROW="15" NB_LINES="9">
-	    <DEFAULT>
+    <CONNECTORS>
+        <CONNECTOR CTYPE="ROUTE" MAX_INPUT="0" MAX_OUTPUT="0" />
+    </CONNECTORS>
+
+    <PARAMETERS>
+        <PARAMETER NAME="IMPORT" FIELD="MEMO_IMPORT" REQUIRED="false"
+            NUM_ROW="2" NB_LINES="3">
+            <DEFAULT>//import java.util.List;</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="CODE" FIELD="MEMO_JAVA" REQUIRED="false"
+            NUM_ROW="15" NB_LINES="9">
+<DEFAULT>
 /*
-*	Here you can put Java code that will be used within the route.
-* 
-*   Usually you would register custom components in camelContext or
-*   manipulate typeConverterRegistry.
-*  
-*   For example:
-* 
-*     // Declaring a custom component in the Camel Context
-*     camelContext.addComponent("component", new  org.apache.camel.component.dataset.DataSetComponent());
-* 
-*     // Register a special type conversion 
-*     typeConverterRegistry.addTypeConverter(String.class, Object.class, new org.apache.camel.impl.converter.ToStringTypeConverter());
-*/
+ *   Here you can put Java code that will be used within the route.
+ * 
+ *   Usually you would register custom components in camelContext or
+ *   manipulate typeConverterRegistry.
+ *  
+ *   For example:
+ * 
+ *     // Declaring a custom component in the Camel Context
+ *     camelContext.addComponent("component", new  org.apache.camel.component.dataset.DataSetComponent());
+ * 
+ *     // Register a special type conversion 
+ *     typeConverterRegistry.addTypeConverter(String.class, Object.class, new org.apache.camel.impl.converter.ToStringTypeConverter());
+ */
 </DEFAULT>
-	  </PARAMETER>
-	<PARAMETER NAME="DRIVER_JAR" FIELD="TABLE" NUM_ROW="30"
-		NB_LINES="8" REPOSITORY_VALUE="DRIVER_JAR">
-		<ITEMS>
-			<ITEM NAME="JAR_NAME" FIELD="MODULE_LIST" />
-		</ITEMS>
-	</PARAMETER>
-	<PARAMETER NAME="WARNING" FIELD="LABEL" NUM_ROW="32">
-		<DEFAULT>*Note: External JARs will not be embedded in OSGi bundle by default, to configure it please edit Route Manifest</DEFAULT>
-	</PARAMETER>
-  </PARAMETERS>
-   
-   
-   <ADVANCED_PARAMETERS>
-        <PARAMETER NAME="USE_MDC_LOGGING" FIELD="CHECK" REQUIRED="false" NUM_ROW="10" REPOSITORY_VALUE="USE_MDC_LOGGING">
+        </PARAMETER>
+        <PARAMETER NAME="DRIVER_JAR" FIELD="TABLE" NUM_ROW="30"
+            NB_LINES="8" REPOSITORY_VALUE="DRIVER_JAR">
+            <ITEMS>
+                <ITEM NAME="JAR_NAME" FIELD="MODULE_LIST" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="WARNING" FIELD="LABEL" NUM_ROW="32">
+            <DEFAULT>*Note: External JARs will not be embedded in OSGi
+                bundle by default, to configure it please edit Route
+                Manifest</DEFAULT>
+        </PARAMETER>
+    </PARAMETERS>
+
+    <ADVANCED_PARAMETERS>
+        <PARAMETER NAME="USE_MDC_LOGGING" FIELD="CHECK"
+            REQUIRED="false" NUM_ROW="10" REPOSITORY_VALUE="USE_MDC_LOGGING">
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
-   </ADVANCED_PARAMETERS>
+    </ADVANCED_PARAMETERS>
 
-   <CODEGENERATION>	
-	</CODEGENERATION>
+    <CODEGENERATION />
 
-   <RETURNS/>
+    <RETURNS />
 
 </COMPONENT>

@@ -14,11 +14,8 @@ package org.talend.repository.services.utils;
 
 import org.talend.commons.ui.runtime.image.IImage;
 
-/**
- * DOC hwang class global comment. Detailled comment
- */
 public enum ESBImage implements IImage {
-    SERVICE_ICON("/icons/unknown.gif"); //$NON-NLS-1$
+                                        SERVICE_ICON("/icons/unknown.gif"); //$NON-NLS-1$
 
     private String path;
 
@@ -30,20 +27,12 @@ public enum ESBImage implements IImage {
         this.path = path;
     }
 
-    /**
-     * Getter for path.
-     * 
-     * @return the path
-     */
+    @Override
     public String getPath() {
         return this.path;
     }
 
-    /**
-     * Getter for clazz.
-     * 
-     * @return the clazz
-     */
+    @Override
     public Class getLocation() {
         return ESBImage.class;
     }

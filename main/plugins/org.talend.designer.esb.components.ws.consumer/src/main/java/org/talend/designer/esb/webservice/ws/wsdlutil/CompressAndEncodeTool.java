@@ -21,22 +21,22 @@ import org.apache.commons.codec.binary.Base64OutputStream;
 public class CompressAndEncodeTool {
 
     /**
-     * Gets WSDL as ZLIB-compressed and Base64-encoded String.
-     * Use ZipStream -> InflaterStream -> Base64Stream to read.
+     * Gets WSDL as ZLIB-compressed and Base64-encoded String. Use ZipStream -> InflaterStream -> Base64Stream to read.
+     * 
      * @return WSDL as String object. Or null in case errors/not possible to create object.
-     * @throws WSDLException 
-     * @throws IOException 
+     * @throws WSDLException
+     * @throws IOException
      */
-	public static String compressAndEncode(Definition definition) throws IOException, WSDLException {
-    	ByteArrayOutputStream wsdlOs = new ByteArrayOutputStream();
+    public static String compressAndEncode(Definition definition) throws IOException, WSDLException {
+        ByteArrayOutputStream wsdlOs = new ByteArrayOutputStream();
         OutputStream os = compressAndEncodeStream(wsdlOs);
         ZipOutputStream zipOs = new ZipOutputStream(os);
         try {
-        	ZipEntry zipEntry = new ZipEntry("main.wsdl");
-			zipOs.putNextEntry(zipEntry);
+            ZipEntry zipEntry = new ZipEntry("main.wsdl");
+            zipOs.putNextEntry(zipEntry);
             WSDLFactory.newInstance().newWSDLWriter().writeWSDL(definition, zipOs);
             appendImportDifinitions(definition, zipOs);
-		} finally {
+        } finally {
             if (null != zipOs) {
                 zipOs.close();
             }
@@ -44,18 +44,18 @@ public class CompressAndEncodeTool {
         return wsdlOs.toString();
     }
 
-	private static OutputStream compressAndEncodeStream(OutputStream os) {
+    private static OutputStream compressAndEncodeStream(OutputStream os) {
         return new DeflaterOutputStream(new Base64OutputStream(os));
     }
-	
-	@SuppressWarnings("unchecked")
-	private static void appendImportDifinitions(Definition definition, ZipOutputStream zipOs) throws IOException, WSDLException {
-        for (Collection<Import> vector : (Collection<Collection<Import>>)definition.getImports().values()) {
-			for (Import impt : vector) {
-				zipOs.putNextEntry(new ZipEntry(impt.getLocationURI()));
-				WSDLFactory.newInstance().newWSDLWriter().writeWSDL(impt.getDefinition(), zipOs);
-				appendImportDifinitions(impt.getDefinition(), zipOs);
-			}
-		}
+
+    @SuppressWarnings("unchecked")
+    private static void appendImportDifinitions(Definition definition, ZipOutputStream zipOs) throws IOException, WSDLException {
+        for (Collection<Import> vector : (Collection<Collection<Import>>) definition.getImports().values()) {
+            for (Import impt : vector) {
+                zipOs.putNextEntry(new ZipEntry(impt.getLocationURI()));
+                WSDLFactory.newInstance().newWSDLWriter().writeWSDL(impt.getDefinition(), zipOs);
+                appendImportDifinitions(impt.getDefinition(), zipOs);
+            }
+        }
     }
 }

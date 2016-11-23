@@ -17,16 +17,17 @@ class ExBundleClasspath extends ExManifestItem<BundleClasspath> {
     private static final String SEPARATOR = ","; //$NON-NLS-1$
 
     private final String name;
+
     private final boolean isOptional;
 
     ExBundleClasspath(String name, boolean isOptional) {
         this.name = name;
         this.isOptional = isOptional;
-	}
+    }
 
     @Override
     protected Collection<BundleClasspath> to(NodeType t) {
-        final Collection<BundleClasspath> bundleClasspaths = new HashSet<BundleClasspath>();
+        final Collection<BundleClasspath> bundleClasspaths = new HashSet<>();
         for (Object e : t.getElementParameter()) {
             final ElementParameterType p = (ElementParameterType) e;
             if (name.equals(p.getName())) {
@@ -62,7 +63,7 @@ class ExBundleClasspath extends ExManifestItem<BundleClasspath> {
 
     @Override
     protected Collection<BundleClasspath> to(INode node) {
-        final Collection<BundleClasspath> bundleClasspaths = new HashSet<BundleClasspath>();
+        final Collection<BundleClasspath> bundleClasspaths = new HashSet<>();
         final IElementParameter ep = node.getElementParameter(name);
         if (null != ep) {
             final Object elementValue = ep.getValue();

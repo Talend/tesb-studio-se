@@ -17,54 +17,54 @@ import org.talend.designer.codegen.exception.CodeGeneratorException;
 
 public class ContextPartGenerator extends ArgumentBuilderHolder implements PartGenerator<IContext> {
 
-	private static Logger log = Logger.getLogger(ContextPartGenerator.class);
+    private static Logger log = Logger.getLogger(ContextPartGenerator.class);
 
-	public ContextPartGenerator(CodeGeneratorArgumentBuilder argumentBuilder) {
-		super(argumentBuilder);
-	}
+    public ContextPartGenerator(CodeGeneratorArgumentBuilder argumentBuilder) {
+        super(argumentBuilder);
+    }
 
-	@Override
-	public CharSequence generatePart(IContext designerContext, Object... ignoreParamsP) throws CodeGeneratorException {
-		return generatePart(designerContext);
-	}
+    @Override
+    public CharSequence generatePart(IContext designerContext, Object... ignoreParamsP) throws CodeGeneratorException {
+        return generatePart(designerContext);
+    }
 
-	public CharSequence generatePart(IContext designerContext) throws CodeGeneratorException {
-		List<IContextParameter> listParameters = designerContext.getContextParameterList();
-		if (listParameters == null) {
-			return "";
-		}
-		CodeGeneratorArgument codeGenArgument = argumentBuilder.build();
+    public CharSequence generatePart(IContext designerContext) throws CodeGeneratorException {
+        List<IContextParameter> listParameters = designerContext.getContextParameterList();
+        if (listParameters == null) {
+            return "";
+        }
+        CodeGeneratorArgument codeGenArgument = argumentBuilder.build();
 
-		codeGenArgument.setContextName(designerContext.getName());
+        codeGenArgument.setContextName(designerContext.getName());
 
-		List<IContextParameter> listParametersCopy = tranformEncryptedParams(listParameters);
-		codeGenArgument.setNode(listParametersCopy);
+        List<IContextParameter> listParametersCopy = tranformEncryptedParams(listParameters);
+        codeGenArgument.setNode(listParametersCopy);
 
-		JetBean jetBean = JetUtil.createJetBean(codeGenArgument);
-		jetBean.setTemplateRelativeUri(ECamelTemplate.CONTEXT.getTemplateURL());
-		return JetUtil.jetGenerate(jetBean);
-	}
+        JetBean jetBean = JetUtil.createJetBean(codeGenArgument);
+        jetBean.setTemplateRelativeUri(ECamelTemplate.CONTEXT.getTemplateURL());
+        return JetUtil.jetGenerate(jetBean);
+    }
 
-	private static List<IContextParameter> tranformEncryptedParams(List<IContextParameter> listParameters) {
-		 List<IContextParameter> listParametersCopy = new ArrayList<IContextParameter>(listParameters.size());
+    private static List<IContextParameter> tranformEncryptedParams(List<IContextParameter> listParameters) {
+        List<IContextParameter> listParametersCopy = new ArrayList<>(listParameters.size());
 
-	        // encrypt the password
-	        for (IContextParameter iContextParameter : listParameters) {
-	            if (PasswordEncryptUtil.isPasswordType(iContextParameter.getType())) {
-	                IContextParameter icp = iContextParameter.clone();
-	                String pwd = icp.getValue();
-	                if (pwd != null && !pwd.isEmpty()) {
-	                    try {
-	                        icp.setValue(PasswordEncryptUtil.encryptPasswordHex(pwd));
-	                    } catch (Exception e) {
-	                        log.error(e.getMessage(), e);
-	                    }
-	                }
-	                listParametersCopy.add(icp);
-	            } else {
-	                listParametersCopy.add(iContextParameter);
-	            }
-	        }
-		return listParametersCopy;
-	}
+        // encrypt the password
+        for (IContextParameter iContextParameter : listParameters) {
+            if (PasswordEncryptUtil.isPasswordType(iContextParameter.getType())) {
+                IContextParameter icp = iContextParameter.clone();
+                String pwd = icp.getValue();
+                if (pwd != null && !pwd.isEmpty()) {
+                    try {
+                        icp.setValue(PasswordEncryptUtil.encryptPasswordHex(pwd));
+                    } catch (Exception e) {
+                        log.error(e.getMessage(), e);
+                    }
+                }
+                listParametersCopy.add(icp);
+            } else {
+                listParametersCopy.add(iContextParameter);
+            }
+        }
+        return listParametersCopy;
+    }
 }

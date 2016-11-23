@@ -18,9 +18,6 @@ import java.util.ResourceBundle;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.talend.designer.core.ILocalProviderService;
 
-/**
- * DOC guanglong.du class global comment. Detailled comment
- */
 public class CamelLocalProviderService implements ILocalProviderService {
 
     @Override

@@ -15,9 +15,6 @@ package org.talend.designer.esb.webservice.ui;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-/*
- * DOC Administrator class global comment. Detailled comment
- */
 public class Messages {
 
     private static final String BUNDLE_NAME = "org.talend.designer.esb.webservice.ui.messages"; //$NON-NLS-1$
@@ -34,4 +31,5 @@ public class Messages {
             return '!' + key + '!';
         }
     }
+
 }

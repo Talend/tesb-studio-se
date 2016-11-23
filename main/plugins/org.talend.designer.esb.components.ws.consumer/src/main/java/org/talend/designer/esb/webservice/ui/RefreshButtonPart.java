@@ -18,27 +18,29 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.talend.commons.ui.runtime.image.EImage;
 
-interface RefreshEventListener extends EventListener{
-	void refreshTriggered();
+interface RefreshEventListener extends EventListener {
+
+    void refreshTriggered();
 }
 
 public class RefreshButtonPart extends AbstractButtonPart<RefreshEventListener> {
-	public RefreshButtonPart(RefreshEventListener eventListener) {
-		super(eventListener);
-	}
 
-	@Override
-	protected void buttonSelected(SelectionEvent e) {
-		listener.refreshTriggered();
-	}
+    public RefreshButtonPart(RefreshEventListener eventListener) {
+        super(eventListener);
+    }
 
-	@Override
-	protected String getMessageKey() {
-		return null;
-	}
+    @Override
+    protected void buttonSelected(SelectionEvent e) {
+        listener.refreshTriggered();
+    }
 
-	@Override
-	protected Image getImage() {
-		return getImageFromIImage(EImage.REFRESH_ICON);
-	}
+    @Override
+    protected String getMessageKey() {
+        return null;
+    }
+
+    @Override
+    protected Image getImage() {
+        return getImageFromIImage(EImage.REFRESH_ICON);
+    }
 }

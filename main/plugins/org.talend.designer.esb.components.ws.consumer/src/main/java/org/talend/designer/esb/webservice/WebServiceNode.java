@@ -30,16 +30,18 @@ import org.talend.designer.esb.webservice.ui.dialog.WebServiceDialog;
 
 public class WebServiceNode extends AbstractExternalNode {
 
+    @Override
     public int open(Display display) { // button event
         return open(display.getActiveShell());
     }
 
+    @Override
     public int open(Composite parent) {// double click in job
-       return open(parent.getShell());
+        return open(parent.getShell());
     }
 
     private int open(Shell shell) {
-    	setParamValue(EParameterName.UPDATE_COMPONENTS.getName(), Boolean.TRUE);
+        setParamValue(EParameterName.UPDATE_COMPONENTS.getName(), Boolean.TRUE);
 
         WizardDialog wizardDialog = new WizardDialog(shell, new WebServiceDialog(this));
         return (Window.OK == wizardDialog.open()) ? SWT.OK : SWT.CANCEL;
@@ -65,42 +67,49 @@ public class WebServiceNode extends AbstractExternalNode {
         }
     }
 
-	public boolean getBooleanValue(String key) {
-		Object value = getParamValue(key);
-		if(value == null) {
-			return false;
-		}
-		if(value instanceof Boolean) {
-			return (Boolean) value;
-		}
-		return BooleanUtils.toBoolean(value.toString());
-	}
+    public boolean getBooleanValue(String key) {
+        Object value = getParamValue(key);
+        if (value == null) {
+            return false;
+        }
+        if (value instanceof Boolean) {
+            return (Boolean) value;
+        }
+        return BooleanUtils.toBoolean(value.toString());
+    }
 
     @Override
     protected void renameMetadataColumnName(String conectionName, String oldColumnName, String newColumnName) {
-    	throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException();
     }
 
+    @Override
     public IComponentDocumentation getComponentDocumentation(String componentName, String tempFolderPath) {
         return null;
     }
 
+    @Override
     public void initialize() {
     }
 
+    @Override
     public void renameInputConnection(String oldName, String newName) {
     }
 
+    @Override
     public void renameOutputConnection(String oldName, String newName) {
     }
 
+    @Override
     public void setExternalData(IExternalData persistentData) {
     }
 
+    @Override
     public IExternalData getTMapExternalData() {
         return null;
     }
 
+    @Override
     public void metadataOutputChanged(IMetadataTable currentMetadata) {
     }
 

@@ -26,10 +26,7 @@ import org.talend.camel.designer.CamelDesignerPlugin;
 import org.talend.camel.designer.i18n.Messages;
 
 /**
- * Job scripts export wizard. <br/>
- * 
- * $Id: JobScriptsExportWizard.java 1 2006-12-13 ä¸‹å�ˆ03:13:18 bqian
- * 
+ * Job scripts export wizard.
  */
 public class JobCamelScriptsExportWizard extends Wizard implements IExportWizard {
 
@@ -56,6 +53,7 @@ public class JobCamelScriptsExportWizard extends Wizard implements IExportWizard
         addPage(mainPage);
     }
 
+    @Override
     public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
         this.selection = currentSelection;
         List<?> selectedResources = IDE.computeSelectedResources(currentSelection);

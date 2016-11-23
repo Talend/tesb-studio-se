@@ -34,9 +34,6 @@ import org.talend.designer.camel.resource.core.model.ResourceDependencyModel;
 import org.talend.designer.camel.resource.core.util.RouteResourceUtil;
 import org.talend.designer.core.ICamelDesignerCoreService;
 
-/**
- * DOC guanglong.du class global comment. Detailled comment
- */
 public class CamelDesignerCoreService implements ICamelDesignerCoreService {
 
     @Override

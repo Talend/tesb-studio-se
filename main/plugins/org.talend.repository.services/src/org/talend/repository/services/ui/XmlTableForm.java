@@ -44,9 +44,6 @@ import org.talend.core.model.properties.XmlFileConnectionItem;
 import org.talend.cwm.helper.ConnectionHelper;
 import org.talend.repository.i18n.Messages;
 
-/**
- * DOC talend2 class global comment. Detailled comment
- */
 public class XmlTableForm extends Composite {
 
     private ICompleteListener completeListener;
@@ -60,8 +57,11 @@ public class XmlTableForm extends Composite {
     private Button selectNoneTablesButton;
 
     private static class Item {
+
         private final XmlFileConnectionItem obj;
+
         private String label;
+
         private boolean check;
 
         public Item(XmlFileConnectionItem obj) {
@@ -94,16 +94,9 @@ public class XmlTableForm extends Composite {
 
     private final List<Item> items;
 
-
-    /**
-     * DOC Administrator FileTableForm constructor comment.
-     * 
-     * @param parent
-     * @param style
-     */
     public XmlTableForm(Composite parent, Collection<XmlFileConnectionItem> fileRepObjList) {
         super(parent, SWT.NONE);
-        items = new ArrayList<Item>(fileRepObjList.size());
+        items = new ArrayList<>(fileRepObjList.size());
         for (XmlFileConnectionItem obj : fileRepObjList) {
             items.add(new Item(obj));
         }
@@ -122,10 +115,12 @@ public class XmlTableForm extends Composite {
         nameFilter.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         // List Table
-        table = new Table(groupTableSettings, SWT.BORDER | SWT.CHECK | SWT.MULTI | SWT.VIRTUAL); 
+        table = new Table(groupTableSettings, SWT.BORDER | SWT.CHECK | SWT.MULTI | SWT.VIRTUAL);
         table.addListener(SWT.SetData, new Listener() {
-            public void handleEvent(Event event) { 
-                TableItem tableItem = (TableItem)event.item;
+
+            @Override
+            public void handleEvent(Event event) {
+                TableItem tableItem = (TableItem) event.item;
                 @SuppressWarnings("unchecked")
                 List<Item> items = (List<Item>) table.getData();
                 Item item = items.get(event.index);
@@ -133,7 +128,7 @@ public class XmlTableForm extends Composite {
                 tableItem.setImage(ImageProvider.getImage(ECoreImage.METADATA_FILE_XML_ICON));
                 tableItem.setChecked(item.isCheck());
                 tableItem.setData(item);
-            } 
+            }
         });
         TableColumn tableName = new TableColumn(table, SWT.NONE);
         tableName.setWidth(300);
@@ -167,12 +162,13 @@ public class XmlTableForm extends Composite {
     private void addFieldsListeners() {
         nameFilter.addModifyListener(new ModifyListener() {
 
+            @Override
             public void modifyText(ModifyEvent e) {
                 String pattern = nameFilter.getText();
                 SearchPattern matcher = new SearchPattern();
                 matcher.setPattern(pattern);
 
-                final List<Item> newList = new ArrayList<Item>();
+                final List<Item> newList = new ArrayList<>();
                 for (Item item : items) {
                     if (matcher.matches(item.getLabel())) {
                         newList.add(item);
@@ -198,13 +194,15 @@ public class XmlTableForm extends Composite {
             }
         });
         table.addControlListener(new ControlAdapter() {
+
             @Override
             public void controlResized(ControlEvent e) {
-                table.getColumns()[0].setWidth(table.getClientArea().width - 2*table.getBorderWidth());
+                table.getColumns()[0].setWidth(table.getClientArea().width - 2 * table.getBorderWidth());
             }
         });
 
         selectAllTablesButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 setChecked(true);
@@ -212,6 +210,7 @@ public class XmlTableForm extends Composite {
         });
 
         selectNoneTablesButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(final SelectionEvent e) {
                 setChecked(false);
@@ -236,7 +235,7 @@ public class XmlTableForm extends Composite {
     }
 
     public Collection<XmlFileConnectionItem> getSelectionItems() {
-        final Collection<XmlFileConnectionItem> itemMap = new ArrayList<XmlFileConnectionItem>();
+        final Collection<XmlFileConnectionItem> itemMap = new ArrayList<>();
         for (TableItem tableItem : table.getItems()) {
             if (tableItem.getChecked()) {
                 itemMap.add(((Item) tableItem.getData()).getObj());
@@ -246,6 +245,7 @@ public class XmlTableForm extends Composite {
     }
 
     interface ICompleteListener {
+
         void setComplete(boolean complete);
     }
 

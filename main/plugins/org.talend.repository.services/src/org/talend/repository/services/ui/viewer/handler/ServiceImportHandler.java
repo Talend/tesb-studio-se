@@ -14,14 +14,8 @@ package org.talend.repository.services.ui.viewer.handler;
 
 import org.talend.repository.items.importexport.handlers.imports.ImportRepTypeHandler;
 
-/**
- * DOC ggu class global comment. Detailled comment
- */
 public class ServiceImportHandler extends ImportRepTypeHandler {
 
-    /**
-     * DOC ggu ServiceImportHandler constructor comment.
-     */
     public ServiceImportHandler() {
         super();
     }

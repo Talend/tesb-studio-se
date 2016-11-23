@@ -51,9 +51,8 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
     }
 
     @SuppressWarnings("unchecked")
-    public void createBlueprint(File outputFile, Map<ServicePort, Map<String, String>> ports,
-            Map<String, String> additionalInfo, IFile wsdl, String studioServiceName)
-                    throws IOException, CoreException {
+    public void createBlueprint(File outputFile, Map<ServicePort, Map<String, String>> ports, Map<String, String> additionalInfo,
+            IFile wsdl, String studioServiceName) throws IOException, CoreException {
 
         // TODO: support multiport!!!
         Entry<ServicePort, Map<String, String>> studioPort = ports.entrySet().iterator().next();
@@ -102,7 +101,7 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
             }
         }
 
-        Map<String, Object> endpointInfo = new HashMap<String, Object>();
+        Map<String, Object> endpointInfo = new HashMap<>();
         endpointInfo.put("namespace", serviceQName.getNamespaceURI()); //$NON-NLS-1$
         endpointInfo.put("service", serviceQName.getLocalPart()); //$NON-NLS-1$
         endpointInfo.put("port", endpointName); //$NON-NLS-1$
@@ -110,7 +109,7 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
         endpointInfo.put("studioName", studioServiceName); //$NON-NLS-1$
         endpointInfo.put("wsdlLocation", wsdl.getName()); //$NON-NLS-1$
 
-        Map<String, String> operation2job = new HashMap<String, String>();
+        Map<String, String> operation2job = new HashMap<>();
         for (Map.Entry<ServicePort, Map<String, String>> port : ports.entrySet()) {
             // TODO: actual port work
             for (Map.Entry<String, String> operation : port.getValue().entrySet()) {
@@ -121,43 +120,35 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
 
         boolean isStudioEEVersion = isStudioEEVersion();
 
-        boolean useRegistry = isStudioEEVersion &&
-                Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_SERVICE_REGISTRY));
-        boolean useSL =
-                Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_SL));
-        boolean useSAM = !useRegistry &&
-                Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_SAM));
-        boolean useSecurityToken = !useRegistry &&
-                Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.SECURITY_BASIC));
-        boolean useSecuritySAML = !useRegistry &&
-                Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.SECURITY_SAML));
-        boolean useAuthorization = !useRegistry &&
-                isStudioEEVersion &&
-                useSecuritySAML &&
-                Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.AUTHORIZATION));
-        boolean useEncryption =!useRegistry &&
-                isStudioEEVersion &&
-                useSecuritySAML &&
-                Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.ENCRYPTION));
+        boolean useRegistry = isStudioEEVersion
+                && Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_SERVICE_REGISTRY));
+        boolean useSL = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_SL));
+        boolean useSAM = !useRegistry && Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_SAM));
+        boolean useSecurityToken = !useRegistry && Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.SECURITY_BASIC));
+        boolean useSecuritySAML = !useRegistry && Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.SECURITY_SAML));
+        boolean useAuthorization = !useRegistry && isStudioEEVersion && useSecuritySAML
+                && Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.AUTHORIZATION));
+        boolean useEncryption = !useRegistry && isStudioEEVersion && useSecuritySAML
+                && Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.ENCRYPTION));
         boolean logMessages = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.LOG_MESSAGES));
-        boolean wsdlSchemaValidation = isStudioEEVersion &&
-                Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.WSDL_SCHEMA_VALIDATION));
-        boolean useBusinessCorrelation = !useRegistry &&
-                Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_BUSINESS_CORRELATION));
+        boolean wsdlSchemaValidation = isStudioEEVersion
+                && Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.WSDL_SCHEMA_VALIDATION));
+        boolean useBusinessCorrelation = !useRegistry
+                && Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_BUSINESS_CORRELATION));
 
         endpointInfo.put("useSL", useSL); //$NON-NLS-1$
         endpointInfo.put("useSAM", useSAM); //$NON-NLS-1$
         endpointInfo.put("useSecurityToken", useSecurityToken); //$NON-NLS-1$
         endpointInfo.put("useSecuritySAML", useSecuritySAML); //$NON-NLS-1$
-        endpointInfo.put("useAuthorization", useAuthorization ); //$NON-NLS-1$
+        endpointInfo.put("useAuthorization", useAuthorization); //$NON-NLS-1$
         endpointInfo.put("useEncryption", useEncryption); //$NON-NLS-1$
         endpointInfo.put("useServiceRegistry", useRegistry); //$NON-NLS-1$
         endpointInfo.put("logMessages", logMessages); //$NON-NLS-1$
         endpointInfo.put("useWsdlSchemaValidation", wsdlSchemaValidation); //$NON-NLS-1$
         endpointInfo.put("useBusinessCorrelation", useBusinessCorrelation); //$NON-NLS-1$
 
-        Map<String, String> slCustomProperties = new HashMap<String, String>();
-        if (useSL /*&& !useRegistry*/) {
+        Map<String, String> slCustomProperties = new HashMap<>();
+        if (useSL /* && !useRegistry */) {
             for (Map.Entry<String, String> prop : additionalInfo.entrySet()) {
                 if (prop.getKey().startsWith(ServiceMetadataDialog.SL_CUSTOM_PROP_PREFIX)) {
                     slCustomProperties.put(prop.getKey().substring(ServiceMetadataDialog.SL_CUSTOM_PROP_PREFIX.length()),
@@ -171,7 +162,7 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
                 serviceQName.toString().replaceAll("\\W+", "_").substring(1)); //$NON-NLS-1$
 
         TemplateProcessor.processTemplate("DATA_SERVICE_BLUEPRINT_CONFIG", //$NON-NLS-1$
-            endpointInfo, outputFile, getClass().getResourceAsStream(TEMPLATE_BLUEPRINT));
+                endpointInfo, outputFile, getClass().getResourceAsStream(TEMPLATE_BLUEPRINT));
     }
 
     public Manifest getManifest(String artefactName, String serviceVersion, Map<String, String> additionalInfo) {
@@ -179,11 +170,10 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
         boolean logMessages = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.LOG_MESSAGES));
         boolean useSL = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_SL));
         boolean useSAM = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_SAM));
-        boolean useBusinessCorrelation =  Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_BUSINESS_CORRELATION));
+        boolean useBusinessCorrelation = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_BUSINESS_CORRELATION));
         boolean useSecurityToken = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.SECURITY_BASIC));
         boolean useSecuritySAML = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.SECURITY_SAML));
-        boolean useEncryption = useSecuritySAML
-                && Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.ENCRYPTION));
+        boolean useEncryption = useSecuritySAML && Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.ENCRYPTION));
 
         Manifest manifest = new Manifest();
         Attributes a = manifest.getMainAttributes();
@@ -192,10 +182,9 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
         a.put(new Attributes.Name("Bundle-SymbolicName"), artefactName); //$NON-NLS-1$
         a.put(new Attributes.Name("Bundle-Version"), serviceVersion); //$NON-NLS-1$
         a.put(new Attributes.Name("Bundle-ManifestVersion"), "2"); //$NON-NLS-1$ //$NON-NLS-2$
-        IBrandingService brandingService = (IBrandingService) GlobalServiceRegister.getDefault().getService(
-                IBrandingService.class);
-        a.put(new Attributes.Name("Created-By"), brandingService.getFullProductName() + " ("
-                + brandingService.getAcronym() + '_'
+        IBrandingService brandingService = (IBrandingService) GlobalServiceRegister.getDefault()
+                .getService(IBrandingService.class);
+        a.put(new Attributes.Name("Created-By"), brandingService.getFullProductName() + " (" + brandingService.getAcronym() + '_'
                 + RepositoryPlugin.getDefault().getBundle().getVersion().toString() + ')');
         a.put(new Attributes.Name("Import-Package"), //$NON-NLS-1$
                 "javax.xml.ws,org.talend.esb.job.controller" //$NON-NLS-1$
@@ -212,19 +201,13 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
         return manifest;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.talend.repository.ui.wizards.exportjob.scriptsmanager.esb.
-     * JobJavaScriptOSGIForESBManager#getOutputSuffix()
-     */
     @Override
     public String getOutputSuffix() {
         return "/";
     }
 
     public static Map<ExportChoice, Object> getDefaultExportChoiceMap() {
-        Map<ExportChoice, Object> exportChoiceMap = new EnumMap<ExportChoice, Object>(ExportChoice.class);
+        Map<ExportChoice, Object> exportChoiceMap = new EnumMap<>(ExportChoice.class);
         exportChoiceMap.put(ExportChoice.needLauncher, true);
         exportChoiceMap.put(ExportChoice.needSystemRoutine, true);
         exportChoiceMap.put(ExportChoice.needUserRoutine, true);
@@ -243,8 +226,8 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
         if (exportChoiceMap == null) {
             exportChoiceMap = getDefaultExportChoiceMap();
         }
-        JobJavaScriptOSGIForESBManager manager = new JobJavaScriptOSGIForESBManager(exportChoiceMap,
-            null, serviceVersion, statisticPort, tracePort);
+        JobJavaScriptOSGIForESBManager manager = new JobJavaScriptOSGIForESBManager(exportChoiceMap, null, serviceVersion,
+                statisticPort, tracePort);
         String artifactName = getNodeLabel(node);
         File path = getFilePath(parentPath, groupId, artifactName, serviceVersion);
         File file = new File(path, artifactName + '-' + serviceVersion + manager.getOutputSuffix());

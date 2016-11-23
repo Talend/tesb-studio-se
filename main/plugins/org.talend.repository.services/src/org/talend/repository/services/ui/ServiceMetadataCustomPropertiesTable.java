@@ -52,24 +52,26 @@ import org.eclipse.ui.PlatformUI;
 public class ServiceMetadataCustomPropertiesTable {
 
     private static final String COLUMN_PROPERTY_NAME_DEFAULT_VALUE = "property name";
+
     private static final String COLUMN_PROPERTY_VALUE_DEFAULT_VALUE = "property value";
 
     private static final String[] columnNames = new String[] { "name", "value" }; //$NON-NLS-1$ //$NON-NLS-2$
 
     private Composite composite;
+
     private Table table;
+
     private TableViewer tableViewer;
 
     private CustomPropertiesList properties = new CustomPropertiesList(new HashMap<String, String>());
 
-    public ServiceMetadataCustomPropertiesTable(Composite parent,
-            Map<String, String> customProperties) {
+    public ServiceMetadataCustomPropertiesTable(Composite parent, Map<String, String> customProperties) {
 
         composite = new Composite(parent, SWT.NONE);
         setEditable(false);
 
         GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-        composite.setLayoutData (gridData);
+        composite.setLayoutData(gridData);
 
         GridLayout layout = new GridLayout(2, false);
         layout.marginHeight = 0;
@@ -101,8 +103,7 @@ public class ServiceMetadataCustomPropertiesTable {
     }
 
     private void createTable(Composite parent) {
-        int style = SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
-                    | SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
+        int style = SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.HIDE_SELECTION;
 
         table = new Table(parent, style);
 
@@ -133,17 +134,19 @@ public class ServiceMetadataCustomPropertiesTable {
         CellEditor[] editors = new CellEditor[columnNames.length];
 
         TextCellEditor textEditor = new TextCellEditor(table) {
+
+            @Override
             protected Object doGetValue() {
                 Object value = super.doGetValue();
-                return null == value || ((String) value).trim().isEmpty()
-                        ? COLUMN_PROPERTY_NAME_DEFAULT_VALUE : value;
+                return null == value || ((String) value).trim().isEmpty() ? COLUMN_PROPERTY_NAME_DEFAULT_VALUE : value;
             }
         };
         ((Text) textEditor.getControl()).setTextLimit(64);
         ((Text) textEditor.getControl()).addVerifyListener(new VerifyListener() {
+
+            @Override
             public void verifyText(VerifyEvent e) {
                 e.doit = !e.text.equals("\""); //$NON-NLS-1$
-//              e.doit = !e.text.trim().isEmpty();
             }
         });
         editors[0] = textEditor;
@@ -151,6 +154,8 @@ public class ServiceMetadataCustomPropertiesTable {
         textEditor = new TextCellEditor(table);
         ((Text) textEditor.getControl()).setTextLimit(64);
         ((Text) textEditor.getControl()).addVerifyListener(new VerifyListener() {
+
+            @Override
             public void verifyText(VerifyEvent e) {
                 e.doit = !e.text.equals("\""); //$NON-NLS-1$
             }
@@ -167,6 +172,8 @@ public class ServiceMetadataCustomPropertiesTable {
         add.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_OBJ_ADD));
         add.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
         add.addSelectionListener(new SelectionAdapter() {
+
+            @Override
             public void widgetSelected(SelectionEvent e) {
                 properties.addProperty();
             }
@@ -176,9 +183,10 @@ public class ServiceMetadataCustomPropertiesTable {
         delete.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE));
         delete.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
         delete.addSelectionListener(new SelectionAdapter() {
+
+            @Override
             public void widgetSelected(SelectionEvent e) {
-                CustomProperty property = (CustomProperty) ((IStructuredSelection)
-                        tableViewer.getSelection()).getFirstElement();
+                CustomProperty property = (CustomProperty) ((IStructuredSelection) tableViewer.getSelection()).getFirstElement();
                 if (null != property) {
                     properties.removeProperty(property);
                 }
@@ -214,6 +222,7 @@ public class ServiceMetadataCustomPropertiesTable {
     private static class CustomProperty {
 
         private String name;
+
         private String value;
 
         public CustomProperty(String name, String value) {
@@ -240,9 +249,9 @@ public class ServiceMetadataCustomPropertiesTable {
 
     private static class CustomPropertiesList {
 
-        private Vector<CustomProperty> properties = new Vector<CustomProperty>();
+        private Vector<CustomProperty> properties = new Vector<>();
 
-        private Set<IPropertiesListViewer> changeListeners = new HashSet<IPropertiesListViewer>();
+        private Set<IPropertiesListViewer> changeListeners = new HashSet<>();
 
         public CustomPropertiesList(Map<String, String> customProperties) {
             for (Map.Entry<String, String> prop : customProperties.entrySet()) {
@@ -255,9 +264,7 @@ public class ServiceMetadataCustomPropertiesTable {
         }
 
         public void addProperty() {
-            CustomProperty property = new CustomProperty(
-                    COLUMN_PROPERTY_NAME_DEFAULT_VALUE,
-                    COLUMN_PROPERTY_VALUE_DEFAULT_VALUE);
+            CustomProperty property = new CustomProperty(COLUMN_PROPERTY_NAME_DEFAULT_VALUE, COLUMN_PROPERTY_VALUE_DEFAULT_VALUE);
             properties.add(properties.size(), property);
             Iterator<IPropertiesListViewer> iterator = changeListeners.iterator();
             while (iterator.hasNext()) {
@@ -289,7 +296,7 @@ public class ServiceMetadataCustomPropertiesTable {
         }
 
         public Map<String, String> getPropertiesMap() {
-            Map<String, String> propsMap = new HashMap<String, String>();
+            Map<String, String> propsMap = new HashMap<>();
             for (CustomProperty prop : properties) {
                 propsMap.put(prop.getName(), prop.getValue());
             }
@@ -299,6 +306,7 @@ public class ServiceMetadataCustomPropertiesTable {
 
     private static class PropertyLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+        @Override
         public String getColumnText(Object element, int columnIndex) {
             CustomProperty task = (CustomProperty) element;
             if (0 == columnIndex) {
@@ -309,6 +317,7 @@ public class ServiceMetadataCustomPropertiesTable {
             return "";
         }
 
+        @Override
         public Image getColumnImage(Object element, int columnIndex) {
             return null;
         }
@@ -323,10 +332,12 @@ public class ServiceMetadataCustomPropertiesTable {
             this.tableViewer = tableViewer;
         }
 
+        @Override
         public boolean canModify(Object element, String property) {
             return true;
         }
 
+        @Override
         public Object getValue(Object element, String property) {
 
             int columnIndex = tableViewer.getColumnNames().indexOf(property);
@@ -341,6 +352,7 @@ public class ServiceMetadataCustomPropertiesTable {
             return "";
         }
 
+        @Override
         public void modify(Object element, String property, Object value) {
 
             int columnIndex = tableViewer.getColumnNames().indexOf(property);
@@ -360,6 +372,7 @@ public class ServiceMetadataCustomPropertiesTable {
 
     private class PropertiesContentProvider implements IStructuredContentProvider, IPropertiesListViewer {
 
+        @Override
         public void inputChanged(Viewer v, Object oldInput, Object newInput) {
             if (newInput != null) {
                 ((CustomPropertiesList) newInput).addChangeListener(this);
@@ -369,22 +382,27 @@ public class ServiceMetadataCustomPropertiesTable {
             }
         }
 
+        @Override
         public void dispose() {
             properties.removeChangeListener(this);
         }
 
+        @Override
         public Object[] getElements(Object parent) {
             return properties.getProperties().toArray();
         }
 
+        @Override
         public void addProperty(CustomProperty property) {
             tableViewer.add(property);
         }
 
+        @Override
         public void removeProperty(CustomProperty property) {
             tableViewer.remove(property);
         }
 
+        @Override
         public void updateProperty(CustomProperty property) {
             tableViewer.update(property, null);
         }

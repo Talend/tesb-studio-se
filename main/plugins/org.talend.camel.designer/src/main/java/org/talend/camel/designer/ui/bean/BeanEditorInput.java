@@ -17,17 +17,8 @@ import org.eclipse.ui.IFileEditorInput;
 import org.talend.core.model.properties.Item;
 import org.talend.core.repository.ui.editor.RepositoryEditorInput;
 
-/**
- * bqian class global comment. Detailled comment
- */
 public class BeanEditorInput extends RepositoryEditorInput {
 
-    /**
-     * bqian RoutineEditorInput constructor comment.
-     * 
-     * @param file
-     * @param item
-     */
     public BeanEditorInput(IFile file, Item item) {
         super(file, item);
     }

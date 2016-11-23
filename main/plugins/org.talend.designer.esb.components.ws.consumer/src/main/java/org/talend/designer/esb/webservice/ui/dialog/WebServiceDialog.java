@@ -26,9 +26,10 @@ public class WebServiceDialog extends Wizard {
 
     public WebServiceDialog(WebServiceNode webServiceComponent) {
         this.webServiceComponent = webServiceComponent;
-        setWindowTitle(((IBrandingService) GlobalServiceRegister.getDefault().getService(IBrandingService.class)).getFullProductName() +
-                " - " + webServiceComponent.getComponent().getName() + //$NON-NLS-1$
-                " - " + webServiceComponent.getUniqueName()); //$NON-NLS-1$
+        setWindowTitle(
+                ((IBrandingService) GlobalServiceRegister.getDefault().getService(IBrandingService.class)).getFullProductName()
+                        + " - " + webServiceComponent.getComponent().getName() + //$NON-NLS-1$
+                        " - " + webServiceComponent.getUniqueName()); //$NON-NLS-1$
         setNeedsProgressMonitor(true);
     }
 

@@ -29,9 +29,7 @@ import org.talend.designer.core.model.utils.emf.talendfile.ProcessType;
 import org.talend.designer.core.model.utils.emf.talendfile.TalendFileFactory;
 
 /**
- * @author LiXiaopeng
- * Update: Removed common functions to handle NodeType to {@link AbstractRouteItemComponentMigrationTask.UtilTool} - by GaoZone.
-
+ * Update: Removed common functions to handle NodeType to {@link AbstractRouteItemComponentMigrationTask.UtilTool}
  */
 public class UpdateCJMSProjectMigrationTask extends AbstractRouteItemMigrationTask {
 
@@ -39,12 +37,6 @@ public class UpdateCJMSProjectMigrationTask extends AbstractRouteItemMigrationTa
 
     private static final TalendFileFactory FILE_FACTORY = TalendFileFactory.eINSTANCE;
 
-
-    /**
-     * 
-     * @param currentNode
-     * @return
-     */
     private NodeType createConnectionFactoryNode(NodeType currentNode) {
         NodeType nodeType = FILE_FACTORY.createNodeType();
         nodeType.setSizeX(32);
@@ -66,8 +58,8 @@ public class UpdateCJMSProjectMigrationTask extends AbstractRouteItemMigrationTa
 
         for (Object e : currentNode.getElementParameter()) {
             ElementParameterType p = (ElementParameterType) e;
-            if (!("UNIQUE_NAME".equals(p.getName()) || "LABEL".equals(p.getName()) || "TYPE".equals(p.getName()) || "DESTINATION"
-                    .equals(p.getName()))) {
+            if (!("UNIQUE_NAME".equals(p.getName()) || "LABEL".equals(p.getName()) || "TYPE".equals(p.getName())
+                    || "DESTINATION".equals(p.getName()))) {
 
                 UtilTool.addParameterType(nodeType, p.getField(), p.getName(), p.getValue(), p.getElementValue());
             }
@@ -87,11 +79,8 @@ public class UpdateCJMSProjectMigrationTask extends AbstractRouteItemMigrationTa
         }
     }
 
-    /**
+    /*
      * Get maximum Y position of the process.
-     * 
-     * @param processType
-     * @return
      */
     private int getMaxY(ProcessType processType) {
         int max = 0;
@@ -106,6 +95,7 @@ public class UpdateCJMSProjectMigrationTask extends AbstractRouteItemMigrationTa
         return max;
     }
 
+    @Override
     public Date getOrder() {
         GregorianCalendar gc = new GregorianCalendar(2012, 2, 16, 10, 00, 00);
         return gc.getTime();
@@ -118,11 +108,8 @@ public class UpdateCJMSProjectMigrationTask extends AbstractRouteItemMigrationTa
         return null;
     }
 
-    /**
+    /*
      * Compute the location of cMQConnectionFactory Node
-     * 
-     * @param processType
-     * @param nodes
      */
     private void locateNodes(ProcessType processType, List<NodeType> nodes) {
 
@@ -135,11 +122,8 @@ public class UpdateCJMSProjectMigrationTask extends AbstractRouteItemMigrationTa
         }
     }
 
-    /**
+    /*
      * Update cJMS, add cMQConnectionFactory.
-     * 
-     * @param item
-     * @throws PersistenceException
      */
     @SuppressWarnings("unchecked")
     private void updateJMSComponent(Item item) throws PersistenceException {
@@ -150,7 +134,7 @@ public class UpdateCJMSProjectMigrationTask extends AbstractRouteItemMigrationTa
         }
         boolean modified = false;
 
-        List<NodeType> nodes = new ArrayList<NodeType>();
+        List<NodeType> nodes = new ArrayList<>();
 
         for (Object o : processType.getNode()) {
             if (o instanceof NodeType) {

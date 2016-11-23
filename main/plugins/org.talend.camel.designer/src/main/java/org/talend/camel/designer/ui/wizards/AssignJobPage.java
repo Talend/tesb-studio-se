@@ -92,7 +92,7 @@ public class AssignJobPage extends WizardPage {
 
     private class RouteInputContainedFilter extends ViewerFilter {
 
-        private List<IRepositoryNode> routeInputContainedJobs = new ArrayList<IRepositoryNode>();
+        private List<IRepositoryNode> routeInputContainedJobs = new ArrayList<>();
 
         private RouteInputContainedFilter() {
             /*
@@ -160,7 +160,7 @@ public class AssignJobPage extends WizardPage {
 
         /**
          * find all Jobs which contains a tRouteInput component
-         * 
+         *
          * @param routeInputContainedJobs
          * @param jobNode
          */
@@ -199,7 +199,8 @@ public class AssignJobPage extends WizardPage {
             this.container = container;
         }
 
-        @Override @SuppressWarnings("PMD")
+        @Override
+        @SuppressWarnings("PMD")
         public Control createDialogArea(Composite parent) {
             // must override to change visibility
             return super.createDialogArea(parent);

@@ -32,19 +32,9 @@ import org.talend.designer.codegen.ITalendSynchronizer;
 import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.ui.actions.AContextualAction;
 
-/**
- * DOC Administrator class global comment. Detailled comment
- */
 public abstract class AbstractBeanAction extends AContextualAction {
 
-    // protected RepositoryNode repositoryNode;
-
-    /*
-     * (non-Jsdoc)
-     * 
-     * @see org.talend.commons.ui.swt.actions.ITreeContextualAction#init(org.eclipse.jface.viewers.TreeViewer,
-     * org.eclipse.jface.viewers.IStructuredSelection)
-     */
+    @Override
     public void init(TreeViewer viewer, IStructuredSelection selection) {
         setEnabled(false);
         Object o = selection.getFirstElement();
@@ -58,8 +48,8 @@ public abstract class AbstractBeanAction extends AContextualAction {
         if (beanItem == null) {
             return null;
         }
-        ICodeGeneratorService service = (ICodeGeneratorService) GlobalServiceRegister.getDefault().getService(
-                ICodeGeneratorService.class);
+        ICodeGeneratorService service = (ICodeGeneratorService) GlobalServiceRegister.getDefault()
+                .getService(ICodeGeneratorService.class);
 
         ECodeLanguage lang = ((RepositoryContext) CorePlugin.getContext().getProperty(Context.REPOSITORY_CONTEXT_KEY))
                 .getProject().getLanguage();
@@ -94,22 +84,15 @@ public abstract class AbstractBeanAction extends AContextualAction {
             }
             RepositoryEditorInput input = new BeanEditorInput(file, beanItem);
             input.setReadOnly(readOnly);
-            talendEditor = page.openEditor(input, talendEditorID); //$NON-NLS-1$            
+            talendEditor = page.openEditor(input, talendEditorID);
         }
 
         return talendEditor;
 
     }
 
-    /*
-     * (non-Jsdoc)
-     * 
-     * @see org.talend.repository.ui.actions.AContextualAction#doRun()
-     */
     @Override
     protected void doRun() {
-        // TODO Auto-generated method stub
-
     }
 
 }

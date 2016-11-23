@@ -26,9 +26,6 @@ import org.talend.core.repository.seeker.RepositorySeekerManager;
 import org.talend.core.ui.editor.JobEditorInput;
 import org.talend.repository.model.IRepositoryNode;
 
-/**
- * DOC xtan class global comment. <br/>
- */
 public class SaveAsRoutesAction extends Action {
 
     private final EditorPart editorPart;
@@ -45,14 +42,13 @@ public class SaveAsRoutesAction extends Action {
         if (dlg.open() == Window.OK) {
 
             try {
-
                 // Set readonly to false since created routes will always be editable.
                 JobEditorInput newRoutesEditorInput = new CamelProcessEditorInput(processWizard.getProcess(), true, true, false);
 
                 IWorkbenchPage page = editorPart.getSite().getPage();
 
-                IRepositoryNode repositoryNode = RepositorySeekerManager.getInstance().searchRepoViewNode(
-                        newRoutesEditorInput.getItem().getProperty().getId(), false);
+                IRepositoryNode repositoryNode = RepositorySeekerManager.getInstance()
+                        .searchRepoViewNode(newRoutesEditorInput.getItem().getProperty().getId(), false);
                 newRoutesEditorInput.setRepositoryNode(repositoryNode);
 
                 // close the old editor

@@ -33,26 +33,27 @@ import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
 public class DependenciesResolver {
 
     /**
-     * builtIn items will be sorted automatically and can't be re-sorted
-     * Non-BuiltIn items no sort and can be re-sorted
-     * @author liugang
-     *
+     * builtIn items will be sorted automatically and can't be re-sorted Non-BuiltIn items no sort and can be re-sorted
      */
     private static final Comparator<ManifestItem> SORTER = new Comparator<ManifestItem>() {
+
         @Override
         public int compare(ManifestItem e1, ManifestItem e2) {
-              return e1.toString().compareTo(e2.toString());
+            return e1.toString().compareTo(e2.toString());
         }
     };
 
-    private Collection<ImportPackage> importPackages = new TreeSet<ImportPackage>(SORTER);
-    private Collection<RequireBundle> requireBundles = new TreeSet<RequireBundle>(SORTER);
-    private Collection<BundleClasspath> bundleClasspaths = new TreeSet<BundleClasspath>(SORTER);
-    private final Collection<ExportPackage> exportPackages = new ArrayList<ExportPackage>();
+    private Collection<ImportPackage> importPackages = new TreeSet<>(SORTER);
+
+    private Collection<RequireBundle> requireBundles = new TreeSet<>(SORTER);
+
+    private Collection<BundleClasspath> bundleClasspaths = new TreeSet<>(SORTER);
+
+    private final Collection<ExportPackage> exportPackages = new ArrayList<>();
 
     private Collection<BundleClasspath> userBundleClasspaths;
 
-	public DependenciesResolver(final ProcessItem item) {
+    public DependenciesResolver(final ProcessItem item) {
         for (ImportPackage importPackage : ExtensionPointsReader.INSTANCE.getImportPackages((NodeType) null)) {
             importPackage.setDescription(Messages.ExDependenciesResolver_commonImportPackage);
             importPackages.add(importPackage);
@@ -68,11 +69,11 @@ public class DependenciesResolver {
         handleAllNodeTypes(item.getProcess().getNode());
         handleAllConnectionTypes(item.getProcess().getConnection());
 
-        final Collection<ImportPackage> customImportPackages = new ArrayList<ImportPackage>(importPackages);
+        final Collection<ImportPackage> customImportPackages = new ArrayList<>(importPackages);
         customImportPackages.addAll(DependenciesCoreUtil.getStoredImportPackages(additionProperties));
         importPackages = customImportPackages;
 
-        final Collection<RequireBundle> customRequireBundles = new ArrayList<RequireBundle>(requireBundles);
+        final Collection<RequireBundle> customRequireBundles = new ArrayList<>(requireBundles);
         customRequireBundles.addAll(DependenciesCoreUtil.getStoredRequireBundles(additionProperties));
         requireBundles = customRequireBundles;
 
@@ -107,11 +108,11 @@ public class DependenciesResolver {
 
         handleAllNodes(process.getGraphicalNodes());
 
-        Collection<ImportPackage> customImportPackages = new ArrayList<ImportPackage>(importPackages);
+        Collection<ImportPackage> customImportPackages = new ArrayList<>(importPackages);
         customImportPackages.addAll(DependenciesCoreUtil.getStoredImportPackages(additionProperties));
         importPackages = customImportPackages;
 
-        Collection<RequireBundle> customRequireBundles = new ArrayList<RequireBundle>(requireBundles);
+        Collection<RequireBundle> customRequireBundles = new ArrayList<>(requireBundles);
         customRequireBundles.addAll(DependenciesCoreUtil.getStoredRequireBundles(additionProperties));
         requireBundles = customRequireBundles;
 
@@ -141,8 +142,7 @@ public class DependenciesResolver {
     }
 
     /**
-     * most of the datas of a node are coming from extension point except the
-     * cTalendJob
+     * most of the datas of a node are coming from extension point except the cTalendJob
      */
     private void handleAllNodeTypes(final Collection<NodeType> nodes) {
         for (NodeType n : nodes) {
@@ -207,17 +207,15 @@ public class DependenciesResolver {
     }
 
     /**
-     * special for ROUTE_WHEN connection case we need to handle it specially
-     * according the selected language
+     * special for ROUTE_WHEN connection case we need to handle it specially according the selected language
      */
     private void handleAllConnectionTypes(Collection<ConnectionType> connections) {
         for (ConnectionType connection : connections) {
             if (isActivate(connection.getElementParameter())
-                && EConnectionType.ROUTE_WHEN.getName().equals(connection.getConnectorName())) {
+                    && EConnectionType.ROUTE_WHEN.getName().equals(connection.getConnectorName())) {
                 final String languageName = handleROUTEWHENconnection(connection.getElementParameter());
                 if (languageName != null) {
-                    for (ImportPackage importPackage :
-                        ExtensionPointsReader.INSTANCE.getImportPackages(languageName)) {
+                    for (ImportPackage importPackage : ExtensionPointsReader.INSTANCE.getImportPackages(languageName)) {
                         addItem(importPackages, importPackage).addRelativeComponent(connection.getLabel());
                     }
                 }
@@ -227,12 +225,11 @@ public class DependenciesResolver {
 
     private void handleAllConnections(Collection<? extends IConnection> connections) {
         for (IConnection connection : connections) {
-            if (connection.isActivate()
-                && EConnectionType.ROUTE_WHEN == connection.getLineStyle()) {
+            if (connection.isActivate() && EConnectionType.ROUTE_WHEN == connection.getLineStyle()) {
                 final IElementParameter ep = connection.getElementParameter(EParameterName.ROUTETYPE.getName());
                 if (null != ep) {
-                    for (ImportPackage importPackage :
-                        ExtensionPointsReader.INSTANCE.getImportPackages(ep.getValue().toString())) {
+                    for (ImportPackage importPackage : ExtensionPointsReader.INSTANCE
+                            .getImportPackages(ep.getValue().toString())) {
                         addItem(importPackages, importPackage).addRelativeComponent(connection.getName());
                     }
                 }

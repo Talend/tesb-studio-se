@@ -44,174 +44,146 @@ import org.talend.repository.model.IRepositoryNode;
 
 /**
  * Open Route Resource with another version
- * 
- * @author xpli
- * 
  */
 public class OpenAnotherVersionResrouceWizard extends Wizard {
 
     OpenAnotherVersionPage mainPage = null;
 
-	private final IRepositoryViewObject repoObject;
+    private final IRepositoryViewObject repoObject;
 
-	private boolean alreadyEditedByUser = false;
+    private boolean alreadyEditedByUser = false;
 
-	private String originaleObjectLabel = null;
+    private String originaleObjectLabel = null;
 
-	private String originalVersion = null;
+    private String originalVersion = null;
 
-	public OpenAnotherVersionResrouceWizard(IRepositoryViewObject processObject) {
-		this.repoObject = processObject;
-		originaleObjectLabel = processObject.getProperty().getLabel();
-		originalVersion = processObject.getProperty().getVersion();
+    public OpenAnotherVersionResrouceWizard(IRepositoryViewObject processObject) {
+        this.repoObject = processObject;
+        originaleObjectLabel = processObject.getProperty().getLabel();
+        originalVersion = processObject.getProperty().getVersion();
 
-		ERepositoryStatus status = processObject.getRepositoryStatus();
-		if (status == ERepositoryStatus.LOCK_BY_OTHER
-				|| status.equals(ERepositoryStatus.LOCK_BY_USER)
-				&& RepositoryManager.isOpenedItemInEditor(processObject)) {
-			alreadyEditedByUser = true;
-		}
-	}
+        ERepositoryStatus status = processObject.getRepositoryStatus();
+        if (status == ERepositoryStatus.LOCK_BY_OTHER
+                || status.equals(ERepositoryStatus.LOCK_BY_USER) && RepositoryManager.isOpenedItemInEditor(processObject)) {
+            alreadyEditedByUser = true;
+        }
+    }
 
-	@Override
-	public void addPages() {
-		mainPage = new OpenAnotherVersionPage(alreadyEditedByUser,
-				repoObject);
-		addPage(mainPage);
-		setWindowTitle(Messages.getString("OpenAnotherVersionResrouceWizard.Title")); //$NON-NLS-1$
-	}
+    @Override
+    public void addPages() {
+        mainPage = new OpenAnotherVersionPage(alreadyEditedByUser, repoObject);
+        addPage(mainPage);
+        setWindowTitle(Messages.getString("OpenAnotherVersionResrouceWizard.Title")); //$NON-NLS-1$
+    }
 
-	/**
-	 * Returns the currently active page for this workbench window.
-	 * 
-	 * @return the active page, or <code>null</code> if none
-	 */
-	public IWorkbenchPage getActivePage() {
-		return PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-				.getActivePage();
-	}
+    /**
+     * Returns the currently active page for this workbench window.
+     *
+     * @return the active page, or <code>null</code> if none
+     */
+    public IWorkbenchPage getActivePage() {
+        return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+    }
 
-	private void lockObject(IRepositoryViewObject object) {
-		IProxyRepositoryFactory repositoryFactory = CorePlugin.getDefault()
-				.getRepositoryService().getProxyRepositoryFactory();
-		try {
-			repositoryFactory.lock(object);
-		} catch (PersistenceException | BusinessException e) {
-			ExceptionHandler.process(e);
-		}
-	}
+    private void lockObject(IRepositoryViewObject object) {
+        IProxyRepositoryFactory repositoryFactory = CorePlugin.getDefault().getRepositoryService().getProxyRepositoryFactory();
+        try {
+            repositoryFactory.lock(object);
+        } catch (PersistenceException | BusinessException e) {
+            ExceptionHandler.process(e);
+        }
+    }
 
-	@Override
-	public boolean performFinish() {
-		if (mainPage.isCreateNewVersionJob()) {
+    @Override
+    public boolean performFinish() {
+        if (mainPage.isCreateNewVersionJob()) {
 
-			IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
+            IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
 
-				public void run(final IProgressMonitor monitor)
-						throws CoreException {
-					if (!alreadyEditedByUser) {
-						getProperty().setVersion(mainPage.getNewVersion());
-						refreshNewJob();
-						try {
-							ProxyRepositoryFactory.getInstance().saveProject(
-									ProjectManager.getInstance()
-											.getCurrentProject());
-						} catch (PersistenceException e) {
-							ExceptionHandler.process(e);
-						}
-					}
+                @Override
+                public void run(final IProgressMonitor monitor) throws CoreException {
+                    if (!alreadyEditedByUser) {
+                        getProperty().setVersion(mainPage.getNewVersion());
+                        refreshNewJob();
+                        try {
+                            ProxyRepositoryFactory.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+                        } catch (PersistenceException e) {
+                            ExceptionHandler.process(e);
+                        }
+                    }
 
-					try {
-						ProxyRepositoryFactory.getInstance().lock(repoObject);
-					} catch (PersistenceException | LoginException e) {
-						ExceptionHandler.process(e);
-					}
+                    try {
+                        ProxyRepositoryFactory.getInstance().lock(repoObject);
+                    } catch (PersistenceException | LoginException e) {
+                        ExceptionHandler.process(e);
+                    }
 
-//					boolean locked = repoObject.getRepositoryStatus().equals(
-//							ERepositoryStatus.LOCK_BY_USER);
-					openAnotherVersion(
-							(IRepositoryNode) repoObject.getRepositoryNode()/*,
-							!locked*/);
-					try {
-						ProxyRepositoryFactory.getInstance().saveProject(
-								ProjectManager.getInstance()
-										.getCurrentProject());
-					} catch (PersistenceException e) {
-						ExceptionHandler.process(e);
-					}
-				}
-			};
-			IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			try {
-				ISchedulingRule schedulingRule = workspace.getRoot();
-				// the update the project files need to be done in the workspace
-				// runnable to avoid all notification
-				// of changes before the end of the modifications.
-				workspace.run(runnable, schedulingRule,
-						IWorkspace.AVOID_UPDATE, null);
-			} catch (CoreException e) {
-				MessageBoxExceptionHandler.process(e);
-			}
-		} else {
-			StructuredSelection selection = (StructuredSelection) mainPage
-					.getSelection();
-			IRepositoryNode node = (IRepositoryNode) selection.getFirstElement();
-			boolean lastVersion = node.getObject().getVersion()
-					.equals(repoObject.getVersion());
-			repoObject.getProperty().setVersion(originalVersion);
-			if (lastVersion) {
-				lockObject(repoObject);
-			}
-//			ERepositoryStatus status = node.getObject().getRepositoryStatus();
-//			boolean isLocked = false;
-//			if (status == ERepositoryStatus.LOCK_BY_USER) {
-//				isLocked = true;
-//			}
+                    openAnotherVersion(repoObject.getRepositoryNode());
+                    try {
+                        ProxyRepositoryFactory.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+                    } catch (PersistenceException e) {
+                        ExceptionHandler.process(e);
+                    }
+                }
+            };
+            IWorkspace workspace = ResourcesPlugin.getWorkspace();
+            try {
+                ISchedulingRule schedulingRule = workspace.getRoot();
+                // the update the project files need to be done in the workspace
+                // runnable to avoid all notification
+                // of changes before the end of the modifications.
+                workspace.run(runnable, schedulingRule, IWorkspace.AVOID_UPDATE, null);
+            } catch (CoreException e) {
+                MessageBoxExceptionHandler.process(e);
+            }
+        } else {
+            StructuredSelection selection = (StructuredSelection) mainPage.getSelection();
+            IRepositoryNode node = (IRepositoryNode) selection.getFirstElement();
+            boolean lastVersion = node.getObject().getVersion().equals(repoObject.getVersion());
+            repoObject.getProperty().setVersion(originalVersion);
+            if (lastVersion) {
+                lockObject(repoObject);
+            }
 
-			// Only latest version can be editted
-			openAnotherVersion(node/*, !lastVersion || !isLocked*/);
-		}
-		return true;
-	}
+            // Only latest version can be editted
+            openAnotherVersion(node);
+        }
+        return true;
+    }
 
-	private boolean refreshNewJob() {
-		if (alreadyEditedByUser) {
-			return false;
-		}
-		IProxyRepositoryFactory repositoryFactory = ProxyRepositoryFactory
-				.getInstance();
-		try {
-			repositoryFactory.save(getProperty(), this.originaleObjectLabel,
-					this.originalVersion);
-			ExpressionPersistance.getInstance().jobNameChanged(
-					originaleObjectLabel, repoObject.getLabel());
-			ProxyRepositoryFactory.getInstance().saveProject(
-					ProjectManager.getInstance().getCurrentProject());
-			return true;
-		} catch (PersistenceException e) {
-			MessageBoxExceptionHandler.process(e);
-			return false;
-		}
-	}
+    private boolean refreshNewJob() {
+        if (alreadyEditedByUser) {
+            return false;
+        }
+        IProxyRepositoryFactory repositoryFactory = ProxyRepositoryFactory.getInstance();
+        try {
+            repositoryFactory.save(getProperty(), this.originaleObjectLabel, this.originalVersion);
+            ExpressionPersistance.getInstance().jobNameChanged(originaleObjectLabel, repoObject.getLabel());
+            ProxyRepositoryFactory.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+            return true;
+        } catch (PersistenceException e) {
+            MessageBoxExceptionHandler.process(e);
+            return false;
+        }
+    }
 
-	private void openAnotherVersion(final IRepositoryNode node/*, final boolean readonly*/) {
-		if (node.getObject() != null) {
-			Item item = node.getObject().getProperty().getItem();
-			IWorkbenchPage page = getActivePage();
+    private void openAnotherVersion(final IRepositoryNode node) {
+        if (node.getObject() != null) {
+            Item item = node.getObject().getProperty().getItem();
+            IWorkbenchPage page = getActivePage();
 
-			if (item instanceof RouteResourceItem) {
-				RouteResourceEditorUtil.openEditor(page, node,
-						(RouteResourceItem) item);
-			}
-		}
-	}
+            if (item instanceof RouteResourceItem) {
+                RouteResourceEditorUtil.openEditor(page, node, (RouteResourceItem) item);
+            }
+        }
+    }
 
-	private Property getProperty() {
-		return repoObject.getProperty();
-	}
+    private Property getProperty() {
+        return repoObject.getProperty();
+    }
 
-	public String getOriginVersion() {
-		return this.originalVersion;
-	}
+    public String getOriginVersion() {
+        return this.originalVersion;
+    }
 
 }

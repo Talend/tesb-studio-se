@@ -38,88 +38,78 @@ import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.model.RepositoryNodeUtilities;
 import org.talend.repository.ui.actions.EditPropertiesAction;
 
-/**
- * 
- * @author xpli
- * 
- */
 public class OpenAnotherVersionResourceAction extends EditPropertiesAction {
 
-	public OpenAnotherVersionResourceAction() {
+    public OpenAnotherVersionResourceAction() {
         setText("Open another version");
         setToolTipText("Open another version");
         setImageDescriptor(RouteResourceActivator.createImageDesc("icons/open-another-version.png"));
-	}
+    }
 
+    @Override
     public void init(TreeViewer viewer, IStructuredSelection selection) {
         boolean canWork = !selection.isEmpty() && selection.size() == 1
-            && !ProxyRepositoryFactory.getInstance().isUserReadOnlyOnCurrentProject();
+                && !ProxyRepositoryFactory.getInstance().isUserReadOnlyOnCurrentProject();
         if (canWork) {
             Object o = selection.getFirstElement();
             if (o instanceof IRepositoryNode) {
                 final IRepositoryNode node = (IRepositoryNode) o;
                 canWork = node.getType() == ENodeType.REPOSITORY_ELEMENT
-                    && node.getObjectType() == CamelRepositoryNodeType.repositoryRouteResourceType
-                    && node.getObject().getRepositoryStatus() != ERepositoryStatus.DELETED
-                    && ProjectManager.getInstance().isInCurrentMainProject(node)
-                    && isLastVersion(node);
+                        && node.getObjectType() == CamelRepositoryNodeType.repositoryRouteResourceType
+                        && node.getObject().getRepositoryStatus() != ERepositoryStatus.DELETED
+                        && ProjectManager.getInstance().isInCurrentMainProject(node) && isLastVersion(node);
             }
         }
         setEnabled(canWork);
     }
 
-	@Override
-	protected void doRun() {
-		final IRepositoryNode node = (RepositoryNode) ((IStructuredSelection) getSelection()).getFirstElement();
+    @Override
+    protected void doRun() {
+        final IRepositoryNode node = (RepositoryNode) ((IStructuredSelection) getSelection()).getFirstElement();
 
-		IPath path = RepositoryNodeUtilities.getPath(node);
-		String originalName = node.getObject().getLabel();
+        IPath path = RepositoryNodeUtilities.getPath(node);
+        String originalName = node.getObject().getLabel();
 
-		RepositoryObject repositoryObj = new RepositoryObject(node.getObject()
-				.getProperty());
-		repositoryObj.setRepositoryNode(node.getObject().getRepositoryNode());
-		OpenAnotherVersionResrouceWizard wizard = new OpenAnotherVersionResrouceWizard(
-				repositoryObj);
-		WizardDialog dialog = new WizardDialog(
-				Display.getCurrent().getActiveShell(), wizard);
-		dialog.setPageSize(300, 250);
-		dialog.setTitle("Open another version"); //$NON-NLS-1$
-		if (dialog.open() == Dialog.OK) {
-			refresh(node);
-			// refresh the corresponding editor's name
-			IEditorPart part = getCorrespondingEditor(node);
-			if (part != null && part instanceof IUIRefresher) {
-				((IUIRefresher) part).refreshName();
-			} else {
-				processRoutineRenameOperation(originalName, node, path);
-			}
-		}
+        RepositoryObject repositoryObj = new RepositoryObject(node.getObject().getProperty());
+        repositoryObj.setRepositoryNode(node.getObject().getRepositoryNode());
+        OpenAnotherVersionResrouceWizard wizard = new OpenAnotherVersionResrouceWizard(repositoryObj);
+        WizardDialog dialog = new WizardDialog(Display.getCurrent().getActiveShell(), wizard);
+        dialog.setPageSize(300, 250);
+        dialog.setTitle("Open another version"); //$NON-NLS-1$
+        if (dialog.open() == Dialog.OK) {
+            refresh(node);
+            // refresh the corresponding editor's name
+            IEditorPart part = getCorrespondingEditor(node);
+            if (part != null && part instanceof IUIRefresher) {
+                ((IUIRefresher) part).refreshName();
+            } else {
+                processRoutineRenameOperation(originalName, node, path);
+            }
+        }
+    }
 
-	}
+    @Override
+    public Class<?> getClassForDoubleClick() {
+        return RouteResourceItem.class;
+    }
 
-	@Override
-	public Class<?> getClassForDoubleClick() {
-		return RouteResourceItem.class;
-	}
+    protected IEditorPart getCorrespondingEditor(RepositoryNode node) {
+        for (IEditorReference ref : getActivePage().getEditorReferences()) {
+            try {
+                IEditorInput input = ref.getEditorInput();
+                if (!(input instanceof RouteResourceInput)) {
+                    continue;
+                }
 
-	protected IEditorPart getCorrespondingEditor(RepositoryNode node) {
-		for (IEditorReference ref : getActivePage().getEditorReferences()) {
-			try {
-				IEditorInput input = ref.getEditorInput();
-				if (!(input instanceof RouteResourceInput)) {
-					continue;
-				}
-
-				RouteResourceInput repositoryInput = (RouteResourceInput) input;
-				if (repositoryInput.getItem().equals(
-						node.getObject().getProperty().getItem())) {
-					return ref.getEditor(false);
-				}
-			} catch (PartInitException e) {
-				continue;
-			}
-		}
-		return null;
-	}
+                RouteResourceInput repositoryInput = (RouteResourceInput) input;
+                if (repositoryInput.getItem().equals(node.getObject().getProperty().getItem())) {
+                    return ref.getEditor(false);
+                }
+            } catch (PartInitException e) {
+                continue;
+            }
+        }
+        return null;
+    }
 
 }

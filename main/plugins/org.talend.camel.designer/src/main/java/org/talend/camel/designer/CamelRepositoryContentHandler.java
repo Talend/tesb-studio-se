@@ -36,9 +36,6 @@ import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.repository.utils.AbstractResourceRepositoryContentHandler;
 import org.talend.core.runtime.CoreRuntimePlugin;
 
-/**
- * DOC guanglong.du class global comment. Detailled comment
- */
 public class CamelRepositoryContentHandler extends AbstractResourceRepositoryContentHandler {
 
     @Override

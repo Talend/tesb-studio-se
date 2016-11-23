@@ -1,791 +1,1117 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <COMPONENT>
 
-	<HEADER AUTHOR="Talend" COMPATIBILITY="ALL" PLATEFORM="ALL"
-		RELEASE_DATE="20100401A" SERIAL="" STARTABLE="true" STATUS="ALPHA"
-		VERSION="0.102">
-		<SIGNATURE />
-	</HEADER>
+    <HEADER AUTHOR="Talend" COMPATIBILITY="ALL" PLATEFORM="ALL"
+        RELEASE_DATE="20100401A" SERIAL="" STARTABLE="true" STATUS="ALPHA"
+        VERSION="0.102">
+        <SIGNATURE />
+    </HEADER>
 
-	<FAMILIES>
-		<FAMILY>Connectivity</FAMILY>
-		<FAMILY>Core</FAMILY>
-	</FAMILIES>
+    <FAMILIES>
+        <FAMILY>Connectivity</FAMILY>
+        <FAMILY>Core</FAMILY>
+    </FAMILIES>
 
-	<DOCUMENTATION>
-		<URL />
-	</DOCUMENTATION>
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
 
-	<CONNECTORS>
-		<CONNECTOR CTYPE="ROUTE" MAX_INPUT="1" MAX_OUTPUT="1"
-			MIN_INPUT="0" MIN_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1" MAX_OUTPUT="0" />
-	</CONNECTORS>
+    <CONNECTORS>
+        <CONNECTOR CTYPE="ROUTE" MAX_INPUT="1" MAX_OUTPUT="1"
+            MIN_INPUT="0" MIN_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+    </CONNECTORS>
 
-	<PARAMETERS>
+    <PARAMETERS>
+        <PARAMETER FIELD="TEXT" NAME="URI" NUM_ROW="10">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+    </PARAMETERS>
 
-		<PARAMETER FIELD="TEXT" NAME="URI" NUM_ROW="10">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-	</PARAMETERS>
+    <ADVANCED_PARAMETERS>
+        <PARAMETER FIELD="TABLE" NAME="HOTLIBS" NB_LINES="8"
+            NUM_ROW="10">
+            <ITEMS>
+                <ITEM FIELD="CLOSED_LIST" NAME="LIBPATH">
+                    <ITEMS DEFAULT="AMQP">
+                        <ITEM NAME="AHC" VALUE="AHC" />
+                        <ITEM NAME="AHC-WS" VALUE="AHC-WS" />
+                        <ITEM NAME="AMQP" VALUE="AMQP" />
+                        <ITEM NAME="APNS" VALUE="APNS" />
+                        <ITEM NAME="ATMOS" VALUE="ATMOS" />
+                        <ITEM NAME="ATMOSPHERE-WEBSOCKET" VALUE="ATMOSPHERE-WEBSOCKET" />
+                        <ITEM NAME="ATOM" VALUE="ATOM" />
+                        <ITEM NAME="AVRO" VALUE="AVRO" />
+                        <ITEM NAME="AWS" VALUE="AWS" />
+                        <ITEM NAME="BAM" VALUE="BAM" />
+                        <ITEM NAME="BARCODE" VALUE="BARCODE" />
+                        <ITEM NAME="BEAN-VALIDATOR" VALUE="BEAN-VALIDATOR" />
+                        <ITEM NAME="BEANIO" VALUE="BEANIO" />
+                        <ITEM NAME="BEANSTALK" VALUE="BEANSTALK" />
+                        <ITEM NAME="BINDY" VALUE="BINDY" />
+                        <ITEM NAME="BLUEPRINT" VALUE="BLUEPRINT" />
+                        <ITEM NAME="BOX" VALUE="BOX" />
+                        <ITEM NAME="CACHE" VALUE="CACHE" />
+                        <ITEM NAME="CASSANDRAQL" VALUE="CASSANDRAQL" />
+                        <ITEM NAME="CASTOR" VALUE="CASTOR" />
+                        <ITEM NAME="CHUNK" VALUE="CHUNK" />
+                        <ITEM NAME="CMIS" VALUE="CMIS" />
+                        <ITEM NAME="COMETD" VALUE="COMETD" />
+                        <ITEM NAME="CONTEXT" VALUE="CONTEXT" />
+                        <ITEM NAME="COUCHDB" VALUE="COUCHDB" />
+                        <ITEM NAME="CRYPTO" VALUE="CRYPTO" />
+                        <ITEM NAME="CSV" VALUE="CSV" />
+                        <ITEM NAME="CXF" VALUE="CXF" />
+                        <ITEM NAME="CXF_BUNDLE" VALUE="CXF_BUNDLE" />
+                        <ITEM NAME="DISRUPTOR" VALUE="DISRUPTOR" />
+                        <ITEM NAME="DNS" VALUE="DNS" />
+                        <ITEM NAME="DOCKER" VALUE="DOCKER" />
+                        <ITEM NAME="DOZER" VALUE="DOZER" />
+                        <ITEM NAME="DROPBOX" VALUE="DROPBOX" />
+                        <ITEM NAME="EJB" VALUE="EJB" />
+                        <ITEM NAME="ELASTICSEARCH" VALUE="ELASTICSEARCH" />
+                        <ITEM NAME="EVENTADMIN" VALUE="EVENTADMIN" />
+                        <ITEM NAME="EXEC" VALUE="EXEC" />
+                        <ITEM NAME="FACEBOOK" VALUE="FACEBOOK" />
+                        <ITEM NAME="FLATPACK" VALUE="FLATPACK" />
+                        <ITEM NAME="FOP" VALUE="FOP" />
+                        <ITEM NAME="FREEMARKER" VALUE="FREEMARKER" />
+                        <ITEM NAME="FTP" VALUE="FTP" />
+                        <ITEM NAME="GAE" VALUE="GAE" />
+                        <ITEM NAME="GANGLIA" VALUE="GANGLIA" />
+                        <ITEM NAME="GEOCODER" VALUE="GEOCODER" />
+                        <ITEM NAME="GITHUB" VALUE="GITHUB" />
+                        <ITEM NAME="GOOGLE-CALENDAR" VALUE="GOOGLE-CALENDAR" />
+                        <ITEM NAME="GOOGLE-DRIVE" VALUE="GOOGLE-DRIVE" />
+                        <ITEM NAME="GOOGLE-MAIL" VALUE="GOOGLE-MAIL" />
+                        <ITEM NAME="GORA" VALUE="GORA" />
+                        <ITEM NAME="GROOVY" VALUE="GROOVY" />
+                        <ITEM NAME="GSON" VALUE="GSON" />
+                        <ITEM NAME="GUAVA-EVENTBUS" VALUE="GUAVA-EVENTBUS" />
+                        <ITEM NAME="GUICE" VALUE="GUICE" />
+                        <ITEM NAME="HAWTDB" VALUE="HAWTDB" />
+                        <ITEM NAME="HAZELCAST" VALUE="HAZELCAST" />
+                        <ITEM NAME="HBASE" VALUE="HBASE" />
+                        <ITEM NAME="HDFS" VALUE="HDFS" />
+                        <ITEM NAME="HDFS2" VALUE="HDFS2" />
+                        <ITEM NAME="HIPCHAT" VALUE="HIPCHAT" />
+                        <ITEM NAME="HL7" VALUE="HL7" />
+                        <ITEM NAME="HTTP" VALUE="HTTP" />
+                        <ITEM NAME="HTTP4" VALUE="HTTP4" />
+                        <ITEM NAME="IBATIS" VALUE="IBATIS" />
+                        <ITEM NAME="ICAL" VALUE="ICAL" />
+                        <ITEM NAME="INFINISPAN" VALUE="INFINISPAN" />
+                        <ITEM NAME="IRC" VALUE="IRC" />
+                        <ITEM NAME="JACKSON" VALUE="JACKSON" />
+                        <ITEM NAME="JASYPT" VALUE="JASYPT" />
+                        <ITEM NAME="JAVASPACE" VALUE="JAVASPACE" />
+                        <ITEM NAME="JAXB" VALUE="JAXB" />
+                        <ITEM NAME="JCLOUDS" VALUE="JCLOUDS" />
+                        <ITEM NAME="JCR" VALUE="JCR" />
+                        <ITEM NAME="JDBC" VALUE="JDBC" />
+                        <ITEM NAME="JETTY" VALUE="JETTY" />
+                        <ITEM NAME="JGROUPS" VALUE="JGROUPS" />
+                        <ITEM NAME="JIBX" VALUE="JIBX" />
+                        <ITEM NAME="JING" VALUE="JING" />
+                        <ITEM NAME="JIRA" VALUE="JIRA" />
+                        <ITEM NAME="JMS" VALUE="JMS" />
+                        <ITEM NAME="JMX" VALUE="JMX" />
+                        <ITEM NAME="JOSQL" VALUE="JOSQL" />
+                        <ITEM NAME="JPA" VALUE="JPA" />
+                        <ITEM NAME="JSCH" VALUE="JSCH" />
+                        <ITEM NAME="JSONPATH" VALUE="JSONPATH" />
+                        <ITEM NAME="JT400" VALUE="JT400" />
+                        <ITEM NAME="JUEL" VALUE="JUEL" />
+                        <ITEM NAME="JXPATH" VALUE="JXPATH" />
+                        <ITEM NAME="KAFKA" VALUE="KAFKA" />
+                        <ITEM NAME="KESTREL" VALUE="KESTREL" />
+                        <ITEM NAME="KRATI" VALUE="KRATI" />
+                        <ITEM NAME="KURA" VALUE="KURA" />
+                        <ITEM NAME="LDAP" VALUE="LDAP" />
+                        <ITEM NAME="LEVELDB" VALUE="LEVELDB" />
+                        <ITEM NAME="LINKEDIN" VALUE="LINKEDIN" />
+                        <ITEM NAME="LUCENE" VALUE="LUCENE" />
+                        <ITEM NAME="MAIL" VALUE="MAIL" />
+                        <ITEM NAME="METRICS" VALUE="METRICS" />
+                        <ITEM NAME="MINA" VALUE="MINA" />
+                        <ITEM NAME="MINA2" VALUE="MINA2" />
+                        <ITEM NAME="MONGODB" VALUE="MONGODB" />
+                        <ITEM NAME="MONGODB-GRIDFS" VALUE="MONGODB-GRIDFS" />
+                        <ITEM NAME="MQTT" VALUE="MQTT" />
+                        <ITEM NAME="MSV" VALUE="MSV" />
+                        <ITEM NAME="MUSTACHE" VALUE="MUSTACHE" />
+                        <ITEM NAME="MVEL" VALUE="MVEL" />
+                        <ITEM NAME="MYBATIS" VALUE="MYBATIS" />
+                        <ITEM NAME="NAGIOS" VALUE="NAGIOS" />
+                        <ITEM NAME="NETTY" VALUE="NETTY" />
+                        <ITEM NAME="NETTY-HTTP" VALUE="NETTY-HTTP" />
+                        <ITEM NAME="NETTY4" VALUE="NETTY4" />
+                        <ITEM NAME="NETTY4-HTTP" VALUE="NETTY4-HTTP" />
+                        <ITEM NAME="OGNL" VALUE="OGNL" />
+                        <ITEM NAME="OLINGO2" VALUE="OLINGO2" />
+                        <ITEM NAME="OPTAPLANNER" VALUE="OPTAPLANNER" />
+                        <ITEM NAME="PAXLOGGING" VALUE="PAXLOGGING" />
+                        <ITEM NAME="PGEVENT" VALUE="PGEVENT" />
+                        <ITEM NAME="PRINTER" VALUE="PRINTER" />
+                        <ITEM NAME="PROTOBUF" VALUE="PROTOBUF" />
+                        <ITEM NAME="QUARTZ" VALUE="QUARTZ" />
+                        <ITEM NAME="QUARTZ2" VALUE="QUARTZ2" />
+                        <ITEM NAME="QUICKFIX" VALUE="QUICKFIX" />
+                        <ITEM NAME="RABBITMQ" VALUE="RABBITMQ" />
+                        <ITEM NAME="RESTLET" VALUE="RESTLET" />
+                        <ITEM NAME="RMI" VALUE="RMI" />
+                        <ITEM NAME="ROUTEBOX" VALUE="ROUTEBOX" />
+                        <ITEM NAME="RSS" VALUE="RSS" />
+                        <ITEM NAME="RUBY" VALUE="RUBY" />
+                        <ITEM NAME="RX" VALUE="RX" />
+                        <ITEM NAME="SALESFORCE" VALUE="SALESFORCE" />
+                        <ITEM NAME="SAP-NETWEAVER" VALUE="SAP-NETWEAVER" />
+                        <ITEM NAME="SAXON" VALUE="SAXON" />
+                        <ITEM NAME="SCALA" VALUE="SCALA" />
+                        <ITEM NAME="SCHEMATRON" VALUE="SCHEMATRON" />
+                        <ITEM NAME="SCR" VALUE="SCR" />
+                        <ITEM NAME="SCRIPT" VALUE="SCRIPT" />
+                        <ITEM NAME="SERVLET" VALUE="SERVLET" />
+                        <ITEM NAME="SERVLETLISTENER" VALUE="SERVLETLISTENER" />
+                        <ITEM NAME="SHIRO" VALUE="SHIRO" />
+                        <ITEM NAME="SIP" VALUE="SIP" />
+                        <ITEM NAME="SJMS" VALUE="SJMS" />
+                        <ITEM NAME="SMPP" VALUE="SMPP" />
+                        <ITEM NAME="SNMP" VALUE="SNMP" />
+                        <ITEM NAME="SOAP" VALUE="SOAP" />
+                        <ITEM NAME="SOLR" VALUE="SOLR" />
+                        <ITEM NAME="SPARK-REST" VALUE="SPARK-REST" />
+                        <ITEM NAME="SPLUNK" VALUE="SPLUNK" />
+                        <ITEM NAME="SPRING-BATCH" VALUE="SPRING-BATCH" />
+                        <ITEM NAME="SPRING-INTEGRATION" VALUE="SPRING-INTEGRATION" />
+                        <ITEM NAME="SPRING-JAVACONFIG" VALUE="SPRING-JAVACONFIG" />
+                        <ITEM NAME="SPRING-LDAP" VALUE="SPRING-LDAP" />
+                        <ITEM NAME="SPRING-REDIS" VALUE="SPRING-REDIS" />
+                        <ITEM NAME="SPRING-SECURITY" VALUE="SPRING-SECURITY" />
+                        <ITEM NAME="SPRING-WS" VALUE="SPRING-WS" />
+                        <ITEM NAME="SQL" VALUE="SQL" />
+                        <ITEM NAME="SSH" VALUE="SSH" />
+                        <ITEM NAME="STAX" VALUE="STAX" />
+                        <ITEM NAME="STOMP" VALUE="STOMP" />
+                        <ITEM NAME="STREAM" VALUE="STREAM" />
+                        <ITEM NAME="STRINGTEMPLATE" VALUE="STRINGTEMPLATE" />
+                        <ITEM NAME="SWAGGER" VALUE="SWAGGER" />
+                        <ITEM NAME="SYSLOG" VALUE="SYSLOG" />
+                        <ITEM NAME="TAGSOUP" VALUE="TAGSOUP" />
+                        <ITEM NAME="TWITTER" VALUE="TWITTER" />
+                        <ITEM NAME="UNIVOCITY-PARSERS" VALUE="UNIVOCITY-PARSERS" />
+                        <ITEM NAME="URLREWRITE" VALUE="URLREWRITE" />
+                        <ITEM NAME="VELOCITY" VALUE="VELOCITY" />
+                        <ITEM NAME="VERTX" VALUE="VERTX" />
+                        <ITEM NAME="WEATHER" VALUE="WEATHER" />
+                        <ITEM NAME="WEBSOCKET" VALUE="WEBSOCKET" />
+                        <ITEM NAME="WMQ" VALUE="WMQ" />
+                        <ITEM NAME="XMLBEANS" VALUE="XMLBEANS" />
+                        <ITEM NAME="XMLJSON" VALUE="XMLJSON" />
+                        <ITEM NAME="XMLRPC" VALUE="XMLRPC" />
+                        <ITEM NAME="XMLSECURITY" VALUE="XMLSECURITY" />
+                        <ITEM NAME="XMPP" VALUE="XMPP" />
+                        <ITEM NAME="XSTREAM" VALUE="XSTREAM" />
+                        <ITEM NAME="YAMMER" VALUE="YAMMER" />
+                        <ITEM NAME="ZIPFILE" VALUE="ZIPFILE" />
+                        <ITEM NAME="ZOOKEEPER" VALUE="ZOOKEEPER" />
+                    </ITEMS>
+                </ITEM>
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER FIELD="CHECK" NAME="USE_CUSTOM_COMPONENT"
+            NUM_ROW="45">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER FIELD="MODULE_LIST" NAME="LIBRARY" NUM_ROW="50"
+            REQUIRED="true" SHOW_IF="USE_CUSTOM_COMPONENT=='true'">
+            <DEFAULT />
+        </PARAMETER>
+    </ADVANCED_PARAMETERS>
 
-	<ADVANCED_PARAMETERS>
-		<PARAMETER FIELD="TABLE" NAME="HOTLIBS" NB_LINES="8" NUM_ROW="10">
-			<ITEMS>
-				<ITEM FIELD="CLOSED_LIST" NAME="LIBPATH">
-					<ITEMS DEFAULT="AMQP">
-						<ITEM NAME="AHC" VALUE="AHC"/>
-						<ITEM NAME="AHC-WS" VALUE="AHC-WS"/>
-						<ITEM NAME="AMQP" VALUE="AMQP"/>
-						<ITEM NAME="APNS" VALUE="APNS"/>
-						<ITEM NAME="ATMOS" VALUE="ATMOS"/>
-						<ITEM NAME="ATMOSPHERE-WEBSOCKET" VALUE="ATMOSPHERE-WEBSOCKET"/>
-						<ITEM NAME="ATOM" VALUE="ATOM"/>
-						<ITEM NAME="AVRO" VALUE="AVRO"/>
-						<ITEM NAME="AWS" VALUE="AWS"/>
-						<ITEM NAME="BAM" VALUE="BAM"/>
-						<ITEM NAME="BARCODE" VALUE="BARCODE"/>
-						<ITEM NAME="BEAN-VALIDATOR" VALUE="BEAN-VALIDATOR"/>
-						<ITEM NAME="BEANIO" VALUE="BEANIO"/>
-						<ITEM NAME="BEANSTALK" VALUE="BEANSTALK"/>
-						<ITEM NAME="BINDY" VALUE="BINDY"/>
-						<ITEM NAME="BLUEPRINT" VALUE="BLUEPRINT"/>
-						<ITEM NAME="BOX" VALUE="BOX"/>
-						<ITEM NAME="CACHE" VALUE="CACHE"/>
-						<ITEM NAME="CASSANDRAQL" VALUE="CASSANDRAQL"/>
-						<ITEM NAME="CASTOR" VALUE="CASTOR"/>
-						<ITEM NAME="CHUNK" VALUE="CHUNK"/>
-						<ITEM NAME="CMIS" VALUE="CMIS"/>
-						<ITEM NAME="COMETD" VALUE="COMETD"/>
-						<ITEM NAME="CONTEXT" VALUE="CONTEXT"/>
-						<ITEM NAME="COUCHDB" VALUE="COUCHDB"/>
-						<ITEM NAME="CRYPTO" VALUE="CRYPTO"/>
-						<ITEM NAME="CSV" VALUE="CSV"/>
-						<ITEM NAME="CXF" VALUE="CXF"/>
-						<ITEM NAME="CXF_BUNDLE" VALUE="CXF_BUNDLE"/>
-						<ITEM NAME="DISRUPTOR" VALUE="DISRUPTOR"/>
-						<ITEM NAME="DNS" VALUE="DNS"/>
-						<ITEM NAME="DOCKER" VALUE="DOCKER"/>
-						<ITEM NAME="DOZER" VALUE="DOZER"/>
-						<ITEM NAME="DROPBOX" VALUE="DROPBOX"/>
-						<!--ITEM NAME="ECLIPSE" VALUE="ECLIPSE"/-->
-						<ITEM NAME="EJB" VALUE="EJB"/>
-						<ITEM NAME="ELASTICSEARCH" VALUE="ELASTICSEARCH"/>
-						<ITEM NAME="EVENTADMIN" VALUE="EVENTADMIN"/>
-						<ITEM NAME="EXEC" VALUE="EXEC"/>
-						<ITEM NAME="FACEBOOK" VALUE="FACEBOOK"/>
-						<ITEM NAME="FLATPACK" VALUE="FLATPACK"/>
-						<ITEM NAME="FOP" VALUE="FOP"/>
-						<ITEM NAME="FREEMARKER" VALUE="FREEMARKER"/>
-						<ITEM NAME="FTP" VALUE="FTP"/>
-						<ITEM NAME="GAE" VALUE="GAE"/>
-						<ITEM NAME="GANGLIA" VALUE="GANGLIA"/>
-						<ITEM NAME="GEOCODER" VALUE="GEOCODER"/>
-						<ITEM NAME="GITHUB" VALUE="GITHUB"/>
-						<ITEM NAME="GOOGLE-CALENDAR" VALUE="GOOGLE-CALENDAR"/>
-						<ITEM NAME="GOOGLE-DRIVE" VALUE="GOOGLE-DRIVE"/>
-						<ITEM NAME="GOOGLE-MAIL" VALUE="GOOGLE-MAIL"/>
-						<ITEM NAME="GORA" VALUE="GORA"/>
-						<ITEM NAME="GROOVY" VALUE="GROOVY"/>
-						<ITEM NAME="GSON" VALUE="GSON"/>
-						<ITEM NAME="GUAVA-EVENTBUS" VALUE="GUAVA-EVENTBUS"/>
-						<ITEM NAME="GUICE" VALUE="GUICE"/>
-						<ITEM NAME="HAWTDB" VALUE="HAWTDB"/>
-						<ITEM NAME="HAZELCAST" VALUE="HAZELCAST"/>
-						<ITEM NAME="HBASE" VALUE="HBASE"/>
-						<ITEM NAME="HDFS" VALUE="HDFS"/>
-						<ITEM NAME="HDFS2" VALUE="HDFS2"/>
-						<ITEM NAME="HIPCHAT" VALUE="HIPCHAT"/>
-						<ITEM NAME="HL7" VALUE="HL7"/>
-						<ITEM NAME="HTTP" VALUE="HTTP"/>
-						<ITEM NAME="HTTP4" VALUE="HTTP4"/>
-						<ITEM NAME="IBATIS" VALUE="IBATIS"/>
-						<ITEM NAME="ICAL" VALUE="ICAL"/>
-						<ITEM NAME="INFINISPAN" VALUE="INFINISPAN"/>
-						<ITEM NAME="IRC" VALUE="IRC"/>
-						<ITEM NAME="JACKSON" VALUE="JACKSON"/>
-						<ITEM NAME="JASYPT" VALUE="JASYPT"/>
-						<ITEM NAME="JAVASPACE" VALUE="JAVASPACE"/>
-						<ITEM NAME="JAXB" VALUE="JAXB"/>
-						<ITEM NAME="JCLOUDS" VALUE="JCLOUDS"/>
-						<ITEM NAME="JCR" VALUE="JCR"/>
-						<ITEM NAME="JDBC" VALUE="JDBC"/>
-						<ITEM NAME="JETTY" VALUE="JETTY"/>
-						<ITEM NAME="JGROUPS" VALUE="JGROUPS"/>
-						<ITEM NAME="JIBX" VALUE="JIBX"/>
-						<ITEM NAME="JING" VALUE="JING"/>
-						<ITEM NAME="JIRA" VALUE="JIRA"/>
-						<ITEM NAME="JMS" VALUE="JMS"/>
-						<ITEM NAME="JMX" VALUE="JMX"/>
-						<ITEM NAME="JOSQL" VALUE="JOSQL"/>
-						<ITEM NAME="JPA" VALUE="JPA"/>
-						<ITEM NAME="JSCH" VALUE="JSCH"/>
-						<ITEM NAME="JSONPATH" VALUE="JSONPATH"/>
-						<ITEM NAME="JT400" VALUE="JT400"/>
-						<ITEM NAME="JUEL" VALUE="JUEL"/>
-						<ITEM NAME="JXPATH" VALUE="JXPATH"/>
-						<ITEM NAME="KAFKA" VALUE="KAFKA"/>
-						<ITEM NAME="KESTREL" VALUE="KESTREL"/>
-						<ITEM NAME="KRATI" VALUE="KRATI"/>
-						<ITEM NAME="KURA" VALUE="KURA"/>
-						<ITEM NAME="LDAP" VALUE="LDAP"/>
-						<ITEM NAME="LEVELDB" VALUE="LEVELDB"/>
-						<ITEM NAME="LINKEDIN" VALUE="LINKEDIN"/>
-						<ITEM NAME="LUCENE" VALUE="LUCENE"/>
-						<ITEM NAME="MAIL" VALUE="MAIL"/>
-						<ITEM NAME="METRICS" VALUE="METRICS"/>
-						<ITEM NAME="MINA" VALUE="MINA"/>
-						<ITEM NAME="MINA2" VALUE="MINA2"/>
-						<ITEM NAME="MONGODB" VALUE="MONGODB"/>
-						<ITEM NAME="MONGODB-GRIDFS" VALUE="MONGODB-GRIDFS"/>
-						<ITEM NAME="MQTT" VALUE="MQTT"/>
-						<ITEM NAME="MSV" VALUE="MSV"/>
-						<ITEM NAME="MUSTACHE" VALUE="MUSTACHE"/>
-						<ITEM NAME="MVEL" VALUE="MVEL"/>
-						<ITEM NAME="MYBATIS" VALUE="MYBATIS"/>
-						<ITEM NAME="NAGIOS" VALUE="NAGIOS"/>
-						<ITEM NAME="NETTY" VALUE="NETTY"/>
-						<ITEM NAME="NETTY-HTTP" VALUE="NETTY-HTTP"/>
-						<ITEM NAME="NETTY4" VALUE="NETTY4"/>
-						<ITEM NAME="NETTY4-HTTP" VALUE="NETTY4-HTTP"/>
-						<ITEM NAME="OGNL" VALUE="OGNL"/>
-						<ITEM NAME="OLINGO2" VALUE="OLINGO2"/>
-						<ITEM NAME="OPTAPLANNER" VALUE="OPTAPLANNER"/>
-						<ITEM NAME="PAXLOGGING" VALUE="PAXLOGGING"/>
-						<ITEM NAME="PGEVENT" VALUE="PGEVENT"/>
-						<ITEM NAME="PRINTER" VALUE="PRINTER"/>
-						<ITEM NAME="PROTOBUF" VALUE="PROTOBUF"/>
-						<ITEM NAME="QUARTZ" VALUE="QUARTZ"/>
-						<ITEM NAME="QUARTZ2" VALUE="QUARTZ2"/>
-						<ITEM NAME="QUICKFIX" VALUE="QUICKFIX"/>
-						<ITEM NAME="RABBITMQ" VALUE="RABBITMQ"/>
-						<ITEM NAME="RESTLET" VALUE="RESTLET"/>
-						<ITEM NAME="RMI" VALUE="RMI"/>
-						<ITEM NAME="ROUTEBOX" VALUE="ROUTEBOX"/>
-						<ITEM NAME="RSS" VALUE="RSS"/>
-						<ITEM NAME="RUBY" VALUE="RUBY"/>
-						<ITEM NAME="RX" VALUE="RX"/>
-						<ITEM NAME="SALESFORCE" VALUE="SALESFORCE"/>
-						<ITEM NAME="SAP-NETWEAVER" VALUE="SAP-NETWEAVER"/>
-						<ITEM NAME="SAXON" VALUE="SAXON"/>
-						<ITEM NAME="SCALA" VALUE="SCALA"/>
-						<ITEM NAME="SCHEMATRON" VALUE="SCHEMATRON"/>
-						<ITEM NAME="SCR" VALUE="SCR"/>
-						<ITEM NAME="SCRIPT" VALUE="SCRIPT"/>
-						<ITEM NAME="SERVLET" VALUE="SERVLET"/>
-						<ITEM NAME="SERVLETLISTENER" VALUE="SERVLETLISTENER"/>
-						<ITEM NAME="SHIRO" VALUE="SHIRO"/>
-						<ITEM NAME="SIP" VALUE="SIP"/>
-						<ITEM NAME="SJMS" VALUE="SJMS"/>
-						<ITEM NAME="SMPP" VALUE="SMPP"/>
-						<ITEM NAME="SNMP" VALUE="SNMP"/>
-						<ITEM NAME="SOAP" VALUE="SOAP"/>
-						<ITEM NAME="SOLR" VALUE="SOLR"/>
-						<ITEM NAME="SPARK-REST" VALUE="SPARK-REST"/>
-						<ITEM NAME="SPLUNK" VALUE="SPLUNK"/>
-						<ITEM NAME="SPRING-BATCH" VALUE="SPRING-BATCH"/>
-						<ITEM NAME="SPRING-INTEGRATION" VALUE="SPRING-INTEGRATION"/>
-						<ITEM NAME="SPRING-JAVACONFIG" VALUE="SPRING-JAVACONFIG"/>
-						<ITEM NAME="SPRING-LDAP" VALUE="SPRING-LDAP"/>
-						<ITEM NAME="SPRING-REDIS" VALUE="SPRING-REDIS"/>
-						<ITEM NAME="SPRING-SECURITY" VALUE="SPRING-SECURITY"/>
-						<ITEM NAME="SPRING-WS" VALUE="SPRING-WS"/>
-						<ITEM NAME="SQL" VALUE="SQL"/>
-						<ITEM NAME="SSH" VALUE="SSH"/>
-						<ITEM NAME="STAX" VALUE="STAX"/>
-						<ITEM NAME="STOMP" VALUE="STOMP"/>
-						<ITEM NAME="STREAM" VALUE="STREAM"/>
-						<ITEM NAME="STRINGTEMPLATE" VALUE="STRINGTEMPLATE"/>
-						<ITEM NAME="SWAGGER" VALUE="SWAGGER"/>
-						<ITEM NAME="SYSLOG" VALUE="SYSLOG"/>
-						<ITEM NAME="TAGSOUP" VALUE="TAGSOUP"/>
-						<ITEM NAME="TWITTER" VALUE="TWITTER"/>
-						<ITEM NAME="UNIVOCITY-PARSERS" VALUE="UNIVOCITY-PARSERS"/>
-						<ITEM NAME="URLREWRITE" VALUE="URLREWRITE"/>
-						<ITEM NAME="VELOCITY" VALUE="VELOCITY"/>
-						<ITEM NAME="VERTX" VALUE="VERTX"/>
-						<ITEM NAME="WEATHER" VALUE="WEATHER"/>
-						<ITEM NAME="WEBSOCKET" VALUE="WEBSOCKET"/>
-						<ITEM NAME="WMQ" VALUE="WMQ"/>
-						<ITEM NAME="XMLBEANS" VALUE="XMLBEANS"/>
-						<ITEM NAME="XMLJSON" VALUE="XMLJSON"/>
-						<ITEM NAME="XMLRPC" VALUE="XMLRPC"/>
-						<ITEM NAME="XMLSECURITY" VALUE="XMLSECURITY"/>
-						<ITEM NAME="XMPP" VALUE="XMPP"/>
-						<ITEM NAME="XSTREAM" VALUE="XSTREAM"/>
-						<ITEM NAME="YAMMER" VALUE="YAMMER"/>
-						<ITEM NAME="ZIPFILE" VALUE="ZIPFILE"/>
-						<ITEM NAME="ZOOKEEPER" VALUE="ZOOKEEPER"/>
-					</ITEMS>
-				</ITEM>
-			</ITEMS>
-		</PARAMETER>
-
-		<PARAMETER FIELD="CHECK" NAME="USE_CUSTOM_COMPONENT"
-			NUM_ROW="45">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER FIELD="MODULE_LIST" NAME="LIBRARY" NUM_ROW="50"
-			REQUIRED="true" SHOW_IF="USE_CUSTOM_COMPONENT=='true'">
-			<DEFAULT />
-		</PARAMETER>
-	</ADVANCED_PARAMETERS>
-
-	<CODEGENERATION>
-		<IMPORTS>
+    <CODEGENERATION>
+        <IMPORTS>
             <IMPORT MODULE_GROUP="camel-core" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-spring" REQUIRED="true" />
-
             <!-- additional deps which excluded by camel-shape build -->
-            <IMPORT MODULE="commons-codec" MVN="${mvn-commons-codec}" REQUIRED="true" />
-            <IMPORT MODULE="commons-collections" MVN="${mvn-commons-collections}" REQUIRED="true" />
-            <IMPORT MODULE="commons-httpclient" MVN="${mvn-commons-httpclient}" REQUIRED="true" />
-            <IMPORT MODULE="commons-io" MVN="${mvn-commons-io}" REQUIRED="true" />
-            <IMPORT MODULE="commons-lang" MVN="${mvn-commons-lang}" REQUIRED="true" />
-            <IMPORT MODULE="commons-pool" MVN="${mvn-commons-pool}" REQUIRED="true" />
-            <IMPORT MODULE="commons-net" MVN="${mvn-commons-net}" REQUIRED="true" />
-
-			<IMPORT MODULE="camel-ahc-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-ahc-alldep-${camel.version}/6.0.0"  NAME="talend-camel-ahc"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ahc-alldep-${camel.version}.jar" 
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['AHC']" />
-			<IMPORT MODULE="camel-ahc-ws-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-ahc-ws-alldep-${camel.version}/6.0.0"  NAME="talend-camel-ahcws"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ahc-ws-alldep-${camel.version}.jar" 
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['AHCWS']" />
-            <IMPORT MODULE_GROUP="camel-amqp"
-                    REQUIRED_IF="HOTLIBS.LIBPATH IN ['AMQP']" />
-			<IMPORT MODULE="camel-apns-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-apns-alldep-${camel.version}/6.0.0"  NAME="talend-camel-apns"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-apns-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['APNS']" />
-			<IMPORT MODULE="camel-atmos-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-atmos-alldep-${camel.version}/6.0.0"  NAME="talend-camel-atmos"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-atmos-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['ATMOS']" />
-			<IMPORT MODULE="camel-atmosphere-websocket-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-atmosphere-websocket-alldep-${camel.version}/6.0.0"  NAME="talend-atmosphere-websocket-atmos"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-atmosphere-websocket-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['ATMOSPHERE-WEBSOCKET']" />
-			<IMPORT MODULE="camel-atom-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-atom-alldep-${camel.version}/6.0.0"  NAME="talend-camel-atom"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-atom-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['ATOM']" />
-			<IMPORT MODULE="camel-avro-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-avro-alldep-${camel.version}/6.0.0"  NAME="talend-camel-avro"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-avro-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['AVRO']" />
-			<IMPORT MODULE="camel-aws-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-aws-alldep-${camel.version}/6.0.0"  NAME="talend-camel-aws"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-aws-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['AWS']" />
-			<IMPORT MODULE="camel-bam-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-bam-alldep-${camel.version}/6.0.0"  NAME="talend-camel-bam"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-bam-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['BAM']" />
-			<IMPORT MODULE="camel-barcode-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-barcode-alldep-${camel.version}/6.0.0"  NAME="talend-camel-barcode"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-barcode-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['BARCODE']" />
-			<IMPORT MODULE="camel-bean-validator-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-bean-validator-alldep-${camel.version}/6.0.0"  NAME="talend-camel-bean-validator"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-bean-validator-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['BEAN-VALIDATOR']" />
-			<IMPORT MODULE="camel-beanio-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-beanio-alldep-${camel.version}/6.0.0"  NAME="talend-camel-beanio"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-beanio-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['BEANIO']" />
-			<IMPORT MODULE="camel-beanstalk-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-beanstalk-alldep-${camel.version}/6.0.0"  NAME="talend-camel-beanstalk"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-beanstalk-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['BEANSTALK']" />
-			<IMPORT MODULE="camel-bindy-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-bindy-alldep-${camel.version}/6.0.0"  NAME="talend-camel-bindy"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-bindy-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['BINDY']" />
-			<IMPORT MODULE="camel-blueprint-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-blueprint-alldep-${camel.version}/6.0.0"  NAME="talend-camel-blueprint"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-blueprint-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['BLUEPRINT']" />
-			<IMPORT MODULE="camel-box-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-box-alldep-${camel.version}/6.0.0"  NAME="talend-camel-box"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-box-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['BOX']" />
-			<IMPORT MODULE="camel-cache-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-cache-alldep-${camel.version}/6.0.0"  NAME="talend-camel-cache"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-cache-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['CACHE']" />
-			<IMPORT MODULE="camel-cassandraql-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-cassandraql-alldep-${camel.version}/6.0.0"  NAME="talend-cassandraql-cache"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-cassandraql-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['CASSANDRAQL']" />
-			<IMPORT MODULE="camel-castor-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-castor-alldep-${camel.version}/6.0.0"  NAME="talend-camel-castor"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-castor-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['CASTOR']" />
-			<IMPORT MODULE="camel-chunk-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-chunk-alldep-${camel.version}/6.0.0"  NAME="talend-camel-chunk"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-chunk-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['CHUNK']" />
-			<IMPORT MODULE="camel-cmis-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-cmis-alldep-${camel.version}/6.0.0"  NAME="talend-camel-cmis"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-cmis-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['CMIS']" />
-			<IMPORT MODULE="camel-cometd-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-cometd-alldep-${camel.version}/6.0.0"  NAME="talend-camel-cometd"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-cometd-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['COMETD']" />
-			<IMPORT MODULE="camel-couchdb-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-couchdb-alldep-${camel.version}/6.0.0"  NAME="talend-camel-couchdb"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-couchdb-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['COUCHDB']" />
-            <IMPORT MODULE="camel-context-${camel.version}.jar" MVN="${mvn-camel-context}" NAME="camel-context"
+            <IMPORT MODULE="commons-codec" MVN="${mvn-commons-codec}"
+                REQUIRED="true" />
+            <IMPORT MODULE="commons-collections" MVN="${mvn-commons-collections}"
+                REQUIRED="true" />
+            <IMPORT MODULE="commons-httpclient" MVN="${mvn-commons-httpclient}"
+                REQUIRED="true" />
+            <IMPORT MODULE="commons-io" MVN="${mvn-commons-io}"
+                REQUIRED="true" />
+            <IMPORT MODULE="commons-lang" MVN="${mvn-commons-lang}"
+                REQUIRED="true" />
+            <IMPORT MODULE="commons-pool" MVN="${mvn-commons-pool}"
+                REQUIRED="true" />
+            <IMPORT MODULE="commons-net" MVN="${mvn-commons-net}"
+                REQUIRED="true" />
+            <IMPORT MODULE="camel-ahc-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-ahc-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-ahc"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ahc-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['AHC']" />
+            <IMPORT MODULE="camel-ahc-ws-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-ahc-ws-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-ahcws"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ahc-ws-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['AHCWS']" />
+            <IMPORT MODULE_GROUP="camel-amqp" REQUIRED_IF="HOTLIBS.LIBPATH IN ['AMQP']" />
+            <IMPORT MODULE="camel-apns-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-apns-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-apns"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-apns-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['APNS']" />
+            <IMPORT MODULE="camel-atmos-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-atmos-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-atmos"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-atmos-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['ATMOS']" />
+            <IMPORT
+                MODULE="camel-atmosphere-websocket-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-atmosphere-websocket-alldep-${camel.version}/6.0.0"
+                NAME="talend-atmosphere-websocket-atmos"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-atmosphere-websocket-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['ATMOSPHERE-WEBSOCKET']" />
+            <IMPORT MODULE="camel-atom-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-atom-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-atom"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-atom-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['ATOM']" />
+            <IMPORT MODULE="camel-avro-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-avro-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-avro"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-avro-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['AVRO']" />
+            <IMPORT MODULE="camel-aws-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-aws-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-aws"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-aws-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['AWS']" />
+            <IMPORT MODULE="camel-bam-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-bam-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-bam"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-bam-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['BAM']" />
+            <IMPORT MODULE="camel-barcode-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-barcode-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-barcode"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-barcode-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['BARCODE']" />
+            <IMPORT MODULE="camel-bean-validator-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-bean-validator-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-bean-validator"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-bean-validator-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['BEAN-VALIDATOR']" />
+            <IMPORT MODULE="camel-beanio-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-beanio-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-beanio"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-beanio-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['BEANIO']" />
+            <IMPORT MODULE="camel-beanstalk-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-beanstalk-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-beanstalk"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-beanstalk-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['BEANSTALK']" />
+            <IMPORT MODULE="camel-bindy-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-bindy-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-bindy"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-bindy-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['BINDY']" />
+            <IMPORT MODULE="camel-blueprint-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-blueprint-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-blueprint"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-blueprint-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['BLUEPRINT']" />
+            <IMPORT MODULE="camel-box-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-box-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-box"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-box-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['BOX']" />
+            <IMPORT MODULE="camel-cache-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-cache-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-cache"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-cache-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['CACHE']" />
+            <IMPORT MODULE="camel-cassandraql-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-cassandraql-alldep-${camel.version}/6.0.0"
+                NAME="talend-cassandraql-cache"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-cassandraql-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['CASSANDRAQL']" />
+            <IMPORT MODULE="camel-castor-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-castor-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-castor"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-castor-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['CASTOR']" />
+            <IMPORT MODULE="camel-chunk-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-chunk-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-chunk"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-chunk-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['CHUNK']" />
+            <IMPORT MODULE="camel-cmis-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-cmis-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-cmis"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-cmis-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['CMIS']" />
+            <IMPORT MODULE="camel-cometd-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-cometd-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-cometd"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-cometd-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['COMETD']" />
+            <IMPORT MODULE="camel-couchdb-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-couchdb-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-couchdb"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-couchdb-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['COUCHDB']" />
+            <IMPORT MODULE="camel-context-${camel.version}.jar"
+                MVN="${mvn-camel-context}" NAME="camel-context"
                 UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-context-${camel.version}.jar"
                 REQUIRED_IF="HOTLIBS.LIBPATH IN ['CONTEXT']" />
-			<IMPORT MODULE="camel-crypto-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-crypto-alldep-${camel.version}/6.0.0"  NAME="talend-camel-crypto"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-crypto-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['CRYPTO']" />
-			<IMPORT MODULE="camel-csv-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-csv-alldep-${camel.version}/6.0.0"  NAME="talend-camel-csv"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-csv-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['CSV']" />
+            <IMPORT MODULE="camel-crypto-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-crypto-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-crypto"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-crypto-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['CRYPTO']" />
+            <IMPORT MODULE="camel-csv-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-csv-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-csv"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-csv-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['CSV']" />
             <IMPORT MODULE_GROUP="camel-cxf"
-                    REQUIRED_IF="(HOTLIBS.LIBPATH IN ['CXF']) OR (HOTLIBS.LIBPATH IN ['CXF_BUNDLE'])" />
-			<IMPORT MODULE="camel-disruptor-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-disruptor-alldep-${camel.version}/6.0.0"  NAME="talend-camel-disruptor"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-disruptor-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['DISRUPTOR']" />
-			<IMPORT MODULE="camel-dns-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-dns-alldep-${camel.version}/6.0.0"  NAME="talend-camel-dns"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-dns-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['DNS']" />
-			<IMPORT MODULE="camel-docker-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-docker-alldep-${camel.version}/6.0.0"  NAME="talend-camel-docker"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-docker-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['DOCKER']" />
-			<IMPORT MODULE="camel-dozer-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-dozer-alldep-${camel.version}/6.0.0"  NAME="talend-camel-dozer"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-dozer-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['DOZER']" />
-			<IMPORT MODULE="camel-dropbox-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-dropbox-alldep-${camel.version}/6.0.0"  NAME="talend-camel-dropbox"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-dropbox-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['DROPBOX']" />
-			<!--IMPORT MODULE="camel-eclipse-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-eclipse-${camel.version}/6.0.0"  NAME="talend-camel-eclipse"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-eclipse-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['ECLIPSE']" /-->
-			<IMPORT MODULE="camel-ejb-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-ejb-alldep-${camel.version}/6.0.0"  NAME="talend-camel-ejb"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ejb-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['EJB']" />
-			<IMPORT MODULE="camel-elasticsearch-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-elasticsearch-alldep-${camel.version}/6.0.0"  NAME="talend-camel-elasticsearch"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-elasticsearch-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['ELASTICSEARCH']" />
-			<IMPORT MODULE="camel-eventadmin-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-eventadmin-alldep-${camel.version}/6.0.0"  NAME="talend-camel-eventadmin"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-eventadmin-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['EVENTADMIN']" />
-			<IMPORT MODULE="camel-exec-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-exec-alldep-${camel.version}/6.0.0"  NAME="talend-camel-exec"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-exec-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['EXEC']" />
-			<IMPORT MODULE="camel-facebook-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-facebook-alldep-${camel.version}/6.0.0"  NAME="talend-camel-facebook"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-facebook-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['FACEBOOK']" />
+                REQUIRED_IF="(HOTLIBS.LIBPATH IN ['CXF']) OR (HOTLIBS.LIBPATH IN ['CXF_BUNDLE'])" />
+            <IMPORT MODULE="camel-disruptor-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-disruptor-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-disruptor"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-disruptor-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['DISRUPTOR']" />
+            <IMPORT MODULE="camel-dns-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-dns-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-dns"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-dns-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['DNS']" />
+            <IMPORT MODULE="camel-docker-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-docker-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-docker"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-docker-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['DOCKER']" />
+            <IMPORT MODULE="camel-dozer-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-dozer-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-dozer"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-dozer-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['DOZER']" />
+            <IMPORT MODULE="camel-dropbox-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-dropbox-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-dropbox"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-dropbox-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['DROPBOX']" />
+            <IMPORT MODULE="camel-ejb-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-ejb-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-ejb"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ejb-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['EJB']" />
+            <IMPORT MODULE="camel-elasticsearch-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-elasticsearch-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-elasticsearch"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-elasticsearch-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['ELASTICSEARCH']" />
+            <IMPORT MODULE="camel-eventadmin-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-eventadmin-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-eventadmin"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-eventadmin-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['EVENTADMIN']" />
+            <IMPORT MODULE="camel-exec-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-exec-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-exec"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-exec-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['EXEC']" />
+            <IMPORT MODULE="camel-facebook-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-facebook-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-facebook"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-facebook-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['FACEBOOK']" />
             <IMPORT MODULE_GROUP="camel-flatpack"
                 REQUIRED_IF="HOTLIBS.LIBPATH IN ['FLATPACK']" />
-			<IMPORT MODULE="camel-fop-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-fop-alldep-${camel.version}/6.0.0"  NAME="talend-camel-fop"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-fop-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['FOP']" />
-			<IMPORT MODULE="camel-freemarker-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-freemarker-alldep-${camel.version}/6.0.0"  NAME="talend-camel-freemarker"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-freemarker-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['FREEMARKER']" />
-            <IMPORT MODULE_GROUP="camel-ftp"
-                    REQUIRED_IF="HOTLIBS.LIBPATH IN ['FTP']" />
-			<IMPORT MODULE="camel-gae-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-gae-alldep-${camel.version}/6.0.0"  NAME="talend-camel-gae"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-gae-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GAE']" />
-			<IMPORT MODULE="camel-ganglia-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-ganglia-alldep-${camel.version}/6.0.0"  NAME="talend-camel-ganglia"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ganglia-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GANGLIA']" />
-			<IMPORT MODULE="camel-geocoder-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-geocoder-alldep-${camel.version}/6.0.0"  NAME="talend-camel-geocoder"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-geocoder-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GEOCODER']" />
-			<IMPORT MODULE="camel-github-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-github-alldep-${camel.version}/6.0.0"  NAME="talend-camel-github"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-github-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GITHUB']" />
-			<IMPORT MODULE="camel-google-calendar-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-google-calendar-alldep-${camel.version}/6.0.0"  NAME="talend-camel-google-calendar"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-google-calendar-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GOOGLE-CALENDAR']" />
-			<IMPORT MODULE="camel-google-drive-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-google-drive-alldep-${camel.version}/6.0.0"  NAME="talend-camel-google-drive"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-google-drive-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GOOGLE-DRIVE']" />
-			<IMPORT MODULE="camel-google-mail-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-google-mail-alldep-${camel.version}/6.0.0"  NAME="talend-camel-google-mail"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-google-mail-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GOOGLE-MAIL']" />
-			<IMPORT MODULE="camel-gora-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-gora-alldep-${camel.version}/6.0.0"  NAME="talend-camel-gora"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-gora-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GORA']" />
-            <IMPORT MODULE_GROUP="camel-groovy"
-                    REQUIRED_IF="HOTLIBS.LIBPATH IN ['GROOVY']" />
-			<IMPORT MODULE="camel-gson-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-gson-alldep-${camel.version}/6.0.0"  NAME="talend-camel-gson"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-gson-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GSON']" />
-			<IMPORT MODULE="camel-guava-eventbus-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-guava-eventbus-alldep-${camel.version}/6.0.0"  NAME="talend-camel-guava-eventbus"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-guava-eventbus-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GUAVA-EVENTBUS']" />
-			<IMPORT MODULE="camel-guice-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-guice-alldep-${camel.version}/6.0.0"  NAME="talend-camel-guice"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-guice-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['GUICE']" />
-			<IMPORT MODULE="camel-hawtdb-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-hawtdb-alldep-${camel.version}/6.0.0"  NAME="talend-camel-hawtdb"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hawtdb-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['HAWTDB']" />
-			<IMPORT MODULE="camel-hazelcast-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-hazelcast-alldep-${camel.version}/6.0.0"  NAME="talend-camel-hazelcast"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hazelcast-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['HAZELCAST']" />
-			<IMPORT MODULE="camel-hbase-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-hbase-alldep-${camel.version}/6.0.0"  NAME="talend-camel-hbase"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hbase-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['HBASE']" />
-			<IMPORT MODULE="camel-hdfs-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-hdfs-alldep-${camel.version}/6.0.0"  NAME="talend-camel-hdfs"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hdfs-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['HDFS']" />
-			<IMPORT MODULE="camel-hdfs2-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-hdfs2-alldep-${camel.version}/6.0.0"  NAME="talend-camel-hdfs2"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hdfs2-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['HDFS2']" />
-			<IMPORT MODULE="camel-hipchat-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-hipchat-alldep-${camel.version}/6.0.0"  NAME="talend-camel-hipchat"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hipchat-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['HIPCHAT']" />
-			<IMPORT MODULE="camel-hl7-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-hl7-alldep-${camel.version}/6.0.0"  NAME="talend-camel-hl7"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hl7-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['HL7']" />
+            <IMPORT MODULE="camel-fop-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-fop-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-fop"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-fop-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['FOP']" />
+            <IMPORT MODULE="camel-freemarker-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-freemarker-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-freemarker"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-freemarker-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['FREEMARKER']" />
+            <IMPORT MODULE_GROUP="camel-ftp" REQUIRED_IF="HOTLIBS.LIBPATH IN ['FTP']" />
+            <IMPORT MODULE="camel-gae-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-gae-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-gae"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-gae-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GAE']" />
+            <IMPORT MODULE="camel-ganglia-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-ganglia-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-ganglia"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ganglia-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GANGLIA']" />
+            <IMPORT MODULE="camel-geocoder-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-geocoder-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-geocoder"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-geocoder-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GEOCODER']" />
+            <IMPORT MODULE="camel-github-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-github-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-github"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-github-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GITHUB']" />
+            <IMPORT MODULE="camel-google-calendar-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-google-calendar-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-google-calendar"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-google-calendar-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GOOGLE-CALENDAR']" />
+            <IMPORT MODULE="camel-google-drive-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-google-drive-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-google-drive"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-google-drive-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GOOGLE-DRIVE']" />
+            <IMPORT MODULE="camel-google-mail-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-google-mail-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-google-mail"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-google-mail-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GOOGLE-MAIL']" />
+            <IMPORT MODULE="camel-gora-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-gora-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-gora"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-gora-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GORA']" />
+            <IMPORT MODULE_GROUP="camel-groovy" REQUIRED_IF="HOTLIBS.LIBPATH IN ['GROOVY']" />
+            <IMPORT MODULE="camel-gson-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-gson-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-gson"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-gson-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GSON']" />
+            <IMPORT MODULE="camel-guava-eventbus-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-guava-eventbus-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-guava-eventbus"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-guava-eventbus-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GUAVA-EVENTBUS']" />
+            <IMPORT MODULE="camel-guice-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-guice-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-guice"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-guice-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['GUICE']" />
+            <IMPORT MODULE="camel-hawtdb-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-hawtdb-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-hawtdb"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hawtdb-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['HAWTDB']" />
+            <IMPORT MODULE="camel-hazelcast-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-hazelcast-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-hazelcast"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hazelcast-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['HAZELCAST']" />
+            <IMPORT MODULE="camel-hbase-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-hbase-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-hbase"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hbase-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['HBASE']" />
+            <IMPORT MODULE="camel-hdfs-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-hdfs-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-hdfs"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hdfs-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['HDFS']" />
+            <IMPORT MODULE="camel-hdfs2-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-hdfs2-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-hdfs2"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hdfs2-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['HDFS2']" />
+            <IMPORT MODULE="camel-hipchat-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-hipchat-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-hipchat"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hipchat-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['HIPCHAT']" />
+            <IMPORT MODULE="camel-hl7-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-hl7-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-hl7"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hl7-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['HL7']" />
             <IMPORT MODULE_GROUP="camel-http" REQUIRED_IF="HOTLIBS.LIBPATH IN ['HTTP']" />
-			<IMPORT MODULE="camel-http4-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-http4-alldep-${camel.version}/6.0.0"  NAME="talend-camel-http4"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-http4-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['HTTP4']" />
-			<IMPORT MODULE="camel-ibatis-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-ibatis-alldep-${camel.version}/6.0.0"  NAME="talend-camel-ibatis"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ibatis-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['IBATIS']" />
-			<IMPORT MODULE="camel-ical-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-ical-alldep-${camel.version}/6.0.0"  NAME="talend-camel-ical"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ical-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['ICAL']" />
-			<IMPORT MODULE="camel-infinispan-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-infinispan-alldep-${camel.version}/6.0.0"  NAME="talend-camel-infinispan"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-infinispan-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['INFINISPAN']" />
-			<IMPORT MODULE="camel-irc-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-irc-alldep-${camel.version}/6.0.0"  NAME="talend-camel-irc"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-irc-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['IRC']" />
-			<IMPORT MODULE="camel-jackson-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jackson-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jackson"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jackson-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JACKSON']" />
-			<IMPORT MODULE="camel-jasypt-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jasypt-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jasypt"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jasypt-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JASYPT']" />
-			<IMPORT MODULE="camel-javaspace-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-javaspace-alldep-${camel.version}/6.0.0"  NAME="talend-camel-javaspace"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-javaspace-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JAVASPACE']" />
-            <IMPORT MODULE="camel-jaxb-${camel.version}.jar" MVN="${mvn-camel-jaxb}" NAME="camel-jaxb"
+            <IMPORT MODULE="camel-http4-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-http4-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-http4"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-http4-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['HTTP4']" />
+            <IMPORT MODULE="camel-ibatis-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-ibatis-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-ibatis"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ibatis-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['IBATIS']" />
+            <IMPORT MODULE="camel-ical-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-ical-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-ical"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ical-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['ICAL']" />
+            <IMPORT MODULE="camel-infinispan-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-infinispan-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-infinispan"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-infinispan-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['INFINISPAN']" />
+            <IMPORT MODULE="camel-irc-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-irc-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-irc"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-irc-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['IRC']" />
+            <IMPORT MODULE="camel-jackson-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jackson-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jackson"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jackson-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JACKSON']" />
+            <IMPORT MODULE="camel-jasypt-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jasypt-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jasypt"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jasypt-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JASYPT']" />
+            <IMPORT MODULE="camel-javaspace-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-javaspace-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-javaspace"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-javaspace-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JAVASPACE']" />
+            <IMPORT MODULE="camel-jaxb-${camel.version}.jar" MVN="${mvn-camel-jaxb}"
+                NAME="camel-jaxb"
                 UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-jaxb-${camel.version}.jar"
                 REQUIRED_IF="HOTLIBS.LIBPATH IN ['JAXB']" />
-			<IMPORT MODULE="camel-jclouds-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jclouds-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jclouds"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jclouds-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JCLOUDS']" />
-			<IMPORT MODULE="camel-jcr-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jcr-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jcr"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jcr-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JCR']" />
-            <IMPORT MODULE="camel-jdbc-${camel.version}.jar" MVN="${mvn-camel-jdbc}" NAME="camel-jdbc"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-jdbc-${camel.version}.jar"
-                    REQUIRED_IF="HOTLIBS.LIBPATH IN ['JDBC']" />
-            <IMPORT MODULE_GROUP="camel-jetty"
-                    REQUIRED_IF="HOTLIBS.LIBPATH IN ['JETTY']" />
-			<IMPORT MODULE="camel-jgroups-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jgroups-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jgroups"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jgroups-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JGROUPS']" />
-			<IMPORT MODULE="camel-jibx-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jibx-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jibx"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jibx-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JIBX']" />
-			<IMPORT MODULE="camel-jing-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jing-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jing"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jing-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JING']" />
-			<IMPORT MODULE="camel-jira-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jira-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jira"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jira-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JIRA']" />
-            <IMPORT MODULE_GROUP="camel-jms"
-                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JMS']" />
-			<IMPORT MODULE="camel-jmx-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jmx-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jmx"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jmx-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JMX']" />
-			<IMPORT MODULE="camel-josql-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-josql-alldep-${camel.version}/6.0.0"  NAME="talend-camel-josql"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-josql-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JOSQL']" />
-			<IMPORT MODULE="camel-jpa-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jpa-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jpa"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jpa-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JPA']" />
-			<IMPORT MODULE="camel-jsch-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jsch-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jsch"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsch-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JSCH']" />
-			<IMPORT MODULE="camel-jsonpath-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jsonpath-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jsonpath"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsonpath-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JSONPATH']" />
-			<IMPORT MODULE="camel-jt400-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jt400-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jt400"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jt400-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JT400']" />
-			<IMPORT MODULE="camel-juel-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-juel-alldep-${camel.version}/6.0.0"  NAME="talend-camel-juel"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-juel-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JUEL']" />
-			<IMPORT MODULE="camel-jxpath-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jxpath-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jxpath"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jxpath-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['JXPATH']" />
-			<IMPORT MODULE="camel-kafka-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-kafka-alldep-${camel.version}/6.0.0"  NAME="talend-camel-kafka"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-kafka-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['KAFKA']" />
-			<IMPORT MODULE="camel-kestrel-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-kestrel-alldep-${camel.version}/6.0.0"  NAME="talend-camel-kestrel"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-kestrel-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['KESTREL']" />
-			<IMPORT MODULE="camel-krati-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-krati-alldep-${camel.version}/6.0.0"  NAME="talend-camel-krati"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-krati-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['KRATI']" />
-			<IMPORT MODULE="camel-kura-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-kura-alldep-${camel.version}/6.0.0"  NAME="talend-camel-kura"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-kura-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['KURA']" />
-			<IMPORT MODULE="camel-ldap-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-ldap-alldep-${camel.version}/6.0.0"  NAME="talend-camel-ldap"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ldap-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['LDAP']" />
-			<IMPORT MODULE="camel-leveldb-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-leveldb-alldep-${camel.version}/6.0.0"  NAME="talend-camel-leveldb"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-leveldb-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['LEVELDB']" />
-			<IMPORT MODULE="camel-linkedin-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-linkedin-alldep-${camel.version}/6.0.0"  NAME="talend-camel-linkedin"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-linkedin-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['LINKEDIN']" />
-			<IMPORT MODULE="camel-lucene-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-lucene-alldep-${camel.version}/6.0.0"  NAME="talend-camel-lucene"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-lucene-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['LUCENE']" />
-            <IMPORT MODULE_GROUP="camel-mail"
-                REQUIRED_IF="HOTLIBS.LIBPATH IN ['MAIL']" />
-			<IMPORT MODULE="camel-metrics-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-metrics-alldep-${camel.version}/6.0.0"  NAME="talend-camel-metrics"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-metrics-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['METRICS']" />
-			<IMPORT MODULE="camel-mina-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-mina-alldep-${camel.version}/6.0.0"  NAME="talend-camel-mina"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mina-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['MINA']" />
-			<IMPORT MODULE="camel-mina2-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-mina2-alldep-${camel.version}/6.0.0"  NAME="talend-camel-mina2"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mina2-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['MINA2']" />
-			<IMPORT MODULE="camel-mongodb-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-mongodb-alldep-${camel.version}/6.0.0"  NAME="talend-camel-mongodb"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mongodb-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['MONGODB']" />
-            <IMPORT MODULE="camel-mongodb-gridfs-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-mongodb-gridfs-alldep-${camel.version}/6.0.0"  NAME="talend-camel-mongodb-gridfs"
+            <IMPORT MODULE="camel-jclouds-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jclouds-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jclouds"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jclouds-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JCLOUDS']" />
+            <IMPORT MODULE="camel-jcr-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jcr-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jcr"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jcr-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JCR']" />
+            <IMPORT MODULE="camel-jdbc-${camel.version}.jar" MVN="${mvn-camel-jdbc}"
+                NAME="camel-jdbc"
+                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-jdbc-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JDBC']" />
+            <IMPORT MODULE_GROUP="camel-jetty" REQUIRED_IF="HOTLIBS.LIBPATH IN ['JETTY']" />
+            <IMPORT MODULE="camel-jgroups-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jgroups-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jgroups"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jgroups-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JGROUPS']" />
+            <IMPORT MODULE="camel-jibx-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jibx-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jibx"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jibx-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JIBX']" />
+            <IMPORT MODULE="camel-jing-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jing-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jing"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jing-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JING']" />
+            <IMPORT MODULE="camel-jira-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jira-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jira"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jira-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JIRA']" />
+            <IMPORT MODULE_GROUP="camel-jms" REQUIRED_IF="HOTLIBS.LIBPATH IN ['JMS']" />
+            <IMPORT MODULE="camel-jmx-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jmx-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jmx"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jmx-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JMX']" />
+            <IMPORT MODULE="camel-josql-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-josql-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-josql"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-josql-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JOSQL']" />
+            <IMPORT MODULE="camel-jpa-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jpa-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jpa"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jpa-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JPA']" />
+            <IMPORT MODULE="camel-jsch-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jsch-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jsch"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsch-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JSCH']" />
+            <IMPORT MODULE="camel-jsonpath-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jsonpath-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jsonpath"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsonpath-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JSONPATH']" />
+            <IMPORT MODULE="camel-jt400-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jt400-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jt400"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jt400-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JT400']" />
+            <IMPORT MODULE="camel-juel-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-juel-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-juel"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-juel-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JUEL']" />
+            <IMPORT MODULE="camel-jxpath-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jxpath-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-jxpath"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jxpath-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['JXPATH']" />
+            <IMPORT MODULE="camel-kafka-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-kafka-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-kafka"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-kafka-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['KAFKA']" />
+            <IMPORT MODULE="camel-kestrel-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-kestrel-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-kestrel"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-kestrel-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['KESTREL']" />
+            <IMPORT MODULE="camel-krati-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-krati-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-krati"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-krati-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['KRATI']" />
+            <IMPORT MODULE="camel-kura-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-kura-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-kura"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-kura-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['KURA']" />
+            <IMPORT MODULE="camel-ldap-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-ldap-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-ldap"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ldap-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['LDAP']" />
+            <IMPORT MODULE="camel-leveldb-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-leveldb-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-leveldb"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-leveldb-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['LEVELDB']" />
+            <IMPORT MODULE="camel-linkedin-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-linkedin-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-linkedin"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-linkedin-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['LINKEDIN']" />
+            <IMPORT MODULE="camel-lucene-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-lucene-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-lucene"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-lucene-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['LUCENE']" />
+            <IMPORT MODULE_GROUP="camel-mail" REQUIRED_IF="HOTLIBS.LIBPATH IN ['MAIL']" />
+            <IMPORT MODULE="camel-metrics-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-metrics-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-metrics"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-metrics-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['METRICS']" />
+            <IMPORT MODULE="camel-mina-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-mina-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-mina"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mina-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['MINA']" />
+            <IMPORT MODULE="camel-mina2-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-mina2-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-mina2"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mina2-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['MINA2']" />
+            <IMPORT MODULE="camel-mongodb-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-mongodb-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-mongodb"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mongodb-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['MONGODB']" />
+            <IMPORT MODULE="camel-mongodb-gridfs-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-mongodb-gridfs-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-mongodb-gridfs"
                 UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mongodb-gridfs-alldep-${camel.version}.jar"
-                REQUIRED_IF="HOTLIBS.LIBPATH IN ['MONGODB-GRIDFS']" />				
-            <IMPORT MODULE_GROUP="camel-mqtt"
-                    REQUIRED_IF="HOTLIBS.LIBPATH IN ['MQTT']" />
-			<IMPORT MODULE="camel-msv-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-msv-alldep-${camel.version}/6.0.0"  NAME="talend-camel-msv"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-msv-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['MSV']" />
-			<IMPORT MODULE="camel-mustache-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-mustache-alldep-${camel.version}/6.0.0"  NAME="talend-camel-mustache"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mustache-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['MUSTACHE']" />
-			<IMPORT MODULE="camel-mvel-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-mvel-alldep-${camel.version}/6.0.0"  NAME="talend-camel-mvel"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mvel-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['MVEL']" />
-			<IMPORT MODULE="camel-mybatis-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-mybatis-alldep-${camel.version}/6.0.0"  NAME="talend-camel-mybatis"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mybatis-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['MYBATIS']" />
-			<IMPORT MODULE="camel-nagios-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-nagios-alldep-${camel.version}/6.0.0"  NAME="talend-camel-nagios"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-nagios-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['NAGIOS']" />
-			<IMPORT MODULE="camel-netty-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-netty-alldep-${camel.version}/6.0.0"  NAME="talend-camel-netty"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-netty-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['NETTY']" />
-			<IMPORT MODULE="camel-netty-http-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-netty-http-alldep-${camel.version}/6.0.0"  NAME="talend-camel-netty-http"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-netty-http-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['NETTY-HTTP']" />
-			<IMPORT MODULE="camel-netty4-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-netty4-alldep-${camel.version}/6.0.0"  NAME="talend-camel-netty4"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-netty4-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['NETTY4']" />
-			<IMPORT MODULE="camel-netty4-http-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-netty4-http-alldep-${camel.version}/6.0.0"  NAME="talend-camel-netty4-http"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-netty4-http-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['NETTY4-HTTP']" />
-			<IMPORT MODULE="camel-ognl-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-ognl-alldep-${camel.version}/6.0.0"  NAME="talend-camel-ognl"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ognl-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['OGNL']" />
-			<IMPORT MODULE="camel-olingo2-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-olingo2-alldep-${camel.version}/6.0.0"  NAME="talend-camel-olingo2"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-olingo2-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['OLINGO2']" />
-			<IMPORT MODULE="camel-optaplanner-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-optaplanner-alldep-${camel.version}/6.0.0"  NAME="talend-camel-optaplanner"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-optaplanner-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['OPTAPLANNER']" />
-			<IMPORT MODULE="camel-paxlogging-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-paxlogging-alldep-${camel.version}/6.0.0"  NAME="talend-camel-paxlogging"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-paxlogging-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['PAXLOGGING']" />
-			<IMPORT MODULE="camel-pgevent-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-pgevent-alldep-${camel.version}/6.0.0"  NAME="talend-camel-pgevent"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-pgevent-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['PGEVENT']" />
-			<IMPORT MODULE="camel-printer-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-printer-alldep-${camel.version}/6.0.0"  NAME="talend-camel-printer"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-printer-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['PRINTER']" />
-			<IMPORT MODULE="camel-protobuf-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-protobuf-alldep-${camel.version}/6.0.0"  NAME="talend-camel-protobuf"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-protobuf-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['PROTOBUF']" />
-			<IMPORT MODULE="camel-quartz-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-quartz-alldep-${camel.version}/6.0.0"  NAME="talend-camel-quartz"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-quartz-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['QUARTZ']" />
-			<IMPORT MODULE="camel-quartz2-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-quartz2-alldep-${camel.version}/6.0.0"  NAME="talend-camel-quartz2"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-quartz2-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['QUARTZ2']" />
-			<IMPORT MODULE="camel-quickfix-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-quickfix-alldep-${camel.version}/6.0.0"  NAME="talend-camel-quickfix"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-quickfix-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['QUICKFIX']" />
-			<IMPORT MODULE="camel-rabbitmq-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-rabbitmq-alldep-${camel.version}/6.0.0"  NAME="talend-camel-rabbitmq"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-rabbitmq-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['RABBITMQ']" />
-			<IMPORT MODULE="camel-restlet-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-restlet-alldep-${camel.version}/6.0.0"  NAME="talend-camel-restlet"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-restlet-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['RESTLET']" />
-			<IMPORT MODULE="camel-rmi-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-rmi-alldep-${camel.version}/6.0.0"  NAME="talend-camel-rmi"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-rmi-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['RMI']" />
-			<IMPORT MODULE="camel-routebox-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-routebox-alldep-${camel.version}/6.0.0"  NAME="talend-camel-routebox"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-routebox-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['ROUTEBOX']" />
-			<IMPORT MODULE="camel-rss-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-rss-alldep-${camel.version}/6.0.0"  NAME="talend-camel-rss"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-rss-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['RSS']" />
-			<IMPORT MODULE="camel-ruby-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-ruby-alldep-${camel.version}/6.0.0"  NAME="talend-camel-ruby"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ruby-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['RUBY']" />
-			<IMPORT MODULE="camel-rx-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-rx-alldep-${camel.version}/6.0.0"  NAME="talend-camel-rx"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-rx-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['RX']" />
-			<IMPORT MODULE="camel-salesforce-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-salesforce-alldep-${camel.version}/6.0.0"  NAME="talend-camel-salesforce"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-salesforce-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SALESFORCE']" />
-			<IMPORT MODULE="camel-sap-netweaver-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-sap-netweaver-alldep-${camel.version}/6.0.0"  NAME="talend-camel-sap-netweaver"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-sap-netweaver-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SAP-NETWEAVER']" />
-			<IMPORT MODULE="camel-saxon-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-saxon-alldep-${camel.version}/6.0.0"  NAME="talend-camel-saxon"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-saxon-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SAXON']" />
-			<IMPORT MODULE="camel-scala-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-scala-alldep-${camel.version}/6.0.0"  NAME="talend-camel-scala"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-scala-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SCALA']" />
-			<IMPORT MODULE="camel-schematron-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-schematron-alldep-${camel.version}/6.0.0"  NAME="talend-camel-schematron"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-schematron-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SCHEMATRON']" />
-			<IMPORT MODULE="camel-scr-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-scr-alldep-${camel.version}/6.0.0"  NAME="talend-camel-scr"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-scr-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SCR']" />
-            <IMPORT MODULE="camel-script-${camel.version}.jar" MVN="${mvn-camel-script}" NAME="camel-script"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
-                    REQUIRED_IF="HOTLIBS.LIBPATH IN ['SCRIPT']" />
-            <IMPORT MODULE_GROUP="camel-servlet"
-                    REQUIRED_IF="HOTLIBS.LIBPATH IN ['SERVLET']" />
-            <IMPORT MODULE="camel-servletlistener-${camel.version}.jar" MVN="${mvn-camel-servletlistener}" NAME="camel-servletlistener"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-servletlistener-${camel.version}.jar"
-                    REQUIRED_IF="HOTLIBS.LIBPATH IN ['SERVLETLISTENER']" />
-			<IMPORT MODULE="camel-shiro-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-shiro-alldep-${camel.version}/6.0.0"  NAME="talend-camel-shiro"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-shiro-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SHIRO']" />
-			<IMPORT MODULE="camel-sip-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-sip-alldep-${camel.version}/6.0.0"  NAME="talend-camel-sip"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-sip-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SIP']" />
-			<IMPORT MODULE="camel-sjms-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-sjms-alldep-${camel.version}/6.0.0"  NAME="talend-camel-sjms"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-sjms-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SJMS']" />
-			<IMPORT MODULE="camel-smpp-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-smpp-alldep-${camel.version}/6.0.0"  NAME="talend-camel-smpp"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-smpp-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SMPP']" />
-			<IMPORT MODULE="camel-snmp-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-snmp-alldep-${camel.version}/6.0.0"  NAME="talend-camel-snmp"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-snmp-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SNMP']" />
-			<IMPORT MODULE="camel-soap-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-soap-alldep-${camel.version}/6.0.0"  NAME="talend-camel-soap"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-soap-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SOAP']" />
-			<IMPORT MODULE="camel-solr-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-solr-alldep-${camel.version}/6.0.0"  NAME="talend-camel-solr"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-solr-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SOLR']" />
-			<IMPORT MODULE="camel-spark-rest-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-spark-rest-alldep-${camel.version}/6.0.0"  NAME="talend-camel-spark-rest"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spark-rest-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPARK-REST']" />
-			<IMPORT MODULE="camel-splunk-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-splunk-alldep-${camel.version}/6.0.0"  NAME="talend-camel-splunk"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-splunk-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPLUNK']" />
-			<IMPORT MODULE="camel-spring-batch-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-spring-batch-alldep-${camel.version}/6.0.0"  NAME="talend-camel-spring-batch"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-batch-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-BATCH']" />
-			<IMPORT MODULE="camel-spring-integration-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-spring-integration-alldep-${camel.version}/6.0.0"  NAME="talend-camel-spring-integration"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-integration-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-INTEGRATION']" />
-			<IMPORT MODULE="camel-spring-javaconfig-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-spring-javaconfig-alldep-${camel.version}/6.0.0"  NAME="talend-camel-spring-javaconfig"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-javaconfig-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-JAVACONFIG']" />
-			<IMPORT MODULE="camel-spring-ldap-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-spring-ldap-alldep-${camel.version}/6.0.0"  NAME="talend-camel-spring-ldap"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-ldap-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-LDAP']" />
-			<IMPORT MODULE="camel-spring-redis-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-spring-redis-alldep-${camel.version}/6.0.0"  NAME="talend-camel-spring-redis"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-redis-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-REDIS']" />
-			<IMPORT MODULE="camel-spring-security-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-spring-security-alldep-${camel.version}/6.0.0"  NAME="talend-camel-spring-security"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-security-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-SECURITY']" />
-			<IMPORT MODULE="camel-spring-ws-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-spring-ws-alldep-${camel.version}/6.0.0"  NAME="talend-camel-spring-ws"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-ws-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-WS']" />
-			<IMPORT MODULE="camel-sql-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-sql-alldep-${camel.version}/6.0.0"  NAME="talend-camel-sql"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-sql-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SQL']" />
-			<IMPORT MODULE="camel-ssh-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-ssh-alldep-${camel.version}/6.0.0"  NAME="talend-camel-ssh"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ssh-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SSH']" />
-            <IMPORT MODULE="camel-stax-${camel.version}.jar" MVN="${mvn-camel-stax}" NAME="camel-stax"
-                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-stax-${camel.version}.jar"    
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['MONGODB-GRIDFS']" />
+            <IMPORT MODULE_GROUP="camel-mqtt" REQUIRED_IF="HOTLIBS.LIBPATH IN ['MQTT']" />
+            <IMPORT MODULE="camel-msv-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-msv-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-msv"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-msv-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['MSV']" />
+            <IMPORT MODULE="camel-mustache-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-mustache-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-mustache"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mustache-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['MUSTACHE']" />
+            <IMPORT MODULE="camel-mvel-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-mvel-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-mvel"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mvel-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['MVEL']" />
+            <IMPORT MODULE="camel-mybatis-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-mybatis-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-mybatis"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-mybatis-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['MYBATIS']" />
+            <IMPORT MODULE="camel-nagios-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-nagios-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-nagios"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-nagios-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['NAGIOS']" />
+            <IMPORT MODULE="camel-netty-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-netty-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-netty"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-netty-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['NETTY']" />
+            <IMPORT MODULE="camel-netty-http-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-netty-http-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-netty-http"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-netty-http-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['NETTY-HTTP']" />
+            <IMPORT MODULE="camel-netty4-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-netty4-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-netty4"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-netty4-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['NETTY4']" />
+            <IMPORT MODULE="camel-netty4-http-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-netty4-http-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-netty4-http"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-netty4-http-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['NETTY4-HTTP']" />
+            <IMPORT MODULE="camel-ognl-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-ognl-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-ognl"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ognl-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['OGNL']" />
+            <IMPORT MODULE="camel-olingo2-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-olingo2-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-olingo2"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-olingo2-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['OLINGO2']" />
+            <IMPORT MODULE="camel-optaplanner-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-optaplanner-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-optaplanner"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-optaplanner-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['OPTAPLANNER']" />
+            <IMPORT MODULE="camel-paxlogging-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-paxlogging-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-paxlogging"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-paxlogging-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['PAXLOGGING']" />
+            <IMPORT MODULE="camel-pgevent-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-pgevent-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-pgevent"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-pgevent-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['PGEVENT']" />
+            <IMPORT MODULE="camel-printer-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-printer-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-printer"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-printer-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['PRINTER']" />
+            <IMPORT MODULE="camel-protobuf-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-protobuf-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-protobuf"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-protobuf-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['PROTOBUF']" />
+            <IMPORT MODULE="camel-quartz-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-quartz-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-quartz"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-quartz-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['QUARTZ']" />
+            <IMPORT MODULE="camel-quartz2-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-quartz2-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-quartz2"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-quartz2-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['QUARTZ2']" />
+            <IMPORT MODULE="camel-quickfix-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-quickfix-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-quickfix"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-quickfix-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['QUICKFIX']" />
+            <IMPORT MODULE="camel-rabbitmq-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-rabbitmq-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-rabbitmq"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-rabbitmq-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['RABBITMQ']" />
+            <IMPORT MODULE="camel-restlet-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-restlet-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-restlet"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-restlet-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['RESTLET']" />
+            <IMPORT MODULE="camel-rmi-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-rmi-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-rmi"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-rmi-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['RMI']" />
+            <IMPORT MODULE="camel-routebox-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-routebox-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-routebox"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-routebox-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['ROUTEBOX']" />
+            <IMPORT MODULE="camel-rss-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-rss-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-rss"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-rss-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['RSS']" />
+            <IMPORT MODULE="camel-ruby-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-ruby-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-ruby"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ruby-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['RUBY']" />
+            <IMPORT MODULE="camel-rx-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-rx-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-rx"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-rx-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['RX']" />
+            <IMPORT MODULE="camel-salesforce-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-salesforce-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-salesforce"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-salesforce-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SALESFORCE']" />
+            <IMPORT MODULE="camel-sap-netweaver-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-sap-netweaver-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-sap-netweaver"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-sap-netweaver-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SAP-NETWEAVER']" />
+            <IMPORT MODULE="camel-saxon-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-saxon-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-saxon"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-saxon-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SAXON']" />
+            <IMPORT MODULE="camel-scala-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-scala-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-scala"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-scala-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SCALA']" />
+            <IMPORT MODULE="camel-schematron-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-schematron-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-schematron"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-schematron-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SCHEMATRON']" />
+            <IMPORT MODULE="camel-scr-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-scr-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-scr"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-scr-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SCR']" />
+            <IMPORT MODULE="camel-script-${camel.version}.jar"
+                MVN="${mvn-camel-script}" NAME="camel-script"
+                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SCRIPT']" />
+            <IMPORT MODULE_GROUP="camel-servlet" REQUIRED_IF="HOTLIBS.LIBPATH IN ['SERVLET']" />
+            <IMPORT MODULE="camel-servletlistener-${camel.version}.jar"
+                MVN="${mvn-camel-servletlistener}" NAME="camel-servletlistener"
+                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-servletlistener-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SERVLETLISTENER']" />
+            <IMPORT MODULE="camel-shiro-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-shiro-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-shiro"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-shiro-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SHIRO']" />
+            <IMPORT MODULE="camel-sip-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-sip-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-sip"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-sip-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SIP']" />
+            <IMPORT MODULE="camel-sjms-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-sjms-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-sjms"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-sjms-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SJMS']" />
+            <IMPORT MODULE="camel-smpp-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-smpp-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-smpp"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-smpp-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SMPP']" />
+            <IMPORT MODULE="camel-snmp-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-snmp-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-snmp"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-snmp-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SNMP']" />
+            <IMPORT MODULE="camel-soap-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-soap-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-soap"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-soap-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SOAP']" />
+            <IMPORT MODULE="camel-solr-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-solr-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-solr"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-solr-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SOLR']" />
+            <IMPORT MODULE="camel-spark-rest-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-spark-rest-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-spark-rest"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spark-rest-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPARK-REST']" />
+            <IMPORT MODULE="camel-splunk-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-splunk-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-splunk"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-splunk-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPLUNK']" />
+            <IMPORT MODULE="camel-spring-batch-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-spring-batch-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-spring-batch"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-batch-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-BATCH']" />
+            <IMPORT
+                MODULE="camel-spring-integration-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-spring-integration-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-spring-integration"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-integration-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-INTEGRATION']" />
+            <IMPORT
+                MODULE="camel-spring-javaconfig-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-spring-javaconfig-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-spring-javaconfig"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-javaconfig-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-JAVACONFIG']" />
+            <IMPORT MODULE="camel-spring-ldap-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-spring-ldap-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-spring-ldap"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-ldap-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-LDAP']" />
+            <IMPORT MODULE="camel-spring-redis-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-spring-redis-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-spring-redis"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-redis-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-REDIS']" />
+            <IMPORT MODULE="camel-spring-security-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-spring-security-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-spring-security"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-security-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-SECURITY']" />
+            <IMPORT MODULE="camel-spring-ws-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-spring-ws-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-spring-ws"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-spring-ws-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SPRING-WS']" />
+            <IMPORT MODULE="camel-sql-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-sql-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-sql"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-sql-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SQL']" />
+            <IMPORT MODULE="camel-ssh-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-ssh-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-ssh"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-ssh-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SSH']" />
+            <IMPORT MODULE="camel-stax-${camel.version}.jar" MVN="${mvn-camel-stax}"
+                NAME="camel-stax"
+                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-stax-${camel.version}.jar"
                 REQUIRED_IF="HOTLIBS.LIBPATH IN ['STAX']" />
-			<IMPORT MODULE="camel-stomp-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-stomp-alldep-${camel.version}/6.0.0"  NAME="talend-camel-stomp"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-stomp-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['STOMP']" />
-            <IMPORT MODULE="camel-stream-${camel.version}.jar" MVN="${mvn-camel-stream}" NAME="camel-stream"
+            <IMPORT MODULE="camel-stomp-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-stomp-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-stomp"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-stomp-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['STOMP']" />
+            <IMPORT MODULE="camel-stream-${camel.version}.jar"
+                MVN="${mvn-camel-stream}" NAME="camel-stream"
                 UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-stream-${camel.version}.jar"
                 REQUIRED_IF="HOTLIBS.LIBPATH IN ['STREAM']" />
-			<IMPORT MODULE="camel-stringtemplate-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-stringtemplate-alldep-${camel.version}/6.0.0"  NAME="talend-camel-stringtemplate"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-stringtemplate-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['STRINGTEMPLATE']" />
-			<IMPORT MODULE="camel-swagger-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-swagger-alldep-${camel.version}/6.0.0"  NAME="talend-camel-swagger"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-swagger-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SWAGGER']" />
-			<IMPORT MODULE="camel-syslog-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-syslog-alldep-${camel.version}/6.0.0"  NAME="talend-camel-syslog"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-syslog-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['SYSLOG']" />
-			<IMPORT MODULE="camel-tagsoup-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-tagsoup-alldep-${camel.version}/6.0.0"  NAME="talend-camel-tagsoup"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-tagsoup-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['TAGSOUP']" />
-			<IMPORT MODULE="camel-twitter-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-twitter-alldep-${camel.version}/6.0.0"  NAME="talend-camel-twitter"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-twitter-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['TWITTER']" />
-			<IMPORT MODULE="camel-univocity-parsers-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-univocity-parsers-alldep-${camel.version}/6.0.0"  NAME="talend-camel-univocity-parsers"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-univocity-parsers-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['UNIVOCITY-PARSERS']" />
-			<IMPORT MODULE="camel-urlrewrite-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-urlrewrite-alldep-${camel.version}/6.0.0"  NAME="talend-camel-urlrewrite"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-urlrewrite-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['URLREWRITE']" />
-			<IMPORT MODULE="camel-velocity-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-velocity-alldep-${camel.version}/6.0.0"  NAME="talend-camel-velocity"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-velocity-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['VELOCITY']" />
-			<IMPORT MODULE="camel-vertx-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-vertx-alldep-${camel.version}/6.0.0"  NAME="talend-camel-vertx"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-vertx-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['VERTX']" />
-			<IMPORT MODULE="camel-weather-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-weather-alldep-${camel.version}/6.0.0"  NAME="talend-camel-weather"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-weather-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['WEATHER']" />
-			<IMPORT MODULE="camel-websocket-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-websocket-alldep-${camel.version}/6.0.0"  NAME="talend-camel-websocket"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-websocket-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['WEBSOCKET']" />
-				
-			<IMPORT MODULE="camel-wmq-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-wmq-alldep-${camel.version}/6.0.0"  NAME="talend-camel-wmq"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-wmq-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['WMQ']" />
-								
-			<IMPORT MODULE="camel-xmlbeans-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-xmlbeans-alldep-${camel.version}/6.0.0"  NAME="talend-camel-xmlbeans"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-xmlbeans-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['XMLBEANS']" />
-			<IMPORT MODULE="camel-xmljson-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-xmljson-alldep-${camel.version}/6.0.0"  NAME="talend-camel-xmljson"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-xmljson-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['XMLJSON']" />
-			<IMPORT MODULE="camel-xmlrpc-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-xmlrpc-alldep-${camel.version}/6.0.0"  NAME="talend-camel-xmlrpc"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-xmlrpc-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['XMLRPC']" />
-			<IMPORT MODULE="camel-xmlsecurity-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-xmlsecurity-alldep-${camel.version}/6.0.0"  NAME="talend-camel-xmlsecurity"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-xmlsecurity-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['XMLSECURITY']" />
-			<IMPORT MODULE="camel-xmpp-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-xmpp-alldep-${camel.version}/6.0.0"  NAME="talend-camel-xmpp"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-xmpp-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['XMPP']" />
-            <IMPORT MODULE_GROUP="camel-xstream"
-                    REQUIRED_IF="HOTLIBS.LIBPATH IN ['XSTREAM']" />
-			<IMPORT MODULE="camel-yammer-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-yammer-alldep-${camel.version}/6.0.0"  NAME="talend-camel-yammer"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-yammer-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['YAMMER']" />
-			<IMPORT MODULE="camel-zipfile-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-zipfile-alldep-${camel.version}/6.0.0"  NAME="talend-camel-zipfile"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-zipfile-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['ZIPFILE']" />
-			<IMPORT MODULE="camel-zookeeper-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-zookeeper-alldep-${camel.version}/6.0.0"  NAME="talend-camel-zookeeper"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-zookeeper-alldep-${camel.version}.jar"
-				REQUIRED_IF="HOTLIBS.LIBPATH IN ['ZOOKEEPER']" />
+            <IMPORT MODULE="camel-stringtemplate-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-stringtemplate-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-stringtemplate"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-stringtemplate-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['STRINGTEMPLATE']" />
+            <IMPORT MODULE="camel-swagger-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-swagger-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-swagger"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-swagger-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SWAGGER']" />
+            <IMPORT MODULE="camel-syslog-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-syslog-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-syslog"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-syslog-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['SYSLOG']" />
+            <IMPORT MODULE="camel-tagsoup-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-tagsoup-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-tagsoup"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-tagsoup-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['TAGSOUP']" />
+            <IMPORT MODULE="camel-twitter-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-twitter-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-twitter"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-twitter-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['TWITTER']" />
+            <IMPORT
+                MODULE="camel-univocity-parsers-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-univocity-parsers-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-univocity-parsers"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-univocity-parsers-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['UNIVOCITY-PARSERS']" />
+            <IMPORT MODULE="camel-urlrewrite-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-urlrewrite-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-urlrewrite"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-urlrewrite-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['URLREWRITE']" />
+            <IMPORT MODULE="camel-velocity-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-velocity-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-velocity"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-velocity-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['VELOCITY']" />
+            <IMPORT MODULE="camel-vertx-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-vertx-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-vertx"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-vertx-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['VERTX']" />
+            <IMPORT MODULE="camel-weather-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-weather-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-weather"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-weather-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['WEATHER']" />
+            <IMPORT MODULE="camel-websocket-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-websocket-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-websocket"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-websocket-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['WEBSOCKET']" />
+            <IMPORT MODULE="camel-wmq-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-wmq-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-wmq"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-wmq-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['WMQ']" />
+            <IMPORT MODULE="camel-xmlbeans-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-xmlbeans-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-xmlbeans"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-xmlbeans-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['XMLBEANS']" />
+            <IMPORT MODULE="camel-xmljson-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-xmljson-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-xmljson"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-xmljson-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['XMLJSON']" />
+            <IMPORT MODULE="camel-xmlrpc-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-xmlrpc-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-xmlrpc"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-xmlrpc-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['XMLRPC']" />
+            <IMPORT MODULE="camel-xmlsecurity-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-xmlsecurity-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-xmlsecurity"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-xmlsecurity-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['XMLSECURITY']" />
+            <IMPORT MODULE="camel-xmpp-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-xmpp-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-xmpp"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-xmpp-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['XMPP']" />
+            <IMPORT MODULE_GROUP="camel-xstream" REQUIRED_IF="HOTLIBS.LIBPATH IN ['XSTREAM']" />
+            <IMPORT MODULE="camel-yammer-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-yammer-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-yammer"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-yammer-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['YAMMER']" />
+            <IMPORT MODULE="camel-zipfile-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-zipfile-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-zipfile"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-zipfile-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['ZIPFILE']" />
+            <IMPORT MODULE="camel-zookeeper-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-zookeeper-alldep-${camel.version}/6.0.0"
+                NAME="talend-camel-zookeeper"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-zookeeper-alldep-${camel.version}.jar"
+                REQUIRED_IF="HOTLIBS.LIBPATH IN ['ZOOKEEPER']" />
+        </IMPORTS>
+    </CODEGENERATION>
 
-		</IMPORTS>
-	</CODEGENERATION>
+    <RETURNS />
 
-	<RETURNS />
 </COMPONENT>

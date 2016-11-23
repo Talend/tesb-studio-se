@@ -22,15 +22,11 @@ import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.designer.core.model.utils.emf.talendfile.ProcessType;
 import org.talend.repository.model.migration.UnifyPasswordEncryption4ParametersInJobMigrationTask;
 
-/**
- * created by ggu on Aug 25, 2014 Detailled comment
- *
- */
 public class UnifyPasswordEncryption4ParametersInRouteMigrationTask extends UnifyPasswordEncryption4ParametersInJobMigrationTask {
 
     @Override
     public List<ERepositoryObjectType> getTypes() {
-        List<ERepositoryObjectType> toReturn = new ArrayList<ERepositoryObjectType>();
+        List<ERepositoryObjectType> toReturn = new ArrayList<>();
         toReturn.add(CamelRepositoryNodeType.repositoryRoutesType);
         return toReturn;
     }
@@ -43,4 +39,5 @@ public class UnifyPasswordEncryption4ParametersInRouteMigrationTask extends Unif
         }
         return ExecutionResult.NOTHING_TO_DO;
     }
+
 }

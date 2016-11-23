@@ -18,24 +18,35 @@ public class CamelDesignerPlugin extends AbstractUIPlugin {
     public static final String BEAN_WIZ_ICON = "icons/bean_wiz.png"; //$NON-NLS-1$
 
     public static final String DEPEN_ICON = "icons/dependencies/dependencies.gif"; //$NON-NLS-1$
+
     public static final String IMPORT_PKG_ICON = "icons/dependencies/importPackage.gif"; //$NON-NLS-1$
+
     public static final String REQUIRE_BD_ICON = "icons/dependencies/requireBundle.gif"; //$NON-NLS-1$
+
     public static final String BUNDLE_CP_ICON = "icons/dependencies/bundleClass.gif"; //$NON-NLS-1$
+
     public static final String REFRESH_ICON = "icons/dependencies/refresh.gif"; //$NON-NLS-1$
+
     public static final String GRAY_REM_ICON = "icons/dependencies/gray_rem.gif"; //$NON-NLS-1$
+
     public static final String HIGHLIGHT_REM_ICON = "icons/dependencies/highlight_rem.gif"; //$NON-NLS-1$
+
     public static final String OPTIONAL_OVERLAY_ICON = "icons/dependencies/optional.gif"; //$NON-NLS-1$
+
     public static final String IMPORT_PACKAGE_OVERLAY_ICON = "IMPORT_PACKAGE_OVERLAY_ICON"; //$NON-NLS-1$
+
     public static final String REQUIRE_BUNDLE_OVERLAY_ICON = "REQUIRE_BUNDLE_OVERLAY_ICON"; //$NON-NLS-1$
 
     // The shared instance
     private static CamelDesignerPlugin plugin;
 
+    @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
     }
 
+    @Override
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         super.stop(context);
@@ -43,7 +54,7 @@ public class CamelDesignerPlugin extends AbstractUIPlugin {
 
     /**
      * Returns the shared instance
-     * 
+     *
      * @return the shared instance
      */
     public static CamelDesignerPlugin getDefault() {
@@ -69,7 +80,7 @@ public class CamelDesignerPlugin extends AbstractUIPlugin {
 
     /**
      * Returns an image descriptor for the image file at the given plug-in relative path
-     * 
+     *
      * @param path the path
      * @return the image descriptor
      */
@@ -79,7 +90,7 @@ public class CamelDesignerPlugin extends AbstractUIPlugin {
 
     private static Image getOptionalOverlayIcon(Image base) {
         DecorationOverlayIcon decorationOverlayIcon = new DecorationOverlayIcon(base,
-            createImageDescriptor(OPTIONAL_OVERLAY_ICON), IDecoration.TOP_LEFT);
+                createImageDescriptor(OPTIONAL_OVERLAY_ICON), IDecoration.TOP_LEFT);
         return decorationOverlayIcon.createImage();
     }
 

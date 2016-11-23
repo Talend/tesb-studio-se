@@ -56,16 +56,13 @@ import org.talend.designer.core.ui.editor.properties.controllers.AbstractElement
 import org.talend.designer.core.ui.editor.properties.controllers.creator.SelectAllTextControlCreator;
 import org.talend.designer.runprocess.ProcessorUtilities;
 
-/**
- * @author Xiaopeng Li
- * 
- */
 public class RouteResourceController extends AbstractElementPropertySectionController {
 
     private Text labelText;
 
     IControlCreator cbCtrl = new IControlCreator() {
 
+        @Override
         public Control createControl(final Composite parent, final int style) {
             CCombo cb = new CCombo(parent, style);
             return cb;
@@ -74,10 +71,12 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
 
     SelectionListener listenerSelection = new SelectionListener() {
 
+        @Override
         public void widgetDefaultSelected(SelectionEvent e) {
             // do nothing.
         }
 
+        @Override
         public void widgetSelected(SelectionEvent selectionEvent) {
             final PropertyChangeCommand cmd;
             if (selectionEvent.getSource() instanceof Button) {
@@ -98,49 +97,26 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
         super(dp);
     }
 
-    /**
-     * 
-     * @param source
-     * @return
-     */
     private PropertyChangeCommand createButtonCommand(Button button) {
         RouteResourceSelectionDialog dialog = new RouteResourceSelectionDialog(button.getShell());
 
         selectNodeIfExists(button, dialog);
 
         if (dialog.open() == Window.OK) {
-
             IRepositoryViewObject repositoryObject = dialog.getResult().getObject();
-
-            // refreshItemeProperty(repositoryObject);
-
             final Item item = repositoryObject.getProperty().getItem();
             String id = item.getProperty().getId();
             String paramName = (String) button.getData(PARAMETER_NAME);
-
             return new PropertyChangeCommand(elem, paramName, id);
         }
         return null;
     }
 
-    /**
-     * DOC nrousseau Comment method "createComboCommand".
-     * 
-     * @param source
-     * @return
-     */
     private PropertyChangeCommand createComboCommand(CCombo combo) {
         String paramName = (String) combo.getData(PARAMETER_NAME);
-
         IElementParameter param = elem.getElementParameter(paramName);
-
         String value = combo.getText();
 
-//        for (int j = 0; j < param.getListItemsValue().length; j++) {
-//            if (combo.getText().equals(param.getListItemsDisplayName()[j])) {
-//                value = (String) param.getListItemsValue()[j];
-//            }
-//        }
         if (value.equals(param.getValue())) {
             return null;
         }
@@ -158,8 +134,8 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
         final DecoratedField dField = new DecoratedField(subComposite, SWT.BORDER | SWT.READ_ONLY,
                 new SelectAllTextControlCreator());
         if (param.isRequired()) {
-            FieldDecoration decoration = FieldDecorationRegistry.getDefault().getFieldDecoration(
-                    FieldDecorationRegistry.DEC_REQUIRED);
+            FieldDecoration decoration = FieldDecorationRegistry.getDefault()
+                    .getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED);
             dField.addFieldDecoration(decoration, SWT.RIGHT | SWT.TOP, false);
         }
         Control cLayout = dField.getLayoutControl();
@@ -240,27 +216,17 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
         return btn;
     }
 
-    /**
-     * 
-     * @param subComposite
-     * @param param
-     * @param lastControl
-     * @param numInRow
-     * @param nbInRow
-     * @param top
-     * @return
-     */
     private Control addVersionCombo(Composite subComposite, IElementParameter param, Control lastControl, int numInRow,
             int nbInRow, int top) {
         DecoratedField dField = new DecoratedField(subComposite, SWT.BORDER, cbCtrl);
         if (param.isRequired()) {
-            FieldDecoration decoration = FieldDecorationRegistry.getDefault().getFieldDecoration(
-                    FieldDecorationRegistry.DEC_REQUIRED);
+            FieldDecoration decoration = FieldDecorationRegistry.getDefault()
+                    .getFieldDecoration(FieldDecorationRegistry.DEC_REQUIRED);
             dField.addFieldDecoration(decoration, SWT.RIGHT | SWT.TOP, false);
         }
         if (param.isRepositoryValueUsed()) {
-            FieldDecoration decoration = FieldDecorationRegistry.getDefault().getFieldDecoration(
-                    FieldDecorationRegistry.DEC_CONTENT_PROPOSAL);
+            FieldDecoration decoration = FieldDecorationRegistry.getDefault()
+                    .getFieldDecoration(FieldDecorationRegistry.DEC_CONTENT_PROPOSAL);
             decoration.setDescription(""); //$NON-NLS-1$
             dField.addFieldDecoration(decoration, SWT.RIGHT | SWT.BOTTOM, false);
         }
@@ -322,7 +288,7 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
 
     private String[] getListToDisplay(IElementParameter param) {
         String[] originalList = param.getListItemsDisplayName();
-        List<String> stringToDisplay = new ArrayList<String>();
+        List<String> stringToDisplay = new ArrayList<>();
         String[] itemsShowIf = param.getListItemsShowIf();
         if (itemsShowIf != null) {
             String[] itemsNotShowIf = param.getListItemsNotShowIf();
@@ -339,17 +305,11 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
         return stringToDisplay.toArray(new String[0]);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.designer.core.ui.editor.properties.controllers.
-     * AbstractElementPropertySectionController#estimateRowSize (org.eclipse.swt.widgets.Composite,
-     * org.talend.core.model.process.IElementParameter)
-     */
     @Override
     public int estimateRowSize(Composite subComposite, IElementParameter param) {
         final DecoratedField dField = new DecoratedField(subComposite, SWT.BORDER, new IControlCreator() {
 
+            @Override
             public Control createControl(Composite parent, int style) {
                 return getWidgetFactory().createButton(parent, EParameterName.ROUTE_RESOURCE_TYPE.getDisplayName(), SWT.None);
             }
@@ -361,6 +321,7 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
         return initialSize.y + ITabbedPropertyConstants.VSPACE;
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent arg0) {
     }
 
@@ -374,8 +335,8 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
         if (resourceId == null) {
             labelText.setText("");
         } else {
-            final IElementParameter versionParameter =
-                param.getChildParameters().get(EParameterName.ROUTE_RESOURCE_TYPE_VERSION.getName());
+            final IElementParameter versionParameter = param.getChildParameters()
+                    .get(EParameterName.ROUTE_RESOURCE_TYPE_VERSION.getName());
             final String version = (String) versionParameter.getValue();
             final ResourceDependencyModel rdModel = RouteResourceUtil.createDependency(resourceId, version);
             if (rdModel == null) {
@@ -393,9 +354,9 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
     }
 
     /**
-	 * 
-	 * 
-	 */
+     * 
+     * 
+     */
     private void refreshCombo(IElementParameter childParameter) {
         if (childParameter == null) {
             return;
@@ -408,14 +369,6 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
         Object value = childParameter.getValue();
         if (value instanceof String) {
             String version = (String) value;
-//            String strValue = ""; //$NON-NLS-1$
-//            int nbInList = 0, nbMax = childParameter.getListItemsValue().length;
-//            while (strValue.equals(new String("")) && nbInList < nbMax) { //$NON-NLS-1$
-//                if (name.equals(childParameter.getListItemsValue()[nbInList])) {
-//                    strValue = childParameter.getListItemsDisplayName()[nbInList];
-//                }
-//                nbInList++;
-//            }
             String[] paramItems = getListToDisplay(childParameter);
             String[] comboItems = combo.getItems();
 
@@ -423,17 +376,13 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
                 combo.setItems(paramItems);
             }
             combo.setText(version);
-//            combo.setVisible(true);
         }
 
     }
 
-    /**
+    /*
      * see feature 0003664: tRunJob: When opening the tree dialog to select the job target, it could be useful to open
      * it on previous selected job if exists.
-     * 
-     * @param button
-     * @param dialog
      */
     private void selectNodeIfExists(Button button, RouteResourceSelectionDialog dialog) {
         try {
@@ -448,32 +397,23 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
         }
     }
 
-    /**
-     * 
-     * 
-     * @param processParam
-     */
     private void updateContextList(IElementParameter processParam) {
         if (processParam == null || processParam.getFieldType() != EParameterFieldType.ROUTE_RESOURCE_TYPE) {
             return;
         }
         final String resourceId = (String) processParam.getValue();
-        if(resourceId == null){
-        	return;
+        if (resourceId == null) {
+            return;
         }
 
         // for version type
-        final List<String> versions = new ArrayList<String>();
+        final List<String> versions = new ArrayList<>();
         versions.add(RelationshipItemBuilder.LATEST_VERSION);
 
-//        StringBuffer labels = new StringBuffer("");
-        List<IRepositoryViewObject> allVersion = new ArrayList<IRepositoryViewObject>();
+        List<IRepositoryViewObject> allVersion = new ArrayList<>();
         if (StringUtils.isNotEmpty(resourceId)) {
             allVersion = ProcessorUtilities.getAllVersionObjectById(resourceId);
 
-            // IRepositoryObject lastVersionObject = null;
-//            Item item = null;
-//            String label = null;
             if (allVersion != null) {
                 String oldVersion = null;
                 for (IRepositoryViewObject obj : allVersion) {
@@ -481,33 +421,21 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
                     if (oldVersion == null) {
                         oldVersion = version;
                     }
-//                    if (VersionUtils.compareTo(version, oldVersion) >= 0) {
-//                        item = obj.getProperty().getItem();
-//                        // lastVersionObject = obj;
-//                    }
                     oldVersion = version;
                     versions.add(version);
                 }
-//                label = item.getProperty().getLabel();
-//                labels.append(label);
-                // IPath path =
-                // RepositoryNodeUtilities.getPath(lastVersionObject);
-                // if (path != null) {
-                // label = path.toString() + IPath.SEPARATOR + label;
-                // }
             } else {
                 elem.setPropertyValue(processParam.getName(), ""); //$NON-NLS-1$
             }
         }
-//        jobNameParam.setLabelFromRepository(labels.toString());
 
         setProcessTypeRelatedValues(processParam.getChildParameters().get(EParameterName.ROUTE_RESOURCE_TYPE_VERSION.getName()),
-            versions.toArray(new String[versions.size()])/*,
-            RelationshipItemBuilder.LATEST_VERSION*/);
+                versions.toArray(new String[versions.size()]));
 
     }
 
-    private void setProcessTypeRelatedValues(IElementParameter childParam, String[] valueList/*, final String defaultValue*/) {
+    private void setProcessTypeRelatedValues(IElementParameter childParam,
+            String[] valueList/* , final String defaultValue */) {
         if (childParam == null) {
             return;
         }
@@ -515,18 +443,8 @@ public class RouteResourceController extends AbstractElementPropertySectionContr
         childParam.setListItemsValue(valueList);
 
         if (elem != null) {
-//            if (valueList != null && Arrays.!valueList.contains(childParam.getValue())) {
-//                if (nameList != null && nameList.size() > 0) {
-//                    // set default value
-//                    if (defaultValue != null) {
-//                        childParam.setValue(defaultValue);
-//                    } else {
-//                        elem.setPropertyValue(fullChildName, valueList.get(valueList.size() - 1));
-//                    }
-//                }
-//            } else {
-                elem.setPropertyValue(childParam.getName(), childParam.getValue());
-//            }
+            elem.setPropertyValue(childParam.getName(), childParam.getValue());
         }
     }
+
 }

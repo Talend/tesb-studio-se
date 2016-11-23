@@ -1,6 +1,6 @@
 <COMPONENT>
-    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.101" STATUS="ALPHA"
 
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.101" STATUS="ALPHA"
         COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20160412A"
         STARTABLE="true">
         <SIGNATURE></SIGNATURE>
@@ -34,16 +34,19 @@
             NUM_ROW="10" GROUP="HEADER">
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="TEST_HEADER_CONTEXT" FIELD="RADIO" REQUIRED="true"
-            NUM_ROW="20" SHOW_IF="TEST_HEADER=='true'" GROUP="HEADER">
+        <PARAMETER NAME="TEST_HEADER_CONTEXT" FIELD="RADIO"
+            REQUIRED="true" NUM_ROW="20" SHOW_IF="TEST_HEADER=='true'"
+            GROUP="HEADER">
             <DEFAULT>true</DEFAULT>
         </PARAMETER>
         <PARAMETER NAME="TEST_HEADER_USE_CONTEXT" FIELD="TEXT"
-            NUM_ROW="25" SHOW_IF="(TEST_HEADER_CONTEXT=='true') AND (TEST_HEADER=='true')"
+            NUM_ROW="25"
+            SHOW_IF="(TEST_HEADER_CONTEXT=='true') AND (TEST_HEADER=='true')"
             GROUP="HEADER">
         </PARAMETER>
-        <PARAMETER NAME="TEST_HEADER_TABLE" FIELD="RADIO" REQUIRED="true"
-            NUM_ROW="30" SHOW_IF="TEST_HEADER=='true'" GROUP="HEADER">
+        <PARAMETER NAME="TEST_HEADER_TABLE" FIELD="RADIO"
+            REQUIRED="true" NUM_ROW="30" SHOW_IF="TEST_HEADER=='true'"
+            GROUP="HEADER">
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
         <PARAMETER NAME="TEST_HEADER_USE_TABLE" FIELD="TABLE"
@@ -51,68 +54,67 @@
             SHOW_IF="(TEST_HEADER_TABLE=='true') AND (TEST_HEADER=='true')"
             GROUP="HEADER">
             <ITEMS>
-                <ITEM NAME="HEADER_NAMES"  VALUE="&quot;HeaderName&quot;" />
-                <ITEM NAME="HEADER_VALUES"  VALUE="&quot;HeaderValue&quot;" />
+                <ITEM NAME="HEADER_NAMES" VALUE="&quot;HeaderName&quot;" />
+                <ITEM NAME="HEADER_VALUES" VALUE="&quot;HeaderValue&quot;" />
             </ITEMS>
         </PARAMETER>
         <PARAMETER NAME="TEST_BODY" FIELD="CHECK" REQUIRED="true"
             NUM_ROW="40" GROUP="BODY">
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="TEST_BODY_CONTEXT" FIELD="RADIO" REQUIRED="true"
-            NUM_ROW="50" SHOW_IF="TEST_BODY=='true'" GROUP="BODY">
+        <PARAMETER NAME="TEST_BODY_CONTEXT" FIELD="RADIO"
+            REQUIRED="true" NUM_ROW="50" SHOW_IF="TEST_BODY=='true'"
+            GROUP="BODY">
             <DEFAULT>true</DEFAULT>
         </PARAMETER>
         <PARAMETER NAME="TEST_BODY_USE_CONTEXT" FIELD="TEXT"
-            NUM_ROW="55" SHOW_IF="(TEST_BODY_CONTEXT=='true') AND (TEST_BODY=='true')"
+            NUM_ROW="55"
+            SHOW_IF="(TEST_BODY_CONTEXT=='true') AND (TEST_BODY=='true')"
             GROUP="BODY">
         </PARAMETER>
-        <PARAMETER NAME="TEST_BODY_TABLE" FIELD="RADIO" REQUIRED="true"
-            NUM_ROW="60" SHOW_IF="TEST_BODY=='true'" GROUP="BODY">
+        <PARAMETER NAME="TEST_BODY_TABLE" FIELD="RADIO"
+            REQUIRED="true" NUM_ROW="60" SHOW_IF="TEST_BODY=='true'"
+            GROUP="BODY">
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
         <PARAMETER NAME="TEST_BODY_USE_TABLE" FIELD="TABLE"
             NUM_ROW="65" NB_LINES="5"
-            SHOW_IF="(TEST_BODY_TABLE=='true') AND (TEST_BODY=='true')" GROUP="BODY">
+            SHOW_IF="(TEST_BODY_TABLE=='true') AND (TEST_BODY=='true')"
+            GROUP="BODY">
             <ITEMS>
-                <ITEM NAME="BODY_VALUES"  VALUE="&quot;BodyValue&quot;" />
+                <ITEM NAME="BODY_VALUES" VALUE="&quot;BodyValue&quot;" />
             </ITEMS>
         </PARAMETER>
         <PARAMETER NAME="TEST_COUNT" FIELD="CHECK" REQUIRED="true"
-            NUM_ROW="1" >
+            NUM_ROW="1">
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
         <PARAMETER NAME="MESSAGE_COUNT" FIELD="TEXT" NUM_ROW="1"
-            SHOW_IF="TEST_COUNT=='true'" >
+            SHOW_IF="TEST_COUNT=='true'">
             <DEFAULT>1</DEFAULT>
         </PARAMETER>
-        <!-- PARAMETER NAME="
-            CODE " FIELD="MEMO_JAVA"
-            REQUIRED="false" NUM_ROW="200" NB_LINES="2">
-            <DEFAULT>.to("mock:")</DEFAULT>
-        </PARAMETER -->
-        <PARAMETER NAME="TEST_WAIT_TIME" FIELD="TEXT"
-            NUM_ROW="67" SHOW_IF="(TEST_COUNT=='true') OR (TEST_BODY=='true') OR (TEST_HEADER=='true')">
+        <PARAMETER NAME="TEST_WAIT_TIME" FIELD="TEXT" NUM_ROW="67"
+            SHOW_IF="(TEST_COUNT=='true') OR (TEST_BODY=='true') OR (TEST_HEADER=='true')">
             <DEFAULT>2000</DEFAULT>
         </PARAMETER>
-        
-        <PARAMETER NAME="TEST_SIMULATE" FIELD="CHECK" REQUIRED="true"
-            NUM_ROW="70" SHOW_IF="#LINK@CONNECTOR.OUT.ANY &gt; '0'">
+        <PARAMETER NAME="TEST_SIMULATE" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="70" SHOW_IF="#LINK@CONNECTOR.OUT.ANY &gt; '0'">
             <DEFAULT>false</DEFAULT>
-        </PARAMETER>        
-        
-        <PARAMETER NAME="PROCESSOR_ENDPOINT" FIELD="ROUTE_COMPONENT_TYPE" FILTER="cProcessor"
-            NUM_ROW="75" SHOW_IF="(TEST_SIMULATE=='true') AND (#LINK@CONNECTOR.OUT.ANY &gt; '0')">
+        </PARAMETER>
+        <PARAMETER NAME="PROCESSOR_ENDPOINT" FIELD="ROUTE_COMPONENT_TYPE"
+            FILTER="cProcessor" NUM_ROW="75"
+            SHOW_IF="(TEST_SIMULATE=='true') AND (#LINK@CONNECTOR.OUT.ANY &gt; '0')">
         </PARAMETER>
     </PARAMETERS>
 
-    <ADVANCED_PARAMETERS>
-    </ADVANCED_PARAMETERS>
+    <ADVANCED_PARAMETERS />
 
     <CODEGENERATION>
         <IMPORTS>
             <IMPORT MODULE_GROUP="camel-test" REQUIRED="true" />
         </IMPORTS>
     </CODEGENERATION>
+
     <RETURNS />
+
 </COMPONENT>

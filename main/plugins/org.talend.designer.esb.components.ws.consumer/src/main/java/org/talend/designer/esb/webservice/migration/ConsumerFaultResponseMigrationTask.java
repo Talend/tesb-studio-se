@@ -29,80 +29,81 @@ import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
 import org.talend.designer.core.model.utils.emf.talendfile.ProcessType;
 import org.talend.designer.core.model.utils.emf.talendfile.TalendFileFactory;
 
-public class ConsumerFaultResponseMigrationTask extends
-		AbstractItemMigrationTask {
+public class ConsumerFaultResponseMigrationTask extends AbstractItemMigrationTask {
 
-	private static String faultCode = "faultCode";
-	private static String faultActor = "faultActor";
-	private static String faultNode = "faultNode";
-	private static String faultRole = "faultRole";
+    private static String faultCode = "faultCode";
 
-	private static final ProxyRepositoryFactory FACTORY = ProxyRepositoryFactory
-			.getInstance();
+    private static String faultActor = "faultActor";
 
-	public Date getOrder() {
-		GregorianCalendar gc = new GregorianCalendar(2011, 12, 30, 17, 21, 00);
-		return gc.getTime();
-	}
+    private static String faultNode = "faultNode";
 
-	public ExecutionResult execute(Item item) {
-		try {
-			addMoreFaultResponseMessage(item);
-		} catch (Exception e) {
-			ExceptionHandler.process(e);
-			return ExecutionResult.FAILURE;
-		}
-		return ExecutionResult.SUCCESS_NO_ALERT;
-	}
+    private static String faultRole = "faultRole";
 
-	private void addMoreFaultResponseMessage(Item item)
-			throws PersistenceException {
-		if (item instanceof ProcessItem) {
-			ProcessType processType = ((ProcessItem) item).getProcess();
-			for (Object o : processType.getNode()) {
-				if (o instanceof NodeType) {
-					NodeType currentNode = (NodeType) o;
-					if ("tESBConsumer".equals(currentNode.getComponentName())) {
-						Iterator<?> iterator = currentNode.getMetadata().iterator();
-						while (iterator.hasNext()) {
-							MetadataType metadataType = (MetadataType) iterator
-									.next();
-							if ("FAULT".equals(metadataType.getConnector())) {
-								EList<?> column = metadataType.getColumn();
-								addColumn(column, faultActor);
-								addColumn(column, faultCode);
-								addColumn(column, faultNode);
-								addColumn(column, faultRole);
-							}
-						}
-					}
-				}
-			}
-			FACTORY.save(item, true);
-		}
-	}
+    private static final ProxyRepositoryFactory FACTORY = ProxyRepositoryFactory.getInstance();
 
-	private void addColumn(EList column, String name) {
-		Iterator<?> iterator = column.iterator();
-		while (iterator.hasNext()) {
-			Object next = iterator.next();
-			if (next instanceof ColumnType) {
-				ColumnType ct = (ColumnType) next;
-				if (name.equals(ct.getName())) {
-					return;
-				}
-			}
-		}
-		ColumnType columnType = TalendFileFactory.eINSTANCE.createColumnType();
-		columnType.setDefaultValue("");
-		columnType.setKey(false);
-		columnType.setName(name);
-		columnType.setSourceType("");
-		columnType.setType("id_String");
-		columnType.setLength(1024);
-		columnType.setPrecision(0);
-		columnType.setNullable(true);
-		column.add(columnType);
-	}
+    @Override
+    public Date getOrder() {
+        GregorianCalendar gc = new GregorianCalendar(2011, 12, 30, 17, 21, 00);
+        return gc.getTime();
+    }
+
+    @Override
+    public ExecutionResult execute(Item item) {
+        try {
+            addMoreFaultResponseMessage(item);
+        } catch (Exception e) {
+            ExceptionHandler.process(e);
+            return ExecutionResult.FAILURE;
+        }
+        return ExecutionResult.SUCCESS_NO_ALERT;
+    }
+
+    private void addMoreFaultResponseMessage(Item item) throws PersistenceException {
+        if (item instanceof ProcessItem) {
+            ProcessType processType = ((ProcessItem) item).getProcess();
+            for (Object o : processType.getNode()) {
+                if (o instanceof NodeType) {
+                    NodeType currentNode = (NodeType) o;
+                    if ("tESBConsumer".equals(currentNode.getComponentName())) {
+                        Iterator<?> iterator = currentNode.getMetadata().iterator();
+                        while (iterator.hasNext()) {
+                            MetadataType metadataType = (MetadataType) iterator.next();
+                            if ("FAULT".equals(metadataType.getConnector())) {
+                                EList<?> column = metadataType.getColumn();
+                                addColumn(column, faultActor);
+                                addColumn(column, faultCode);
+                                addColumn(column, faultNode);
+                                addColumn(column, faultRole);
+                            }
+                        }
+                    }
+                }
+            }
+            FACTORY.save(item, true);
+        }
+    }
+
+    private void addColumn(EList column, String name) {
+        Iterator<?> iterator = column.iterator();
+        while (iterator.hasNext()) {
+            Object next = iterator.next();
+            if (next instanceof ColumnType) {
+                ColumnType ct = (ColumnType) next;
+                if (name.equals(ct.getName())) {
+                    return;
+                }
+            }
+        }
+        ColumnType columnType = TalendFileFactory.eINSTANCE.createColumnType();
+        columnType.setDefaultValue("");
+        columnType.setKey(false);
+        columnType.setName(name);
+        columnType.setSourceType("");
+        columnType.setType("id_String");
+        columnType.setLength(1024);
+        columnType.setPrecision(0);
+        columnType.setNullable(true);
+        column.add(columnType);
+    }
 
 }

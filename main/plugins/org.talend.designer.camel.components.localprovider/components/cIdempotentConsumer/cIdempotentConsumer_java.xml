@@ -4,102 +4,105 @@
 ]>
 <COMPONENT>
 
-	<HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+        COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
+        STARTABLE="false">
+        <SIGNATURE />
+    </HEADER>
 
-		COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
-		STARTABLE="false">
-		<SIGNATURE />
-	</HEADER>
+    <FAMILIES>
+        <FAMILY>Routing</FAMILY>
+    </FAMILIES>
 
-	<FAMILIES>
-		<FAMILY>Routing</FAMILY>
-	</FAMILIES>
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
 
-	<DOCUMENTATION>
-		<URL />
-	</DOCUMENTATION>
+    <CONNECTORS>
+        <CONNECTOR NAME="IDEM" CTYPE="ROUTE" MIN_INPUT="0"
+            MAX_INPUT="1" MAX_OUTPUT="1" MIN_OUTPUT="0" COLOR="086438" />
+        <CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1"
+            MAX_OUTPUT="1" />
+    </CONNECTORS>
 
-	<CONNECTORS>
-		<CONNECTOR NAME="IDEM" CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
-			MAX_OUTPUT="1" MIN_OUTPUT="0" COLOR="086438"/>
-		<CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1" MAX_OUTPUT="1" />
-	</CONNECTORS>
-
-	<PARAMETERS>
-
-		<PARAMETER NAME="REPOSITORY_TYPE" FIELD="CLOSED_LIST"
-			NUM_ROW="1" GROUP="REPOSITORY">
-			<ITEMS DEFAULT="MEMORY">
-				<ITEM NAME="MEMORY" VALUE="MEMORY" />
-				<ITEM NAME="FILE" VALUE="FILE" />
-			</ITEMS>
-		</PARAMETER>
-		<PARAMETER NAME="FILE_STORE" FIELD="FILE" NUM_ROW="2"
-			REQUIRED="true" GROUP="REPOSITORY" SHOW_IF="REPOSITORY_TYPE == 'FILE'">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="CACHE_SIZE" FIELD="TEXT" NUM_ROW="3"
-			REQUIRED="true" GROUP="REPOSITORY"
-			SHOW_IF="(REPOSITORY_TYPE == 'MEMORY') OR (REPOSITORY_TYPE == 'FILE')">
-			<DEFAULT>200</DEFAULT>
-		</PARAMETER>
-
-
-		<PARAMETER NAME="USE_LANGUAGE" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="4">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="LANGUAGES" FIELD="CLOSED_LIST" REQUIRED="false"
-			NUM_ROW="4" SHOW_IF="USE_LANGUAGE == 'true'">
+    <PARAMETERS>
+        <PARAMETER NAME="REPOSITORY_TYPE" FIELD="CLOSED_LIST"
+            NUM_ROW="1" GROUP="REPOSITORY">
+            <ITEMS DEFAULT="MEMORY">
+                <ITEM NAME="MEMORY" VALUE="MEMORY" />
+                <ITEM NAME="FILE" VALUE="FILE" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="FILE_STORE" FIELD="FILE" NUM_ROW="2"
+            REQUIRED="true" GROUP="REPOSITORY" SHOW_IF="REPOSITORY_TYPE == 'FILE'">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="CACHE_SIZE" FIELD="TEXT" NUM_ROW="3"
+            REQUIRED="true" GROUP="REPOSITORY"
+            SHOW_IF="(REPOSITORY_TYPE == 'MEMORY') OR (REPOSITORY_TYPE == 'FILE')">
+            <DEFAULT>200</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_LANGUAGE" FIELD="CHECK" REQUIRED="true"
+            NUM_ROW="4">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="LANGUAGES" FIELD="CLOSED_LIST"
+            REQUIRED="false" NUM_ROW="4" SHOW_IF="USE_LANGUAGE == 'true'">
             <ITEMS DEFAULT="CONSTANT">
                 &languages;
             </ITEMS>
-		</PARAMETER>
-		<PARAMETER NAME="EXPRESSION" FIELD="TEXT" NUM_ROW="4"
-			REQUIRED="true" SHOW_IF="USE_LANGUAGE == 'false'">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="PREDICATE" FIELD="TEXT" NUM_ROW="4"
-			REQUIRED="true" SHOW_IF="USE_LANGUAGE == 'true'">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
+        </PARAMETER>
+        <PARAMETER NAME="EXPRESSION" FIELD="TEXT" NUM_ROW="4"
+            REQUIRED="true" SHOW_IF="USE_LANGUAGE == 'false'">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="PREDICATE" FIELD="TEXT" NUM_ROW="4"
+            REQUIRED="true" SHOW_IF="USE_LANGUAGE == 'true'">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
 		&namespaces;
-		<PARAMETER NAME="EAGER" FIELD="CHECK" NUM_ROW="21"
-			REQUIRED="true" >
-			<DEFAULT>true</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="SKIP_DUPLICATE" FIELD="CHECK" NUM_ROW="22"
-			REQUIRED="true" >
-			<DEFAULT>true</DEFAULT>
-		</PARAMETER>
-	</PARAMETERS>
+        <PARAMETER NAME="EAGER" FIELD="CHECK" NUM_ROW="21"
+            REQUIRED="true">
+            <DEFAULT>true</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SKIP_DUPLICATE" FIELD="CHECK"
+            NUM_ROW="22" REQUIRED="true">
+            <DEFAULT>true</DEFAULT>
+        </PARAMETER>
+    </PARAMETERS>
 
-	<ADVANCED_PARAMETERS>
-	</ADVANCED_PARAMETERS>
+    <ADVANCED_PARAMETERS />
 
-	<CODEGENERATION>
+    <CODEGENERATION>
         <IMPORTS>
             <IMPORT MODULE_GROUP="camel-groovy" REQUIRED_IF="LANGUAGES == 'GROOVY'" />
             <!-- camel-script -->
-            <IMPORT NAME="camel-script"
-                    MODULE="camel-script-${camel.version}.jar" MVN="${mvn-camel-script}"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'JAVASCRIPT'" />
+            <IMPORT NAME="camel-script" MODULE="camel-script-${camel.version}.jar"
+                MVN="${mvn-camel-script}"
+                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
+                REQUIRED_IF="LANGUAGES == 'JAVASCRIPT'" />
             <IMPORT NAME="talend-camel-jsonpath"
-                    MODULE="camel-jsonpath-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jsonpath-alldep-${camel.version}/6.0.0"
-                    UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsonpath-alldep-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'JSONPATH'" />
-            <IMPORT NAME="talend-camel-saxon" 
-                    MODULE="camel-saxon-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-saxon-alldep-${camel.version}/6.0.0"  
-                    UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-saxon-alldep-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'XQUERY'" />
+                MODULE="camel-jsonpath-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jsonpath-alldep-${camel.version}/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsonpath-alldep-${camel.version}.jar"
+                REQUIRED_IF="LANGUAGES == 'JSONPATH'" />
+            <IMPORT NAME="talend-camel-saxon"
+                MODULE="camel-saxon-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-saxon-alldep-${camel.version}/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-saxon-alldep-${camel.version}.jar"
+                REQUIRED_IF="LANGUAGES == 'XQUERY'" />
         </IMPORTS>
-	</CODEGENERATION>
+    </CODEGENERATION>
 
-	<RETURNS />
+    <RETURNS />
+
 </COMPONENT>

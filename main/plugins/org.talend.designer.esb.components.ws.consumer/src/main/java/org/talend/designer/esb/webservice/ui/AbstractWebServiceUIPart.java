@@ -7,12 +7,12 @@ import org.eclipse.swt.widgets.Control;
 
 public abstract class AbstractWebServiceUIPart<T extends EventListener> {
 
-	protected final T listener;
+    protected final T listener;
 
-	public AbstractWebServiceUIPart(T eventListener) {
-		this.listener = eventListener;
-	}
+    public AbstractWebServiceUIPart(T eventListener) {
+        this.listener = eventListener;
+    }
 
-	abstract Control createControl(Composite parent);
+    abstract Control createControl(Composite parent);
 
 }

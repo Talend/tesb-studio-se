@@ -1,96 +1,119 @@
 <COMPONENT>
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+        COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
+        STARTABLE="true">
+        <SIGNATURE />
+    </HEADER>
 
-	<HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
-		COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
-		STARTABLE="true">
-		<SIGNATURE />
-	</HEADER>
+    <FAMILIES>
+        <FAMILY>AWS</FAMILY>
+        <FAMILY>Connectivity/Messaging</FAMILY>
+    </FAMILIES>
 
-	<FAMILIES>
-		<FAMILY>AWS</FAMILY>
-		<FAMILY>Connectivity/Messaging</FAMILY>
-	</FAMILIES>
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
 
-	<DOCUMENTATION>
-		<URL />
-	</DOCUMENTATION>
+    <CONNECTORS>
+        <CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
+            MAX_OUTPUT="1" MIN_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+    </CONNECTORS>
 
-	<CONNECTORS>
-		<CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
-			MAX_OUTPUT="1" MIN_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1" MAX_OUTPUT="0" />
-	</CONNECTORS>
-
-	<PARAMETERS>
-<!--         <PARAMETER NAME="AMAZON_S3_CLIENT" FIELD="TEXT" NUM_ROW="15" REQUIRED="true" GROUP="URI_GROUP">
-            <DEFAULT>"localhost:9092"</DEFAULT>
-        </PARAMETER> -->
-
-        <PARAMETER NAME="AWS_CONNECTION_CLIENT" FIELD="ROUTE_COMPONENT_TYPE" FILTER="cAWSConnection" NUM_ROW="1"/>
-        
-        <PARAMETER NAME="SUBJECT" FIELD="TEXT" NUM_ROW="10" REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+    <PARAMETERS>
+        <PARAMETER NAME="AWS_CONNECTION_CLIENT" FIELD="ROUTE_COMPONENT_TYPE"
+            FILTER="cAWSConnection" NUM_ROW="1" />
+        <PARAMETER NAME="SUBJECT" FIELD="TEXT" NUM_ROW="10"
+            REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="FROM" FIELD="TEXT" NUM_ROW="15" REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+        <PARAMETER NAME="FROM" FIELD="TEXT" NUM_ROW="15"
+            REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="TO" FIELD="TEXT" NUM_ROW="20" REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+        <PARAMETER NAME="TO" FIELD="TEXT" NUM_ROW="20"
+            REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="RETURN_PATH" FIELD="TEXT" NUM_ROW="30" REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+        <PARAMETER NAME="RETURN_PATH" FIELD="TEXT" NUM_ROW="30"
+            REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="REPLY_TO_ADDRESSES" FIELD="TEXT" NUM_ROW="40" REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+        <PARAMETER NAME="REPLY_TO_ADDRESSES" FIELD="TEXT"
+            NUM_ROW="40" REQUIRED="false" GROUP="URI_GROUP"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-        
-		<PARAMETER NAME="MESSAGE_HEADERS" FIELD="TABLE" NUM_ROW="120" NB_LINES="7" GROUP="MESSAGE_GROUP" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
-			<ITEMS>
-				<ITEM NAME="MESSAGE_HEADER" FIELD="OPENED_LIST">
-					<ITEMS DEFAULT="CamelAwsSesFrom">
-						<ITEM NAME="CamelAwsSesFrom" FIELD="TEXT" VALUE="CamelAwsSesFrom"/>
-						<ITEM NAME="CamelAwsSesTo" FIELD="TEXT" VALUE="CamelAwsSesTo"/>
-						<ITEM NAME="CamelAwsSesSubject" FIELD="TEXT" VALUE="CamelAwsSesSubject"/>
-						<ITEM NAME="CamelAwsSesReturnPath" FIELD="TEXT" VALUE="CamelAwsS3ContentControl"/>
-						<ITEM NAME="CamelAwsSesReplyToAddresses" FIELD="TEXT" VALUE="CamelAwsSesReplyToAddresses"/>
-						<ITEM NAME="CamelAwsSesHtmlEmail" FIELD="TEXT" VALUE="CamelAwsSesHtmlEmail"/>
-					</ITEMS>
-				</ITEM>
-				<ITEM NAME="MESSAGE_HEADER_VALUE" />
-			</ITEMS>
-		</PARAMETER>
-		
-	</PARAMETERS>
+        <PARAMETER NAME="MESSAGE_HEADERS" FIELD="TABLE"
+            NUM_ROW="120" NB_LINES="7" GROUP="MESSAGE_GROUP" REQUIRED="false"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+            <ITEMS>
+                <ITEM NAME="MESSAGE_HEADER" FIELD="OPENED_LIST">
+                    <ITEMS DEFAULT="CamelAwsSesFrom">
+                        <ITEM NAME="CamelAwsSesFrom" FIELD="TEXT"
+                            VALUE="CamelAwsSesFrom" />
+                        <ITEM NAME="CamelAwsSesTo" FIELD="TEXT"
+                            VALUE="CamelAwsSesTo" />
+                        <ITEM NAME="CamelAwsSesSubject" FIELD="TEXT"
+                            VALUE="CamelAwsSesSubject" />
+                        <ITEM NAME="CamelAwsSesReturnPath" FIELD="TEXT"
+                            VALUE="CamelAwsS3ContentControl" />
+                        <ITEM NAME="CamelAwsSesReplyToAddresses"
+                            FIELD="TEXT" VALUE="CamelAwsSesReplyToAddresses" />
+                        <ITEM NAME="CamelAwsSesHtmlEmail" FIELD="TEXT"
+                            VALUE="CamelAwsSesHtmlEmail" />
+                    </ITEMS>
+                </ITEM>
+                <ITEM NAME="MESSAGE_HEADER_VALUE" />
+            </ITEMS>
+        </PARAMETER>
+    </PARAMETERS>
 
-	<ADVANCED_PARAMETERS>
-		<PARAMETER NAME="URI_OPTIONS" FIELD="TABLE" NUM_ROW="7"
-			NB_LINES="5">
-			<ITEMS>
-				<ITEM NAME="NAME" FIELD="TEXT">
-				</ITEM>
-				<ITEM NAME="VALUE" />
-			</ITEMS>
-		</PARAMETER>
-	</ADVANCED_PARAMETERS>
+    <ADVANCED_PARAMETERS>
+        <PARAMETER NAME="URI_OPTIONS" FIELD="TABLE" NUM_ROW="7"
+            NB_LINES="5">
+            <ITEMS>
+                <ITEM NAME="NAME" FIELD="TEXT" />
+                <ITEM NAME="VALUE" />
+            </ITEMS>
+        </PARAMETER>
+    </ADVANCED_PARAMETERS>
 
-	<CODEGENERATION>
+    <CODEGENERATION>
         <IMPORTS>
             <IMPORT MODULE_GROUP="camel-core" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-spring" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-aws-ses" REQUIRED="true" />
-            <IMPORT NAME="jackson-databind" MODULE="jackson-databind-2.5.3.jar" MVN="mvn:org.talend.libraries/jackson-databind-2.5.3/6.0.0"  UrlPath="platform:/plugin/org.talend.libraries.jackson/lib/jackson-databind-2.5.3.jar" REQUIRED="true"/>
-            <IMPORT NAME="jackson-core" MODULE="jackson-core-2.5.3.jar" MVN="mvn:org.talend.libraries/jackson-core-2.5.3/6.0.0"  UrlPath="platform:/plugin/org.talend.libraries.jackson/lib/jackson-core-2.5.3.jar" REQUIRED="true"/>
-            <IMPORT NAME="jackson-annotations" MODULE="jackson-annotations-2.5.3.jar" MVN="mvn:org.talend.libraries/jackson-annotations-2.5.3/6.0.0"  UrlPath="platform:/plugin/org.talend.libraries.jackson/lib/jackson-annotations-2.5.3.jar" REQUIRED="true"/>
+            <IMPORT NAME="jackson-databind" MODULE="jackson-databind-2.5.3.jar"
+                MVN="mvn:org.talend.libraries/jackson-databind-2.5.3/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.jackson/lib/jackson-databind-2.5.3.jar"
+                REQUIRED="true" />
+            <IMPORT NAME="jackson-core" MODULE="jackson-core-2.5.3.jar"
+                MVN="mvn:org.talend.libraries/jackson-core-2.5.3/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.jackson/lib/jackson-core-2.5.3.jar"
+                REQUIRED="true" />
+            <IMPORT NAME="jackson-annotations" MODULE="jackson-annotations-2.5.3.jar"
+                MVN="mvn:org.talend.libraries/jackson-annotations-2.5.3/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.jackson/lib/jackson-annotations-2.5.3.jar"
+                REQUIRED="true" />
             <IMPORT NAME="httpclient-4.3.6.jar" MODULE="httpclient-4.3.6.jar"
                 MVN="mvn:org.talend.libraries/httpclient-4.3.6/6.0.0"
                 UrlPath="platform:/plugin/org.talend.libraries.apache.http/lib/httpclient-4.3.6.jar"
                 REQUIRED="true" />
-            <IMPORT NAME="httpcore-4.3.3.jar" MODULE="httpcore-4.3.3.jar" MVN="mvn:org.talend.libraries/httpcore-4.3.3/6.0.0" UrlPath="platform:/plugin/org.talend.libraries.apache.http/lib/httpcore-4.3.3.jar" REQUIRED="true" />
+            <IMPORT NAME="httpcore-4.3.3.jar" MODULE="httpcore-4.3.3.jar"
+                MVN="mvn:org.talend.libraries/httpcore-4.3.3/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.apache.http/lib/httpcore-4.3.3.jar"
+                REQUIRED="true" />
             <IMPORT NAME="joda-time-2.8.1.jar" MODULE="joda-time-2.8.1.jar"
                 MVN="mvn:org.talend.libraries/joda-time-2.8.1/6.0.0"
                 REQUIRED="true" />
@@ -103,7 +126,8 @@
                 UrlPath="platform:/plugin/org.talend.libraries.apache.common/lib/commons-codec-1.6.jar"
                 REQUIRED="true" />
         </IMPORTS>
-	</CODEGENERATION>
+    </CODEGENERATION>
 
-	<RETURNS />
+    <RETURNS />
+
 </COMPONENT>

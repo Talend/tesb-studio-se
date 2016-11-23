@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import aQute.bnd.osgi.Analyzer;
-
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IPath;
 import org.talend.core.GlobalServiceRegister;
@@ -46,15 +44,14 @@ import org.talend.repository.ui.wizards.exportjob.scriptsmanager.esb.JobJavaScri
 import org.talend.repository.utils.EmfModelUtils;
 import org.talend.repository.utils.TemplateProcessor;
 
-/**
- * DOC ycbai class global comment. Detailled comment
- */
+import aQute.bnd.osgi.Analyzer;
+
 public class RouteJavaScriptOSGIForESBManager extends JobJavaScriptOSGIForESBManager {
 
     private final Collection<String> routelets;
 
     public RouteJavaScriptOSGIForESBManager(Map<ExportChoice, Object> exportChoiceMap, String contextName,
-        Collection<String> routelets) {
+            Collection<String> routelets) {
         super(exportChoiceMap, contextName, null, IProcessor.NO_STATISTICS, IProcessor.NO_TRACES);
         this.routelets = routelets;
     }
@@ -63,12 +60,14 @@ public class RouteJavaScriptOSGIForESBManager extends JobJavaScriptOSGIForESBMan
         return getPackageName(processItem) + PACKAGE_SEPARATOR + processItem.getProperty().getLabel();
     }
 
+    @Override
     protected String getIncludeRoutinesPath() {
         return USER_BEANS_PATH;
     }
 
+    @Override
     protected Collection<String> getRoutinesPaths() {
-        final Collection<String> include = new ArrayList<String>();
+        final Collection<String> include = new ArrayList<>();
         include.add(getIncludeRoutinesPath());
         include.add(SYSTEM_ROUTINES_PATH);
         return include;
@@ -79,8 +78,8 @@ public class RouteJavaScriptOSGIForESBManager extends JobJavaScriptOSGIForESBMan
     protected void addResources(ExportFileResource osgiResource, ProcessItem processItem) throws Exception {
         IFolder srcFolder = null;
         if (GlobalServiceRegister.getDefault().isServiceRegistered(IRunProcessService.class)) {
-            IRunProcessService processService = (IRunProcessService) GlobalServiceRegister.getDefault().getService(
-                    IRunProcessService.class);
+            IRunProcessService processService = (IRunProcessService) GlobalServiceRegister.getDefault()
+                    .getService(IRunProcessService.class);
             ITalendProcessJavaProject talendProcessJavaProject = processService.getTalendProcessJavaProject();
             if (talendProcessJavaProject != null) {
                 srcFolder = talendProcessJavaProject.getResourcesFolder();
@@ -94,8 +93,8 @@ public class RouteJavaScriptOSGIForESBManager extends JobJavaScriptOSGIForESBMan
         // http://jira.talendforge.org/browse/TESB-6437
         // https://jira.talendforge.org/browse/TESB-7893
         for (IPath path : RouteResourceUtil.synchronizeRouteResource(processItem)) {
-            osgiResource.addResource(path.removeLastSegments(1).makeRelativeTo(srcPath).toString(), path.toFile().toURI()
-                    .toURL());
+            osgiResource.addResource(path.removeLastSegments(1).makeRelativeTo(srcPath).toString(),
+                    path.toFile().toURI().toURL());
         }
     }
 
@@ -105,12 +104,12 @@ public class RouteJavaScriptOSGIForESBManager extends JobJavaScriptOSGIForESBMan
     protected void generateConfig(ExportFileResource osgiResource, ProcessItem processItem, IProcess process) throws IOException {
         final File targetFile = new File(getTmpFolder() + PATH_SEPARATOR + "route.xml"); //$NON-NLS-1$
         TemplateProcessor.processTemplate("ROUTE_BLUEPRINT_CONFIG", //$NON-NLS-1$
-            collectRouteInfo(processItem, process), targetFile, getClass().getResourceAsStream(TEMPLATE_BLUEPRINT_ROUTE));
+                collectRouteInfo(processItem, process), targetFile, getClass().getResourceAsStream(TEMPLATE_BLUEPRINT_ROUTE));
         osgiResource.addResource(FileConstants.META_INF_FOLDER_NAME + "/spring", targetFile.toURI().toURL());
     }
 
     private Map<String, Object> collectRouteInfo(ProcessItem processItem, IProcess process) {
-        Map<String, Object> routeInfo = new HashMap<String, Object>();
+        Map<String, Object> routeInfo = new HashMap<>();
 
         // route name and class name
         routeInfo.put("name", processItem.getProperty().getLabel()); //$NON-NLS-1$
@@ -126,7 +125,7 @@ public class RouteJavaScriptOSGIForESBManager extends JobJavaScriptOSGIForESBMan
         boolean hasCXFComponent = !cCXFs.isEmpty();
         cCXFs.addAll(EmfModelUtils.getComponentsByName(processItem, "cCXFRS"));
         if (!cCXFs.isEmpty()) {
-            Set<String> consumerNodes = new HashSet<String>();
+            Set<String> consumerNodes = new HashSet<>();
             @SuppressWarnings("unchecked")
             List<ConnectionType> connections = processItem.getProcess().getConnection();
             for (ConnectionType conn : connections) {
@@ -149,7 +148,7 @@ public class RouteJavaScriptOSGIForESBManager extends JobJavaScriptOSGIForESBMan
                 }
 
                 // security is disable in case CXF_MESSAGE or RAW dataFormat
-                if (!"CXF_MESSAGE".equals(format) && !"RAW".equals(format)) { //$NON-NLS-1$  //$NON-NLS-2$
+                if (!"CXF_MESSAGE".equals(format) && !"RAW".equals(format)) { //$NON-NLS-1$ //$NON-NLS-2$
                     if (isEEVersion && EmfModelUtils.computeCheckElementValue("ENABLE_REGISTRY", node)) { //$NON-NLS-1$
                         nodeUseRegistry = true;
                         // https://jira.talendforge.org/browse/TESB-10725
@@ -197,26 +196,25 @@ public class RouteJavaScriptOSGIForESBManager extends JobJavaScriptOSGIForESBMan
     protected void addOsgiDependencies(Analyzer analyzer, ExportFileResource libResource, ProcessItem processItem)
             throws IOException {
         final DependenciesResolver resolver = new DependenciesResolver(processItem);
-        //exportPackage.append(getPackageName(processItem));
         // Add Route Resource Export packages
         // http://jira.talendforge.org/browse/TESB-6227
 
         // add manifest items
         analyzer.setProperty(Analyzer.REQUIRE_BUNDLE, resolver.getManifestRequireBundle(MANIFEST_ITEM_SEPARATOR));
         analyzer.setProperty(Analyzer.IMPORT_PACKAGE,
-            resolver.getManifestImportPackage(MANIFEST_ITEM_SEPARATOR) + ",*;resolution:=optional"); //$NON-NLS-1$
+                resolver.getManifestImportPackage(MANIFEST_ITEM_SEPARATOR) + ",*;resolution:=optional"); //$NON-NLS-1$
         analyzer.setProperty(Analyzer.EXPORT_PACKAGE, resolver.getManifestExportPackage(MANIFEST_ITEM_SEPARATOR));
 
         if (GlobalServiceRegister.getDefault().isServiceRegistered(IRunProcessService.class)) {
-            IRunProcessService processService = (IRunProcessService) GlobalServiceRegister.getDefault().getService(
-                    IRunProcessService.class);
+            IRunProcessService processService = (IRunProcessService) GlobalServiceRegister.getDefault()
+                    .getService(IRunProcessService.class);
             ITalendProcessJavaProject talendProcessJavaProject = processService.getTalendProcessJavaProject();
             if (talendProcessJavaProject != null) {
                 final IPath libPath = talendProcessJavaProject.getLibFolder().getLocation();
                 // process external libs
-                final List<URL> list = new ArrayList<URL>();
+                final List<URL> list = new ArrayList<>();
                 for (String s : resolver.getManifestBundleClasspath(MANIFEST_ITEM_SEPARATOR)
-                    .split(Character.toString(MANIFEST_ITEM_SEPARATOR))) {
+                        .split(Character.toString(MANIFEST_ITEM_SEPARATOR))) {
                     if (!s.isEmpty()) {
                         list.add(libPath.append(s).toFile().toURI().toURL());
                     }

@@ -27,74 +27,62 @@ import org.talend.designer.codegen.exception.CodeGeneratorException;
 
 public class ProcessPartBuilder extends AbstractProcessPartBuilder {
 
-	private final NodesTree nodesTree;
+    private final NodesTree nodesTree;
 
-	private final List<NodesSubTree> subTrees;
+    private final List<NodesSubTree> subTrees;
 
-	private final List<NodesSubTree> sortedFilteredSubTrees;
+    private final List<NodesSubTree> sortedFilteredSubTrees;
 
-	public ProcessPartBuilder(PartGeneratorManager generatorManager) {
-		super(generatorManager);
-		this.nodesTree = manager.getArgumentBuilder().getProcessTree();
-		this.subTrees = nodesTree.getSubTrees();
+    public ProcessPartBuilder(PartGeneratorManager generatorManager) {
+        super(generatorManager);
+        this.nodesTree = manager.getArgumentBuilder().getProcessTree();
+        this.subTrees = nodesTree.getSubTrees();
 
-		if (hasSubTrees()) {
-			sortedFilteredSubTrees = new ArrayList<NodesSubTree>();
-			List<NodesSubTree> postPositiveTrees = new ArrayList<NodesSubTree>();
-			for (NodesSubTree subTree : subTrees) {
-				INode startNode = subTree.getRootNode().getSubProcessStartNode(true);
-				if (subTreePostpositive(startNode)) {
-					postPositiveTrees.add(subTree);
-					continue;
-				}
-				if (subTreeNeedSkip(startNode)) {
-					continue;
-				}
-				sortedFilteredSubTrees.add(subTree);
-			}
-			sortedFilteredSubTrees.addAll(postPositiveTrees);
-		} else {
-			sortedFilteredSubTrees = Collections.emptyList();
-		}
-	}
+        if (hasSubTrees()) {
+            sortedFilteredSubTrees = new ArrayList<>();
+            List<NodesSubTree> postPositiveTrees = new ArrayList<>();
+            for (NodesSubTree subTree : subTrees) {
+                INode startNode = subTree.getRootNode().getSubProcessStartNode(true);
+                if (subTreePostpositive(startNode)) {
+                    postPositiveTrees.add(subTree);
+                    continue;
+                }
+                if (subTreeNeedSkip(startNode)) {
+                    continue;
+                }
+                sortedFilteredSubTrees.add(subTree);
+            }
+            sortedFilteredSubTrees.addAll(postPositiveTrees);
+        } else {
+            sortedFilteredSubTrees = Collections.emptyList();
+        }
+    }
 
-	@Override
-	public AbstractProcessPartBuilder appendContent() throws CodeGeneratorException {
-		appendTyped(ECamelTemplate.HEADER_ROUTE);
-		if (hasSubTrees()) {
-			for (NodesSubTree subTree : sortedFilteredSubTrees) {
-				appendSubTree(subTree);
-			}
-		}
+    @Override
+    public AbstractProcessPartBuilder appendContent() throws CodeGeneratorException {
+        appendTyped(ECamelTemplate.HEADER_ROUTE);
+        if (hasSubTrees()) {
+            for (NodesSubTree subTree : sortedFilteredSubTrees) {
+                appendSubTree(subTree);
+            }
+        }
 
-		appendTyped(ECamelTemplate.FOOTER_ROUTE);
-		appendTyped(ECamelTemplate.PROCESSINFO);
-		return this;
-	}
+        appendTyped(ECamelTemplate.FOOTER_ROUTE);
+        appendTyped(ECamelTemplate.PROCESSINFO);
+        return this;
+    }
 
-	private boolean hasSubTrees() {
-		return subTrees != null && !subTrees.isEmpty();
-	}
+    private boolean hasSubTrees() {
+        return subTrees != null && !subTrees.isEmpty();
+    }
 
-//	private NodesSubTree getFirstSubTree() {
-//		return subTrees.get(0);
-//	}
-
-//	private NodesSubTree getLastSubTree() {
-//		NodesSubTree lastSubTree = sortedFilteredSubTrees.get(sortedFilteredSubTrees.size() - 1);
-//		if (lastSubTree == null) {
-//			lastSubTree = getFirstSubTree();
-//		}
-//		return lastSubTree;
-//	}
-
-	private static boolean subTreePostpositive(INode subProcessStartNode) {
+    private static boolean subTreePostpositive(INode subProcessStartNode) {
         IElementParameter family = subProcessStartNode.getElementParameter("FAMILY"); //$NON-NLS-1$
         // https://jira.talendforge.org/browse/TESB-16530
         return subProcessStartNode.isStart() && null != family && !"Exception Handling".equals(family.getValue());
     }
 
-	private static boolean subTreeNeedSkip(INode subProcessStartNode) {
-		return NodeUtil.isConfigComponentNode(subProcessStartNode);
-	}
+    private static boolean subTreeNeedSkip(INode subProcessStartNode) {
+        return NodeUtil.isConfigComponentNode(subProcessStartNode);
+    }
 }

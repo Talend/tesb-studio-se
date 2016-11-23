@@ -21,54 +21,35 @@ import org.talend.designer.camel.resource.core.util.RouteResourceUtil;
 import org.talend.designer.camel.resource.ui.util.RouteResourceEditorUtil;
 import org.talend.repository.model.IRepositoryNode;
 
-/**
- * @author xpli
- * 
- */
 public class RouteResourceInput extends RepositoryEditorInput {
 
-	private IResourceChangeListener listener;
+    private IResourceChangeListener listener;
 
-	protected RouteResourceInput(IFile file, Item item) {
-		super(file, item);
-	}
+    protected RouteResourceInput(IFile file, Item item) {
+        super(file, item);
+    }
 
-	/**
-	 * Create instance
-	 * 
-	 * @param item
-	 * @return
-	 */
-	public static RouteResourceInput createInput(IRepositoryNode node, RouteResourceItem item) {
-		RouteResourceInput routeResourceInput = new RouteResourceInput(
-				RouteResourceUtil.getSourceFile(item), item);
-		if(node!=null) {
-			routeResourceInput.setRepositoryNode(node);
-			routeResourceInput.setReadOnly(RouteResourceEditorUtil.isReadOnly(node));
-		}
-		return routeResourceInput;
-	}
+    public static RouteResourceInput createInput(IRepositoryNode node, RouteResourceItem item) {
+        RouteResourceInput routeResourceInput = new RouteResourceInput(RouteResourceUtil.getSourceFile(item), item);
+        if (node != null) {
+            routeResourceInput.setRepositoryNode(node);
+            routeResourceInput.setReadOnly(RouteResourceEditorUtil.isReadOnly(node));
+        }
+        return routeResourceInput;
+    }
 
-	/**
-	 * @param listener
-	 *            the listener to set
-	 */
-	public void setListener(IResourceChangeListener listener) {
-		this.listener = listener;
-	}
+    public void setListener(IResourceChangeListener listener) {
+        this.listener = listener;
+    }
 
-	/**
-	 * @return the listener
-	 */
-	public IResourceChangeListener getListener() {
-		return listener;
-	}
+    public IResourceChangeListener getListener() {
+        return listener;
+    }
 
-	public String getName() {
-		String label = (getItem() == null ? "" : getItem().getProperty()
-				.getLabel());
-		String version = (getItem() == null ? "0.1" : getItem().getProperty()
-				.getVersion());
-		return label + " " + version+ (isReadOnly()?" (ReadOnly)":"");
-	}
+    @Override
+    public String getName() {
+        String label = (getItem() == null ? "" : getItem().getProperty().getLabel());
+        String version = (getItem() == null ? "0.1" : getItem().getProperty().getVersion());
+        return label + " " + version + (isReadOnly() ? " (ReadOnly)" : "");
+    }
 }

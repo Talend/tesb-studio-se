@@ -23,41 +23,41 @@ import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
  */
 public abstract class CMessgingEndpointSwitchVersionTask extends AbstractRouteItemComponentMigrationTask {
 
-	@Override
-	public final String getComponentNameRegex() {
-		return "cMessagingEndpoint";
-	}
+    @Override
+    public final String getComponentNameRegex() {
+        return "cMessagingEndpoint";
+    }
 
-	@Override
-	protected final boolean execute(NodeType node) throws Exception {
-		return switchVersion(node);
-	}
+    @Override
+    protected final boolean execute(NodeType node) throws Exception {
+        return switchVersion(node);
+    }
 
-	private boolean switchVersion(NodeType currentNode) throws PersistenceException {
-		boolean needSave = false;
-		for (Object e : currentNode.getElementParameter()) {
-			ElementParameterType p = (ElementParameterType) e;
-			if ("HOTLIBS".equals(p.getName())) {
-				EList<?> elementValue = p.getElementValue();
-				for (Object pv : elementValue) {
-					ElementValueType evt = (ElementValueType) pv;
-					String evtValue = evt.getValue();
-					String switchVersion = switchVersion(evtValue);
-					if(switchVersion!=null && !switchVersion.equals(evtValue)) {
-						evt.setValue(switchVersion);
-						needSave = true;
-					}
-				}
-			}
-		}
-		return needSave;
-	}
+    private boolean switchVersion(NodeType currentNode) throws PersistenceException {
+        boolean needSave = false;
+        for (Object e : currentNode.getElementParameter()) {
+            ElementParameterType p = (ElementParameterType) e;
+            if ("HOTLIBS".equals(p.getName())) {
+                EList<?> elementValue = p.getElementValue();
+                for (Object pv : elementValue) {
+                    ElementValueType evt = (ElementValueType) pv;
+                    String evtValue = evt.getValue();
+                    String switchVersion = switchVersion(evtValue);
+                    if (switchVersion != null && !switchVersion.equals(evtValue)) {
+                        evt.setValue(switchVersion);
+                        needSave = true;
+                    }
+                }
+            }
+        }
+        return needSave;
+    }
 
-	/**
-	 * Switch version.
-	 *
-	 * @param evtValue the old version string
-	 * @return the new version string
-	 */
-	protected abstract String switchVersion(String evtValue) ;
+    /**
+     * Switch version.
+     *
+     * @param evtValue the old version string
+     * @return the new version string
+     */
+    protected abstract String switchVersion(String evtValue);
 }

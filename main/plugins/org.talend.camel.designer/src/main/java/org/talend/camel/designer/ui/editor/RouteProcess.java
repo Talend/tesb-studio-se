@@ -22,9 +22,6 @@ import org.talend.core.model.properties.Property;
 import org.talend.designer.core.model.utils.emf.talendfile.ProcessType;
 import org.talend.designer.core.ui.editor.process.Process;
 
-/**
- * DOC nrousseau class global comment. Detailled comment
- */
 public class RouteProcess extends Process implements IRouteProcess {
 
     private String springContent = null;
@@ -45,17 +42,11 @@ public class RouteProcess extends Process implements IRouteProcess {
         return "org.talend.esb.help.";
     }
 
-    /* (non-Javadoc)
-     * @see org.talend.camel.designer.ui.editor.IRouteProcess#getSpringContent()
-     */
     @Override
     public String getSpringContent() {
         return springContent;
     }
 
-    /* (non-Javadoc)
-     * @see org.talend.camel.designer.ui.editor.IRouteProcess#setSpringContent(java.lang.String)
-     */
     @Override
     public void setSpringContent(String springContent) {
         this.springContent = springContent;

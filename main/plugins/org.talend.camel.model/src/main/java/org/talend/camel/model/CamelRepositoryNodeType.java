@@ -14,9 +14,6 @@ package org.talend.camel.model;
 
 import org.talend.core.model.repository.ERepositoryObjectType;
 
-/**
- * DOC guanglong.du class global comment. Detailled comment
- */
 public interface CamelRepositoryNodeType {
 
     ERepositoryObjectType repositoryRoutesType = ERepositoryObjectType.PROCESS_ROUTE;

@@ -25,11 +25,6 @@ import javax.wsdl.xml.WSDLReader;
 import org.talend.utils.wsdl.WSDLLoader;
 import org.xml.sax.InputSource;
 
-/**
- * class WSDLHelper
- * 
- * @author amarkevich
- */
 public class WSDLHelper {
 
     private WSDLHelper() {
@@ -41,8 +36,8 @@ public class WSDLHelper {
 
         newWSDLReader.setExtensionRegistry(wsdlFactory.newPopulatedExtensionRegistry());
         newWSDLReader.setFeature(com.ibm.wsdl.Constants.FEATURE_VERBOSE, false);
-        return newWSDLReader.readWSDL(new InMemoryWSDLLocator(wsdlLocation, new WSDLLoader().load(wsdlLocation, filenamePrefix
-                + "%d.wsdl")));
+        return newWSDLReader
+                .readWSDL(new InMemoryWSDLLocator(wsdlLocation, new WSDLLoader().load(wsdlLocation, filenamePrefix + "%d.wsdl")));
     }
 
     private static class InMemoryWSDLLocator implements WSDLLocator {

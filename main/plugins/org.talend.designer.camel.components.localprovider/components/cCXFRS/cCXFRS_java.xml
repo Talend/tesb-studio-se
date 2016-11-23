@@ -1,229 +1,244 @@
 <COMPONENT>
 
-	<HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
-		COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
-		STARTABLE="true">
-		<SIGNATURE />
-	</HEADER>
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+        COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
+        STARTABLE="true">
+        <SIGNATURE />
+    </HEADER>
 
-	<FAMILIES>
-		<FAMILY>Connectivity/Services</FAMILY>
-	</FAMILIES>
+    <FAMILIES>
+        <FAMILY>Connectivity/Services</FAMILY>
+    </FAMILIES>
 
-	<DOCUMENTATION>
-		<URL />
-	</DOCUMENTATION>
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
 
-	<CONNECTORS>
-		<CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
-			MAX_OUTPUT="1" MIN_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1" MAX_OUTPUT="0" />
-	</CONNECTORS>
+    <CONNECTORS>
+        <CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
+            MAX_OUTPUT="1" MIN_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+    </CONNECTORS>
 
-	<PARAMETERS>
-		<PARAMETER NAME="URL" FIELD="TEXT" NUM_ROW="2" REQUIRED="true">
-			<DEFAULT>"http://127.0.0.1:8040"</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="SERVICE_TYPE" FIELD="CLOSED_LIST" NUM_ROW="3">
-			<ITEMS DEFAULT="MANUAL">
-				<ITEM NAME="MANUAL" VALUE="MANUAL" />
-				<ITEM NAME="RESOURCECLASS" VALUE="RESOURCECLASS" />
-			</ITEMS>
-		</PARAMETER>
-
-		<PARAMETER NAME="PATH" FIELD="TEXT" NUM_ROW="4" REQUIRED="true" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND SERVICE_TYPE=='MANUAL'">
-			<DEFAULT>constant("/services/customers/")</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="HTTP_METHOD" FIELD="CLOSED_LIST" NUM_ROW="5" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND SERVICE_TYPE=='MANUAL'">
-			<ITEMS DEFAULT="GET">
-				<ITEM NAME="GET" VALUE="GET" />
-				<ITEM NAME="POST" VALUE="POST" />
-				<ITEM NAME="PUT" VALUE="PUT" />
-				<ITEM NAME="DELETE" VALUE="DELETE" />
-			</ITEMS>
-		</PARAMETER>
-		
-		<PARAMETER NAME="CONTENT_TYPE" FIELD="CLOSED_LIST" NUM_ROW="5"
-				SHOW_IF="((HTTP_METHOD == 'POST') OR (HTTP_METHOD == 'PUT')) AND (#LINK@CONNECTOR.IN.ANY &gt; '0') AND SERVICE_TYPE=='MANUAL'">
-			<ITEMS DEFAULT="XML">
-				<ITEM NAME="XML" VALUE="application/xml" />
-				<ITEM NAME="JSON" VALUE="application/json" />
-				<ITEM NAME="FORM" VALUE="application/x-www-form-urlencoded" />
-			</ITEMS>
-		</PARAMETER>
-
-		<PARAMETER NAME="ACCEPT_TYPE" FIELD="CLOSED_LIST" NUM_ROW="5"  SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND HTTP_METHOD != 'DELETE' AND SERVICE_TYPE=='MANUAL'">
-			<ITEMS DEFAULT="XML">
-				<ITEM NAME="XML" VALUE="application/xml" />
-				<ITEM NAME="JSON" VALUE="application/json" />
+    <PARAMETERS>
+        <PARAMETER NAME="URL" FIELD="TEXT" NUM_ROW="2"
+            REQUIRED="true">
+            <DEFAULT>"http://127.0.0.1:8040"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SERVICE_TYPE" FIELD="CLOSED_LIST"
+            NUM_ROW="3">
+            <ITEMS DEFAULT="MANUAL">
+                <ITEM NAME="MANUAL" VALUE="MANUAL" />
+                <ITEM NAME="RESOURCECLASS" VALUE="RESOURCECLASS" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="PATH" FIELD="TEXT" NUM_ROW="4"
+            REQUIRED="true"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND SERVICE_TYPE=='MANUAL'">
+            <DEFAULT>constant("/services/customers/")</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="HTTP_METHOD" FIELD="CLOSED_LIST"
+            NUM_ROW="5"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND SERVICE_TYPE=='MANUAL'">
+            <ITEMS DEFAULT="GET">
+                <ITEM NAME="GET" VALUE="GET" />
+                <ITEM NAME="POST" VALUE="POST" />
+                <ITEM NAME="PUT" VALUE="PUT" />
+                <ITEM NAME="DELETE" VALUE="DELETE" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="CONTENT_TYPE" FIELD="CLOSED_LIST"
+            NUM_ROW="5"
+            SHOW_IF="((HTTP_METHOD == 'POST') OR (HTTP_METHOD == 'PUT')) AND (#LINK@CONNECTOR.IN.ANY &gt; '0') AND SERVICE_TYPE=='MANUAL'">
+            <ITEMS DEFAULT="XML">
+                <ITEM NAME="XML" VALUE="application/xml" />
+                <ITEM NAME="JSON" VALUE="application/json" />
+                <ITEM NAME="FORM" VALUE="application/x-www-form-urlencoded" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="ACCEPT_TYPE" FIELD="CLOSED_LIST"
+            NUM_ROW="5"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND HTTP_METHOD != 'DELETE' AND SERVICE_TYPE=='MANUAL'">
+            <ITEMS DEFAULT="XML">
+                <ITEM NAME="XML" VALUE="application/xml" />
+                <ITEM NAME="JSON" VALUE="application/json" />
                 <ITEM NAME="PLAIN" VALUE="text/plain" />
-				<ITEM NAME="ANY" VALUE="*/*" />
-			</ITEMS>
-		</PARAMETER>
-		<PARAMETER NAME="RESPONSE_BEAN" FIELD="TEXT" NUM_ROW="5"  SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND HTTP_METHOD != 'DELETE' AND SERVICE_TYPE=='MANUAL'"/>
-
-		<PARAMETER NAME="SCHEMAS" FIELD="TABLE" NUM_ROW="10" REQUIRED="true" NB_LINES="5" NOT_SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') OR SERVICE_TYPE=='RESOURCECLASS'">
-			<ITEMS>
-				<ITEM NAME="SCHEMA" FIELD="TEXT" VALUE="method" />
-				<ITEM NAME="HTTP_VERB" FIELD="CLOSED_LIST">
-					<ITEMS DEFAULT="GET">
-						<ITEM NAME="GET" VALUE="GET" />
-						<ITEM NAME="POST" VALUE="POST" />
-						<ITEM NAME="PUT" VALUE="PUT" />
-						<ITEM NAME="DELETE" VALUE="DELETE" />
-						<ITEM NAME="OPTIONS" VALUE="OPTIONS" />
-						<ITEM NAME="HEAD" VALUE="HEAD" />
-					</ITEMS>
-				</ITEM>
-				<ITEM NAME="URI_PATTERN" FIELD="TEXT" VALUE='"/"' />
-				<ITEM NAME="CONSUMES" FIELD="CLOSED_LIST" READONLY_IF="(SCHEMAS.HTTP_VERB == 'GET') OR (SCHEMAS.HTTP_VERB == 'DELETE') OR (SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')">
-					<ITEMS DEFAULT="NONE">
-						<ITEM NAME="NONE" VALUE="NONE" NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
-						<ITEM NAME="XML-JSON" VALUE="XML-JSON" SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
-						<ITEM NAME="XML" VALUE="XML" SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
-						<ITEM NAME="JSON" VALUE="JSON" SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
-						<ITEM NAME="FORM" VALUE="FORM" SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
-						<ITEM NAME="MULTIPART" VALUE="MULTIPART" SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
-						<ITEM NAME="ANY" VALUE="ANY" SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
-					</ITEMS>
-				</ITEM>
-				<ITEM NAME="PRODUCES" FIELD="CLOSED_LIST" READONLY_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')">
-					<ITEMS DEFAULT="XML-JSON">
-						<ITEM NAME="NONE" VALUE="NONE" SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
-						<ITEM NAME="XML-JSON" VALUE="XML-JSON" NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
-						<ITEM NAME="XML" VALUE="XML" NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
-						<ITEM NAME="JSON" VALUE="JSON" NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
-						<ITEM NAME="HTML" VALUE="HTML" NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
-						<ITEM NAME="ANY" VALUE="ANY" NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
-					</ITEMS>
-				</ITEM>
-					<ITEM NAME="BEAN" FIELD="TEXT" READONLY_IF="(SCHEMAS.HTTP_VERB == 'GET') OR (SCHEMAS.HTTP_VERB == 'DELETE') OR (SCHEMAS.HTTP_VERB == 'OPTIONS') OR ((SCHEMAS.CONSUMES != 'XML-JSON') AND (SCHEMAS.CONSUMES != 'JSON') AND (SCHEMAS.CONSUMES != 'XML'))"/>
-			</ITEMS>
-		</PARAMETER>
-
+                <ITEM NAME="ANY" VALUE="*/*" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="RESPONSE_BEAN" FIELD="TEXT" NUM_ROW="5"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND HTTP_METHOD != 'DELETE' AND SERVICE_TYPE=='MANUAL'" />
+        <PARAMETER NAME="SCHEMAS" FIELD="TABLE" NUM_ROW="10"
+            REQUIRED="true" NB_LINES="5"
+            NOT_SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') OR SERVICE_TYPE=='RESOURCECLASS'">
+            <ITEMS>
+                <ITEM NAME="SCHEMA" FIELD="TEXT" VALUE="method" />
+                <ITEM NAME="HTTP_VERB" FIELD="CLOSED_LIST">
+                    <ITEMS DEFAULT="GET">
+                        <ITEM NAME="GET" VALUE="GET" />
+                        <ITEM NAME="POST" VALUE="POST" />
+                        <ITEM NAME="PUT" VALUE="PUT" />
+                        <ITEM NAME="DELETE" VALUE="DELETE" />
+                        <ITEM NAME="OPTIONS" VALUE="OPTIONS" />
+                        <ITEM NAME="HEAD" VALUE="HEAD" />
+                    </ITEMS>
+                </ITEM>
+                <ITEM NAME="URI_PATTERN" FIELD="TEXT" VALUE='"/"' />
+                <ITEM NAME="CONSUMES" FIELD="CLOSED_LIST"
+                    READONLY_IF="(SCHEMAS.HTTP_VERB == 'GET') OR (SCHEMAS.HTTP_VERB == 'DELETE') OR (SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')">
+                    <ITEMS DEFAULT="NONE">
+                        <ITEM NAME="NONE" VALUE="NONE"
+                            NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
+                        <ITEM NAME="XML-JSON" VALUE="XML-JSON"
+                            SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
+                        <ITEM NAME="XML" VALUE="XML"
+                            SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
+                        <ITEM NAME="JSON" VALUE="JSON"
+                            SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
+                        <ITEM NAME="FORM" VALUE="FORM"
+                            SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
+                        <ITEM NAME="MULTIPART" VALUE="MULTIPART"
+                            SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
+                        <ITEM NAME="ANY" VALUE="ANY"
+                            SHOW_IF="(SCHEMAS.HTTP_VERB == 'POST') OR (SCHEMAS.HTTP_VERB == 'PUT')" />
+                    </ITEMS>
+                </ITEM>
+                <ITEM NAME="PRODUCES" FIELD="CLOSED_LIST"
+                    READONLY_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')">
+                    <ITEMS DEFAULT="XML-JSON">
+                        <ITEM NAME="NONE" VALUE="NONE"
+                            SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
+                        <ITEM NAME="XML-JSON" VALUE="XML-JSON"
+                            NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
+                        <ITEM NAME="XML" VALUE="XML"
+                            NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
+                        <ITEM NAME="JSON" VALUE="JSON"
+                            NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
+                        <ITEM NAME="HTML" VALUE="HTML"
+                            NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
+                        <ITEM NAME="ANY" VALUE="ANY"
+                            NOT_SHOW_IF="(SCHEMAS.HTTP_VERB == 'HEAD') OR (SCHEMAS.HTTP_VERB == 'OPTIONS')" />
+                    </ITEMS>
+                </ITEM>
+                <ITEM NAME="BEAN" FIELD="TEXT"
+                    READONLY_IF="(SCHEMAS.HTTP_VERB == 'GET') OR (SCHEMAS.HTTP_VERB == 'DELETE') OR (SCHEMAS.HTTP_VERB == 'OPTIONS') OR ((SCHEMAS.CONSUMES != 'XML-JSON') AND (SCHEMAS.CONSUMES != 'JSON') AND (SCHEMAS.CONSUMES != 'XML'))" />
+            </ITEMS>
+        </PARAMETER>
         <PARAMETER NAME="RESOURCE_CLASS" FIELD="TEXT" NUM_ROW="6"
             SHOW_IF="SERVICE_TYPE == 'RESOURCECLASS'">
             <DEFAULT>beans.ResourceClass</DEFAULT>
         </PARAMETER>
-        <PARAMETER NAME="RESOURCE_OPERATION" FIELD="TEXT" NUM_ROW="6"
+        <PARAMETER NAME="RESOURCE_OPERATION" FIELD="TEXT"
+            NUM_ROW="6"
             SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND SERVICE_TYPE == 'RESOURCECLASS'">
             <DEFAULT>constant("operationName")</DEFAULT>
         </PARAMETER>
+        <PARAMETER NAME="SERVICE_LOCATOR" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="45">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SERVICE_NAMESPACE" FIELD="TEXT"
+            REQUIRED="true" NUM_ROW="46" SHOW_IF="SERVICE_LOCATOR == 'true'">
+            <DEFAULT>"__PREF:org.talend.designer.esb.components.rs.provider:defaultSLNamespace__"
+            </DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SERVICE_NAME" FIELD="TEXT" REQUIRED="true"
+            NUM_ROW="46" SHOW_IF="SERVICE_LOCATOR == 'true'">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SERVICE_ACTIVITY_MONITOR" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="55" READONLY="false">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="ENABLE_SECURITY" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="78">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SECURITY_TYPE" FIELD="CLOSED_LIST"
+            NUM_ROW="78" SHOW_IF="ENABLE_SECURITY == 'true'">
+            <ITEMS DEFAULT="BASIC">
+                <ITEM NAME="BASIC" VALUE="BASIC" />
+                <ITEM NAME="SAML" VALUE="SAML" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="USERNAME" FIELD="TEXT" NUM_ROW="80"
+            REQUIRED="true"
+            SHOW_IF="(ENABLE_SECURITY == 'true') AND (#LINK@CONNECTOR.IN.ANY &gt; '0')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="PASSWORD" FIELD="PASSWORD" NUM_ROW="80"
+            REQUIRED="true"
+            SHOW_IF="(ENABLE_SECURITY == 'true') AND (#LINK@CONNECTOR.IN.ANY &gt; '0')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_AUTHORIZATION" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="81" READONLY="false"
+            SHOW_IF="(ENABLE_SECURITY == 'true') AND (SECURITY_TYPE == 'SAML' ) AND	 (IS_STUDIO_EE_VERSION == 'true') ">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="ROLE_NAME" FIELD="TEXT" NUM_ROW="82"
+            READONLY="false"
+            SHOW_IF="(IS_STUDIO_EE_VERSION == 'true') AND (#LINK@CONNECTOR.IN.ANY &gt; '0') AND 
+					 (ENABLE_SECURITY == 'true')  AND (SECURITY_TYPE == 'SAML' ) AND (USE_AUTHORIZATION == 'true' )">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="ENABLE_CORRELATION" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="94">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="CORRELATION_VALUE" FIELD="TEXT"
+            NUM_ROW="95" SHOW_IF="ENABLE_CORRELATION == 'true'">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+    </PARAMETERS>
 
-		<PARAMETER NAME="SERVICE_LOCATOR" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="45"  >
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="SERVICE_NAMESPACE" FIELD="TEXT" REQUIRED="true" NUM_ROW="46"
-				SHOW_IF="SERVICE_LOCATOR == 'true'"  >
-			<DEFAULT>"__PREF:org.talend.designer.esb.components.rs.provider:defaultSLNamespace__"</DEFAULT>
-		</PARAMETER>
+    <ADVANCED_PARAMETERS>
+        <PARAMETER NAME="LOG_MESSAGES" FIELD="CHECK" REQUIRED="true"
+            NUM_ROW="5">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="ADVARGUMENTS" FIELD="TABLE" NUM_ROW="10"
+            NB_LINES="5">
+            <ITEMS>
+                <ITEM NAME="NAME" FIELD="TEXT">
+                </ITEM>
+                <ITEM NAME="VALUE" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="SL_META_DATA" FIELD="TABLE" NUM_ROW="50"
+            NB_LINES="5" SHOW_IF="SERVICE_LOCATOR == 'true'">
+            <ITEMS>
+                <ITEM NAME="NAME" FIELD="TEXT" />
+                <ITEM NAME="VALUE" />
+            </ITEMS>
+        </PARAMETER>
+    </ADVANCED_PARAMETERS>
 
-		<PARAMETER NAME="SERVICE_NAME" FIELD="TEXT" REQUIRED="true" NUM_ROW="46"
-				SHOW_IF="SERVICE_LOCATOR == 'true'"  >
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="SERVICE_ACTIVITY_MONITOR" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="55"  READONLY="false">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="ENABLE_SECURITY" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="78" >
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="SECURITY_TYPE" FIELD="CLOSED_LIST" NUM_ROW="78"
-			SHOW_IF="ENABLE_SECURITY == 'true'">
-			<ITEMS DEFAULT="BASIC">
-				<ITEM NAME="BASIC" VALUE="BASIC" />
-				<ITEM NAME="SAML" VALUE="SAML" />
-			</ITEMS>
-		</PARAMETER>
-		
-		
-		<PARAMETER NAME="USERNAME" FIELD="TEXT" NUM_ROW="80"
-			REQUIRED="true" SHOW_IF="(ENABLE_SECURITY == 'true') AND (#LINK@CONNECTOR.IN.ANY &gt; '0')">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="PASSWORD" FIELD="PASSWORD" NUM_ROW="80"
-			REQUIRED="true" SHOW_IF="(ENABLE_SECURITY == 'true') AND (#LINK@CONNECTOR.IN.ANY &gt; '0')">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="USE_AUTHORIZATION" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="81" READONLY="false"
-			SHOW_IF="(ENABLE_SECURITY == 'true') AND (SECURITY_TYPE == 'SAML' ) AND	 (IS_STUDIO_EE_VERSION == 'true') " >
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="ROLE_NAME" FIELD="TEXT" NUM_ROW="82" READONLY="false"
-			SHOW_IF="(IS_STUDIO_EE_VERSION == 'true') AND (#LINK@CONNECTOR.IN.ANY &gt; '0') AND 
-					 (ENABLE_SECURITY == 'true')  AND (SECURITY_TYPE == 'SAML' ) AND (USE_AUTHORIZATION == 'true' )" >
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-
-
-		<PARAMETER NAME="ENABLE_CORRELATION" FIELD="CHECK" REQUIRED="true" NUM_ROW="94">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="CORRELATION_VALUE" FIELD="TEXT" NUM_ROW="95" 
-			SHOW_IF="ENABLE_CORRELATION == 'true'" >
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-	</PARAMETERS>
-
-	<ADVANCED_PARAMETERS>
-		<PARAMETER NAME="LOG_MESSAGES" FIELD="CHECK" REQUIRED="true" NUM_ROW="5">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-	
-		<PARAMETER NAME="ADVARGUMENTS" FIELD="TABLE" NUM_ROW="10"
-			NB_LINES="5">
-			<ITEMS>
-				<ITEM NAME="NAME" FIELD="TEXT">
-				</ITEM>
-				<ITEM NAME="VALUE" />
-			</ITEMS>
-		</PARAMETER>
-		
-		<PARAMETER NAME="SL_META_DATA" FIELD="TABLE" NUM_ROW="50"
-			NB_LINES="5" SHOW_IF="SERVICE_LOCATOR == 'true'" >
-			<ITEMS>
-				<ITEM NAME="NAME" FIELD="TEXT" />
-				<ITEM NAME="VALUE" />
-			</ITEMS>
-		</PARAMETER>
-	</ADVANCED_PARAMETERS>
-
-	<CODEGENERATION>
-		<IMPORTS>
+    <CODEGENERATION>
+        <IMPORTS>
             <IMPORT MODULE_GROUP="camel-core" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-spring" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-cxf" REQUIRED="true" />
-
-            <IMPORT MODULE_GROUP="locator"
-                    REQUIRED_IF="SERVICE_LOCATOR == 'true'" />
-
+            <IMPORT MODULE_GROUP="locator" REQUIRED_IF="SERVICE_LOCATOR == 'true'" />
             <IMPORT MODULE_GROUP="sam-agent"
-                    REQUIRED_IF="SERVICE_ACTIVITY_MONITOR == 'true'" />
-
+                REQUIRED_IF="SERVICE_ACTIVITY_MONITOR == 'true'" />
             <IMPORT MODULE_GROUP="correlationid-policy"
-                    REQUIRED_IF=" (ENABLE_CORRELATION == 'true')" />
-
+                REQUIRED_IF=" (ENABLE_CORRELATION == 'true')" />
             <IMPORT MODULE_GROUP="security-common"
-                    REQUIRED_IF="(ENABLE_SECURITY == 'true') AND (SECURITY_TYPE == 'SAML')" />
-		</IMPORTS>
-	</CODEGENERATION>
-	<RETURNS />
+                REQUIRED_IF="(ENABLE_SECURITY == 'true') AND (SECURITY_TYPE == 'SAML')" />
+        </IMPORTS>
+    </CODEGENERATION>
+
+    <RETURNS />
+
 </COMPONENT>

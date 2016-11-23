@@ -23,40 +23,41 @@ import org.talend.commons.exception.ExceptionHandler;
 import org.talend.repository.model.RepositoryNode;
 
 interface RouteResourceSelectionListener extends EventListener {
-	void routeResourceNodeSelected(RepositoryNode resourceNode);
+
+    void routeResourceNodeSelected(RepositoryNode resourceNode);
 }
 
 public class RouteResourcesButtonPart extends AbstractButtonPart<RouteResourceSelectionListener> {
 
-	public RouteResourcesButtonPart(RouteResourceSelectionListener eventListener) {
-		super(eventListener);
-	}
+    public RouteResourcesButtonPart(RouteResourceSelectionListener eventListener) {
+        super(eventListener);
+    }
 
-	@Override
-	protected String getMessageKey() {
-		return "WebServiceUI.Resources";
-	}
+    @Override
+    protected String getMessageKey() {
+        return "WebServiceUI.Resources";
+    }
 
-	@Override
-	protected Image getImage() {
-		return getImageFromBundle("org.talend.designer.camel.resource", "icons/route-resource.png");
-	}
+    @Override
+    protected Image getImage() {
+        return getImageFromBundle("org.talend.designer.camel.resource", "icons/route-resource.png");
+    }
 
-	@Override
-	protected void buttonSelected(SelectionEvent e) {
-		try {
-			Class<?> dialogClass = Platform.getBundle("org.talend.camel.designer").loadClass(
-					"org.talend.camel.designer.dialog.RouteResourceSelectionDialog");
-			Dialog dialog = (Dialog) dialogClass.getConstructor(Shell.class).newInstance(getShell());
-			if (dialog.open() == Dialog.OK) {
-				RepositoryNode resourceNode = (RepositoryNode) dialogClass.getMethod("getResult").invoke(dialog);
-				if (resourceNode != null) {
-					listener.routeResourceNodeSelected(resourceNode);
-				}
-			}
-		} catch (Exception e1) {
-			ExceptionHandler.process(new IllegalStateException(
-					"Can't load RouteResourceSelectionDialog from specific bundle", e1));
-		}
-	}
+    @Override
+    protected void buttonSelected(SelectionEvent e) {
+        try {
+            Class<?> dialogClass = Platform.getBundle("org.talend.camel.designer")
+                    .loadClass("org.talend.camel.designer.dialog.RouteResourceSelectionDialog");
+            Dialog dialog = (Dialog) dialogClass.getConstructor(Shell.class).newInstance(getShell());
+            if (dialog.open() == Dialog.OK) {
+                RepositoryNode resourceNode = (RepositoryNode) dialogClass.getMethod("getResult").invoke(dialog);
+                if (resourceNode != null) {
+                    listener.routeResourceNodeSelected(resourceNode);
+                }
+            }
+        } catch (Exception e1) {
+            ExceptionHandler
+                    .process(new IllegalStateException("Can't load RouteResourceSelectionDialog from specific bundle", e1));
+        }
+    }
 }

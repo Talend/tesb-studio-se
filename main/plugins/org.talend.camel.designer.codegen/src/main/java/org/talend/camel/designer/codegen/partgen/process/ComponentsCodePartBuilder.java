@@ -14,86 +14,83 @@ import org.talend.designer.codegen.exception.CodeGeneratorException;
 
 public class ComponentsCodePartBuilder extends AbstractProcessPartBuilder {
 
-	private final NodesSubTree subProcess;
-	private final INode node;
-	private final String incomingName;
-	private final ECodePart part;
+    private final NodesSubTree subProcess;
 
-	public ComponentsCodePartBuilder(PartGeneratorManager generatorManager, NodesSubTree subProcess, INode node,
-			ECodePart part, String incomingName) {
-		super(generatorManager);
-		this.subProcess = subProcess;
-		this.node = node;
-		this.part = part;
-		this.incomingName = incomingName;
-	}
+    private final INode node;
 
-	@Override
-	public AbstractProcessPartBuilder appendContent() throws CodeGeneratorException {
-		append(generateComponentsCode(part));
-		return this;
-	}
+    private final String incomingName;
 
-	private CharSequence generateComponentsCode(ECodePart part) throws CodeGeneratorException {
-		Boolean isMarked = subProcess.isMarkedNode(node, part);
-		if (isMarked == null || isMarked) {
-			return "";
-		}
+    private final ECodePart part;
 
-		StringBuilder codeComponent = new StringBuilder();
+    public ComponentsCodePartBuilder(PartGeneratorManager generatorManager, NodesSubTree subProcess, INode node, ECodePart part,
+            String incomingName) {
+        super(generatorManager);
+        this.subProcess = subProcess;
+        this.node = node;
+        this.part = part;
+        this.incomingName = incomingName;
+    }
 
-		switch (part) {
-		case BEGIN:
-			codeComponent.append(generatesTreeCode(ECodePart.BEGIN));
-			codeComponent.append(generateComponentCode(ECodePart.BEGIN));
-			break;
-		case MAIN:
-			boolean isIterate = NodeUtil.isSpecifyInputNode(node, incomingName, EConnectionType.ITERATE);
-			if (isIterate) {
-				codeComponent.append(generateTypedComponentCode(ECamelTemplate.ITERATE_SUBPROCESS_HEADER,
-						ECodePart.BEGIN));
-				codeComponent.append(generatesTreeCode(ECodePart.BEGIN));
-				codeComponent.append(generateComponentCode(ECodePart.BEGIN));
+    @Override
+    public AbstractProcessPartBuilder appendContent() throws CodeGeneratorException {
+        append(generateComponentsCode(part));
+        return this;
+    }
 
-				codeComponent.append(generateComponentCode(ECodePart.MAIN));
-				codeComponent.append(generatesTreeCode(ECodePart.MAIN));
+    private CharSequence generateComponentsCode(ECodePart part) throws CodeGeneratorException {
+        Boolean isMarked = subProcess.isMarkedNode(node, part);
+        if (isMarked == null || isMarked) {
+            return "";
+        }
 
-				codeComponent.append(generateComponentCode(ECodePart.END));
-				codeComponent.append(generatesTreeCode(ECodePart.END));
+        StringBuilder codeComponent = new StringBuilder();
 
-				Vector<Object> iterate_Argument = wrapToVector(node, generateComponentsCode(ECodePart.FINALLY)
-						.toString());
+        switch (part) {
+        case BEGIN:
+            codeComponent.append(generatesTreeCode(ECodePart.BEGIN));
+            codeComponent.append(generateComponentCode(ECodePart.BEGIN));
+            break;
+        case MAIN:
+            boolean isIterate = NodeUtil.isSpecifyInputNode(node, incomingName, EConnectionType.ITERATE);
+            if (isIterate) {
+                codeComponent.append(generateTypedComponentCode(ECamelTemplate.ITERATE_SUBPROCESS_HEADER, ECodePart.BEGIN));
+                codeComponent.append(generatesTreeCode(ECodePart.BEGIN));
+                codeComponent.append(generateComponentCode(ECodePart.BEGIN));
 
-				codeComponent.append(generateTypedComponentCode(ECamelTemplate.ITERATE_SUBPROCESS_FOOTER,
-						iterate_Argument, ECodePart.END));
-			} else {
-				if (node.getIncomingConnections() != null && node.getIncomingConnections().size() > 0) {
-					if (!(node.getIncomingConnections().get(0).getLineStyle().equals(EConnectionType.ROUTE))) {
-						codeComponent.append(generateTypedComponentCode(ECamelTemplate.CAMEL_SPECIALLINKS));
+                codeComponent.append(generateComponentCode(ECodePart.MAIN));
+                codeComponent.append(generatesTreeCode(ECodePart.MAIN));
+
+                codeComponent.append(generateComponentCode(ECodePart.END));
+                codeComponent.append(generatesTreeCode(ECodePart.END));
+
+                Vector<Object> iterate_Argument = wrapToVector(node, generateComponentsCode(ECodePart.FINALLY).toString());
+
+                codeComponent.append(
+                        generateTypedComponentCode(ECamelTemplate.ITERATE_SUBPROCESS_FOOTER, iterate_Argument, ECodePart.END));
+            } else {
+                if (node.getIncomingConnections() != null && node.getIncomingConnections().size() > 0) {
+                    if (!(node.getIncomingConnections().get(0).getLineStyle().equals(EConnectionType.ROUTE))) {
+                        codeComponent.append(generateTypedComponentCode(ECamelTemplate.CAMEL_SPECIALLINKS));
                     } else {
                         // TESB-16270
-                        if ("cLoadBalancer".equals(
-                                node.getIncomingConnections().get(0).getSource().getComponent().getName())) {
+                        if ("cLoadBalancer".equals(node.getIncomingConnections().get(0).getSource().getComponent().getName())) {
                             codeComponent.append(".pipeline()");
                         }
-					}
-				}
-				codeComponent.append(generateComponentCode(ECodePart.MAIN));
-				codeComponent.append(manager.generateEndpointId(node));
+                    }
+                }
+                codeComponent.append(generateComponentCode(ECodePart.MAIN));
+                codeComponent.append(manager.generateEndpointId(node));
 
                 // TESB-16270
                 if (node.getIncomingConnections() != null && node.getIncomingConnections().size() > 0
-                        && (node.getOutgoingConnections() == null
-                                || node.getOutgoingConnections().size() == 0)) {
+                        && (node.getOutgoingConnections() == null || node.getOutgoingConnections().size() == 0)) {
                     INode sourceNode = node.getIncomingConnections().get(0).getSource();
                     INode currentNode = node;
                     boolean hasLoadBalance = false;
-                    while (sourceNode.getIncomingConnections() != null
-                            && sourceNode.getIncomingConnections().size() > 0) {
-                        if (currentNode.getIncomingConnections().get(0).getLineStyle()
-                                .equals(EConnectionType.ROUTE)
-                                && "cLoadBalancer".equals(currentNode.getIncomingConnections().get(0)
-                                        .getSource().getComponent().getName())) {
+                    while (sourceNode.getIncomingConnections() != null && sourceNode.getIncomingConnections().size() > 0) {
+                        if (currentNode.getIncomingConnections().get(0).getLineStyle().equals(EConnectionType.ROUTE)
+                                && "cLoadBalancer".equals(
+                                        currentNode.getIncomingConnections().get(0).getSource().getComponent().getName())) {
                             hasLoadBalance = true;
                             break;
                         }
@@ -105,78 +102,76 @@ public class ComponentsCodePartBuilder extends AbstractProcessPartBuilder {
                     }
                 }
 
-				codeComponent.append(generatesTreeCode(ECodePart.MAIN));
-			}
-			break;
-		case END:
-			boolean isOnRowsEnd = NodeUtil.isSpecifyInputNode(node, incomingName, EConnectionType.ON_ROWS_END);
-			if (isOnRowsEnd) {
+                codeComponent.append(generatesTreeCode(ECodePart.MAIN));
+            }
+            break;
+        case END:
+            boolean isOnRowsEnd = NodeUtil.isSpecifyInputNode(node, incomingName, EConnectionType.ON_ROWS_END);
+            if (isOnRowsEnd) {
 
-				codeComponent.append(generatesTreeCode(ECodePart.BEGIN));
-				codeComponent.append(generateComponentCode(ECodePart.BEGIN));
+                codeComponent.append(generatesTreeCode(ECodePart.BEGIN));
+                codeComponent.append(generateComponentCode(ECodePart.BEGIN));
 
-				codeComponent.append(generateComponentCode(ECodePart.MAIN));
-				codeComponent.append(generatesTreeCode(ECodePart.MAIN));
+                codeComponent.append(generateComponentCode(ECodePart.MAIN));
+                codeComponent.append(generatesTreeCode(ECodePart.MAIN));
 
-				codeComponent.append(generateComponentCode(ECodePart.END));
-				codeComponent.append(generatesTreeCode(ECodePart.END));
+                codeComponent.append(generateComponentCode(ECodePart.END));
+                codeComponent.append(generatesTreeCode(ECodePart.END));
 
-			} else {
-				codeComponent.append(generateComponentCode(ECodePart.END));
-				codeComponent.append(generatesTreeCode(part));
-			}
-			break;
-		case FINALLY:
-			codeComponent.append(generateComponentCode(ECodePart.FINALLY));
-			codeComponent.append(generatesTreeCode(ECodePart.FINALLY));
-			break;
-		default:
-			// do nothing
-		}
-		subProcess.markNode(node, part);
+            } else {
+                codeComponent.append(generateComponentCode(ECodePart.END));
+                codeComponent.append(generatesTreeCode(part));
+            }
+            break;
+        case FINALLY:
+            codeComponent.append(generateComponentCode(ECodePart.FINALLY));
+            codeComponent.append(generatesTreeCode(ECodePart.FINALLY));
+            break;
+        default:
+            // do nothing
+        }
+        subProcess.markNode(node, part);
 
-		return codeComponent;
-	}
+        return codeComponent;
+    }
 
-	private CharSequence generatesTreeCode(ECodePart part) throws CodeGeneratorException {
-		return manager.generateTreeCode(subProcess, node, part);
-	}
+    private CharSequence generatesTreeCode(ECodePart part) throws CodeGeneratorException {
+        return manager.generateTreeCode(subProcess, node, part);
+    }
 
-	@Override
-	public AbstractProcessPartBuilder appendTyped(ECamelTemplate template, Object... params)
-			throws CodeGeneratorException {
-		switch (template) {
-		case CAMEL_SPECIALLINKS:
-			return super.appendTyped(template, node);
-		default:
-			break;
-		}
-		return super.appendTyped(template, params);
-	}
+    @Override
+    public AbstractProcessPartBuilder appendTyped(ECamelTemplate template, Object... params) throws CodeGeneratorException {
+        switch (template) {
+        case CAMEL_SPECIALLINKS:
+            return super.appendTyped(template, node);
+        default:
+            break;
+        }
+        return super.appendTyped(template, params);
+    }
 
-	private CharSequence generateTypedComponentCode(ECamelTemplate template, ECodePart part)
-			throws CodeGeneratorException {
-		return manager.genTemplatePart(template, node, part, incomingName, subProcess);
-	}
+    private CharSequence generateTypedComponentCode(ECamelTemplate template, ECodePart part) throws CodeGeneratorException {
+        return manager.genTemplatePart(template, node, part, incomingName, subProcess);
+    }
 
-	private CharSequence generateTypedComponentCode(ECamelTemplate template, Vector<Object> arg, ECodePart part)
-			throws CodeGeneratorException {
-		return manager.genTemplatePart(template, arg, part, incomingName, subProcess);
-	}
+    private CharSequence generateTypedComponentCode(ECamelTemplate template, Vector<Object> arg, ECodePart part)
+            throws CodeGeneratorException {
+        return manager.genTemplatePart(template, arg, part, incomingName, subProcess);
+    }
 
-	private CharSequence generateTypedComponentCode(ECamelTemplate template) throws CodeGeneratorException {
-		if (template == ECamelTemplate.CAMEL_SPECIALLINKS) {
-			return manager.genTemplatePart(template, node);
-		}
-		return manager.genTemplatePart(template);
-	}
+    private CharSequence generateTypedComponentCode(ECamelTemplate template) throws CodeGeneratorException {
+        if (template == ECamelTemplate.CAMEL_SPECIALLINKS) {
+            return manager.genTemplatePart(template, node);
+        }
+        return manager.genTemplatePart(template);
+    }
 
-	private CharSequence generateComponentCode(ECodePart part) throws CodeGeneratorException {
-		return manager.createNodePartBuilder().setSubTree(subProcess).setNode(node).setPart(part)
-				.setIncomingName(incomingName).appendContent().build();
-	}
+    private CharSequence generateComponentCode(ECodePart part) throws CodeGeneratorException {
+        return manager.createNodePartBuilder().setSubTree(subProcess).setNode(node).setPart(part).setIncomingName(incomingName)
+                .appendContent().build();
+    }
 
-	private static Vector<Object> wrapToVector(Object... objs) {
-		return new Vector<Object>(Arrays.asList(objs));
-	}
+    private static Vector<Object> wrapToVector(Object... objs) {
+        return new Vector<>(Arrays.asList(objs));
+    }
 }

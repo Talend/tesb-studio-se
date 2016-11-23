@@ -23,9 +23,6 @@ import org.talend.repository.model.IRepositoryNode.ENodeType;
 import org.talend.repository.services.utils.ESBRepositoryNodeType;
 import org.talend.repository.ui.actions.EditPropertiesAction;
 
-/**
- * hwang class global comment. Detailled comment
- */
 public class ServiceEditPropertiesAction extends EditPropertiesAction {
 
     public ServiceEditPropertiesAction() {
@@ -35,16 +32,15 @@ public class ServiceEditPropertiesAction extends EditPropertiesAction {
         this.setImageDescriptor(ImageProvider.getImageDesc(EImage.EDIT_ICON));
     }
 
+    @Override
     public void init(TreeViewer viewer, IStructuredSelection selection) {
         boolean canWork = selection.size() == 1;
         if (canWork) {
-            Object o = ((IStructuredSelection) selection).getFirstElement();
+            Object o = selection.getFirstElement();
             if (o instanceof IRepositoryNode) {
                 IRepositoryNode node = (IRepositoryNode) o;
-                canWork = node.getType() == ENodeType.REPOSITORY_ELEMENT
-                    && node.getObjectType() == ESBRepositoryNodeType.SERVICES
-                    && node.getObject().getRepositoryStatus() != ERepositoryStatus.DELETED
-                    && isLastVersion(node);
+                canWork = node.getType() == ENodeType.REPOSITORY_ELEMENT && node.getObjectType() == ESBRepositoryNodeType.SERVICES
+                        && node.getObject().getRepositoryStatus() != ERepositoryStatus.DELETED && isLastVersion(node);
             }
         }
         setEnabled(canWork);

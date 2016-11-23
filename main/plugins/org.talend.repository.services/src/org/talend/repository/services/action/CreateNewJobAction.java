@@ -92,7 +92,7 @@ public class CreateNewJobAction extends AbstractCreateAction {
         for (ServicePort port : ((ServiceConnection) serviceItem.getConnection()).getServicePort()) {
             for (ServiceOperation operation : port.getServiceOperation()) {
                 if (operation.getLabel().equals(node.getLabel()) && operation.getReferenceJobId() != null
-                    && !operation.getReferenceJobId().equals("")) {
+                        && !operation.getReferenceJobId().equals("")) {
                     flag = false;
                 }
             }
@@ -130,8 +130,8 @@ public class CreateNewJobAction extends AbstractCreateAction {
         try {
             // Set readonly to false since created job will always be editable.
             ProcessEditorInput fileEditorInput = new ProcessEditorInput(process, false, true, false);
-            IRepositoryNode repositoryNode = RepositorySeekerManager.getInstance().searchRepoViewNode(
-                    fileEditorInput.getItem().getProperty().getId());
+            IRepositoryNode repositoryNode = RepositorySeekerManager.getInstance()
+                    .searchRepoViewNode(fileEditorInput.getItem().getProperty().getId());
             fileEditorInput.setRepositoryNode(repositoryNode);
 
             IEditorPart openEditor = getActivePage().openEditor(fileEditorInput, MultiPageTalendEditor.ID, true);
@@ -154,8 +154,8 @@ public class CreateNewJobAction extends AbstractCreateAction {
             if (!WSDLUtils.ONE_WAY.equals(serviceParameters.get(WSDLUtils.COMMUNICATION_STYLE))) {
                 Node node = new Node(ComponentsFactoryProvider.getInstance().get(T_ESB_PROVIDER_RESPONSE,
                         ComponentCategory.CATEGORY_4_DI.getName()), fileEditorInput.getLoadedProcess());
-                cNcc = new CreateNodeContainerCommand(fileEditorInput.getLoadedProcess(), new NodeContainer(node), new Point(
-                        9 * Node.DEFAULT_SIZE, 4 * Node.DEFAULT_SIZE));
+                cNcc = new CreateNodeContainerCommand(fileEditorInput.getLoadedProcess(), new NodeContainer(node),
+                        new Point(9 * Node.DEFAULT_SIZE, 4 * Node.DEFAULT_SIZE));
                 commandStack.execute(cNcc);
             }
             String faults = serviceParameters.get(WSDLUtils.FAULTS);
@@ -164,8 +164,8 @@ public class CreateNewJobAction extends AbstractCreateAction {
                 for (String fault : faults.split(",")) {
                     Node node = new Node(ComponentsFactoryProvider.getInstance().get(T_ESB_PROVIDER_FAULT,
                             ComponentCategory.CATEGORY_4_DI.getName()), fileEditorInput.getLoadedProcess());
-                    cNcc = new CreateNodeContainerCommand(fileEditorInput.getLoadedProcess(), new NodeContainer(node), new Point(
-                            horMultiplier * Node.DEFAULT_SIZE, 4 * Node.DEFAULT_SIZE));
+                    cNcc = new CreateNodeContainerCommand(fileEditorInput.getLoadedProcess(), new NodeContainer(node),
+                            new Point(horMultiplier * Node.DEFAULT_SIZE, 4 * Node.DEFAULT_SIZE));
                     commandStack.execute(cNcc);
                     node.getElementParameter("ESB_FAULT_TITLE").setValue('\"' + fault + '\"'); //$NON-NLS-1$
 

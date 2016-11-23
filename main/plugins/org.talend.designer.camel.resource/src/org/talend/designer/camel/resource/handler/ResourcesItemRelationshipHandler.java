@@ -26,9 +26,9 @@ import org.talend.designer.camel.resource.core.model.ResourceDependencyModel;
 import org.talend.designer.camel.resource.core.util.RouteResourceUtil;
 
 /**
- * Use to add resources dependencies for route. Need to update when dependencies
- * change(add/remove resources in [Manage Route Resource Dialog].)
- * 
+ * Use to add resources dependencies for route. Need to update when dependencies change(add/remove resources in [Manage
+ * Route Resource Dialog].)
+ *
  * @see org.talend.designer.camel.resource.ui.actions.ManageRouteResourcesAction
  */
 public class ResourcesItemRelationshipHandler extends AbstractJobItemRelationshipHandler {
@@ -36,10 +36,10 @@ public class ResourcesItemRelationshipHandler extends AbstractJobItemRelationshi
     @Override
     protected Set<Relation> collect(Item baseItem) {
         if (baseItem.eClass() != CamelPropertiesPackage.Literals.CAMEL_PROCESS_ITEM
-            && baseItem.eClass() != CamelPropertiesPackage.Literals.ROUTELET_PROCESS_ITEM) {
+                && baseItem.eClass() != CamelPropertiesPackage.Literals.ROUTELET_PROCESS_ITEM) {
             return Collections.emptySet();
         }
-        final Set<Relation> relationSet = new HashSet<Relation>();
+        final Set<Relation> relationSet = new HashSet<>();
         for (ResourceDependencyModel depModel : RouteResourceUtil.getResourceDependencies((ProcessItem) baseItem)) {
             final Relation addedRelation = new Relation();
             addedRelation.setId(depModel.getItem().getProperty().getId());

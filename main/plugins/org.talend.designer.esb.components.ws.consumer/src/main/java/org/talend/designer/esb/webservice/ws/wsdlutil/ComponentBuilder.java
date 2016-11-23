@@ -17,9 +17,6 @@ import javax.wsdl.extensions.soap12.SOAP12Operation;
 import org.talend.designer.esb.webservice.ws.wsdlinfo.OperationInfo;
 import org.talend.designer.esb.webservice.ws.wsdlinfo.ServiceInfo;
 
-/**
- * DOC gcui class global comment. Detailled comment
- */
 @SuppressWarnings("unchecked")
 public class ComponentBuilder {
 
@@ -29,7 +26,7 @@ public class ComponentBuilder {
     }
 
     public static Collection<ServiceInfo> buildModel(final Definition def) {
-        Collection<ServiceInfo> serviceInfos = new ArrayList<ServiceInfo>();
+        Collection<ServiceInfo> serviceInfos = new ArrayList<>();
         for (Service service : (Collection<Service>) def.getServices().values()) {
             serviceInfos.add(populateComponent(service));
         }

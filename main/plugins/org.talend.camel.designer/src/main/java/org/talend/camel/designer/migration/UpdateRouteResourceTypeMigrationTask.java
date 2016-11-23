@@ -26,6 +26,7 @@ public class UpdateRouteResourceTypeMigrationTask extends AbstractRouteItemCompo
         return "cCXF|cFlatPack";
     }
 
+    @Override
     public Date getOrder() {
         return new GregorianCalendar(2015, 10, 7).getTime();
     }

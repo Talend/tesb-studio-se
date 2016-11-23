@@ -10,73 +10,76 @@ import org.talend.repository.services.action.CreateNewJobAction;
 
 public class AssignJobWizard extends Wizard {
 
-	private AssignJobAction assignJobAction;
-	private CreateNewJobAction newJobAction;
+    private AssignJobAction assignJobAction;
 
-	private static String CHOICE_PAGE = "Choice_Page";
-	private static String ASSIGN_JOB = "Assign_Job";
+    private CreateNewJobAction newJobAction;
 
-	private AssignJobPage assignJobPage;
-	private IWizardPage createJobPage;
-	private NewProcessWizard processWizard;
-	private AssignChoicePage assignChoicePage;
+    private static String CHOICE_PAGE = "Choice_Page";
 
-	public AssignJobWizard(AssignJobAction assignJobAction,
-			CreateNewJobAction newJobAction) {
-		this.assignJobAction = assignJobAction;
-		this.newJobAction = newJobAction;
-		setWindowTitle(Messages.AssignJobWizard_windowTitle);
-	}
+    private static String ASSIGN_JOB = "Assign_Job";
 
-	@Override
-	public void addPages() {
+    private AssignJobPage assignJobPage;
 
-		assignJobPage = new AssignJobPage(ASSIGN_JOB, assignJobAction);
+    private IWizardPage createJobPage;
 
-		processWizard = newJobAction.getNewProcessWizard();
-		if (processWizard != null) {
-			processWizard.setContainer(getContainer());
-			processWizard.addPages();
-			createJobPage = processWizard.getPages()[0];
-		}
-		assignChoicePage = new AssignChoicePage(CHOICE_PAGE, assignJobPage,
-				createJobPage);
-		addPage(assignChoicePage);
-		addPage(assignJobPage);
-		addPage(createJobPage);
-	}
+    private NewProcessWizard processWizard;
 
-	@Override
-	public void createPageControls(Composite pageContainer) {
-	}
+    private AssignChoicePage assignChoicePage;
 
-	@Override
-	public boolean canFinish() {
-		if(assignChoicePage == getContainer().getCurrentPage()){
-			return false;
-		}
-		return super.canFinish();
-	}
-	
-	@Override
-	public boolean performFinish() {
-		IWizardPage currentPage = getContainer().getCurrentPage();
-		if (currentPage == assignJobPage) {
-			return assignJobPage.finish();
-		} else if (currentPage == createJobPage && processWizard != null) {
-			processWizard.performFinish();
-			return newJobAction.createNewProcess(processWizard);
+    public AssignJobWizard(AssignJobAction assignJobAction, CreateNewJobAction newJobAction) {
+        this.assignJobAction = assignJobAction;
+        this.newJobAction = newJobAction;
+        setWindowTitle(Messages.AssignJobWizard_windowTitle);
+    }
 
-		}
-		return false;
-	}
+    @Override
+    public void addPages() {
 
-	@Override
-	public IWizardPage getNextPage(IWizardPage page) {
-		if (page == assignChoicePage) {
-			return assignChoicePage.getNextPage();
-		}
-		return null;
-	}
+        assignJobPage = new AssignJobPage(ASSIGN_JOB, assignJobAction);
+
+        processWizard = newJobAction.getNewProcessWizard();
+        if (processWizard != null) {
+            processWizard.setContainer(getContainer());
+            processWizard.addPages();
+            createJobPage = processWizard.getPages()[0];
+        }
+        assignChoicePage = new AssignChoicePage(CHOICE_PAGE, assignJobPage, createJobPage);
+        addPage(assignChoicePage);
+        addPage(assignJobPage);
+        addPage(createJobPage);
+    }
+
+    @Override
+    public void createPageControls(Composite pageContainer) {
+    }
+
+    @Override
+    public boolean canFinish() {
+        if (assignChoicePage == getContainer().getCurrentPage()) {
+            return false;
+        }
+        return super.canFinish();
+    }
+
+    @Override
+    public boolean performFinish() {
+        IWizardPage currentPage = getContainer().getCurrentPage();
+        if (currentPage == assignJobPage) {
+            return assignJobPage.finish();
+        } else if (currentPage == createJobPage && processWizard != null) {
+            processWizard.performFinish();
+            return newJobAction.createNewProcess(processWizard);
+
+        }
+        return false;
+    }
+
+    @Override
+    public IWizardPage getNextPage(IWizardPage page) {
+        if (page == assignChoicePage) {
+            return assignChoicePage.getNextPage();
+        }
+        return null;
+    }
 
 }

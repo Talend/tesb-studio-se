@@ -19,15 +19,9 @@ import org.talend.repository.viewer.content.ProjectRepoDirectChildrenNodeContent
 
 public class RoutesContentProvider extends ProjectRepoDirectChildrenNodeContentProvider {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.talend.repository.viewer.content.ProjectRepoChildrenNodeContentProvider#getTopLevelNodeFromProjectRepositoryNode
-     * (org.talend.repository.model.ProjectRepositoryNode)
-     */
     @Override
     protected RepositoryNode getTopLevelNodeFromProjectRepositoryNode(ProjectRepositoryNode projectNode) {
         return projectNode.getRootRepositoryNode(CamelRepositoryNodeType.repositoryRoutesType);
     }
+
 }

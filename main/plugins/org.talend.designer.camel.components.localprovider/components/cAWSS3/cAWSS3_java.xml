@@ -1,20 +1,57 @@
 <COMPONENT>
-
     <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
         COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
         STARTABLE="true">
         <SIGNATURE />
     </HEADER>
 
+<<<<<<< Upstream, based on master
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+        COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
+        STARTABLE="true">
+        <SIGNATURE />
+    </HEADER>
+=======
     <FAMILIES>
         <FAMILY>AWS</FAMILY>
         <FAMILY>Connectivity/File</FAMILY>
     </FAMILIES>
+>>>>>>> 4614d3a Cleanup XML format
 
+<<<<<<< Upstream, based on master
+    <FAMILIES>
+        <FAMILY>AWS</FAMILY>
+        <FAMILY>Connectivity/File</FAMILY>
+    </FAMILIES>
+=======
     <DOCUMENTATION>
         <URL />
     </DOCUMENTATION>
+>>>>>>> 4614d3a Cleanup XML format
 
+<<<<<<< Upstream, based on master
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
+=======
+    <CONNECTORS>
+        <CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
+            MAX_OUTPUT="1" MIN_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+    </CONNECTORS>
+>>>>>>> 4614d3a Cleanup XML format
+
+<<<<<<< Upstream, based on master
     <CONNECTORS>
         <CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
             MAX_OUTPUT="1" MIN_OUTPUT="0" />
@@ -31,6 +68,8 @@
             MAX_OUTPUT="0" />
     </CONNECTORS>
 
+=======
+>>>>>>> 4614d3a Cleanup XML format
     <PARAMETERS>
         <PARAMETER NAME="AWS_CONNECTION_CLIENT" FIELD="ROUTE_COMPONENT_TYPE"
             FILTER="cAWSConnection" NUM_ROW="1" />
@@ -141,6 +180,23 @@
     </PARAMETERS>
 
     <ADVANCED_PARAMETERS>
+<<<<<<< Upstream, based on master
+        <PARAMETER NAME="URI_OPTIONS" FIELD="TABLE" NUM_ROW="7"
+            NB_LINES="5">
+            <ITEMS>
+                <ITEM NAME="NAME" FIELD="TEXT" />
+                <ITEM NAME="VALUE" />
+            </ITEMS>
+=======
+        <PARAMETER NAME="ENABLE_POLICY" FIELD="CHECK" NUM_ROW="1">
+            <DEFAULT>false</DEFAULT>
+>>>>>>> 4614d3a Cleanup XML format
+        </PARAMETER>
+<<<<<<< Upstream, based on master
+=======
+        <PARAMETER NAME="POLICY" FIELD="MEMO" RAW="true"
+            NUM_ROW="2" REQUIRED="false" SHOW_IF="(ENABLE_POLICY == 'true')">
+        </PARAMETER>
         <PARAMETER NAME="URI_OPTIONS" FIELD="TABLE" NUM_ROW="7"
             NB_LINES="5">
             <ITEMS>
@@ -148,6 +204,7 @@
                 <ITEM NAME="VALUE" />
             </ITEMS>
         </PARAMETER>
+>>>>>>> 4614d3a Cleanup XML format
     </ADVANCED_PARAMETERS>
 
     <CODEGENERATION>
@@ -191,4 +248,8 @@
 
     <RETURNS />
 
+<<<<<<< Upstream, based on master
 </COMPONENT>
+=======
+</COMPONENT>
+>>>>>>> 4614d3a Cleanup XML format

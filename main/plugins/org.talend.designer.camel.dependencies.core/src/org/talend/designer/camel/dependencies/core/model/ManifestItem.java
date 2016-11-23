@@ -8,21 +8,29 @@ import org.osgi.framework.Constants;
 public abstract class ManifestItem {
 
     public static final String IMPORT_PACKAGE = Constants.IMPORT_PACKAGE;
+
     public static final String REQUIRE_BUNDLE = Constants.REQUIRE_BUNDLE;
+
     public static final String EXPORT_PACKAGE = Constants.EXPORT_PACKAGE;
+
     public static final String BUNDLE_CLASSPATH = Constants.BUNDLE_CLASSPATH;
 
-    public static final String RESOLUTION_DIRECTIVE_OPTIONAL =
-        Constants.RESOLUTION_DIRECTIVE + ":=" + Constants.RESOLUTION_OPTIONAL; //$NON-NLS-1$
+    public static final String RESOLUTION_DIRECTIVE_OPTIONAL = Constants.RESOLUTION_DIRECTIVE + ":=" //$NON-NLS-1$
+            + Constants.RESOLUTION_OPTIONAL;
+
     private static final char ATTRIBUTE_SEPARATOR = ';';
 
     private String name;
+
     private String version;
+
     private boolean isOptional;
+
     private boolean isBuiltIn;
 
     private String description;
-    private Collection<String> relativeComponents = new HashSet<String>();
+
+    private Collection<String> relativeComponents = new HashSet<>();
 
     public static ManifestItem newItem(String header) {
         switch (header) {
@@ -75,7 +83,7 @@ public abstract class ManifestItem {
         this.description = description;
     }
 
-    public void addRelativeComponent(String componentUniqueName){
+    public void addRelativeComponent(String componentUniqueName) {
         relativeComponents.add(componentUniqueName);
     }
 

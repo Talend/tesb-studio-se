@@ -60,10 +60,6 @@ import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManag
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager.ExportChoice;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManagerFactory;
 
-/**
- * DOC x class global comment. Detailled comment <br/>
- * 
- */
 public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizardPage {
 
     private static final String TOGGLE_MVN_ONLINE = "ALWAYS_MAVEN_ONLINE_FOR_MICROSERVICE";
@@ -126,11 +122,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
         exportTypeCombo.addSelectionListener(new SelectionAdapter() {
 
-            /*
-             * (non-Javadoc)
-             * 
-             * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-             */
             @Override
             public void widgetSelected(SelectionEvent e) {
                 Widget source = e.widget;
@@ -186,7 +177,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
     /**
      * Answer the suffix that files exported from this wizard should have. If this suffix is a file extension (which is
      * typically the case) then it must include the leading period character.
-     * 
      */
     @Override
     protected String getOutputSuffix() {
@@ -212,7 +202,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
             dialog.setFilterExtensions(new String[] { "*.kar", "*.*" }); //$NON-NLS-1$ //$NON-NLS-2$
         }
         dialog.setText(""); //$NON-NLS-1$
-        // this is changed by me shenhaize
         dialog.setFileName(this.getDefaultFileName().get(0));
         String currentSourceString = getDestinationValue();
         int lastSeparatorIndex = currentSourceString.lastIndexOf(File.separator);
@@ -296,7 +285,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
     @Override
     protected Map<ExportChoice, Object> getExportChoiceMap() {
-        Map<ExportChoice, Object> exportChoiceMap = new EnumMap<ExportChoice, Object>(ExportChoice.class);
+        Map<ExportChoice, Object> exportChoiceMap = new EnumMap<>(ExportChoice.class);
         exportChoiceMap.put(ExportChoice.needJobItem, false);
         exportChoiceMap.put(ExportChoice.needSourceCode, false);
 
@@ -398,11 +387,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         };
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.repository.ui.wizards.exportjob.JobScriptsExportWizardPage#checkExport()
-     */
     @Override
     public boolean checkExport() {
         boolean noError = true;
@@ -418,7 +402,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
     @Override
     public boolean finish() {
-
         String version = getSelectedJobVersion();
         String destinationKar = getDestinationValue();
         if (new File(destinationKar).exists()) {
@@ -435,7 +418,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         Map<ExportChoice, Object> exportChoiceMap = getExportChoiceMap();
 
         if (exportTypeCombo.getText().equals(EXPORTTYPE_SPRING_BOOT)) {
-
             Bundle bundle = Platform.getBundle(PluginChecker.EXPORT_ROUTE_PLUGIN_ID);
             try {
                 if (bundle != null) {
@@ -530,23 +512,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
             settings.put(STORE_DESTINATION_NAMES_ID, directoryNames);
         }
     }
-
-    // @Override
-    // protected void internalSaveWidgetValues() {
-    // // update directory names history
-    // IDialogSettings settings = getDialogSettings();
-    // if (settings != null) {
-    // String[] directoryNames = new String[1];
-    // String destinationValue = manager.getDestinationPath();
-    // if (destinationValue != null) {
-    // IPath path = Path.fromOSString(destinationValue);
-    // destinationValue = path.removeLastSegments(1).toOSString();
-    // }
-    // directoryNames[0] = destinationValue;
-    //
-    // settings.put(STORE_DESTINATION_NAMES_ID, directoryNames);
-    // }
-    // }
 
     /**
      * Hook method for restoring widget values to the values that they held last time this wizard was used to

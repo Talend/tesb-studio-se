@@ -10,42 +10,45 @@ import org.talend.repository.services.Messages;
 
 public class AssignChoicePage extends WizardPage {
 
-	private Button assignJob;
-	private Button newJob;
-	private AssignJobPage assignJobPage;
-	private IWizardPage createJobPage;
+    private Button assignJob;
 
-	protected AssignChoicePage(String pageName, AssignJobPage assignJobPage,
-			IWizardPage createJobPage) {
-		super(pageName);
-		this.assignJobPage = assignJobPage;
-		this.createJobPage = createJobPage;
-	}
+    private Button newJob;
 
-	public void createControl(Composite parent) {
-		setTitle(Messages.AssignChoicePage_title);
-		setDescription(Messages.AssignChoicePage_message);
+    private AssignJobPage assignJobPage;
 
-		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayout(new GridLayout(1, false));
-		
-		newJob = new Button(composite, SWT.RADIO);
-		newJob.setText(Messages.AssignChoicePage_newJobLabel);
-		
-		assignJob = new Button(composite, SWT.RADIO);
-		assignJob.setText(Messages.AssignChoicePage_assignJobLabel);
-		
-		newJob.setSelection(true);
-		
-		setControl(composite);
-	}
+    private IWizardPage createJobPage;
 
-	@Override
-	public IWizardPage getNextPage() {
-		if (assignJob.getSelection()) {
-			return assignJobPage;
-		} else
-			return createJobPage;
-	}
+    protected AssignChoicePage(String pageName, AssignJobPage assignJobPage, IWizardPage createJobPage) {
+        super(pageName);
+        this.assignJobPage = assignJobPage;
+        this.createJobPage = createJobPage;
+    }
+
+    @Override
+    public void createControl(Composite parent) {
+        setTitle(Messages.AssignChoicePage_title);
+        setDescription(Messages.AssignChoicePage_message);
+
+        Composite composite = new Composite(parent, SWT.NONE);
+        composite.setLayout(new GridLayout(1, false));
+
+        newJob = new Button(composite, SWT.RADIO);
+        newJob.setText(Messages.AssignChoicePage_newJobLabel);
+
+        assignJob = new Button(composite, SWT.RADIO);
+        assignJob.setText(Messages.AssignChoicePage_assignJobLabel);
+
+        newJob.setSelection(true);
+
+        setControl(composite);
+    }
+
+    @Override
+    public IWizardPage getNextPage() {
+        if (assignJob.getSelection()) {
+            return assignJobPage;
+        } else
+            return createJobPage;
+    }
 
 }

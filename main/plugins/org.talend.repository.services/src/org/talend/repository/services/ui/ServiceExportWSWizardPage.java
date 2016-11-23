@@ -38,10 +38,6 @@ import org.talend.repository.services.Messages;
 import org.talend.repository.services.model.services.ServiceItem;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager.ExportChoice;
 
-/**
- * DOC x class global comment. Detailled comment <br/>
- * 
- */
 public class ServiceExportWSWizardPage extends WizardPage {
 
     private static final String OUTPUT_FILE_SUFFIX = FileConstants.ZIP_FILE_SUFFIX;
@@ -112,6 +108,7 @@ public class ServiceExportWSWizardPage extends WizardPage {
         return FileConstants.KAR_FILE_SUFFIX;
     }
 
+    @Override
     public void createControl(Composite parent) {
         setControl(parent);
         Composite container = new Composite(parent, SWT.NONE);
@@ -128,6 +125,7 @@ public class ServiceExportWSWizardPage extends WizardPage {
         destinationText.setText(getDestinationValue());
         destinationText.addModifyListener(new ModifyListener() {
 
+            @Override
             public void modifyText(ModifyEvent e) {
                 destinationValue = destinationText.getText();
                 checkDestination(destinationValue);
@@ -136,6 +134,7 @@ public class ServiceExportWSWizardPage extends WizardPage {
         Button browseButton = new Button(destinationGroup, SWT.PUSH);
         browseButton.setText("Browse");
         browseButton.addSelectionListener(new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
                 handleDestinationBrowseButtonPressed();
@@ -148,7 +147,6 @@ public class ServiceExportWSWizardPage extends WizardPage {
         GridLayout layout = new GridLayout();
         optionsGroup.setLayout(layout);
 
-        // optionsGroup.setText(IDEWorkbenchMessages.WizardExportPage_options);
         optionsGroup.setText(org.talend.repository.i18n.Messages.getString("IDEWorkbenchMessages.WizardExportPage_options")); //$NON-NLS-1$
         optionsGroup.setFont(parent.getFont());
 
@@ -188,7 +186,7 @@ public class ServiceExportWSWizardPage extends WizardPage {
     }
 
     public Map<ExportChoice, Object> getExportChoiceMap() {
-        Map<ExportChoice, Object> exportChoiceMap = new EnumMap<ExportChoice, Object>(ExportChoice.class);
+        Map<ExportChoice, Object> exportChoiceMap = new EnumMap<>(ExportChoice.class);
         exportChoiceMap.put(ExportChoice.needLauncher, true);
         exportChoiceMap.put(ExportChoice.needSystemRoutine, true);
         exportChoiceMap.put(ExportChoice.needUserRoutine, true);

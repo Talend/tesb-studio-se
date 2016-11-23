@@ -31,21 +31,10 @@ import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManag
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.esb.OSGIJavaScriptForESBWithMavenManager;
 import org.talend.resources.util.EMavenBuildScriptProperties;
 
-/**
- * DOC ycbai class global comment. Detailled comment
- */
 public class ExportServiceWithMavenAction extends ExportServiceAction {
 
     private ServiceExportWithMavenManager manager;
 
-    /**
-     * DOC ycbai ExportServiceWithMavenAction constructor comment.
-     * 
-     * @param exportChoiceMap
-     * @param node
-     * @param targetPath
-     * @throws InvocationTargetException
-     */
     public ExportServiceWithMavenAction(ServiceExportWithMavenManager manager, Map<ExportChoice, Object> exportChoiceMap,
             ServiceItem serviceItem, String targetPath) throws InvocationTargetException {
         super(serviceItem, targetPath, exportChoiceMap);
@@ -77,8 +66,8 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
     private void addMavenFilesToExport(IProgressMonitor monitor) throws Throwable {
         manager.setDestinationPath(serviceManager.getDestinationPath());
         String tempDestinationPath = getTempDestinationValue();
-        List<ExportFileResource> resourcesToExport = manager.getExportResources(
-                new ExportFileResource[] { new ExportFileResource(serviceItem, "") }); //$NON-NLS-1$
+        List<ExportFileResource> resourcesToExport = manager
+                .getExportResources(new ExportFileResource[] { new ExportFileResource(serviceItem, "") }); //$NON-NLS-1$
         ArchiveFileExportOperationFullPath exporterOperation = new ArchiveFileExportOperationFullPath(resourcesToExport,
                 tempDestinationPath);
         manager.setTopFolder(resourcesToExport);
@@ -93,8 +82,7 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
         // control bundle file
         ZipToFile.unZipFile(getControlBundleFilePath(), tempFolder + PATH_SEPERATOR + resourcesPath);
         // feature file
-        FilesUtils.copyFile(getFeatureFile(), new File(tempFolder + PATH_SEPERATOR + resourcesPath
-                + "/feature/feature.xml")); //$NON-NLS-1$
+        FilesUtils.copyFile(getFeatureFile(), new File(tempFolder + PATH_SEPERATOR + resourcesPath + "/feature/feature.xml")); //$NON-NLS-1$
         FilesUtils.removeFolder(tempFolder + PATH_SEPERATOR + repositoryPath, true);
     }
 
@@ -134,11 +122,12 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
             File destFile = new File(tempFolder + PATH_SEPERATOR + artefactName + osgiManager.getOutputSuffix());
             String destinationPath = destFile.getAbsolutePath();
             osgiManager.setDestinationPath(destinationPath);
-            JobExportAction job = new JobExportAction(Collections.singletonList(new RepositoryNode(node, null, ENodeType.REPOSITORY_ELEMENT)),
-                    version, osgiManager, directoryName);
+            JobExportAction job = new JobExportAction(
+                    Collections.singletonList(new RepositoryNode(node, null, ENodeType.REPOSITORY_ELEMENT)), version, osgiManager,
+                    directoryName);
             job.run(monitor);
-            ZipToFile.unZipFile(destinationPath, tempFolder + PATH_SEPERATOR + ServiceExportWithMavenManager.OPERATIONS_PATH
-                    + artefactName);
+            ZipToFile.unZipFile(destinationPath,
+                    tempFolder + PATH_SEPERATOR + ServiceExportWithMavenManager.OPERATIONS_PATH + artefactName);
             FilesUtils.removeFile(destFile);
         }
     }
@@ -146,7 +135,8 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
     /**
      * Export the passed resource and recursively export all of its child resources (iff it's a container). Answer a
      * boolean indicating success.
-     * @throws Throwable 
+     * 
+     * @throws Throwable
      */
     private void executeExportOperation(ArchiveFileExportOperationFullPath op, IProgressMonitor monitor) throws Throwable {
         op.setCreateLeadupStructure(true);
@@ -192,11 +182,6 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.repository.services.ui.action.ExportServiceAction#processFinalResult(java.lang.String)
-     */
     @Override
     protected void processFinalResult(String destinationPath) throws IOException {
         destinationPath = destinationPath.replace("\\", PATH_SEPERATOR); //$NON-NLS-1$
@@ -207,11 +192,6 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
         super.processFinalResult(destinationPath);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.repository.services.ui.action.ExportServiceAction#clean()
-     */
     @Override
     protected void clean() {
     }

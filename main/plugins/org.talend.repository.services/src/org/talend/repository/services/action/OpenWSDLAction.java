@@ -29,9 +29,6 @@ import org.talend.repository.services.model.services.util.EServiceCoreImage;
 import org.talend.repository.services.ui.OpenWSDLWizard;
 import org.talend.repository.services.utils.ESBRepositoryNodeType;
 
-/**
- * DOC hwang class global comment. Detailled comment
- */
 public class OpenWSDLAction extends AbstractCreateAction {
 
     private static final String createLabel = "Assign WSDL";

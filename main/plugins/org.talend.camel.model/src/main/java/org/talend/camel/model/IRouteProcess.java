@@ -14,9 +14,6 @@ package org.talend.camel.model;
 
 import org.talend.core.model.process.IProcess2;
 
-/**
- * DOC yyan class global comment. Detailled comment
- */
 public interface IRouteProcess extends IProcess2 {
 
     String getSpringContent();

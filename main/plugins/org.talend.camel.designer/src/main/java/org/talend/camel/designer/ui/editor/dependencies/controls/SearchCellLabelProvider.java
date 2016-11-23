@@ -25,12 +25,14 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
 
-public abstract class SearchCellLabelProvider extends StyledCellLabelProvider implements /*IFontProvider,*/ ILabelProvider {
+public abstract class SearchCellLabelProvider extends StyledCellLabelProvider implements /* IFontProvider, */ ILabelProvider {
 
     private static Color hightLight;
+
     private static Font builtInFont;
 
     private String filterString;
+
     private boolean showBuiltIn = true;
 
     public SearchCellLabelProvider(final StructuredViewer structuredViewer) {
@@ -43,6 +45,7 @@ public abstract class SearchCellLabelProvider extends StyledCellLabelProvider im
             builtInFont = new Font(Display.getCurrent(), fontData[0]);
         }
         structuredViewer.addFilter(new ViewerFilter() {
+
             @Override
             public boolean select(Viewer viewer, Object parentElement, Object element) {
                 if (!showBuiltIn && isBuiltIn(element)) {
@@ -69,7 +72,6 @@ public abstract class SearchCellLabelProvider extends StyledCellLabelProvider im
         return element.toString();
     }
 
-    //@Override
     public Font getFont(Object element) {
         if (isBuiltIn(element)) {
             return builtInFont;

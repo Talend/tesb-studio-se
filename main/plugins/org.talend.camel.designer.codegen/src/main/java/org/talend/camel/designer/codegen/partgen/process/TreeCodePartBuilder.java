@@ -25,50 +25,52 @@ import org.talend.designer.codegen.exception.CodeGeneratorException;
 
 public class TreeCodePartBuilder extends AbstractProcessPartBuilder {
 
-	private final NodesSubTree subTree;
-	private final INode node;
-	private final ECodePart part;
+    private final NodesSubTree subTree;
 
-	public TreeCodePartBuilder(PartGeneratorManager generatorManager, NodesSubTree subTree, INode node, ECodePart part) {
-		super(generatorManager);
-		this.subTree = subTree;
-		this.node = node;
-		this.part = part;
-	}
+    private final INode node;
 
-	@Override
-	public AbstractProcessPartBuilder appendContent() throws CodeGeneratorException {
-		SubTreeArgument subTreeArgument = new SubTreeArgument();
+    private final ECodePart part;
 
-		// Conditional Outputs
-		boolean sourceHasConditionnalBranches = node.hasConditionalOutputs() && part == ECodePart.MAIN;
-		subTreeArgument.setSourceComponentHasConditionnalOutputs(sourceHasConditionnalBranches);
+    public TreeCodePartBuilder(PartGeneratorManager generatorManager, NodesSubTree subTree, INode node, ECodePart part) {
+        super(generatorManager);
+        this.subTree = subTree;
+        this.node = node;
+        this.part = part;
+    }
 
-		// Multiplying Output Rows
-		if (part == ECodePart.MAIN) {
-			subTreeArgument.setMultiplyingOutputComponents(node.isMultiplyingOutputs());
-		}
+    @Override
+    public AbstractProcessPartBuilder appendContent() throws CodeGeneratorException {
+        SubTreeArgument subTreeArgument = new SubTreeArgument();
 
-		for (IConnection connection : node.getOutgoingCamelSortedConnections()) {
-			INode targetNode = connection.getTarget();
-			if (targetNode != null && subTree != null) {
-				subTreeArgument.setInputSubtreeConnection(connection);
-				append(CamelConnectionTagGenerator.generateStartTag(node, connection));
-				append(generateComponentsCode(targetNode, connection.getName()));
-				append(CamelConnectionTagGenerator.generateEndTag(node, connection));
-			}
-		}
+        // Conditional Outputs
+        boolean sourceHasConditionnalBranches = node.hasConditionalOutputs() && part == ECodePart.MAIN;
+        subTreeArgument.setSourceComponentHasConditionnalOutputs(sourceHasConditionnalBranches);
 
-		if (part == ECodePart.MAIN && node.getBlocksCodeToClose() != null) {
-			CloseBlocksCodeArgument closeBlocksArgument = new CloseBlocksCodeArgument();
-			closeBlocksArgument.setBlocksCodeToClose(node.getBlocksCodeToClose());
-			appendTyped(ECamelTemplate.CLOSE_BLOCKS_CODE, closeBlocksArgument);
-		}
-		return this;
-	}
+        // Multiplying Output Rows
+        if (part == ECodePart.MAIN) {
+            subTreeArgument.setMultiplyingOutputComponents(node.isMultiplyingOutputs());
+        }
 
-	private CharSequence generateComponentsCode(INode targetNode, String name) throws CodeGeneratorException {
-		return manager.generateComponentsCode(subTree, targetNode, part, name);
-	}
+        for (IConnection connection : node.getOutgoingCamelSortedConnections()) {
+            INode targetNode = connection.getTarget();
+            if (targetNode != null && subTree != null) {
+                subTreeArgument.setInputSubtreeConnection(connection);
+                append(CamelConnectionTagGenerator.generateStartTag(node, connection));
+                append(generateComponentsCode(targetNode, connection.getName()));
+                append(CamelConnectionTagGenerator.generateEndTag(node, connection));
+            }
+        }
+
+        if (part == ECodePart.MAIN && node.getBlocksCodeToClose() != null) {
+            CloseBlocksCodeArgument closeBlocksArgument = new CloseBlocksCodeArgument();
+            closeBlocksArgument.setBlocksCodeToClose(node.getBlocksCodeToClose());
+            appendTyped(ECamelTemplate.CLOSE_BLOCKS_CODE, closeBlocksArgument);
+        }
+        return this;
+    }
+
+    private CharSequence generateComponentsCode(INode targetNode, String name) throws CodeGeneratorException {
+        return manager.generateComponentsCode(subTree, targetNode, part, name);
+    }
 
 }

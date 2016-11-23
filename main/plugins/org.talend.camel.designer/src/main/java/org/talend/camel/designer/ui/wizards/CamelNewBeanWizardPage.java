@@ -20,20 +20,18 @@ import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.repository.ui.wizards.routines.NewRoutineWizardPage;
 
 /**
- * Page for new project details. <br/>
- * 
- * $Id: NewProcessWizardPage.java 52559 2010-12-13 04:14:06Z nrousseau $
- * 
+ * Page for new project details.
  */
 public class CamelNewBeanWizardPage extends NewRoutineWizardPage {
 
     public CamelNewBeanWizardPage(Property property, IPath destinationPath) {
-        super(property, destinationPath); //$NON-NLS-1$
+        super(property, destinationPath);
 
         setTitle(Messages.getString("NewBeanWizardPage.title")); //$NON-NLS-1$
         setDescription(Messages.getString("NewBeanWizard.description")); //$NON-NLS-1$
     }
 
+    @Override
     public ERepositoryObjectType getRepositoryObjectType() {
         return CamelRepositoryNodeType.repositoryBeansType;
     }

@@ -4,209 +4,191 @@
 ]>
 <COMPONENT>
 
-	<HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+        COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
+        STARTABLE="false">
+        <SIGNATURE />
+    </HEADER>
 
-		COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
-		STARTABLE="false">
-		<SIGNATURE />
-	</HEADER>
+    <FAMILIES>
+        <FAMILY>Routing</FAMILY>
+    </FAMILIES>
 
-	<FAMILIES>
-		<FAMILY>Routing</FAMILY>
-	</FAMILIES>
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
 
-	<DOCUMENTATION>
-		<URL />
-	</DOCUMENTATION>
+    <CONNECTORS>
+        <CONNECTOR NAME="AGGREGATE" CTYPE="ROUTE" MIN_INPUT="0"
+            MAX_INPUT="1" MAX_OUTPUT="1" MIN_OUTPUT="0" COLOR="086438" />
+        <CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1"
+            MAX_OUTPUT="1" />
+    </CONNECTORS>
 
-	<CONNECTORS>
-		<CONNECTOR NAME="AGGREGATE" CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
-			MAX_OUTPUT="1" MIN_OUTPUT="0" COLOR="086438"/>
-		<CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1" MAX_OUTPUT="1" />
-	</CONNECTORS>
-
-	<PARAMETERS>
-        <PARAMETER NAME="LANGUAGES" FIELD="CLOSED_LIST" REQUIRED="false" NUM_ROW="3">
+    <PARAMETERS>
+        <PARAMETER NAME="LANGUAGES" FIELD="CLOSED_LIST"
+            REQUIRED="false" NUM_ROW="3">
             <ITEMS DEFAULT="CONSTANT">
                 &languages;
             </ITEMS>
         </PARAMETER>
+        <PARAMETER NAME="EXPRESSION" FIELD="TEXT" NUM_ROW="6"
+            REQUIRED="true" SHOW_IF="LANGUAGES != 'CORRELATION'" GROUP="CORRELATION">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        &namespaces;
+        <PARAMETER NAME="AGGREGATION_STRATEGY" FIELD="TEXT"
+            NUM_ROW="20" REQUIRED="false" SHOW_IF="GROUP_EXCHANGES == 'false' ">
+            <DEFAULT>beans.MyAggregationStrategy</DEFAULT>
+        </PARAMETER>
+        <!--COMPLETION CONDITION -->
+        <PARAMETER NAME="USE_COMPLETION_SIZE" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="21" GROUP="COMPLETION">
+            <DEFAULT>true</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SIZE" FIELD="TEXT" NUM_ROW="21"
+            REQUIRED="true" SHOW_IF="USE_COMPLETION_SIZE == 'true'"
+            GROUP="COMPLETION">
+            <DEFAULT>3</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_COMPLETION_TIMEOUT" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="22" GROUP="COMPLETION">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="TIMEOUT" FIELD="TEXT" NUM_ROW="22"
+            REQUIRED="true" SHOW_IF="USE_COMPLETION_TIMEOUT == 'true'"
+            GROUP="COMPLETION">
+            <DEFAULT>1000</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_COMPLETION_INTERVAL" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="23" GROUP="COMPLETION">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="INTERVAL" FIELD="TEXT" NUM_ROW="23"
+            REQUIRED="true" SHOW_IF="USE_COMPLETION_INTERVAL == 'true'"
+            GROUP="COMPLETION">
+            <DEFAULT>1000</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_COMPLETION_PREDICATE" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="24" GROUP="COMPLETION">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="PREDICATE" FIELD="TEXT" NUM_ROW="24"
+            REQUIRED="true" SHOW_IF="USE_COMPLETION_PREDICATE == 'true'"
+            GROUP="COMPLETION">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_COMPLETION_BATCH" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="25" GROUP="COMPLETION">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+    </PARAMETERS>
 
-		<PARAMETER NAME="EXPRESSION" FIELD="TEXT" NUM_ROW="6"
-			REQUIRED="true" SHOW_IF="LANGUAGES != 'CORRELATION'" GROUP="CORRELATION">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-		
-		&namespaces;
-<!-- 
-		<PARAMETER NAME="USE_AGGREGATION_STRATEGY" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="10">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER> 
-		
-		<PARAMETER NAME="AGGREGATION_STRATEGY" FIELD="TEXT" NUM_ROW="11"
-			REQUIRED="true" SHOW_IF="USE_AGGREGATION_STRATEGY == 'true'">
-			<DEFAULT>MyAggregationStrategy</DEFAULT>
-		</PARAMETER>-->
+    <ADVANCED_PARAMETERS>
+        <PARAMETER NAME="EAGER_CHECK_COMPLETION" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="10">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="CLOSE_CORRELATION" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="15">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="MAXIMUM_BOUND" FIELD="TEXT" NUM_ROW="15"
+            REQUIRED="true" SHOW_IF="CLOSE_CORRELATION == 'true'">
+            <DEFAULT>1</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="IGNORE_INVALID_KEY" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="20">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="GROUP_EXCHANGES" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="25">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_PERSISTENCE" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="30">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="REPOSITORY" FIELD="CLOSED_LIST"
+            REQUIRED="false" NUM_ROW="30" SHOW_IF="USE_PERSISTENCE == 'true'">
+            <ITEMS DEFAULT="AGGREGATION">
+                <ITEM NAME="AGGREGATION" VALUE="AGGREGATION" />
+                <ITEM NAME="RECOVERABLE" VALUE="RECOVERABLE" />
+                <ITEM NAME="HAWTDB" VALUE="HAWTDB" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="CUSTOM_REPOSITORY" FIELD="TEXT"
+            NUM_ROW="30" REQUIRED="true"
+            SHOW_IF="(REPOSITORY != 'HAWTDB') AND (USE_PERSISTENCE == 'true')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_PERSISTENT_FILE" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="30"
+            SHOW_IF="(REPOSITORY == 'HAWTDB') AND (USE_PERSISTENCE == 'true')">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="PERSISTENT_FILENAME" FIELD="TEXT"
+            NUM_ROW="30" REQUIRED="true"
+            SHOW_IF="(USE_PERSISTENT_FILE == 'true') AND (USE_PERSISTENCE == 'true') AND (REPOSITORY == 'HAWTDB')">
+            <DEFAULT>"data/repo.dat"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_RECOVERY" FIELD="CHECK" GROUP="RECOVERY"
+            REQUIRED="true" NUM_ROW="40"
+            SHOW_IF="(USE_PERSISTENCE == 'true') AND (REPOSITORY == 'RECOVERABLE' OR REPOSITORY == 'HAWTDB')">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="RECOVERY_INTERVAL" FIELD="TEXT"
+            NUM_ROW="50" GROUP="RECOVERY" REQUIRED="true"
+            SHOW_IF="(USE_PERSISTENCE == 'true') AND (USE_RECOVERY == 'true') AND (REPOSITORY == 'RECOVERABLE' OR REPOSITORY == 'HAWTDB') ">
+            <DEFAULT>5000</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="DEAD_LETTER_URI" FIELD="TEXT"
+            NUM_ROW="51" GROUP="RECOVERY" REQUIRED="true"
+            SHOW_IF="(USE_PERSISTENCE == 'true') AND (USE_RECOVERY == 'true') AND (REPOSITORY == 'RECOVERABLE' OR REPOSITORY == 'HAWTDB')">
+            <DEFAULT>"mock:dead"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="MAXIMUM_REDELIVERIES" FIELD="TEXT"
+            NUM_ROW="52" GROUP="RECOVERY" REQUIRED="true"
+            SHOW_IF="(USE_PERSISTENCE == 'true') AND (USE_RECOVERY == 'true') AND (REPOSITORY == 'RECOVERABLE' OR REPOSITORY == 'HAWTDB')">
+            <DEFAULT>4</DEFAULT>
+        </PARAMETER>
+    </ADVANCED_PARAMETERS>
 
-		<PARAMETER NAME="AGGREGATION_STRATEGY" FIELD="TEXT" NUM_ROW="20" REQUIRED="false" SHOW_IF="GROUP_EXCHANGES == 'false' ">
-			<DEFAULT>beans.MyAggregationStrategy</DEFAULT>
-		</PARAMETER>
-
-		<!--COMPLETION CONDITION -->
-
-		<PARAMETER NAME="USE_COMPLETION_SIZE" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="21" GROUP="COMPLETION">
-			<DEFAULT>true</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="SIZE" FIELD="TEXT" NUM_ROW="21" REQUIRED="true"
-			SHOW_IF="USE_COMPLETION_SIZE == 'true'" GROUP="COMPLETION">
-			<DEFAULT>3</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="USE_COMPLETION_TIMEOUT" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="22" GROUP="COMPLETION">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="TIMEOUT" FIELD="TEXT" NUM_ROW="22"
-			REQUIRED="true" SHOW_IF="USE_COMPLETION_TIMEOUT == 'true'" GROUP="COMPLETION">
-			<DEFAULT>1000</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="USE_COMPLETION_INTERVAL" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="23" GROUP="COMPLETION">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="INTERVAL" FIELD="TEXT" NUM_ROW="23"
-			REQUIRED="true" SHOW_IF="USE_COMPLETION_INTERVAL == 'true'" GROUP="COMPLETION">
-			<DEFAULT>1000</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="USE_COMPLETION_PREDICATE" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="24" GROUP="COMPLETION">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="PREDICATE" FIELD="TEXT" NUM_ROW="24"
-			REQUIRED="true" SHOW_IF="USE_COMPLETION_PREDICATE == 'true'" GROUP="COMPLETION">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="USE_COMPLETION_BATCH" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="25" GROUP="COMPLETION">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-	</PARAMETERS>
-
-	<ADVANCED_PARAMETERS>
-		<PARAMETER NAME="EAGER_CHECK_COMPLETION" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="10">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="CLOSE_CORRELATION" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="15">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="MAXIMUM_BOUND" FIELD="TEXT" NUM_ROW="15"
-			REQUIRED="true" SHOW_IF="CLOSE_CORRELATION == 'true'">
-			<DEFAULT>1</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="IGNORE_INVALID_KEY" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="20">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="GROUP_EXCHANGES" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="25">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="USE_PERSISTENCE" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="30">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="REPOSITORY" FIELD="CLOSED_LIST" REQUIRED="false"
-			NUM_ROW="30" SHOW_IF="USE_PERSISTENCE == 'true'">
-			<ITEMS DEFAULT="AGGREGATION">
-				<ITEM NAME="AGGREGATION" VALUE="AGGREGATION" />
-				<ITEM NAME="RECOVERABLE" VALUE="RECOVERABLE" />
-				<ITEM NAME="HAWTDB" VALUE="HAWTDB" />
-			</ITEMS>
-		</PARAMETER>
-
-		<PARAMETER NAME="CUSTOM_REPOSITORY" FIELD="TEXT" NUM_ROW="30"
-			REQUIRED="true" SHOW_IF="(REPOSITORY != 'HAWTDB') AND (USE_PERSISTENCE == 'true')">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="USE_PERSISTENT_FILE" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="30"
-			SHOW_IF="(REPOSITORY == 'HAWTDB') AND (USE_PERSISTENCE == 'true')">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="PERSISTENT_FILENAME" FIELD="TEXT" NUM_ROW="30"
-			REQUIRED="true" SHOW_IF="(USE_PERSISTENT_FILE == 'true') AND (USE_PERSISTENCE == 'true') AND (REPOSITORY == 'HAWTDB')">
-			<DEFAULT>"data/repo.dat"</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="USE_RECOVERY" FIELD="CHECK" GROUP="RECOVERY"
-			REQUIRED="true" NUM_ROW="40" SHOW_IF="(USE_PERSISTENCE == 'true') AND (REPOSITORY == 'RECOVERABLE' OR REPOSITORY == 'HAWTDB')">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="RECOVERY_INTERVAL" FIELD="TEXT" NUM_ROW="50"  GROUP="RECOVERY"
-			REQUIRED="true" SHOW_IF="(USE_PERSISTENCE == 'true') AND (USE_RECOVERY == 'true') AND (REPOSITORY == 'RECOVERABLE' OR REPOSITORY == 'HAWTDB') ">
-			<DEFAULT>5000</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="DEAD_LETTER_URI" FIELD="TEXT" NUM_ROW="51"  GROUP="RECOVERY"
-			REQUIRED="true" SHOW_IF="(USE_PERSISTENCE == 'true') AND (USE_RECOVERY == 'true') AND (REPOSITORY == 'RECOVERABLE' OR REPOSITORY == 'HAWTDB')">
-			<DEFAULT>"mock:dead"</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="MAXIMUM_REDELIVERIES" FIELD="TEXT" NUM_ROW="52"  GROUP="RECOVERY"
-			REQUIRED="true" SHOW_IF="(USE_PERSISTENCE == 'true') AND (USE_RECOVERY == 'true') AND (REPOSITORY == 'RECOVERABLE' OR REPOSITORY == 'HAWTDB')">
-			<DEFAULT>4</DEFAULT>
-		</PARAMETER>
-		
-		
-	</ADVANCED_PARAMETERS>
-
-	<CODEGENERATION>
-		<IMPORTS>
-			<IMPORT NAME="hawtdb" MODULE="camel-hawtdb-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-hawtdb-alldep-${camel.version}/6.0.0" 
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hawtdb-alldep-${camel.version}.jar"
-				REQUIRED_IF="REPOSITORY == 'HAWTDB' " />
-
+    <CODEGENERATION>
+        <IMPORTS>
+            <IMPORT NAME="hawtdb"
+                MODULE="camel-hawtdb-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-hawtdb-alldep-${camel.version}/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-hawtdb-alldep-${camel.version}.jar"
+                REQUIRED_IF="REPOSITORY == 'HAWTDB' " />
             <IMPORT MODULE_GROUP="camel-groovy" REQUIRED_IF="LANGUAGES == 'GROOVY'" />
             <!-- camel-script -->
-            <IMPORT NAME="camel-script"
-                    MODULE="camel-script-${camel.version}.jar" MVN="${mvn-camel-script}"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'JAVASCRIPT'" />
+            <IMPORT NAME="camel-script" MODULE="camel-script-${camel.version}.jar"
+                MVN="${mvn-camel-script}"
+                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
+                REQUIRED_IF="LANGUAGES == 'JAVASCRIPT'" />
             <IMPORT NAME="talend-camel-jsonpath"
-                    MODULE="camel-jsonpath-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jsonpath-alldep-${camel.version}/6.0.0"
-                    UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsonpath-alldep-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'JSONPATH'" />
-            <IMPORT NAME="talend-camel-saxon" 
-                    MODULE="camel-saxon-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-saxon-alldep-${camel.version}/6.0.0"  
-                    UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-saxon-alldep-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'XQUERY'" />
-		</IMPORTS>
-	</CODEGENERATION>
+                MODULE="camel-jsonpath-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jsonpath-alldep-${camel.version}/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsonpath-alldep-${camel.version}.jar"
+                REQUIRED_IF="LANGUAGES == 'JSONPATH'" />
+            <IMPORT NAME="talend-camel-saxon"
+                MODULE="camel-saxon-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-saxon-alldep-${camel.version}/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-saxon-alldep-${camel.version}.jar"
+                REQUIRED_IF="LANGUAGES == 'XQUERY'" />
+        </IMPORTS>
+    </CODEGENERATION>
 
-	<RETURNS />
+    <RETURNS />
+
 </COMPONENT>

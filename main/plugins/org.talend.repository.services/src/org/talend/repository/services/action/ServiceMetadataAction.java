@@ -35,9 +35,7 @@ import org.talend.repository.services.utils.ESBRepositoryNodeType;
 import org.talend.repository.ui.actions.AContextualAction;
 
 /**
- * Action used to set service metadata. <br/>
- * 
- * 
+ * Action used to set service metadata.
  */
 public class ServiceMetadataAction extends AContextualAction {
 
@@ -58,14 +56,13 @@ public class ServiceMetadataAction extends AContextualAction {
         }
         RepositoryNode node = (RepositoryNode) selection.getFirstElement();
         if (node.getType() != ENodeType.REPOSITORY_ELEMENT
-                || node.getProperties(EProperties.CONTENT_TYPE) != ESBRepositoryNodeType.SERVICES
-                || node.getObject() == null
+                || node.getProperties(EProperties.CONTENT_TYPE) != ESBRepositoryNodeType.SERVICES || node.getObject() == null
                 || ProxyRepositoryFactory.getInstance().getStatus(node.getObject()) == ERepositoryStatus.DELETED) {
             setEnabled(false);
             return;
-        } 
-    	setNode(node);
-    	setEnabled(true);
+        }
+        setNode(node);
+        setEnabled(true);
     }
 
     @Override
@@ -73,8 +70,7 @@ public class ServiceMetadataAction extends AContextualAction {
         final IRepositoryNode node = getNode();
         final ServiceItem serviceItem = (ServiceItem) node.getObject().getProperty().getItem();
         final boolean isLocked = isLocked(node.getObject());
-        new ServiceMetadataDialog(getWorkbenchWindow(), serviceItem, (ServiceConnection) serviceItem.getConnection())
-            .open();
+        new ServiceMetadataDialog(getWorkbenchWindow(), serviceItem, (ServiceConnection) serviceItem.getConnection()).open();
         if (!isLocked) {
             // restore lock state.
             try {
@@ -86,14 +82,14 @@ public class ServiceMetadataAction extends AContextualAction {
     }
 
     private static boolean isLocked(IRepositoryViewObject object) {
-         if (GlobalServiceRegister.getDefault().isServiceRegistered(ICoreService.class)) {
-             ICoreService coreService = (ICoreService) GlobalServiceRegister.getDefault().getService(ICoreService.class);
-             boolean isOpened = coreService.isOpenedItemInEditor(object);
-             if(isOpened) {
-            	 return true;
-             }
-         }
-         ServiceItem serviceItem = (ServiceItem) object.getProperty().getItem();
-         return serviceItem.getState().isLocked();
+        if (GlobalServiceRegister.getDefault().isServiceRegistered(ICoreService.class)) {
+            ICoreService coreService = (ICoreService) GlobalServiceRegister.getDefault().getService(ICoreService.class);
+            boolean isOpened = coreService.isOpenedItemInEditor(object);
+            if (isOpened) {
+                return true;
+            }
+        }
+        ServiceItem serviceItem = (ServiceItem) object.getProperty().getItem();
+        return serviceItem.getState().isLocked();
     }
 }

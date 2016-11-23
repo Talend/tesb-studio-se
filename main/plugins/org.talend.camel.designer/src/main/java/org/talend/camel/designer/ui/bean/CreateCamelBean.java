@@ -48,12 +48,6 @@ import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.model.RepositoryNodeUtilities;
 import org.talend.repository.ui.views.IRepositoryView;
 
-/**
- * DOC smallet class global comment. Detailled comment <br/>
- * 
- * $Id: CreateProcess.java 52792 2010-12-17 08:20:23Z cli $
- * 
- */
 public class CreateCamelBean extends AbstractBeanAction implements IIntroAction {
 
     private static final String CREATE_LABEL = Messages.getString("CreateProcess.createBean"); //$NON-NLS-1$
@@ -72,12 +66,6 @@ public class CreateCamelBean extends AbstractBeanAction implements IIntroAction 
         setToolbar(isToolbar);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.repository.ui.actions.ITreeContextualAction#init(org.eclipse.jface.viewers.TreeViewer,
-     * org.eclipse.jface.viewers.IStructuredSelection)
-     */
     @Override
     public void init(TreeViewer viewer, IStructuredSelection selection) {
         boolean canWork = !selection.isEmpty() && selection.size() == 1;
@@ -109,15 +97,8 @@ public class CreateCamelBean extends AbstractBeanAction implements IIntroAction 
         setEnabled(canWork);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.Action#run()
-     */
     @Override
     protected void doRun() {
-        // RepositoryNode codeNode = getViewPart().getRoot().getChildren().get(4);
-        // RepositoryNode routineNode = codeNode.getChildren().get(0);
         RepositoryNode beanNode = getCurrentRepositoryNode();
 
         if (isToolbar()) {
@@ -152,11 +133,7 @@ public class CreateCamelBean extends AbstractBeanAction implements IIntroAction 
         }
     }
 
-    /*
-     * (non-Jsdoc)
-     * 
-     * @see org.eclipse.ui.intro.config.IIntroAction#run(org.eclipse.ui.intro.IIntroSite, java.util.Properties)
-     */
+    @Override
     public void run(IIntroSite site, Properties params) {
         PlatformUI.getWorkbench().getIntroManager().closeIntro(PlatformUI.getWorkbench().getIntroManager().getIntro());
         selectRootObject(params);

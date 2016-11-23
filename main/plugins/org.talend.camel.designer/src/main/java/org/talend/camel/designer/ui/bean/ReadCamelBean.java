@@ -26,12 +26,6 @@ import org.talend.commons.ui.runtime.image.ImageProvider;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.repository.model.RepositoryNode;
 
-/**
- * DOC smallet class global comment. Detailled comment <br/>
- * 
- * $Id: EditProcess.java 1495 2007-01-18 04:31:30Z nrousseau $
- * 
- */
 public class ReadCamelBean extends AbstractBeanAction {// AbstractProcessAction
 
     private static final String LABEL = Messages.getString("ReadBean.label"); //$NON-NLS-1$

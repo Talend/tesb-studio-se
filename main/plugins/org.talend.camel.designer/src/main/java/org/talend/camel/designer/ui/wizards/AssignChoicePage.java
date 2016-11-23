@@ -9,37 +9,39 @@ import org.talend.camel.designer.i18n.Messages;
 
 public class AssignChoicePage extends WizardPage {
 
-	private Button assignJob;
-	private Button newJob;
+    private Button assignJob;
 
-	protected AssignChoicePage(String pageName) {
-		super(pageName);
-	}
+    private Button newJob;
 
-	public void createControl(Composite parent) {
-		setTitle(Messages.getString("AssignChoicePage_title"));//$NON-NLS-1$
-		setDescription(Messages.getString("AssignChoicePage_message"));//$NON-NLS-1$
+    protected AssignChoicePage(String pageName) {
+        super(pageName);
+    }
 
-		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayout(new GridLayout(1, false));
-		
-		newJob = new Button(composite, SWT.RADIO);
-		newJob.setText(Messages.getString("AssignChoicePage_newJobLabel"));//$NON-NLS-1$
-		
-		assignJob = new Button(composite, SWT.RADIO);
-		assignJob.setText(Messages.getString("AssignChoicePage_assignJobLabel"));//$NON-NLS-1$
-		
-		newJob.setSelection(true);
-		
-		setControl(composite);
-	}
+    @Override
+    public void createControl(Composite parent) {
+        setTitle(Messages.getString("AssignChoicePage_title"));//$NON-NLS-1$
+        setDescription(Messages.getString("AssignChoicePage_message"));//$NON-NLS-1$
 
-	public boolean isAssignJob(){
-		return assignJob.getSelection();
-	}
-	
-	public boolean isCreateJob(){
-		return newJob.getSelection();
-	}
-	
+        Composite composite = new Composite(parent, SWT.NONE);
+        composite.setLayout(new GridLayout(1, false));
+
+        newJob = new Button(composite, SWT.RADIO);
+        newJob.setText(Messages.getString("AssignChoicePage_newJobLabel"));//$NON-NLS-1$
+
+        assignJob = new Button(composite, SWT.RADIO);
+        assignJob.setText(Messages.getString("AssignChoicePage_assignJobLabel"));//$NON-NLS-1$
+
+        newJob.setSelection(true);
+
+        setControl(composite);
+    }
+
+    public boolean isAssignJob() {
+        return assignJob.getSelection();
+    }
+
+    public boolean isCreateJob() {
+        return newJob.getSelection();
+    }
+
 }

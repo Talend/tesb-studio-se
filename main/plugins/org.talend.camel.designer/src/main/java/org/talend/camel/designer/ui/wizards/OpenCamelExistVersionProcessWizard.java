@@ -31,8 +31,7 @@ public class OpenCamelExistVersionProcessWizard extends OpenExistVersionProcessW
     }
 
     @Override
-    protected RepositoryEditorInput getEditorInput(Item item, boolean readonly, IWorkbenchPage page)
-        throws SystemException {
+    protected RepositoryEditorInput getEditorInput(Item item, boolean readonly, IWorkbenchPage page) throws SystemException {
         if (item instanceof CamelProcessItem) {
             final CamelProcessItem processItem = (CamelProcessItem) item;
             return new CamelProcessEditorInput(processItem, true, false, readonly);

@@ -3,66 +3,68 @@
 ]>
 <COMPONENT>
 
-  <HEADER
-    PLATEFORM="ALL"
-    SERIAL=""
-    VERSION="0.102"
-    STATUS="ALPHA"
-    
-    COMPATIBILITY="ALL"
-    AUTHOR="Talend"
-    RELEASE_DATE="20100401A"
-    STARTABLE="false"
-  >
-    <SIGNATURE/>
-  </HEADER>
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+        COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
+        STARTABLE="false">
+        <SIGNATURE />
+    </HEADER>
 
-  <FAMILIES>
-    <FAMILY>Routing</FAMILY>
-  </FAMILIES>
+    <FAMILIES>
+        <FAMILY>Routing</FAMILY>
+    </FAMILIES>
 
-  <DOCUMENTATION>
-    <URL/>
-  </DOCUMENTATION>
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
 
-  <CONNECTORS>
-    <CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1" MAX_OUTPUT="0" MIN_OUTPUT="0"/>
-    <CONNECTOR CTYPE="ROUTE_WHEN" COLOR="086438" MIN_OUTPUT="1"/>    
-	<CONNECTOR CTYPE="ROUTE_OTHER" MAX_OUTPUT="1" COLOR="FF0000"/>
-	<CONNECTOR CTYPE="ROUTE_ENDBLOCK" MIN_OUTPUT="0" MAX_OUTPUT="1"/>    
-	<CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
-	<CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1" MAX_OUTPUT="0" />
-	<CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1" MAX_OUTPUT="0" />
-  </CONNECTORS>
-	<PARAMETERS>
-	    <PARAMETER NAME="ROUTE_WHEN_LANGUAGES" FIELD="CLOSED_LIST" NUM_ROW="4"
-			SHOW="false">
+    <CONNECTORS>
+        <CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
+            MAX_OUTPUT="0" MIN_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_WHEN" COLOR="086438"
+            MIN_OUTPUT="1" />
+        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_OUTPUT="1" COLOR="FF0000" />
+        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MIN_OUTPUT="0"
+            MAX_OUTPUT="1" />
+        <CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+    </CONNECTORS>
+
+    <PARAMETERS>
+        <PARAMETER NAME="ROUTE_WHEN_LANGUAGES" FIELD="CLOSED_LIST"
+            NUM_ROW="4" SHOW="false">
             <ITEMS DEFAULT="CONSTANT">
                 &languages;
             </ITEMS>
-		</PARAMETER>
-	</PARAMETERS>
-   <ADVANCED_PARAMETERS>
-   </ADVANCED_PARAMETERS>
+        </PARAMETER>
+    </PARAMETERS>
 
-	<CODEGENERATION>
-		<IMPORTS>
-            <IMPORT MODULE_GROUP="camel-groovy" REQUIRED_IF="#LINK@CONNECTOR.ROUTE_WHEN.ROUTETYPE == 'groovy'" />
+    <ADVANCED_PARAMETERS />
+
+    <CODEGENERATION>
+        <IMPORTS>
+            <IMPORT MODULE_GROUP="camel-groovy"
+                REQUIRED_IF="#LINK@CONNECTOR.ROUTE_WHEN.ROUTETYPE == 'groovy'" />
             <!-- camel-script -->
-            <IMPORT NAME="camel-script"
-                    MODULE="camel-script-${camel.version}.jar" MVN="${mvn-camel-script}"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
-                    REQUIRED_IF="#LINK@CONNECTOR.ROUTE_WHEN.ROUTETYPE == 'javaScript'" />
+            <IMPORT NAME="camel-script" MODULE="camel-script-${camel.version}.jar"
+                MVN="${mvn-camel-script}"
+                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
+                REQUIRED_IF="#LINK@CONNECTOR.ROUTE_WHEN.ROUTETYPE == 'javaScript'" />
             <IMPORT NAME="talend-camel-jsonpath"
-                    MODULE="camel-jsonpath-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jsonpath-alldep-${camel.version}/6.0.0"
-                    UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsonpath-alldep-${camel.version}.jar"
-                    REQUIRED_IF="#LINK@CONNECTOR.ROUTE_WHEN.ROUTETYPE == 'jsonpath'" />
-            <IMPORT NAME="talend-camel-saxon" 
-                    MODULE="camel-saxon-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-saxon-alldep-${camel.version}/6.0.0"  
-                    UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-saxon-alldep-${camel.version}.jar"
-                    REQUIRED_IF="#LINK@CONNECTOR.ROUTE_WHEN.ROUTETYPE == 'xquery'" />
-		</IMPORTS>
-	</CODEGENERATION>
+                MODULE="camel-jsonpath-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jsonpath-alldep-${camel.version}/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsonpath-alldep-${camel.version}.jar"
+                REQUIRED_IF="#LINK@CONNECTOR.ROUTE_WHEN.ROUTETYPE == 'jsonpath'" />
+            <IMPORT NAME="talend-camel-saxon"
+                MODULE="camel-saxon-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-saxon-alldep-${camel.version}/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-saxon-alldep-${camel.version}.jar"
+                REQUIRED_IF="#LINK@CONNECTOR.ROUTE_WHEN.ROUTETYPE == 'xquery'" />
+        </IMPORTS>
+    </CODEGENERATION>
 
-   <RETURNS />
+    <RETURNS />
+
 </COMPONENT>

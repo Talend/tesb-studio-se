@@ -26,10 +26,6 @@ import org.talend.core.model.repository.IRepositoryViewObject;
 import org.talend.core.model.utils.JavaResourcesHelper;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 
-/**
- * @author xpli
- * 
- */
 public class ResourceDependencyModel {
 
     public static final String LATEST_VERSION = RelationshipItemBuilder.LATEST_VERSION;
@@ -43,65 +39,40 @@ public class ResourceDependencyModel {
      */
     private boolean isBuiltIn;
 
-    private final Collection<String> refNodes = new HashSet<String>();
+    private final Collection<String> refNodes = new HashSet<>();
 
     public ResourceDependencyModel(RouteResourceItem item) {
         this.item = item;
     }
 
-    /**
-     * @return the item
-     */
     public RouteResourceItem getItem() {
         return item;
     }
 
-    /**
-     * @return the selectedVersion
-     */
     public String getSelectedVersion() {
         return selectedVersion;
     }
 
-    /**
-     * @param selectedVersion
-     *            the selectedVersion to set
-     */
     public void setSelectedVersion(String selectedVersion) {
         this.selectedVersion = selectedVersion;
     }
 
-    /**
-     * @return the isBuiltIn
-     */
     public boolean isBuiltIn() {
         return isBuiltIn;
     }
 
-    /**
-     * @param isBuiltIn
-     *            the isBuiltIn to set
-     */
     public void setBuiltIn(boolean isBuiltIn) {
         this.isBuiltIn = isBuiltIn;
     }
 
-
-    /**
-     * @return the classPathUrl
-     */
     public String getClassPathUrl() {
         return JavaResourcesHelper.getResouceClasspath(item, selectedVersion);
     }
 
-    /**
-     * @return the versions
-     */
     public Collection<String> getVersions() {
-        final List<String> versions = new ArrayList<String>();
+        final List<String> versions = new ArrayList<>();
         try {
-            for (IRepositoryViewObject obj : ProxyRepositoryFactory.getInstance().getAllVersion(
-                item.getProperty().getId())) {
+            for (IRepositoryViewObject obj : ProxyRepositoryFactory.getInstance().getAllVersion(item.getProperty().getId())) {
                 versions.add(obj.getVersion());
             }
         } catch (PersistenceException e) {
@@ -112,9 +83,6 @@ public class ResourceDependencyModel {
         return versions;
     }
 
-    /**
-     * @return the refNodes
-     */
     public Collection<String> getRefNodes() {
         return refNodes;
     }

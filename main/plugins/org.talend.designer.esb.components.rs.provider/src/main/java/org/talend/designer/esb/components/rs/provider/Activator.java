@@ -27,20 +27,24 @@ public class Activator extends AbstractUIPlugin {
     public static final String PLUGIN_ID = "org.talend.designer.esb.components.rs.provider"; //$NON-NLS-1$
 
     public static final String REST_URI_PREFERENCE = "restServiceDefaultUri"; //$NON-NLS-1$
+
     public static final String REST_URI_DEFAULT = "http://127.0.0.1:8090/"; //$NON-NLS-1$
 
-    public static final String DEFAULT_SL_NAMESPACE_PREF="defaultSLNamespace"; //$NON-NLS-1$
-    public static final String DEFAULT_SL_NAMESPACE_DEFAULT="http://www.talend.org/rest/"; //$NON-NLS-1$
+    public static final String DEFAULT_SL_NAMESPACE_PREF = "defaultSLNamespace"; //$NON-NLS-1$
+
+    public static final String DEFAULT_SL_NAMESPACE_DEFAULT = "http://www.talend.org/rest/"; //$NON-NLS-1$
 
     // The shared instance
     private static Activator plugin;
 
+    @Override
     public void start(BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
         loadCustomProperty();
     }
 
+    @Override
     public void stop(BundleContext context) throws Exception {
         plugin = null;
         super.stop(context);
@@ -60,6 +64,7 @@ public class Activator extends AbstractUIPlugin {
         System.getProperties().put(REST_URI_PREFERENCE, defaultRestUri);
     }
 
+    @Override
     protected void initializeDefaultPreferences(IPreferenceStore store) {
         store.setDefault(REST_URI_PREFERENCE, REST_URI_DEFAULT);
         store.setDefault(DEFAULT_SL_NAMESPACE_PREF, DEFAULT_SL_NAMESPACE_DEFAULT);

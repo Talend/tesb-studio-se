@@ -28,26 +28,24 @@ import org.talend.designer.esb.webservice.ws.wsdlinfo.Function;
 
 class CCXFNodeAdapter extends AbstractNodeAdapter implements WebServiceConstants {
 
+    CCXFNodeAdapter(WebServiceNode node) {
+        super(node);
+    }
 
+    @Override
+    public IStatus setNodeSetting(ServiceSetting setting) {
+        Function currentFunction = setting.getFunction();
+        node.setParamValue("WSDL_FILE", setting.getWsdlLocation());
+        String operationName = currentFunction.getName();
+        operationName = operationName.substring(0, operationName.indexOf('('));
+        String fullOperationName = "{" + currentFunction.getNameSpaceURI() + "}" + operationName;
+        node.setParamValue(OPERATION_NAME, TalendTextUtils.addQuotes(fullOperationName));
 
-	CCXFNodeAdapter(WebServiceNode node) {
-		super(node);
-	}
+        String fullServiceName = "{" + currentFunction.getServiceNameSpace() + "}" + currentFunction.getServiceName();
+        node.setParamValue(SERVICE_NAME, TalendTextUtils.addQuotes(fullServiceName));
 
-	@Override
-	public IStatus setNodeSetting(ServiceSetting setting) {
-		Function currentFunction = setting.getFunction();
-		node.setParamValue("WSDL_FILE", setting.getWsdlLocation());
-		String operationName = currentFunction.getName();
-		operationName = operationName.substring(0, operationName.indexOf('('));
-		String fullOperationName = "{" + currentFunction.getNameSpaceURI() + "}" + operationName;
-		node.setParamValue(OPERATION_NAME, TalendTextUtils.addQuotes(fullOperationName));
-
-		String fullServiceName = "{" + currentFunction.getServiceNameSpace() + "}" + currentFunction.getServiceName();
-		node.setParamValue(SERVICE_NAME, TalendTextUtils.addQuotes(fullServiceName));
-
-		String fullPortName = "{" + currentFunction.getServiceNameSpace() + "}" + currentFunction.getPortName();
-		node.setParamValue(PORT_NAME, TalendTextUtils.addQuotes(fullPortName));
+        String fullPortName = "{" + currentFunction.getServiceNameSpace() + "}" + currentFunction.getPortName();
+        node.setParamValue(PORT_NAME, TalendTextUtils.addQuotes(fullPortName));
 
         final String endpoint = node.getParamStringValue("ADDRESS");
         if (endpoint == null || !endpoint.startsWith("context.")) {
@@ -55,78 +53,77 @@ class CCXFNodeAdapter extends AbstractNodeAdapter implements WebServiceConstants
         }
 
         IRepositoryViewObject resourceNode = setting.getResourceNode();
-		if(resourceNode!=null) {
+        if (resourceNode != null) {
             final Item item = resourceNode.getProperty().getItem();
             String id = item.getProperty().getId();
             node.setParamValue("WSDL_FILE_REPO:ROUTE_RESOURCE_TYPE_ID", id);
             node.setParamValue("WSDL_FILE_REPO:ROUTE_RESOURCE_TYPE_VERSION", item.getProperty().getVersion());
 
-			String classpathUrl = RouteResourcesHelper.getClasspathUrl(item);
-			if(classpathUrl != null) {
-				node.setParamValue("WSDL_FILE_REPO:ROUTE_RESOURCE_TYPE_RES_URI", classpathUrl);
-			}
-		}
-		return Status.OK_STATUS;
-	}
+            String classpathUrl = RouteResourcesHelper.getClasspathUrl(item);
+            if (classpathUrl != null) {
+                node.setParamValue("WSDL_FILE_REPO:ROUTE_RESOURCE_TYPE_RES_URI", classpathUrl);
+            }
+        }
+        return Status.OK_STATUS;
+    }
 
-	@Override
-	public Function loadCurrentFunction() {
-		String operationName = node.getParamStringValue(OPERATION_NAME);
-		if (operationName == null) {
-			return null;
-		}
-		operationName = getExpressionParamValue(operationName);
-		String portName = node.getParamStringValue(PORT_NAME);
-		if (portName == null) {
-			return null;
-		}
-		portName = getExpressionParamValue(portName);
-		portName = portName.substring(portName.indexOf('}') + 1);
-		portName = TalendQuoteUtils.removeQuotes(portName);
-		String serviceName = node.getParamStringValue(SERVICE_NAME);
-		// String targetNamespace = node.getParamStringValue(SERVICE_NS);
-		if (serviceName == null /* || targetNamespace == null */) {
-			return null;
-		}
-		QName serviceQName = QName.valueOf(serviceName);
-		return new Function(operationName, portName, serviceQName);
-	}
+    @Override
+    public Function loadCurrentFunction() {
+        String operationName = node.getParamStringValue(OPERATION_NAME);
+        if (operationName == null) {
+            return null;
+        }
+        operationName = getExpressionParamValue(operationName);
+        String portName = node.getParamStringValue(PORT_NAME);
+        if (portName == null) {
+            return null;
+        }
+        portName = getExpressionParamValue(portName);
+        portName = portName.substring(portName.indexOf('}') + 1);
+        portName = TalendQuoteUtils.removeQuotes(portName);
+        String serviceName = node.getParamStringValue(SERVICE_NAME);
+        if (serviceName == null) {
+            return null;
+        }
+        QName serviceQName = QName.valueOf(serviceName);
+        return new Function(operationName, portName, serviceQName);
+    }
 
-	@Override
-	public String getInitialWsdlLocation() {
-		String wsdlType = node.getParamStringValue("WSDL_TYPE");
-		if("repo".equals(wsdlType)) {
-			String routeResFileLocation = getRouteResourceFileLocation();
-			if(routeResFileLocation != null) {
-				return TalendTextUtils.addQuotes(routeResFileLocation);
-			}
-		}
-		return node.getParamStringValue("WSDL_FILE");
-	}
+    @Override
+    public String getInitialWsdlLocation() {
+        String wsdlType = node.getParamStringValue("WSDL_TYPE");
+        if ("repo".equals(wsdlType)) {
+            String routeResFileLocation = getRouteResourceFileLocation();
+            if (routeResFileLocation != null) {
+                return TalendTextUtils.addQuotes(routeResFileLocation);
+            }
+        }
+        return node.getParamStringValue("WSDL_FILE");
+    }
 
-	private String getRouteResourceFileLocation() {
-		String repoId = node.getParamStringValue("WSDL_FILE_REPO:ROUTE_RESOURCE_TYPE_ID");
-		String repoVersion = node.getParamStringValue("WSDL_FILE_REPO:ROUTE_RESOURCE_TYPE_VERSION");
-		return RouteResourcesHelper.getRouteResourcesLocation(repoId, repoVersion);
-	}
+    private String getRouteResourceFileLocation() {
+        String repoId = node.getParamStringValue("WSDL_FILE_REPO:ROUTE_RESOURCE_TYPE_ID");
+        String repoVersion = node.getParamStringValue("WSDL_FILE_REPO:ROUTE_RESOURCE_TYPE_VERSION");
+        return RouteResourcesHelper.getRouteResourcesLocation(repoId, repoVersion);
+    }
 
-	@Override
-	public boolean isServiceOperationRequired() {
-		//only required when acts as consumer
-		return isConsumerNode();
-	}
+    @Override
+    public boolean isServiceOperationRequired() {
+        // only required when acts as consumer
+        return isConsumerNode();
+    }
 
-	public boolean isConsumerNode() {
-		return node.getIncomingConnections().size() > 0;
-	}
+    public boolean isConsumerNode() {
+        return node.getIncomingConnections().size() > 0;
+    }
 
-	@Override
-	public boolean allowPopulateSchema() {
-		return false;
-	}
+    @Override
+    public boolean allowPopulateSchema() {
+        return false;
+    }
 
-	@Override
-	public boolean routeResourcesAvailable() {
-		return true;
-	}
+    @Override
+    public boolean routeResourcesAvailable() {
+        return true;
+    }
 }

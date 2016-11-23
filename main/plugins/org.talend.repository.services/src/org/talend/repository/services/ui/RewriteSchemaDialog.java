@@ -22,20 +22,12 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.talend.core.model.properties.XmlFileConnectionItem;
 
-/**
- * DOC hwang class global comment. Detailled comment
- */
 public class RewriteSchemaDialog extends Dialog {
 
     private Collection<XmlFileConnectionItem> xmlObjs;
 
     private XmlTableForm tableForm;
 
-    /**
-     * DOC hwang RewriteSchemaDialog constructor comment.
-     * 
-     * @param parentShell
-     */
     public RewriteSchemaDialog(Shell parentShell, Collection<XmlFileConnectionItem> xmlObjs) {
         super(parentShell);
         this.xmlObjs = xmlObjs;
@@ -47,6 +39,8 @@ public class RewriteSchemaDialog extends Dialog {
         tableForm = new XmlTableForm(container, xmlObjs);
         tableForm.setLayoutData(new GridData(GridData.FILL_BOTH));
         tableForm.setListener(new XmlTableForm.ICompleteListener() {
+
+            @Override
             public void setComplete(boolean complete) {
                 getButton(IDialogConstants.OK_ID).setEnabled(complete);
             }

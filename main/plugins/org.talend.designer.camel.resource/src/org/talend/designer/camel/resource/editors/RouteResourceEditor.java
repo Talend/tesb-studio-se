@@ -33,102 +33,92 @@ import org.talend.core.model.properties.ReferenceFileItem;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.designer.camel.resource.editors.input.RouteResourceInput;
 
-/**
- * @author xpli
- * 
- */
 public class RouteResourceEditor extends TextEditor {
 
-	public static final String ID = "org.talend.designer.camel.resource.editors.RouteResourceEditor";
+    public static final String ID = "org.talend.designer.camel.resource.editors.RouteResourceEditor";
 
-	private RouteResourceInput rrInput;
+    private RouteResourceInput rrInput;
 
-	@Override
-	public void createPartControl(Composite parent) {
-		super.createPartControl(parent);
-		Item item = rrInput.getItem();
-		String displayName = item.getProperty().getDisplayName();
-		String version = item.getProperty().getVersion();
-		String partName = "Resource " + displayName + " " + version;
-//		setPartName(partName);
-		setTitleToolTip(partName);
-		getSourceViewer().setEditable(!rrInput.isReadOnly());
-	}
-	
-	@Override
-	public boolean isEditable() {
-		return !rrInput.isReadOnly();
-	}
+    @Override
+    public void createPartControl(Composite parent) {
+        super.createPartControl(parent);
+        Item item = rrInput.getItem();
+        String displayName = item.getProperty().getDisplayName();
+        String version = item.getProperty().getVersion();
+        String partName = "Resource " + displayName + " " + version;
+        setTitleToolTip(partName);
+        getSourceViewer().setEditable(!rrInput.isReadOnly());
+    }
 
-	@Override
-	public void dispose() {
-		super.dispose();
+    @Override
+    public boolean isEditable() {
+        return !rrInput.isReadOnly();
+    }
 
-		try {
-			ProxyRepositoryFactory.getInstance().unlock(rrInput.getItem());
-		} catch (Exception e) {
-		    ExceptionHandler.process(e);
-		}
-	}
+    @Override
+    public void dispose() {
+        super.dispose();
 
-	@Override
-	public void doSave(IProgressMonitor progressMonitor) {
-		super.doSave(progressMonitor);
+        try {
+            ProxyRepositoryFactory.getInstance().unlock(rrInput.getItem());
+        } catch (Exception e) {
+            ExceptionHandler.process(e);
+        }
+    }
 
-		saveContentsToItem(rrInput);
+    @Override
+    public void doSave(IProgressMonitor progressMonitor) {
+        super.doSave(progressMonitor);
 
-	}
+        saveContentsToItem(rrInput);
 
-	/**
-	 * Save the file content to EMF item.
-	 * 
-	 * @param rrInput
-	 */
-	public static void saveContentsToItem(RouteResourceInput rrInput) {
+    }
 
-		try {
-			RouteResourceItem item = (RouteResourceItem) rrInput.getItem();
+    /**
+     * Save the file content to EMF item.
+     */
+    public static void saveContentsToItem(RouteResourceInput rrInput) {
 
-			ReferenceFileItem refFile = (ReferenceFileItem) item
-					.getReferenceResources().get(0);
+        try {
+            RouteResourceItem item = (RouteResourceItem) rrInput.getItem();
 
-			InputStream inputstream = rrInput.getFile().getContents();
-			BufferedReader bufferedReader = new BufferedReader(
-					new InputStreamReader(inputstream));
-			String line = bufferedReader.readLine();
-			StringBuffer sb = new StringBuffer();
-			String lineSeparator = System.getProperty("line.separator");
-			while (line != null) {
-				sb.append(line).append(lineSeparator);
-				line = bufferedReader.readLine();
-			}
-			bufferedReader.close();
-			inputstream.close();
+            ReferenceFileItem refFile = (ReferenceFileItem) item.getReferenceResources().get(0);
 
-			ByteArray content = refFile.getContent();
-			content.setInnerContent(sb.toString().getBytes());
-		} catch (Exception e) {
-		    ExceptionHandler.process(e);
-		}
+            InputStream inputstream = rrInput.getFile().getContents();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputstream));
+            String line = bufferedReader.readLine();
+            StringBuffer sb = new StringBuffer();
+            String lineSeparator = System.getProperty("line.separator");
+            while (line != null) {
+                sb.append(line).append(lineSeparator);
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+            inputstream.close();
 
-	}
+            ByteArray content = refFile.getContent();
+            content.setInnerContent(sb.toString().getBytes());
+        } catch (Exception e) {
+            ExceptionHandler.process(e);
+        }
 
-	@Override
-	public void init(IEditorSite site, IEditorInput input)
-			throws PartInitException {
-		super.init(site, input);
-		this.rrInput = (RouteResourceInput) input;
-	}
+    }
 
-	/*
-	 * Change the background if readonly
-	 */
-	@Override
-	protected void initializeViewerColors(ISourceViewer viewer) {
-		super.initializeViewerColors(viewer);
-		if(!isEditable()){
-			StyledText textWidget = viewer.getTextWidget();
-			textWidget.setBackground(textWidget.getDisplay().getSystemColor(SWT.COLOR_GRAY));
-		}
-	}
+    @Override
+    public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+        super.init(site, input);
+        this.rrInput = (RouteResourceInput) input;
+    }
+
+    /*
+     * Change the background if readonly
+     */
+    @Override
+    protected void initializeViewerColors(ISourceViewer viewer) {
+        super.initializeViewerColors(viewer);
+        if (!isEditable()) {
+            StyledText textWidget = viewer.getTextWidget();
+            textWidget.setBackground(textWidget.getDisplay().getSystemColor(SWT.COLOR_GRAY));
+        }
+    }
 }

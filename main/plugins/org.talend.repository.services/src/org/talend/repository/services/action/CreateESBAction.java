@@ -46,9 +46,6 @@ import org.talend.repository.services.utils.ESBRepositoryNodeType;
 import org.talend.repository.ui.actions.AContextualAction;
 import org.talend.repository.ui.views.IRepositoryView;
 
-/**
- * DOC hwang class global comment. Detailled comment
- */
 public class CreateESBAction extends AContextualAction implements IIntroAction {
 
     private static final String CREATE_LABEL = "Create Service";
@@ -66,12 +63,6 @@ public class CreateESBAction extends AContextualAction implements IIntroAction {
         setToolbar(isToolbar);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.repository.ui.actions.ITreeContextualAction#init(org.eclipse.jface.viewers.TreeViewer,
-     * org.eclipse.jface.viewers.IStructuredSelection)
-     */
     @Override
     public void init(TreeViewer viewer, IStructuredSelection selection) {
         boolean canWork = !selection.isEmpty() && selection.size() == 1;
@@ -103,11 +94,6 @@ public class CreateESBAction extends AContextualAction implements IIntroAction {
         setEnabled(canWork);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.Action#run()
-     */
     @Override
     protected void doRun() {
         RepositoryNode beanNode = getCurrentRepositoryNode();
@@ -135,11 +121,6 @@ public class CreateESBAction extends AContextualAction implements IIntroAction {
         dlg.open();
     }
 
-    /*
-     * (non-Jsdoc)
-     * 
-     * @see org.eclipse.ui.intro.config.IIntroAction#run(org.eclipse.ui.intro.IIntroSite, java.util.Properties)
-     */
     @Override
     public void run(IIntroSite site, Properties params) {
         IProxyRepositoryFactory factory = ProxyRepositoryFactory.getInstance();

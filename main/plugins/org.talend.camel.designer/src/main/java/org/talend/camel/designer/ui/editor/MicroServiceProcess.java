@@ -14,17 +14,8 @@ package org.talend.camel.designer.ui.editor;
 
 import org.talend.core.model.properties.Property;
 
-/**
- * created by sunchaoqun on Apr 19, 2016 Detailled comment
- *
- */
 public class MicroServiceProcess extends RouteProcess {
 
-    /**
-     * DOC sunchaoqun MicroServiceProcess constructor comment.
-     * 
-     * @param property
-     */
     public MicroServiceProcess(Property property) {
         super(property);
     }

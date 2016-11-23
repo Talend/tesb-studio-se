@@ -23,65 +23,68 @@ import org.talend.designer.core.ui.editor.AbstractTalendEditor;
 public class SpringConfigurationPageImpl extends Page {
 
     private final CommandStack commandStack;
+
     private final RouteProcess process;
 
     private Composite composite;
+
     private StyledText springText;
 
-	public SpringConfigurationPageImpl(AbstractTalendEditor abstractTalendEditor) {
-		this.commandStack = abstractTalendEditor.getCommandStack();
-		this.process = (RouteProcess) abstractTalendEditor.getProcess();
-	}
+    public SpringConfigurationPageImpl(AbstractTalendEditor abstractTalendEditor) {
+        this.commandStack = abstractTalendEditor.getCommandStack();
+        this.process = (RouteProcess) abstractTalendEditor.getProcess();
+    }
 
-	public void createControl(Composite parent) {
-		composite = new Composite(parent, SWT.NONE);
-		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+    @Override
+    public void createControl(Composite parent) {
+        composite = new Composite(parent, SWT.NONE);
+        composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		composite.setLayout(new GridLayout(2, false));
+        composite.setLayout(new GridLayout(2, false));
 
-		springText = new SpringConfigurationStyledText(composite, SWT.BORDER | SWT.MULTI
-				| SWT.H_SCROLL | SWT.V_SCROLL);
-		springText.setEditable(!process.isReadOnly());
-		GridData layoutData = new GridData(GridData.FILL_BOTH);
-		layoutData.horizontalSpan = 2;
-		springText.setLayoutData(layoutData);
-		springText.setText(process.getSpringContent() == null ? "" : process //$NON-NLS-1$
-				.getSpringContent());
+        springText = new SpringConfigurationStyledText(composite, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+        springText.setEditable(!process.isReadOnly());
+        GridData layoutData = new GridData(GridData.FILL_BOTH);
+        layoutData.horizontalSpan = 2;
+        springText.setLayoutData(layoutData);
+        springText.setText(process.getSpringContent() == null ? "" : process //$NON-NLS-1$
+                .getSpringContent());
 
-		Label warning = new Label(composite, SWT.NONE);
-		warning.setText(CamelDesignerMessages.getString("SpringConfigurationPageImpl_warningMessage")); //$NON-NLS-1$
-		warning.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_RED));
+        Label warning = new Label(composite, SWT.NONE);
+        warning.setText(CamelDesignerMessages.getString("SpringConfigurationPageImpl_warningMessage")); //$NON-NLS-1$
+        warning.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_RED));
 
-		Button restoreDefaultBtn = new Button(composite, SWT.PUSH);
-		restoreDefaultBtn.setText(CamelDesignerMessages.getString("SpringConfigurationPageImpl_restoreDefaultBtn")); //$NON-NLS-1$
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.END;
-		restoreDefaultBtn.setLayoutData(gridData);
-		restoreDefaultBtn.setToolTipText(CamelDesignerMessages.getString("SpringConfigurationPageImpl_restoreDefaultBtnTooltip")); //$NON-NLS-1$
-		restoreDefaultBtn.setEnabled(!process.isReadOnly());
-		
-		restoreDefaultBtn.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				springText.setText(CamelSpringUtil
-						.getDefaultContent((CamelProcessItem) process
-								.getProperty().getItem()));
-			}
-		});
+        Button restoreDefaultBtn = new Button(composite, SWT.PUSH);
+        restoreDefaultBtn.setText(CamelDesignerMessages.getString("SpringConfigurationPageImpl_restoreDefaultBtn")); //$NON-NLS-1$
+        GridData gridData = new GridData();
+        gridData.horizontalAlignment = SWT.END;
+        restoreDefaultBtn.setLayoutData(gridData);
+        restoreDefaultBtn.setToolTipText(CamelDesignerMessages.getString("SpringConfigurationPageImpl_restoreDefaultBtnTooltip")); //$NON-NLS-1$
+        restoreDefaultBtn.setEnabled(!process.isReadOnly());
 
-		springText.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				commandStack.execute(
-						new ChangeSpringConfigurationCommand(
-								((StyledText) e.widget).getText(), process));
-			}
-		});
-	}
+        restoreDefaultBtn.addSelectionListener(new SelectionAdapter() {
 
-	public Control getControl() {
-		return composite;
-	}
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                springText.setText(CamelSpringUtil.getDefaultContent((CamelProcessItem) process.getProperty().getItem()));
+            }
+        });
 
-	@Override
+        springText.addModifyListener(new ModifyListener() {
+
+            @Override
+            public void modifyText(ModifyEvent e) {
+                commandStack.execute(new ChangeSpringConfigurationCommand(((StyledText) e.widget).getText(), process));
+            }
+        });
+    }
+
+    @Override
+    public Control getControl() {
+        return composite;
+    }
+
+    @Override
     public void setFocus() {
         springText.setFocus();
     }

@@ -43,166 +43,132 @@ import org.talend.repository.model.IProxyRepositoryFactory;
 
 /**
  * Wizard for the creation of a new Route Resource. <br/>
- * 
- * @author xpli
- * 
  */
 public class NewRouteResourceWizard extends Wizard {
 
-    /** Main page. */
     private static final String LOW_DASH = "_";
 
-	private NewRouteResourceWizardPage mainPage;
+    private NewRouteResourceWizardPage mainPage;
 
-	private RouteResourceItem item;
+    private RouteResourceItem item;
 
-	private Property property;
+    private Property property;
 
-	private IPath path;
+    private IPath path;
 
-	private IProxyRepositoryFactory repositoryFactory;
+    private IProxyRepositoryFactory repositoryFactory;
 
-	private IPath filePath;
+    private IPath filePath;
 
-	/**
-	 * Constructs a new NewProjectWizard.
-	 * 
-	 * @param author
-	 *            Project author.
-	 * @param server
-	 * @param password
-	 */
-	public NewRouteResourceWizard(IPath path) {
-		super();
-		this.path = path;
+    public NewRouteResourceWizard(IPath path) {
+        super();
+        this.path = path;
 
-		this.property = PropertiesFactory.eINSTANCE.createProperty();
-		this.property.setAuthor(((RepositoryContext) CorePlugin.getContext()
-				.getProperty(Context.REPOSITORY_CONTEXT_KEY)).getUser());
-		this.property.setVersion(VersionUtils.DEFAULT_VERSION);
-		this.property.setStatusCode(""); //$NON-NLS-1$
+        this.property = PropertiesFactory.eINSTANCE.createProperty();
+        this.property
+                .setAuthor(((RepositoryContext) CorePlugin.getContext().getProperty(Context.REPOSITORY_CONTEXT_KEY)).getUser());
+        this.property.setVersion(VersionUtils.DEFAULT_VERSION);
+        this.property.setStatusCode(""); //$NON-NLS-1$
 
-		item = CamelPropertiesFactory.eINSTANCE.createRouteResourceItem();
+        item = CamelPropertiesFactory.eINSTANCE.createRouteResourceItem();
 
-		item.setProperty(property);
+        item.setProperty(property);
 
-		repositoryFactory = DesignerPlugin.getDefault().getRepositoryService()
-				.getProxyRepositoryFactory();
+        repositoryFactory = DesignerPlugin.getDefault().getRepositoryService().getProxyRepositoryFactory();
 
-		setDefaultPageImageDescriptor(ImageProvider
-				.getImageDesc(ECoreImage.DEFAULT_WIZ));
-	}
+        setDefaultPageImageDescriptor(ImageProvider.getImageDesc(ECoreImage.DEFAULT_WIZ));
+    }
 
-	/**
-	 * @see org.eclipse.jface.wizard.Wizard#addPages()
-	 */
-	@Override
-	public void addPages() {
-		mainPage = new NewRouteResourceWizardPage(property, path);
-		addPage(mainPage);
-		setWindowTitle("New Route Resource"); //$NON-NLS-1$
-	}
+    @Override
+    public void addPages() {
+        mainPage = new NewRouteResourceWizardPage(property, path);
+        addPage(mainPage);
+        setWindowTitle("New Route Resource"); //$NON-NLS-1$
+    }
 
-	/**
-	 * Getter for docFilePath.
-	 * 
-	 * @return the docFilePath
-	 */
-	public IPath getFilePath() {
-		return this.filePath;
-	}
+    public IPath getFilePath() {
+        return this.filePath;
+    }
 
-	/**
-	 * Getter for project.
-	 * 
-	 * @return the project
-	 */
-	public RouteResourceItem getItem() {
-		return this.item;
-	}
+    public RouteResourceItem getItem() {
+        return this.item;
+    }
 
-	/**
-	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
-	 */
-	@Override
-	public boolean performFinish() {
-		property.setId(repositoryFactory.getNextId());
-		property.setLabel(property.getDisplayName());
-		
-		URL url = mainPage.getUrl();
-		Path p = new Path(property.getLabel());
-		String itemName = p.removeFileExtension().lastSegment();
-        // String refName = item.getProperty().getLabel() + LOW_DASH + VersionUtils.DEFAULT_VERSION;
-		String fileExtension = null;
-		if (url != null) {
-			p = new Path(url.getPath());
-			if (p.getFileExtension() != null) {
-				fileExtension = p.getFileExtension();
-			}
-		} else {
-			fileExtension = p.getFileExtension();
-		}
+    @Override
+    public boolean performFinish() {
+        property.setId(repositoryFactory.getNextId());
+        property.setLabel(property.getDisplayName());
 
-		// https://jira.talendforge.org/browse/TESB-6853
-		if (fileExtension == null || fileExtension.isEmpty()) {
-			fileExtension = "txt";
-		}
+        URL url = mainPage.getUrl();
+        Path p = new Path(property.getLabel());
+        String itemName = p.removeFileExtension().lastSegment();
+        String fileExtension = null;
+        if (url != null) {
+            p = new Path(url.getPath());
+            if (p.getFileExtension() != null) {
+                fileExtension = p.getFileExtension();
+            }
+        } else {
+            fileExtension = p.getFileExtension();
+        }
 
-		// In case the source file extension is "item"
-		if (fileExtension.equals(FileConstants.ITEM_EXTENSION)) {
+        // https://jira.talendforge.org/browse/TESB-6853
+        if (fileExtension == null || fileExtension.isEmpty()) {
+            fileExtension = "txt";
+        }
+
+        // In case the source file extension is "item"
+        if (fileExtension.equals(FileConstants.ITEM_EXTENSION)) {
             fileExtension += LOW_DASH;
-		}
+        }
 
-		// In case the source file extension is "properties"
-		if (fileExtension.equals(FileConstants.PROPERTIES_EXTENSION)) {
+        // In case the source file extension is "properties"
+        if (fileExtension.equals(FileConstants.PROPERTIES_EXTENSION)) {
             fileExtension += LOW_DASH;
-		}
+        }
 
-		ByteArray byteArray = PropertiesFactory.eINSTANCE.createByteArray();
-		if (url == null) {
-			 byteArray.setInnerContent(new byte[0]);
-		} else {
-			try {
-				InputStream inputStream = url.openStream();
-				byteArray.setInnerContent(IOUtils.toByteArray(inputStream));
-				inputStream.close();
-			} catch (Exception e) {
-				MessageBoxExceptionHandler.process(e);
-				ExceptionHandler.process(e);
-				return false;
-			}
-		}
+        ByteArray byteArray = PropertiesFactory.eINSTANCE.createByteArray();
+        if (url == null) {
+            byteArray.setInnerContent(new byte[0]);
+        } else {
+            try {
+                InputStream inputStream = url.openStream();
+                byteArray.setInnerContent(IOUtils.toByteArray(inputStream));
+                inputStream.close();
+            } catch (Exception e) {
+                MessageBoxExceptionHandler.process(e);
+                ExceptionHandler.process(e);
+                return false;
+            }
+        }
 
-		ReferenceFileItem refItem = PropertiesFactory.eINSTANCE
-				.createReferenceFileItem();
-		refItem.setContent(byteArray);
-		refItem.setExtension(fileExtension);
-        // refItem.setName(refName);
+        ReferenceFileItem refItem = PropertiesFactory.eINSTANCE.createReferenceFileItem();
+        refItem.setContent(byteArray);
+        refItem.setExtension(fileExtension);
 
-		item.setName(itemName);
+        item.setName(itemName);
 
-		item.setBindingExtension(fileExtension);
-		byteArray = PropertiesFactory.eINSTANCE.createByteArray();
-		byteArray.setInnerContent(new byte[0]);
-		item.setContent(byteArray);
-		item.getReferenceResources().add(refItem);
+        item.setBindingExtension(fileExtension);
+        byteArray = PropertiesFactory.eINSTANCE.createByteArray();
+        byteArray.setInnerContent(new byte[0]);
+        item.setContent(byteArray);
+        item.getReferenceResources().add(refItem);
 
-		RepositoryWorkUnit<Object> workUnit = new RepositoryWorkUnit<Object>(
-				this.getWindowTitle(), this) {
-			@Override
-			protected void run() throws LoginException, PersistenceException {
-				repositoryFactory.create(item, mainPage.getDestinationPath());
-				RelationshipItemBuilder.getInstance().addOrUpdateItem(item);
-			}
-		};
-		workUnit.setAvoidUnloadResources(true);
-		repositoryFactory.executeRepositoryWorkUnit(workUnit);
+        RepositoryWorkUnit<Object> workUnit = new RepositoryWorkUnit<Object>(this.getWindowTitle(), this) {
 
-//		return item != null;
-		return true;
-	}
+            @Override
+            protected void run() throws LoginException, PersistenceException {
+                repositoryFactory.create(item, mainPage.getDestinationPath());
+                RelationshipItemBuilder.getInstance().addOrUpdateItem(item);
+            }
+        };
+        workUnit.setAvoidUnloadResources(true);
+        repositoryFactory.executeRepositoryWorkUnit(workUnit);
 
-	public void setFilePath(IPath filePath) {
-		this.filePath = filePath;
-	}
+        return true;
+    }
+
+    public void setFilePath(IPath filePath) {
+        this.filePath = filePath;
+    }
 }

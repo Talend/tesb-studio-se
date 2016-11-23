@@ -1,5 +1,8 @@
 <COMPONENT>
+<<<<<<< Upstream, based on master
 
+=======
+>>>>>>> 4614d3a Cleanup XML format
     <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.1" STATUS="ALPHA"
         COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20160914A"
         STARTABLE="true">
@@ -134,6 +137,33 @@
                 <ITEM NAME="VALUE" />
             </ITEMS>
         </PARAMETER>
+<<<<<<< Upstream, based on master
+        <PARAMETER NAME="MESSAGE_ATTRIBUTE_NAME" FIELD="TABLE"
+            NUM_ROW="40" REQUIRED="false" GROUP="MESSAGE_ATTRIBUTE_GROUP"
+            SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
+            <ITEMS>
+                <ITEM NAME="ATTRIBUTE_NAME" VALUE="&quot;&quot;" />
+            </ITEMS>
+=======
+        <PARAMETER NAME="ENABLE_POLICY" FIELD="CHECK" NUM_ROW="20"
+            GROUP="QUEUE_GROUP">
+            <DEFAULT>false</DEFAULT>
+>>>>>>> 4614d3a Cleanup XML format
+        </PARAMETER>
+<<<<<<< Upstream, based on master
+=======
+        <PARAMETER NAME="POLICY" FIELD="MEMO" RAW="true"
+            NUM_ROW="21" REQUIRED="false" GROUP="QUEUE_GROUP"
+            SHOW_IF="(ENABLE_POLICY == 'true')">
+        </PARAMETER>
+        <PARAMETER NAME="ENABLE_REDRIVEPOLICY" FIELD="CHECK"
+            NUM_ROW="22" GROUP="QUEUE_GROUP">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="REDRIVEPOLICY" FIELD="MEMO" RAW="true"
+            NUM_ROW="23" REQUIRED="false" GROUP="QUEUE_GROUP"
+            SHOW_IF="(ENABLE_REDRIVEPOLICY == 'true')">
+        </PARAMETER>
         <PARAMETER NAME="MESSAGE_ATTRIBUTE_NAME" FIELD="TABLE"
             NUM_ROW="40" REQUIRED="false" GROUP="MESSAGE_ATTRIBUTE_GROUP"
             SHOW_IF="#LINK@CONNECTOR.IN.ANY == '0'">
@@ -141,6 +171,7 @@
                 <ITEM NAME="ATTRIBUTE_NAME" VALUE="&quot;&quot;" />
             </ITEMS>
         </PARAMETER>
+>>>>>>> 4614d3a Cleanup XML format
     </ADVANCED_PARAMETERS>
 
     <CODEGENERATION>
@@ -180,4 +211,8 @@
 
     <RETURNS />
 
+<<<<<<< Upstream, based on master
 </COMPONENT>
+=======
+</COMPONENT>
+>>>>>>> 4614d3a Cleanup XML format

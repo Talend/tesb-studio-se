@@ -45,9 +45,6 @@ import org.talend.repository.ui.wizards.exportjob.scriptsmanager.esb.JavaScriptF
 import org.talend.resources.util.EMavenBuildScriptProperties;
 import org.talend.utils.io.FilesUtils;
 
-/**
- * DOC ycbai class global comment. Detailled comment
- */
 public class ServiceExportWithMavenManager extends JavaScriptForESBWithMavenManager {
 
     public static final String OPERATIONS_PATH = "operations/"; //$NON-NLS-1$
@@ -59,20 +56,10 @@ public class ServiceExportWithMavenManager extends JavaScriptForESBWithMavenMana
         super(exportChoiceMap, contextName, launcher, statisticPort, tracePort);
     }
 
-    /**
-     * Getter for mavenGroupId.
-     * 
-     * @return the mavenGroupId
-     */
     public String getMavenGroupId() {
         return this.mavenGroupId;
     }
 
-    /**
-     * Sets the mavenGroupId.
-     * 
-     * @param mavenGroupId the mavenGroupId to set
-     */
     public void setMavenGroupId(String mavenGroupId) {
         this.mavenGroupId = mavenGroupId;
     }
@@ -80,7 +67,7 @@ public class ServiceExportWithMavenManager extends JavaScriptForESBWithMavenMana
     @Override
     public List<ExportFileResource> getExportResources(ExportFileResource[] processes, String... codeOptions)
             throws ProcessorException {
-        List<ExportFileResource> list = new ArrayList<ExportFileResource>();
+        List<ExportFileResource> list = new ArrayList<>();
 
         analysisMavenModule(processes[0].getItem());
 
@@ -127,12 +114,12 @@ public class ServiceExportWithMavenManager extends JavaScriptForESBWithMavenMana
         }
 
         File mavenBuildFile = new File(getTmpFolder() + PATH_SEPARATOR + IProjectSettingTemplateConstants.POM_FILE_NAME);
-        File mavenBuildBundleFile = new File(getTmpFolder() + PATH_SEPARATOR
-                + IProjectSettingTemplateConstants.MAVEN_CONTROL_BUILD_BUNDLE_FILE_NAME);
-        File mavenBuildFeatureFile = new File(getTmpFolder() + PATH_SEPARATOR
-                + IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_FEATURE_FILE_NAME);
-        File mavenBuildParentFile = new File(getTmpFolder() + PATH_SEPARATOR
-                + IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_PARENT_FILE_NAME);
+        File mavenBuildBundleFile = new File(
+                getTmpFolder() + PATH_SEPARATOR + IProjectSettingTemplateConstants.MAVEN_CONTROL_BUILD_BUNDLE_FILE_NAME);
+        File mavenBuildFeatureFile = new File(
+                getTmpFolder() + PATH_SEPARATOR + IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_FEATURE_FILE_NAME);
+        File mavenBuildParentFile = new File(
+                getTmpFolder() + PATH_SEPARATOR + IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_PARENT_FILE_NAME);
 
         try {
             String mavenScript = MavenTemplateManager.getTemplateContent(templatePomFile,
@@ -212,13 +199,6 @@ public class ServiceExportWithMavenManager extends JavaScriptForESBWithMavenMana
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobJavaScriptsManager#getMainMavenProperties(org.talend
-     * .core.model.properties.Item)
-     */
     @Override
     protected Map<String, String> getMainMavenProperties(Item item) {
         Map<String, String> mavenPropertiesMap = super.getMainMavenProperties(item);

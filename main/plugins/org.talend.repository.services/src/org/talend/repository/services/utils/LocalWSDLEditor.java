@@ -193,14 +193,14 @@ public class LocalWSDLEditor extends InternalWSDLMultiPageEditor {
         Definition definition = WSDLUtils.getDefinition(serviceItem);
 
         // changed for TDI-18005
-        Map<String, String> portNameIdMap = new HashMap<String, String>();
-        Map<String, EMap<String, String>> portAdditionalMap = new HashMap<String, EMap<String, String>>();
-        Map<String, String> operNameIdMap = new HashMap<String, String>();
-        Map<String, String> operJobMap = new HashMap<String, String>();
+        Map<String, String> portNameIdMap = new HashMap<>();
+        Map<String, EMap<String, String>> portAdditionalMap = new HashMap<>();
+        Map<String, String> operNameIdMap = new HashMap<>();
+        Map<String, String> operJobMap = new HashMap<>();
 
         EList<ServicePort> oldServicePorts = ((ServiceConnection) serviceItem.getConnection()).getServicePort();
         // get old service port item names and operation names under them
-        HashMap<String, ArrayList<String>> oldPortItemNames = new HashMap<String, ArrayList<String>>();
+        HashMap<String, ArrayList<String>> oldPortItemNames = new HashMap<>();
 
         for (ServicePort servicePort : oldServicePorts) {
             // keep id
@@ -210,7 +210,7 @@ public class LocalWSDLEditor extends InternalWSDLMultiPageEditor {
             portAdditionalMap.put(servicePort.getId(), servicePort.getAdditionalInfo());
 
             EList<ServiceOperation> operations = servicePort.getServiceOperation();
-            ArrayList<String> operationNames = new ArrayList<String>();
+            ArrayList<String> operationNames = new ArrayList<>();
             for (ServiceOperation operation : operations) {
                 operNameIdMap.put(operation.getName(), operation.getId());
                 operationNames.add(operation.getLabel());
@@ -317,7 +317,8 @@ public class LocalWSDLEditor extends InternalWSDLMultiPageEditor {
                         Object object = editorPart.getAdapter(org.eclipse.wst.wsdl.Definition.class);
                         if (object instanceof org.eclipse.wst.wsdl.Definition) {
                             EObject eObject = (EObject) baseAdapter.getTarget();
-                            OpenOnSelectionHelper openHelper = new OpenOnSelectionHelper((org.eclipse.wst.wsdl.Definition) object);
+                            OpenOnSelectionHelper openHelper = new OpenOnSelectionHelper(
+                                    (org.eclipse.wst.wsdl.Definition) object);
                             openHelper.openEditor(eObject);
                         }
                     }

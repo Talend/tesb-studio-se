@@ -1,111 +1,112 @@
 <COMPONENT>
 
-	<HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+        COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
+        STARTABLE="false">
+        <SIGNATURE />
+    </HEADER>
 
-		COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
-		STARTABLE="false">
-		<SIGNATURE />
-	</HEADER>
+    <FAMILIES>
+        <FAMILY>Orchestration</FAMILY>
+    </FAMILIES>
 
-	<FAMILIES>
-		<FAMILY>Orchestration</FAMILY>
-	</FAMILIES>
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
 
-	<DOCUMENTATION>
-		<URL />
-	</DOCUMENTATION>
+    <CONNECTORS>
+        <CONNECTOR NAME="LOOP" CTYPE="ROUTE" MIN_INPUT="0"
+            MAX_INPUT="1" MAX_OUTPUT="1" MIN_OUTPUT="0" COLOR="086438" />
+        <CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1"
+            MAX_OUTPUT="1" />
+    </CONNECTORS>
 
-	<CONNECTORS>
-		<CONNECTOR NAME="LOOP" CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
-			MAX_OUTPUT="1" MIN_OUTPUT="0"  COLOR="086438"/>
-		<CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1" MAX_OUTPUT="1" />
-	</CONNECTORS>
-
-	<PARAMETERS>
-
-		<PARAMETER NAME="LOOP_TYPE" FIELD="CLOSED_LIST" NUM_ROW="2">
-			<ITEMS DEFAULT="VALUE_TYPE">
-				<ITEM NAME="VALUE_TYPE" VALUE="VALUE_TYPE" />
-				<ITEM NAME="HEADER_TYPE" VALUE="HEADER_TYPE" />
-				<ITEM NAME="EXPRESSION_TYPE" VALUE="EXPRESSION_TYPE" />
-			</ITEMS>
-		</PARAMETER>
-
-		<PARAMETER NAME="VALUE" FIELD="TEXT" NUM_ROW="4" REQUIRED="true"
-			SHOW_IF="LOOP_TYPE == 'VALUE_TYPE'">
-			<DEFAULT>1</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="HEADER" FIELD="TEXT" NUM_ROW="4" REQUIRED="true"
-			SHOW_IF="LOOP_TYPE == 'HEADER_TYPE'">
-			<DEFAULT>"loop"</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="LANGUAGES" FIELD="CLOSED_LIST" REQUIRED="false"
-			NUM_ROW="5" SHOW_IF="LOOP_TYPE == 'EXPRESSION_TYPE'">
-			<ITEMS DEFAULT="XPATH">
-				<ITEM NAME="NONE" VALUE="none" />
-				<ITEM NAME="CONSTANT" VALUE="constant" />
-				<ITEM NAME="EL" VALUE="el" />
-				<ITEM NAME="GROOVY" VALUE="groovy" />
-				<ITEM NAME="HEADER" VALUE="header" />
-				<ITEM NAME="JAVASCRIPT" VALUE="javaScript" />
-				<ITEM NAME="JOSQL" VALUE="sql" />
-				<ITEM NAME="JXPATH" VALUE="jxpath" />
-				<ITEM NAME="MVEL" VALUE="mvel" />
-				<ITEM NAME="OGNL" VALUE="ognl" />
-				<ITEM NAME="PHP" VALUE="php" />
-				<ITEM NAME="PROPERTY" VALUE="property" />
-				<ITEM NAME="PYTHON" VALUE="python" />
-				<ITEM NAME="RUBY" VALUE="ruby" />
-				<ITEM NAME="SIMPLE" VALUE="simple" />
-				<ITEM NAME="SPEL" VALUE="spel" />
-				<ITEM NAME="SQL" VALUE="sql" />
-				<ITEM NAME="XPATH" VALUE="xpath" />
-				<ITEM NAME="XQUERY" VALUE="xquery" />
-			</ITEMS>
-		</PARAMETER>
-		<PARAMETER NAME="EXPRESSION" FIELD="TEXT" NUM_ROW="5"
-			REQUIRED="true" SHOW_IF="LOOP_TYPE == 'EXPRESSION_TYPE'">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="USE_NAMESPACES" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="7" SHOW_IF="(LOOP_TYPE == 'EXPRESSION_TYPE') AND (LANGUAGES=='XPATH')" >
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="NAMESPACES" FIELD="TABLE" NUM_ROW="8" NB_LINES="5"
-			REQUIRED="true" SHOW_IF="(LOOP_TYPE == 'EXPRESSION_TYPE') AND (LANGUAGES=='XPATH') AND (USE_NAMESPACES == 'true')" >
-			<ITEMS>
-				<ITEM NAME="PREFIX" VALUE="" />	
-				<ITEM NAME="URI" VALUE="" />	
-			</ITEMS>
-		</PARAMETER>
-        <PARAMETER NAME="COPY" FIELD="CHECK"
-            REQUIRED="true" NUM_ROW="8" >
+    <PARAMETERS>
+        <PARAMETER NAME="LOOP_TYPE" FIELD="CLOSED_LIST"
+            NUM_ROW="2">
+            <ITEMS DEFAULT="VALUE_TYPE">
+                <ITEM NAME="VALUE_TYPE" VALUE="VALUE_TYPE" />
+                <ITEM NAME="HEADER_TYPE" VALUE="HEADER_TYPE" />
+                <ITEM NAME="EXPRESSION_TYPE" VALUE="EXPRESSION_TYPE" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="VALUE" FIELD="TEXT" NUM_ROW="4"
+            REQUIRED="true" SHOW_IF="LOOP_TYPE == 'VALUE_TYPE'">
+            <DEFAULT>1</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="HEADER" FIELD="TEXT" NUM_ROW="4"
+            REQUIRED="true" SHOW_IF="LOOP_TYPE == 'HEADER_TYPE'">
+            <DEFAULT>"loop"</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="LANGUAGES" FIELD="CLOSED_LIST"
+            REQUIRED="false" NUM_ROW="5" SHOW_IF="LOOP_TYPE == 'EXPRESSION_TYPE'">
+            <ITEMS DEFAULT="XPATH">
+                <ITEM NAME="NONE" VALUE="none" />
+                <ITEM NAME="CONSTANT" VALUE="constant" />
+                <ITEM NAME="EL" VALUE="el" />
+                <ITEM NAME="GROOVY" VALUE="groovy" />
+                <ITEM NAME="HEADER" VALUE="header" />
+                <ITEM NAME="JAVASCRIPT" VALUE="javaScript" />
+                <ITEM NAME="JOSQL" VALUE="sql" />
+                <ITEM NAME="JXPATH" VALUE="jxpath" />
+                <ITEM NAME="MVEL" VALUE="mvel" />
+                <ITEM NAME="OGNL" VALUE="ognl" />
+                <ITEM NAME="PHP" VALUE="php" />
+                <ITEM NAME="PROPERTY" VALUE="property" />
+                <ITEM NAME="PYTHON" VALUE="python" />
+                <ITEM NAME="RUBY" VALUE="ruby" />
+                <ITEM NAME="SIMPLE" VALUE="simple" />
+                <ITEM NAME="SPEL" VALUE="spel" />
+                <ITEM NAME="SQL" VALUE="sql" />
+                <ITEM NAME="XPATH" VALUE="xpath" />
+                <ITEM NAME="XQUERY" VALUE="xquery" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="EXPRESSION" FIELD="TEXT" NUM_ROW="5"
+            REQUIRED="true" SHOW_IF="LOOP_TYPE == 'EXPRESSION_TYPE'">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_NAMESPACES" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="7"
+            SHOW_IF="(LOOP_TYPE == 'EXPRESSION_TYPE') AND (LANGUAGES=='XPATH')">
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
-	</PARAMETERS>
+        <PARAMETER NAME="NAMESPACES" FIELD="TABLE" NUM_ROW="8"
+            NB_LINES="5" REQUIRED="true"
+            SHOW_IF="(LOOP_TYPE == 'EXPRESSION_TYPE') AND (LANGUAGES=='XPATH') AND (USE_NAMESPACES == 'true')">
+            <ITEMS>
+                <ITEM NAME="PREFIX" VALUE="" />
+                <ITEM NAME="URI" VALUE="" />
+            </ITEMS>
+        </PARAMETER>
+        <PARAMETER NAME="COPY" FIELD="CHECK" REQUIRED="true"
+            NUM_ROW="8">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+    </PARAMETERS>
 
-	<ADVANCED_PARAMETERS>
-	</ADVANCED_PARAMETERS>
+    <ADVANCED_PARAMETERS />
 
-	<CODEGENERATION>
-		<IMPORTS>
+    <CODEGENERATION>
+        <IMPORTS>
             <IMPORT MODULE_GROUP="camel-groovy" REQUIRED_IF=" LANGUAGES == 'GROOVY'" />
-
             <!-- camel-script -->
-            <IMPORT NAME="camel-script"
-                    MODULE="camel-script-${camel.version}.jar" MVN="${mvn-camel-script}"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
-                    REQUIRED_IF=" LANGUAGES == 'JAVASCRIPT'" />
-		</IMPORTS>
-	</CODEGENERATION>
+            <IMPORT NAME="camel-script" MODULE="camel-script-${camel.version}.jar"
+                MVN="${mvn-camel-script}"
+                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
+                REQUIRED_IF=" LANGUAGES == 'JAVASCRIPT'" />
+        </IMPORTS>
+    </CODEGENERATION>
 
-	<RETURNS />
+    <RETURNS />
+
 </COMPONENT>

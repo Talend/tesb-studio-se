@@ -12,17 +12,11 @@
 // ============================================================================
 package org.talend.camel.designer.ui;
 
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.talend.camel.core.model.camelProperties.CamelProcessItem;
 import org.talend.camel.designer.i18n.Messages;
 import org.talend.camel.designer.ui.editor.CamelMultiPageTalendEditor;
 import org.talend.camel.designer.ui.editor.CamelProcessEditorInput;
-import org.talend.camel.designer.ui.view.SpringConfigurationView;
 import org.talend.camel.model.CamelRepositoryNodeType;
-import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.exception.PersistenceException;
 import org.talend.commons.ui.runtime.image.ECoreImage;
 import org.talend.commons.ui.runtime.image.ImageProvider;
@@ -31,12 +25,6 @@ import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.ui.editor.JobEditorInput;
 import org.talend.designer.core.ui.action.EditProcess;
 
-/**
- * DOC smallet class global comment. Detailled comment <br/>
- * 
- * $Id: EditProcess.java 52559 2010-12-13 04:14:06Z nrousseau $
- * 
- */
 public class EditCamelProcess extends EditProcess {
 
     private final String EDIT_LABEL = Messages.getString("EditProcess.editJob"); //$NON-NLS-1$

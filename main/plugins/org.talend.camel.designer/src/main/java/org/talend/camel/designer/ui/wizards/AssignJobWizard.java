@@ -21,124 +21,128 @@ import org.talend.repository.ui.views.IRepositoryView;
 
 public class AssignJobWizard extends Wizard {
 
-	private static String CHOICE_PAGE = "Choice_Page";
-	private static String ASSIGN_JOB = "Assign_Job";
+    private static String CHOICE_PAGE = "Choice_Page";
 
-	private AssignJobPage assignJobPage;
-	private NewProcessWizard processWizard;
-	private AssignChoicePage assignChoicePage;
-	private String selectedProcessId;	
+    private static String ASSIGN_JOB = "Assign_Job";
 
-	public String getSelectedProcessId() {
-		return selectedProcessId;
-	}
+    private AssignJobPage assignJobPage;
 
-	public AssignJobWizard() {
-		setWindowTitle(Messages.getString("AssignJobWizard_windowTitle"));//$NON-NLS-1$
-	}
+    private NewProcessWizard processWizard;
 
-	@Override
-	public void addPages() {
-		assignJobPage = new AssignJobPage(ASSIGN_JOB);
-	
-		assignChoicePage = new AssignChoicePage(CHOICE_PAGE);
-		addPage(assignChoicePage);
-		addPage(assignJobPage);
-	}
+    private AssignChoicePage assignChoicePage;
 
-	@Override
-	public void createPageControls(Composite pageContainer) {
-	}
+    private String selectedProcessId;
 
-	@Override
-	public boolean canFinish() {
-		if(assignChoicePage == getContainer().getCurrentPage()){
-			return false;
-		}
-		if(getContainer().getCurrentPage() == assignJobPage){
-			return assignJobPage.isPageComplete();
-		}else  if (processWizard != null && getContainer().getCurrentPage() == processWizard.getPages()[0]){
-			return processWizard.getPages()[0].isPageComplete();
-		}
-		return super.canFinish();
-	}
-	
-	@Override
-	public boolean performFinish() {
-		IWizardPage currentPage = getContainer().getCurrentPage();
-		if (currentPage == assignJobPage) {
-			if (assignJobPage.finish()) {
-				selectedProcessId = assignJobPage.getId();
-				return true;				
-			}
-			return false;
-		} else if (processWizard != null && currentPage == processWizard.getPages()[0]) {
-			if (processWizard.performFinish()) {
-				addRouteComponents(processWizard.getProcess().getProcess());
-				saveCreatedProcess(processWizard.getProcess());
-				selectedProcessId = processWizard.getProcess().getProperty().getId();
-				
-				//refresh after created
-				IRepositoryView repositoryView = RepositoryManager.getRepositoryView(); 
-				IRepositoryNode processNodes = repositoryView.getRoot().getRootRepositoryNode(ERepositoryObjectType.PROCESS); 
-				if(processNodes instanceof RepositoryNode){ 
-					repositoryView.refreshAllChildNodes((RepositoryNode) processNodes); 
-			    } 
-			    
-				return true;
-			}
-			return false;
-		}
-		return true;
-	}
+    public String getSelectedProcessId() {
+        return selectedProcessId;
+    }
 
-	@Override
-	public IWizardPage getNextPage(IWizardPage page) {
-		if (page == assignChoicePage) {
-			if(assignChoicePage.isAssignJob()){
-				return assignJobPage;
-			}else if(assignChoicePage.isCreateJob()){
-				if(processWizard != null){
-					processWizard.dispose();
-				}
-				processWizard = new NewProcessWizard(null);
-				processWizard.setContainer(getContainer());
-				processWizard.addPages();
-				IWizardPage p = processWizard.getPages()[0];
-				p.setWizard(this);
-				return p;
-			}
-		}
-		return null;
-	}
+    public AssignJobWizard() {
+        setWindowTitle(Messages.getString("AssignJobWizard_windowTitle"));//$NON-NLS-1$
+    }
 
-	private void saveCreatedProcess (ProcessItem processItem) {
-		IProxyRepositoryFactory proxyRepositoryFactory = CoreRuntimePlugin.getInstance().getProxyRepositoryFactory();
-			try {
-				proxyRepositoryFactory.save(processItem);
-			} catch (PersistenceException e) {
-				e.printStackTrace();
-			}
-	}
-	
-	private void addRouteComponents (ProcessType process) {
+    @Override
+    public void addPages() {
+        assignJobPage = new AssignJobPage(ASSIGN_JOB);
+
+        assignChoicePage = new AssignChoicePage(CHOICE_PAGE);
+        addPage(assignChoicePage);
+        addPage(assignJobPage);
+    }
+
+    @Override
+    public void createPageControls(Composite pageContainer) {
+    }
+
+    @Override
+    public boolean canFinish() {
+        if (assignChoicePage == getContainer().getCurrentPage()) {
+            return false;
+        }
+        if (getContainer().getCurrentPage() == assignJobPage) {
+            return assignJobPage.isPageComplete();
+        } else if (processWizard != null && getContainer().getCurrentPage() == processWizard.getPages()[0]) {
+            return processWizard.getPages()[0].isPageComplete();
+        }
+        return super.canFinish();
+    }
+
+    @Override
+    public boolean performFinish() {
+        IWizardPage currentPage = getContainer().getCurrentPage();
+        if (currentPage == assignJobPage) {
+            if (assignJobPage.finish()) {
+                selectedProcessId = assignJobPage.getId();
+                return true;
+            }
+            return false;
+        } else if (processWizard != null && currentPage == processWizard.getPages()[0]) {
+            if (processWizard.performFinish()) {
+                addRouteComponents(processWizard.getProcess().getProcess());
+                saveCreatedProcess(processWizard.getProcess());
+                selectedProcessId = processWizard.getProcess().getProperty().getId();
+
+                // refresh after created
+                IRepositoryView repositoryView = RepositoryManager.getRepositoryView();
+                IRepositoryNode processNodes = repositoryView.getRoot().getRootRepositoryNode(ERepositoryObjectType.PROCESS);
+                if (processNodes instanceof RepositoryNode) {
+                    repositoryView.refreshAllChildNodes((RepositoryNode) processNodes);
+                }
+
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public IWizardPage getNextPage(IWizardPage page) {
+        if (page == assignChoicePage) {
+            if (assignChoicePage.isAssignJob()) {
+                return assignJobPage;
+            } else if (assignChoicePage.isCreateJob()) {
+                if (processWizard != null) {
+                    processWizard.dispose();
+                }
+                processWizard = new NewProcessWizard(null);
+                processWizard.setContainer(getContainer());
+                processWizard.addPages();
+                IWizardPage p = processWizard.getPages()[0];
+                p.setWizard(this);
+                return p;
+            }
+        }
+        return null;
+    }
+
+    private void saveCreatedProcess(ProcessItem processItem) {
+        IProxyRepositoryFactory proxyRepositoryFactory = CoreRuntimePlugin.getInstance().getProxyRepositoryFactory();
+        try {
+            proxyRepositoryFactory.save(processItem);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addRouteComponents(ProcessType process) {
         NodeType ntRouteInput = TalendFileFactory.eINSTANCE.createNodeType();
         ntRouteInput.setComponentName("tRouteInput");
-        ntRouteInput.setPosX(100);            
-        ntRouteInput.setPosY(100);            
+        ntRouteInput.setPosX(100);
+        ntRouteInput.setPosY(100);
         process.getNode().add(ntRouteInput);
 
         NodeType ntRouteOutput = TalendFileFactory.eINSTANCE.createNodeType();
         ntRouteOutput.setComponentName("tRouteOutput");
-        ntRouteOutput.setPosX(400);            
-        ntRouteOutput.setPosY(100);            
+        ntRouteOutput.setPosX(400);
+        ntRouteOutput.setPosY(100);
         process.getNode().add(ntRouteOutput);
-        
+
         process.setDefaultContext("Default");
         ContextType defContext = TalendFileFactory.eINSTANCE.createContextType();
         defContext.setName("Default");
-        defContext.setConfirmationNeeded(false);        
-		process.getContext().add(defContext);        
+        defContext.setConfirmationNeeded(false);
+        process.getContext().add(defContext);
     }
 
 }

@@ -26,10 +26,7 @@ import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.ui.actions.AContextualAction;
 
 /**
- * bqian A action to run the selected process without opening it's editor. <br/>
- * 
- * $Id: RunProcess.java 0 2007-12-28 11:09:48Z bqian $
- * 
+ * bqian A action to run the selected process without opening it's editor.
  */
 public class RunCamelProcess extends AContextualAction {
 
@@ -44,11 +41,7 @@ public class RunCamelProcess extends AContextualAction {
         this.setImageDescriptor(ImageProvider.getImageDesc(ECoreImage.ROUTES_ICON));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.action.Action#run()
-     */
+    @Override
     protected void doRun() {
         ISelection selection = getSelection();
         Object obj = ((IStructuredSelection) selection).getFirstElement();
@@ -59,26 +52,17 @@ public class RunCamelProcess extends AContextualAction {
         JobLaunchShortcutManager.run(selection);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.repository.ui.actions.ITreeContextualAction#init(org.eclipse.jface.viewers.TreeViewer,
-     * org.eclipse.jface.viewers.IStructuredSelection)
-     */
+    @Override
     public void init(TreeViewer viewer, IStructuredSelection selection) {
         boolean canWork = !selection.isEmpty() && selection.size() == 1;
-        // if
-        // (DesignerPlugin.getDefault().getRepositoryService().getProxyRepositoryFactory().isUserReadOnlyOnCurrentProject())
-        // {
-        // canWork = false;
-        // }
         if (canWork) {
             Object o = selection.getFirstElement();
             RepositoryNode node = (RepositoryNode) o;
 
             switch (node.getType()) {
             case REPOSITORY_ELEMENT:
-                if (node.getParent() == null || node.getParent().getContentType() != CamelRepositoryNodeType.repositoryRoutesType) {
+                if (node.getParent() == null
+                        || node.getParent().getContentType() != CamelRepositoryNodeType.repositoryRoutesType) {
                     canWork = false;
                 }
                 // Avoid showing in route test case
@@ -97,11 +81,6 @@ public class RunCamelProcess extends AContextualAction {
         setEnabled(canWork);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.repository.ui.actions.AContextualView#getClassForDoubleClick()
-     */
     @Override
     public Class<?> getClassForDoubleClick() {
         return ProcessItem.class;

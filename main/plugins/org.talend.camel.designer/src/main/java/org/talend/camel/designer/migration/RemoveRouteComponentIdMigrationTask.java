@@ -26,6 +26,7 @@ public class RemoveRouteComponentIdMigrationTask extends AbstractRouteItemCompon
         return "cAMQP|cDirect|cDirectVM|cFlatPack|cJMS|cMQTT|cSEDA|cVM";
     }
 
+    @Override
     public Date getOrder() {
         GregorianCalendar gc = new GregorianCalendar(2015, 9, 5);
         return gc.getTime();

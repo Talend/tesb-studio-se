@@ -4,139 +4,140 @@
 ]>
 <COMPONENT>
 
-	<HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+    <HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+        COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
+        STARTABLE="false" SCHEMA_AUTO_PROPAGATE="false"
+        DATA_AUTO_PROPAGATE="false">
+        <SIGNATURE />
+    </HEADER>
 
-		COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
-		STARTABLE="false" SCHEMA_AUTO_PROPAGATE="false" DATA_AUTO_PROPAGATE="false">
-		<SIGNATURE />
-	</HEADER>
+    <FAMILIES>
+        <FAMILY>Routing</FAMILY>
+    </FAMILIES>
 
-	<FAMILIES>
-		<FAMILY>Routing</FAMILY>
-	</FAMILIES>
+    <DOCUMENTATION>
+        <URL />
+    </DOCUMENTATION>
 
-	<DOCUMENTATION>
-		<URL />
-	</DOCUMENTATION>
+    <CONNECTORS>
+        <CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1"
+            MAX_OUTPUT="1" />
+        <CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1"
+            MAX_OUTPUT="0" />
+        <CONNECTOR CTYPE="ROUTE" MAX_INPUT="1" MAX_OUTPUT="0" />
+    </CONNECTORS>
 
-	<CONNECTORS>
-		<CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1" MAX_OUTPUT="1" />
-		<CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1" MAX_OUTPUT="0" />
-		<CONNECTOR CTYPE="ROUTE" MAX_INPUT="1" MAX_OUTPUT="0" />
-	</CONNECTORS>
-
-	<PARAMETERS>
-		<PARAMETER NAME="LANGUAGES" FIELD="CLOSED_LIST" REQUIRED="false"
-			NUM_ROW="3">
+    <PARAMETERS>
+        <PARAMETER NAME="LANGUAGES" FIELD="CLOSED_LIST"
+            REQUIRED="false" NUM_ROW="3">
             <ITEMS DEFAULT="CONSTANT">
                 &languages;
             </ITEMS>
-		</PARAMETER>
-
-		<PARAMETER NAME="EXPRESSION" FIELD="TEXT" NUM_ROW="5" SHOW_IF="LANGUAGES != 'CORRELATION'"
-			REQUIRED="true">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-		
-		<PARAMETER NAME="USE_RESULT_CLASS_TYPE" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="7" SHOW_IF="LANGUAGES=='XPATH'">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="RESULT_CLASS_TYPE" FIELD="TEXT" NUM_ROW="7"
-			REQUIRED="false" SHOW_IF="(USE_RESULT_CLASS_TYPE=='true') and (LANGUAGES=='XPATH')">
-			<DEFAULT>java.lang.String.class</DEFAULT>
-		</PARAMETER>
+        </PARAMETER>
+        <PARAMETER NAME="EXPRESSION" FIELD="TEXT" NUM_ROW="5"
+            SHOW_IF="LANGUAGES != 'CORRELATION'" REQUIRED="true">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_RESULT_CLASS_TYPE" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="7" SHOW_IF="LANGUAGES=='XPATH'">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="RESULT_CLASS_TYPE" FIELD="TEXT"
+            NUM_ROW="7" REQUIRED="false"
+            SHOW_IF="(USE_RESULT_CLASS_TYPE=='true') and (LANGUAGES=='XPATH')">
+            <DEFAULT>java.lang.String.class</DEFAULT>
+        </PARAMETER>
 		&namespaces;
+        <PARAMETER NAME="USE_DELIMITER" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="20" SHOW="true">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="DELIMITER" FIELD="TEXT" NUM_ROW="20"
+            REQUIRED="true" SHOW_IF="USE_DELIMITER == 'true'">
+            <DEFAULT>","</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_STRATEGY" FIELD="CHECK" REQUIRED="true"
+            NUM_ROW="22">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="STRATEGY_REF" FIELD="TEXT" NUM_ROW="22"
+            REQUIRED="false" SHOW_IF="USE_STRATEGY == 'true'">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="PARELLEL_PROCESS" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="24">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_EXECUTOR_SERVICE" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="24" SHOW_IF="PARELLEL_PROCESS == 'true'">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="EXECUTOR_SERVICE" FIELD="TEXT"
+            NUM_ROW="26" REQUIRED="false"
+            SHOW_IF="(PARELLEL_PROCESS == 'true') AND (USE_EXECUTOR_SERVICE == 'true')">
+            <DEFAULT>java.util.concurrent.Executors.newFixedThreadPool(5) 
+            </DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="STOP_ON_EXCEPTION" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="27">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="IGNORE_INVALID" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="28">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="STREAMING" FIELD="CHECK" REQUIRED="true"
+            NUM_ROW="29">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="TIMEOUT" FIELD="TEXT" REQUIRED="false"
+            NUM_ROW="30">
+            <DEFAULT></DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="USE_ON_PREPARE_PROCESSOR" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="31">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="ON_PREPARE_PROCESSOR" FIELD="TEXT"
+            NUM_ROW="31" REQUIRED="false" SHOW_IF="USE_ON_PREPARE_PROCESSOR == 'true'">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+        <PARAMETER NAME="SHARE_UNIT_OF_WORK" FIELD="CHECK"
+            REQUIRED="true" NUM_ROW="33">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+    </PARAMETERS>
 
-		<PARAMETER NAME="USE_DELIMITER" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="20" SHOW="true">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="DELIMITER" FIELD="TEXT" NUM_ROW="20"
-			REQUIRED="true" SHOW_IF="USE_DELIMITER == 'true'">
-			<DEFAULT>","</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="USE_STRATEGY" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="22">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="STRATEGY_REF" FIELD="TEXT" NUM_ROW="22"
-			REQUIRED="false" SHOW_IF="USE_STRATEGY == 'true'">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
+    <ADVANCED_PARAMETERS />
 
-		<PARAMETER NAME="PARELLEL_PROCESS" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="24">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="USE_EXECUTOR_SERVICE" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="24" SHOW_IF="PARELLEL_PROCESS == 'true'">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="EXECUTOR_SERVICE" FIELD="TEXT" NUM_ROW="26"
-			REQUIRED="false"
-			SHOW_IF="(PARELLEL_PROCESS == 'true') AND (USE_EXECUTOR_SERVICE == 'true')">
-			<DEFAULT>java.util.concurrent.Executors.newFixedThreadPool(5)
-			</DEFAULT>
-		</PARAMETER>
-
-		<PARAMETER NAME="STOP_ON_EXCEPTION" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="27">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="IGNORE_INVALID" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="28">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="STREAMING" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="29">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="TIMEOUT" FIELD="TEXT" REQUIRED="false"
-			NUM_ROW="30">
-			<DEFAULT></DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="USE_ON_PREPARE_PROCESSOR" FIELD="CHECK"
-			REQUIRED="true" NUM_ROW="31">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="ON_PREPARE_PROCESSOR" FIELD="TEXT" NUM_ROW="31"
-			REQUIRED="false" SHOW_IF="USE_ON_PREPARE_PROCESSOR == 'true'">
-			<DEFAULT>""</DEFAULT>
-		</PARAMETER>
-		<PARAMETER NAME="SHARE_UNIT_OF_WORK" FIELD="CHECK" REQUIRED="true"
-			NUM_ROW="33">
-			<DEFAULT>false</DEFAULT>
-		</PARAMETER>
-	</PARAMETERS>
-
-	<ADVANCED_PARAMETERS>
-	</ADVANCED_PARAMETERS>
-
-	<CODEGENERATION>
-		<IMPORTS>
+    <CODEGENERATION>
+        <IMPORTS>
             <IMPORT MODULE_GROUP="camel-groovy" REQUIRED_IF="LANGUAGES == 'GROOVY'" />
             <!-- camel-script -->
-            <IMPORT NAME="camel-script"
-                    MODULE="camel-script-${camel.version}.jar" MVN="${mvn-camel-script}"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'JAVASCRIPT'" />
+            <IMPORT NAME="camel-script" MODULE="camel-script-${camel.version}.jar"
+                MVN="${mvn-camel-script}"
+                UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
+                REQUIRED_IF="LANGUAGES == 'JAVASCRIPT'" />
             <IMPORT NAME="talend-camel-jsonpath"
-                    MODULE="camel-jsonpath-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jsonpath-alldep-${camel.version}/6.0.0"
-                    UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsonpath-alldep-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'JSONPATH'" />
-            <IMPORT NAME="talend-camel-saxon" 
-                    MODULE="camel-saxon-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-saxon-alldep-${camel.version}/6.0.0"  
-                    UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-saxon-alldep-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'XQUERY'" />
-		</IMPORTS>
-	</CODEGENERATION>
+                MODULE="camel-jsonpath-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-jsonpath-alldep-${camel.version}/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jsonpath-alldep-${camel.version}.jar"
+                REQUIRED_IF="LANGUAGES == 'JSONPATH'" />
+            <IMPORT NAME="talend-camel-saxon"
+                MODULE="camel-saxon-alldep-${camel.version}.jar"
+                MVN="mvn:org.talend.libraries/camel-saxon-alldep-${camel.version}/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-saxon-alldep-${camel.version}.jar"
+                REQUIRED_IF="LANGUAGES == 'XQUERY'" />
+        </IMPORTS>
+    </CODEGENERATION>
 
-	<RETURNS />
+    <RETURNS />
+
 </COMPONENT>

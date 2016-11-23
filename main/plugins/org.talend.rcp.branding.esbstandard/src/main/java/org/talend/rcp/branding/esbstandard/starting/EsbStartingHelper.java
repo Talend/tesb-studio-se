@@ -32,9 +32,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/**
- * DOC talend class global comment. Detailled comment
- */
 public class EsbStartingHelper {
 
     private static EsbStartingHelper helper;
@@ -58,7 +55,7 @@ public class EsbStartingHelper {
                 entry = FileLocator.toFileURL(entry);
                 String result = entry.toExternalForm();
                 if (result.startsWith("file:/") //$NON-NLS-1$
-                    && result.startsWith("file:///") == false) { //$NON-NLS-1$
+                        && result.startsWith("file:///") == false) { //$NON-NLS-1$
                     result = "file:///" + result.substring(6); //$NON-NLS-1$
                 }
 
@@ -130,7 +127,7 @@ public class EsbStartingHelper {
                         contentProviderElement.getParentNode().replaceChild(contentDiv, contentProviderElement);
                     }
                 }
-//            } else {
+                // } else {
                 // we couldn't load the content provider, so add any alternate
                 // text content if there is any.
                 // INTRO: do it. 3.0 intro content style uses text element as

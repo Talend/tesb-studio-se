@@ -48,33 +48,40 @@ import org.talend.designer.camel.dependencies.core.model.ManifestItem;
 public class CamelDependenciesPanel extends Composite {
 
     protected final TableViewer tableViewer;
+
     private final SearchCellLabelProvider labelProvider;
 
     private final String type;
+
     private final IRouterDependenciesChangedListener dependenciesChangedListener;
 
     private ToolItem addBtn;
+
     private ToolItem remBtn;
+
     private ToolItem editBtn;
+
     private ToolItem upBtn;
+
     private ToolItem downBtn;
 
     public CamelDependenciesPanel(Composite parent, String type, boolean isReadOnly, final IMessagePart messagePart,
-        final IRouterDependenciesChangedListener dependenciesChangedListener) {
-		super(parent, SWT.NONE);
-		this.type = type;
-		this.dependenciesChangedListener = dependenciesChangedListener;
+            final IRouterDependenciesChangedListener dependenciesChangedListener) {
+        super(parent, SWT.NONE);
+        this.type = type;
+        this.dependenciesChangedListener = dependenciesChangedListener;
 
-		setLayout(new GridLayout(2, false));
+        setLayout(new GridLayout(2, false));
 
-		tableViewer = createTableViewer();
-		tableViewer.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
+        tableViewer = createTableViewer();
+        tableViewer.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
 
         if (isReadOnly) {
             // table.setBackground(table.getDisplay().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND));
             tableViewer.getTable().setEnabled(false);
         } else {
             tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
                 @Override
                 public void selectionChanged(SelectionChangedEvent event) {
                     final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
@@ -133,6 +140,7 @@ public class CamelDependenciesPanel extends Composite {
                 }
             });
             tableViewer.getTable().addKeyListener(new KeyAdapter() {
+
                 @Override
                 public void keyPressed(KeyEvent e) {
                     if (e.stateMask == SWT.NONE) {
@@ -148,19 +156,18 @@ public class CamelDependenciesPanel extends Composite {
             });
         }
 
-
         labelProvider = new DependenciesTableLabelProvider(tableViewer);
         tableViewer.setLabelProvider(labelProvider);
         tableViewer.setContentProvider(ArrayContentProvider.getInstance());
 
         ToolBar tb = new ToolBar(this, SWT.FLAT | SWT.VERTICAL);
         tb.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
-		createButtons(tb);
+        createButtons(tb);
 
-		if (null != addBtn) {
-	        addBtn.setEnabled(!isReadOnly);
-		}
-	}
+        if (null != addBtn) {
+            addBtn.setEnabled(!isReadOnly);
+        }
+    }
 
     public void setFilterString(String filterString) {
         labelProvider.setFilterString(filterString);
@@ -182,94 +189,93 @@ public class CamelDependenciesPanel extends Composite {
         return (Collection<? extends ManifestItem>) tableViewer.getInput();
     }
 
-	protected void fireDependenciesChangedListener() {
-	    dependenciesChangedListener.dependencesChanged(this);
-	}
+    protected void fireDependenciesChangedListener() {
+        dependenciesChangedListener.dependencesChanged(this);
+    }
 
-	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-	    tableViewer.addSelectionChangedListener(listener);
-	}
+    public void addSelectionChangedListener(ISelectionChangedListener listener) {
+        tableViewer.addSelectionChangedListener(listener);
+    }
 
-	private void editSelected() {
-		final ManifestItem selected =
-		    (ManifestItem) ((IStructuredSelection) tableViewer.getSelection()).getFirstElement();
-		final NewOrEditDependencyDialog dialog =
-		    new NewOrEditDependencyDialog(getInput(), selected, getShell(), type);
-		if (dialog.open() == Dialog.OK) {
-			ManifestItem item = dialog.getManifestItem();
-			selected.setName(item.getName());
-			selected.setOptional(item.isOptional());
-			selected.setVersion(item.getVersion());
-			tableViewer.update(selected, null);
-			fireDependenciesChangedListener();
-		}
-	}
+    private void editSelected() {
+        final ManifestItem selected = (ManifestItem) ((IStructuredSelection) tableViewer.getSelection()).getFirstElement();
+        final NewOrEditDependencyDialog dialog = new NewOrEditDependencyDialog(getInput(), selected, getShell(), type);
+        if (dialog.open() == Dialog.OK) {
+            ManifestItem item = dialog.getManifestItem();
+            selected.setName(item.getName());
+            selected.setOptional(item.isOptional());
+            selected.setVersion(item.getVersion());
+            tableViewer.update(selected, null);
+            fireDependenciesChangedListener();
+        }
+    }
 
-	private void moveDown() {
-		ManifestItem selected = (ManifestItem) ((IStructuredSelection) tableViewer.getSelection()).getFirstElement();
+    private void moveDown() {
+        ManifestItem selected = (ManifestItem) ((IStructuredSelection) tableViewer.getSelection()).getFirstElement();
 
-		List input = (List) tableViewer.getInput();
-		int index = input.indexOf(selected);
-		int size = input.size();
-		int targetIndex = index + 1;
-		if (targetIndex >= size) {
-			for (targetIndex = 0; targetIndex < size && ((ManifestItem)input.get(targetIndex)).isBuiltIn(); ++targetIndex) {
-			}
-		}
-		input.remove(selected);
-		input.add(targetIndex, selected);
-		tableViewer.refresh();
-		tableViewer.setSelection(new StructuredSelection(selected));
-		tableViewer.getTable().showSelection();
-		fireDependenciesChangedListener();
-	}
+        List input = (List) tableViewer.getInput();
+        int index = input.indexOf(selected);
+        int size = input.size();
+        int targetIndex = index + 1;
+        if (targetIndex >= size) {
+            for (targetIndex = 0; targetIndex < size && ((ManifestItem) input.get(targetIndex)).isBuiltIn(); ++targetIndex) {
+            }
+        }
+        input.remove(selected);
+        input.add(targetIndex, selected);
+        tableViewer.refresh();
+        tableViewer.setSelection(new StructuredSelection(selected));
+        tableViewer.getTable().showSelection();
+        fireDependenciesChangedListener();
+    }
 
-	private void moveUp() {
-	    ManifestItem selected = (ManifestItem) ((IStructuredSelection)tableViewer.getSelection()).getFirstElement();
+    private void moveUp() {
+        ManifestItem selected = (ManifestItem) ((IStructuredSelection) tableViewer.getSelection()).getFirstElement();
 
-		List input = (List) tableViewer.getInput();
-		int index = input.indexOf(selected);
-		int size = input.size();
-		int targetIndex = index - 1;
-		if (targetIndex < 0 || ((ManifestItem)input.get(targetIndex)).isBuiltIn()){
-			targetIndex = size -1;
-		}
-		input.remove(selected);
-		input.add(targetIndex, selected);
-		tableViewer.refresh();
-		tableViewer.setSelection(new StructuredSelection(selected));
-		tableViewer.getTable().showSelection();
-		fireDependenciesChangedListener();
-	}
+        List input = (List) tableViewer.getInput();
+        int index = input.indexOf(selected);
+        int size = input.size();
+        int targetIndex = index - 1;
+        if (targetIndex < 0 || ((ManifestItem) input.get(targetIndex)).isBuiltIn()) {
+            targetIndex = size - 1;
+        }
+        input.remove(selected);
+        input.add(targetIndex, selected);
+        tableViewer.refresh();
+        tableViewer.setSelection(new StructuredSelection(selected));
+        tableViewer.getTable().showSelection();
+        fireDependenciesChangedListener();
+    }
 
-	private void removeItems() {
-		boolean yes = MessageDialog.openConfirm(getShell(), Messages.RouterDependenciesPanel_deleteTitle, Messages.RouterDependenciesPanel_deleteMsg);
-		if(!yes){
-			return;
-		}
-		IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
-		Collection<? extends ManifestItem> input = getInput();
-		Iterator<?> iterator = selection.iterator();
-		while(iterator.hasNext()){
-			input.remove(iterator.next());
-		}
-		tableViewer.refresh();
-		fireDependenciesChangedListener();
-	}
+    private void removeItems() {
+        boolean yes = MessageDialog.openConfirm(getShell(), Messages.RouterDependenciesPanel_deleteTitle,
+                Messages.RouterDependenciesPanel_deleteMsg);
+        if (!yes) {
+            return;
+        }
+        IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
+        Collection<? extends ManifestItem> input = getInput();
+        Iterator<?> iterator = selection.iterator();
+        while (iterator.hasNext()) {
+            input.remove(iterator.next());
+        }
+        tableViewer.refresh();
+        fireDependenciesChangedListener();
+    }
 
-	private void addNewItem() {
-	    final Collection<ManifestItem> input = (Collection<ManifestItem>) getInput();
-		NewOrEditDependencyDialog dialog = new NewOrEditDependencyDialog(input, getShell(), type);
-		if (dialog.open() == Dialog.OK) {
-	        final ManifestItem addedItem = dialog.getManifestItem();
-	        input.add(addedItem);
-	        tableViewer.refresh();
-	        tableViewer.setSelection(new StructuredSelection(addedItem));
-	        tableViewer.getTable().showSelection();
-	        tableViewer.getTable().setFocus();
-	        fireDependenciesChangedListener();
-		}
-	}
+    private void addNewItem() {
+        final Collection<ManifestItem> input = (Collection<ManifestItem>) getInput();
+        NewOrEditDependencyDialog dialog = new NewOrEditDependencyDialog(input, getShell(), type);
+        if (dialog.open() == Dialog.OK) {
+            final ManifestItem addedItem = dialog.getManifestItem();
+            input.add(addedItem);
+            tableViewer.refresh();
+            tableViewer.setSelection(new StructuredSelection(addedItem));
+            tableViewer.getTable().showSelection();
+            tableViewer.getTable().setFocus();
+            fireDependenciesChangedListener();
+        }
+    }
 
     protected TableViewer createTableViewer() {
         return new TableViewer(this);
@@ -277,6 +283,7 @@ public class CamelDependenciesPanel extends Composite {
 
     protected void createButtons(ToolBar tb) {
         final SelectionListener selectionListener = new SelectionAdapter() {
+
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if (e.getSource() == addBtn) {
@@ -312,7 +319,7 @@ public class CamelDependenciesPanel extends Composite {
             upBtn.setText(Messages.RouterDependenciesPanel_upBtn);
             upBtn.addSelectionListener(selectionListener);
             upBtn.setEnabled(false);
-    
+
             downBtn = new ToolItem(tb, SWT.PUSH);
             downBtn.setText(Messages.RouterDependenciesPanel_downBtn);
             downBtn.addSelectionListener(selectionListener);
@@ -331,12 +338,10 @@ public class CamelDependenciesPanel extends Composite {
             switch (((ManifestItem) element).getHeader()) {
             case ManifestItem.IMPORT_PACKAGE:
                 return CamelDesignerPlugin.getImage(((ManifestItem) element).isOptional()
-                    ? CamelDesignerPlugin.IMPORT_PACKAGE_OVERLAY_ICON
-                    : CamelDesignerPlugin.IMPORT_PKG_ICON);
+                        ? CamelDesignerPlugin.IMPORT_PACKAGE_OVERLAY_ICON : CamelDesignerPlugin.IMPORT_PKG_ICON);
             case ManifestItem.REQUIRE_BUNDLE:
                 return CamelDesignerPlugin.getImage(((ManifestItem) element).isOptional()
-                    ? CamelDesignerPlugin.REQUIRE_BUNDLE_OVERLAY_ICON
-                    : CamelDesignerPlugin.REQUIRE_BD_ICON);
+                        ? CamelDesignerPlugin.REQUIRE_BUNDLE_OVERLAY_ICON : CamelDesignerPlugin.REQUIRE_BD_ICON);
             case ManifestItem.BUNDLE_CLASSPATH:
                 return CamelDesignerPlugin.getImage(CamelDesignerPlugin.BUNDLE_CP_ICON);
             case ManifestItem.EXPORT_PACKAGE:

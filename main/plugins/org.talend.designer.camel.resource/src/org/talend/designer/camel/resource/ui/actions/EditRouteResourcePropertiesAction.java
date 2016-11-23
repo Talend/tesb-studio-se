@@ -27,12 +27,6 @@ import org.talend.repository.model.IRepositoryNode;
 import org.talend.repository.model.IRepositoryNode.ENodeType;
 import org.talend.repository.ui.actions.EditPropertiesAction;
 
-/**
- * smallet class global comment. Detailled comment <br/>
- * 
- * $Id: talend.epf 1 2006-09-29 17:06:40 +0000 (ven., 29 sept. 2006) nrousseau $
- * 
- */
 public class EditRouteResourcePropertiesAction extends EditPropertiesAction {
 
     public EditRouteResourcePropertiesAction() {
@@ -41,16 +35,16 @@ public class EditRouteResourcePropertiesAction extends EditPropertiesAction {
         this.setImageDescriptor(ImageProvider.getImageDesc(EImage.EDIT_ICON));
     }
 
+    @Override
     public void init(TreeViewer viewer, IStructuredSelection selection) {
         boolean canWork = selection.size() == 1;
         if (canWork) {
-            Object o = ((IStructuredSelection) selection).getFirstElement();
+            Object o = selection.getFirstElement();
             if (o instanceof IRepositoryNode) {
                 final IRepositoryNode node = (IRepositoryNode) o;
                 canWork = node.getType() == ENodeType.REPOSITORY_ELEMENT
-                    && node.getObjectType() == CamelRepositoryNodeType.repositoryRouteResourceType
-                    && node.getObject().getRepositoryStatus() != ERepositoryStatus.DELETED
-                    && isLastVersion(node);
+                        && node.getObjectType() == CamelRepositoryNodeType.repositoryRouteResourceType
+                        && node.getObject().getRepositoryStatus() != ERepositoryStatus.DELETED && isLastVersion(node);
             }
         }
         setEnabled(canWork);
@@ -60,4 +54,5 @@ public class EditRouteResourcePropertiesAction extends EditPropertiesAction {
     protected PropertiesWizard getPropertiesWizard(IRepositoryViewObject object, IPath path) {
         return new EditRouteResourcePropertiesWizard(object, path, getNeededVersion() == null);
     }
+
 }

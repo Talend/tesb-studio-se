@@ -16,6 +16,6 @@ import org.eclipse.swt.widgets.Composite;
 
 public interface IRouterDependenciesChangedListener {
 
-	void dependencesChanged(Composite source);
+    void dependencesChanged(Composite source);
 
 }

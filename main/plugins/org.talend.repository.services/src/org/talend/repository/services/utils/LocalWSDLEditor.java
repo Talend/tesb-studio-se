@@ -38,6 +38,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.wsdl.ui.internal.InternalWSDLMultiPageEditor;
+import org.eclipse.wst.wsdl.ui.internal.WSDLEditorResourceChangeHandler;
 import org.eclipse.wst.wsdl.ui.internal.actions.OpenInNewEditor;
 import org.eclipse.wst.wsdl.ui.internal.adapters.WSDLBaseAdapter;
 import org.eclipse.wst.wsdl.ui.internal.asd.actions.BaseSelectionAction;
@@ -100,6 +101,22 @@ public class LocalWSDLEditor extends InternalWSDLMultiPageEditor {
             serviceItem = (ServiceItem) serviceEditorInput.getItem();
             repositoryNode = serviceEditorInput.getRepositoryNode();
         }
+    }
+    
+    @Override
+    public boolean isDirty() {
+        if (!super.isDirty()) {
+            return getCommandStack().isDirty();
+        }
+        return true;
+    }
+
+    @Override
+    protected void createPages() {
+        super.createPages();
+        resourceChangeHandler.dispose();
+        resourceChangeHandler = new LocalWSDLEditorResourceChangeHandler(this);
+        resourceChangeHandler.attach();
     }
 
     @Override
@@ -348,6 +365,10 @@ public class LocalWSDLEditor extends InternalWSDLMultiPageEditor {
             return null;
         }
         return super.getAdapter(type);
+    }
+    
+    public Item getServiceItem() {
+        return serviceItem;
     }
 
     @Override

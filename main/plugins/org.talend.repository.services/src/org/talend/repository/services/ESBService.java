@@ -1001,4 +1001,21 @@ public class ESBService implements IESBService {
         }
         return null;
     }
+
+    @Override
+    public boolean executeCommand(IEditorPart editorPart, Object cmd) {
+        if (editorPart instanceof LocalWSDLEditor && cmd instanceof Command) {
+            CommandStack commandStack = (CommandStack) editorPart.getAdapter(CommandStack.class);
+            editorPart.getEditorSite().getShell().getDisplay().syncExec(new Runnable() {
+                
+                @Override
+                public void run() {
+                    commandStack.execute((Command) cmd);
+                }
+                
+            });
+            return true;
+        }
+        return false;
+    }
 }

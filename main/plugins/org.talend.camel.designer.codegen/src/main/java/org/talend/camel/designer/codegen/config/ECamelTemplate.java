@@ -67,7 +67,7 @@ public enum ECamelTemplate {
 
 	public String getTemplateURL() {
 		String[] paths = { /*bundleName,*/
-						   TemplateUtil.RESOURCES_DIRECTORY,
+						   "resources",
 						   getTemplateFileName() };
 		return StringUtils.join(paths, TemplateUtil.DIR_SEP);
 	}

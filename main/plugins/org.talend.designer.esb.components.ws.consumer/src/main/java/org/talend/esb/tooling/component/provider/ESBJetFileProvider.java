@@ -12,31 +12,24 @@
 // ============================================================================
 package org.talend.esb.tooling.component.provider;
 
-import java.io.File;
-import java.net.URL;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
 import org.talend.designer.codegen.additionaljet.AbstractJetFileProvider;
-import org.talend.designer.esb.webservice.WebServiceComponentPlugin;
 
 public class ESBJetFileProvider extends AbstractJetFileProvider {
 
-    private File providedLocation = null;
-
+    /* (non-Javadoc)
+     * @see org.talend.designer.codegen.additionaljet.AbstractJetFileProvider#getBundleId()
+     */
     @Override
-    protected File getExternalFrameLocation() {
-        if (null == providedLocation) {
-            WebServiceComponentPlugin plugin = WebServiceComponentPlugin.getDefault();
-            try {
-                URL url = FileLocator.find(plugin.getBundle(), new Path("additional"), null); //$NON-NLS-1$
-                url = FileLocator.toFileURL(url);
-                providedLocation = new File(url.getPath());
-            } catch (Exception e) {
-                plugin.getLog().log(WebServiceComponentPlugin.getStatus(null, e));
-            }
-        }
-        return providedLocation;
+    protected String getBundleId() {
+        return "org.talend.designer.esb.components.ws.consumer"; //$NON-NLS-1$
+    }
+
+    /* (non-Javadoc)
+     * @see org.talend.designer.codegen.additionaljet.AbstractJetFileProvider#getJetPath()
+     */
+    @Override
+    protected String getJetPath() {
+        return "additional"; //$NON-NLS-1$
     }
 
 }

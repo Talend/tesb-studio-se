@@ -12,32 +12,28 @@
 // ============================================================================
 package org.talend.camel.designer.codegen.jet;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.talend.camel.designer.codegen.Activator;
-import org.talend.commons.exception.ExceptionHandler;
 import org.talend.designer.codegen.additionaljet.AbstractJetFileProvider;
 
 public class CamelJetFileProvider extends AbstractJetFileProvider {
 
-    private File providedLocation;
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.designer.codegen.additionaljet.AbstractJetFileProvider#getBundleId()
+     */
     @Override
-    protected File getExternalFrameLocation() {
-        if (null == providedLocation) {
-            URL url = FileLocator.find(Activator.getDefault().getBundle(), new Path("resources"), null); //$NON-NLS-1$
-            try {
-                url = FileLocator.toFileURL(url);
-                providedLocation = new File(url.getPath());
-            } catch (IOException e) {
-                ExceptionHandler.process(e);
-            }
-        }
-        return providedLocation;
+    protected String getBundleId() {
+        return "org.talend.camel.designer.codegen"; //$NON-NLS-1$
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.designer.codegen.additionaljet.AbstractJetFileProvider#getJetPath()
+     */
+    @Override
+    protected String getJetPath() {
+        return "resources"; //$NON-NLS-1$
     }
 
 }

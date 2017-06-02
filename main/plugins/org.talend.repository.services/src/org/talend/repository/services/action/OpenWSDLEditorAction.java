@@ -30,7 +30,6 @@ import org.talend.core.repository.seeker.RepositorySeekerManager;
 import org.talend.core.repository.ui.actions.metadata.AbstractCreateAction;
 import org.talend.core.ui.branding.IBrandingConfiguration;
 import org.talend.designer.core.DesignerPlugin;
-import org.talend.repository.model.IRepositoryNode;
 import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.services.model.services.ServiceItem;
 import org.talend.repository.services.model.services.util.EServiceCoreImage;
@@ -78,13 +77,7 @@ public class OpenWSDLEditorAction extends AbstractCreateAction implements IIntro
     @Override
     protected void doRun() {
         ServiceEditorInput editorInput = new ServiceEditorInput(WSDLUtils.getWsdlFile(serviceItem), serviceItem);
-        if (repositoryNode == null) {
-            IRepositoryNode currentRepositoryNode = RepositorySeekerManager.getInstance()
-                    .searchRepoViewNode(editorInput.getItem().getProperty().getId(), false);
-            editorInput.setRepositoryNode(currentRepositoryNode);
-        } else {
-            editorInput.setRepositoryNode(repositoryNode);
-        }
+        editorInput.setRepositoryNode(repositoryNode);
         editorInput
                 .setReadOnly(!DesignerPlugin.getDefault().getProxyRepositoryFactory().isEditableAndLockIfPossible(serviceItem));
         try {

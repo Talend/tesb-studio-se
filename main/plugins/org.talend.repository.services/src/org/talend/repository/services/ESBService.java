@@ -33,7 +33,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.talend.commons.exception.BusinessException;
@@ -85,7 +84,6 @@ import org.talend.repository.services.model.services.ServiceOperation;
 import org.talend.repository.services.model.services.ServicePort;
 import org.talend.repository.services.model.services.ServicesPackage;
 import org.talend.repository.services.utils.ESBRepositoryNodeType;
-import org.talend.repository.services.utils.LocalWSDLEditor;
 import org.talend.repository.services.utils.OperationRepositoryObject;
 import org.talend.repository.services.utils.PortRepositoryObject;
 import org.talend.repository.services.utils.WSDLPopulationUtil;
@@ -987,35 +985,5 @@ public class ESBService implements IESBService {
     @Override
     public IXSDPopulationUtil getXSDPopulationUtil() {
         return new WSDLPopulationUtil();
-    }
-
-    @Override
-    public boolean isWSDLEditor(IWorkbenchPart part) {
-        return part instanceof LocalWSDLEditor;
-    }
-
-    @Override
-    public Item getWSDLEditorItem(IWorkbenchPart part) {
-        if (part instanceof LocalWSDLEditor) {
-            return ((LocalWSDLEditor) part).getServiceItem();
-        }
-        return null;
-    }
-
-    @Override
-    public boolean executeCommand(IEditorPart editorPart, Object cmd) {
-        if (editorPart instanceof LocalWSDLEditor && cmd instanceof Command) {
-            CommandStack commandStack = (CommandStack) editorPart.getAdapter(CommandStack.class);
-            editorPart.getEditorSite().getShell().getDisplay().syncExec(new Runnable() {
-                
-                @Override
-                public void run() {
-                    commandStack.execute((Command) cmd);
-                }
-                
-            });
-            return true;
-        }
-        return false;
     }
 }

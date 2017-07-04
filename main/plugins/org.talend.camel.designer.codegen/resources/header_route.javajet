@@ -2050,14 +2050,14 @@ if (isProvider) {
     %>
     java.util.Map<String, String> getOidcSettings() {
         java.util.Map<String, String> settings = new java.util.HashMap<String, String>();
-
+    <% if(!exportTypeSpringBoot) {%>
 		if(!inOSGi){
 			org.springframework.context.support.ClassPathXmlApplicationContext context =
 				new org.springframework.context.support.ClassPathXmlApplicationContext("META-INF/tesb/oidc-context.xml");
 			org.talend.esb.security.oidc.OidcConfiguration oidcConfiguration = context.getBean(org.talend.esb.security.oidc.OidcConfiguration.class);
 			return oidcConfiguration.getOidcProperties();
 		}
-		
+    <% } %>		
         String tokenEndpoint = org.talend.esb.security.oidc.OidcClientUtils.getTokenEndpoint();
         String validationEndpoint = org.talend.esb.security.oidc.OidcClientUtils.getValidationEndpoint();
         String clientId = org.talend.esb.security.oidc.OidcClientUtils.getPublicClientID();

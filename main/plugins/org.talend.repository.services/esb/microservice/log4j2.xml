@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+
+    <appenders>
+        <console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+        </console>
+    </appenders>
+    
+
+
+    <loggers>
+	    <logger name="org.springframework" level="WARN">
+	    	<appender-ref ref="CONSOLE"/>
+	    </logger>
+        <root level="WARN">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </loggers>
+
+</configuration>

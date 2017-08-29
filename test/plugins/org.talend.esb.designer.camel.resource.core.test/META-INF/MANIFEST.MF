@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.talend.esb.designer.camel.resource.core.test
+Bundle-SymbolicName: org.talend.esb.designer.camel.resource.core.test
+Bundle-Version: 6.5.0.qualifier
+Fragment-Host: org.talend.designer.camel.resource.core
+Require-Bundle: org.talend.testutils,
+ org.talend.model,
+ org.talend.designer.core,
+ org.talend.core.runtime,
+ org.talend.repository.generic

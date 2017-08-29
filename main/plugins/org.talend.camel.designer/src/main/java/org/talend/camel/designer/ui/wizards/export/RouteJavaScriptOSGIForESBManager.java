@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import aQute.bnd.osgi.Analyzer;
-
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IPath;
 import org.talend.core.GlobalServiceRegister;
@@ -44,6 +42,8 @@ import org.talend.repository.documentation.ExportFileResource;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.esb.DataSourceConfig;
 import org.talend.repository.utils.EmfModelUtils;
 import org.talend.repository.utils.TemplateProcessor;
+
+import aQute.bnd.osgi.Analyzer;
 
 /**
  * DOC ycbai class global comment. Detailled comment
@@ -112,14 +112,15 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
         }
     }
 
-    private static final String TEMPLATE_BLUEPRINT_ROUTE = "/resources/route-template.xml"; //$NON-NLS-1$
+    private static final String TEMPLATE_BLUEPRINT_ROUTE = "/resources/blueprint-template.xml"; //$NON-NLS-1$
 
     @Override
     protected void generateConfig(ExportFileResource osgiResource, ProcessItem processItem, IProcess process) throws IOException {
-        final File targetFile = new File(getTmpFolder() + PATH_SEPARATOR + "route.xml"); //$NON-NLS-1$
+        final File targetFile = new File(getTmpFolder() + PATH_SEPARATOR + "blueprint.xml"); //$NON-NLS-1$
         TemplateProcessor.processTemplate("ROUTE_BLUEPRINT_CONFIG", //$NON-NLS-1$
             collectRouteInfo(processItem, process), targetFile, getClass().getResourceAsStream(TEMPLATE_BLUEPRINT_ROUTE));
-        osgiResource.addResource(FileConstants.META_INF_FOLDER_NAME + "/spring", targetFile.toURI().toURL());
+        // osgiResource.addResource(FileConstants.META_INF_FOLDER_NAME + "/spring", targetFile.toURI().toURL());
+        osgiResource.addResource(FileConstants.BLUEPRINT_FOLDER_NAME, targetFile.toURI().toURL());
     }
 
     private Map<String, Object> collectRouteInfo(ProcessItem processItem, IProcess process) {
@@ -137,6 +138,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
         routeInfo.put("idName", idName); //$NON-NLS-2$
 
         boolean useSAM = false;
+        boolean useSL = false;
         boolean hasCXFUsernameToken = false;
         boolean hasCXFSamlConsumer = false;
         boolean hasCXFSamlProvider = false;
@@ -185,6 +187,10 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                     }
                 }
                 useSAM |= nodeUseSAM;
+
+                useSL = EmfModelUtils.computeCheckElementValue("ENABLE_SL", node) //$NON-NLS-1$
+                        || EmfModelUtils.computeCheckElementValue("SERVICE_LOCATOR", node);
+
                 if (consumerNodes.contains(ElementParameterParser.getUNIQUENAME(node))) {
                     hasCXFSamlConsumer |= nodeUseSaml | nodeUseRegistry;
                 } else {
@@ -194,6 +200,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
             }
         }
         routeInfo.put("useSAM", useSAM); //$NON-NLS-1$
+        routeInfo.put("useSL", useSL); //$NON-NLS-1$
         routeInfo.put("hasCXFUsernameToken", hasCXFUsernameToken); //$NON-NLS-1$
         routeInfo.put("hasCXFSamlConsumer", hasCXFSamlConsumer); //$NON-NLS-1$
         routeInfo.put("hasCXFSamlProvider", hasCXFSamlProvider); //$NON-NLS-1$

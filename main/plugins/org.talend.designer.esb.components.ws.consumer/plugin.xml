@@ -230,56 +230,6 @@
             <library id="commons-logging" />
         </libraryNeededGroup>
 
-        <!-- ${tesb-jetty-server} -->
-        <libraryNeeded context="plugin:org.eclipse.jetty.server"
-            name="org.eclipse.jetty.server_8.1.14.v20131031.jar"
-            id="jetty-server"
-            uripath="platform:/base/plugins/org.eclipse.jetty.server_8.1.14.v20131031.jar"
-            bundleID="" />
-        <libraryNeeded context="plugin:javax.servlet"
-            name="javax.servlet_3.0.0.v201112011016.jar"
-            id="javax.servlet-api"
-            uripath="platform:/base/plugins/javax.servlet_3.0.0.v201112011016.jar"
-            bundleID="" />
-        <libraryNeeded context="plugin:org.eclipse.jetty.util"
-            name="org.eclipse.jetty.util_8.1.14.v20131031.jar"
-            id="jetty-util"
-            uripath="platform:/base/plugins/org.eclipse.jetty.util_8.1.14.v20131031.jar"
-            bundleID="" />
-        <libraryNeeded context="plugin:org.eclipse.jetty.io"
-            name="org.eclipse.jetty.io_8.1.14.v20131031.jar"
-            id="jetty-io"
-            uripath="platform:/base/plugins/org.eclipse.jetty.io_8.1.14.v20131031.jar"
-            bundleID="" />
-        <libraryNeeded context="plugin:org.eclipse.jetty.security"
-            name="org.eclipse.jetty.security_8.1.14.v20131031.jar"
-            id="jetty-security"
-            uripath="platform:/base/plugins/org.eclipse.jetty.security_8.1.14.v20131031.jar"
-            bundleID="" />
-        <libraryNeeded context="plugin:org.eclipse.jetty.continuation"
-            name="org.eclipse.jetty.continuation_8.1.14.v20131031.jar"
-            id="jetty-continuation"
-            uripath="platform:/base/plugins/org.eclipse.jetty.continuation_8.1.14.v20131031.jar"
-            bundleID="" />
-        <libraryNeeded context="plugin:org.eclipse.jetty.http"
-            name="org.eclipse.jetty.http_8.1.14.v20131031.jar"
-            id="jetty-http"
-            uripath="platform:/base/plugins/org.eclipse.jetty.http_8.1.14.v20131031.jar"
-            bundleID="" />
-
-        <libraryNeededGroup
-                description="jetty-server"
-                id="jetty-server"
-                name="jetty-server">
-            <library id="jetty-server" />
-            <library id="javax.servlet-api" />
-            <library id="jetty-util" />
-            <library id="jetty-io" />
-            <library id="jetty-security" />
-            <library id="jetty-continuation" />
-            <library id="jetty-http" />
-        </libraryNeededGroup>
-
         <libraryNeeded context="plugin:org.talend.libraries.esb"
             name="${tesb-cxf-rt-transports-http-jetty}"
             id="cxf-rt-transports-http-jetty"
@@ -297,7 +247,7 @@
                 name="cxf-rt-transports-http-jetty">
             <library id="cxf-rt-transports-http-jetty" />
             <library id="cxf-rt-transports-http" />
-            <group id="jetty-server" />
+            <library id="jetty-all" />
         </libraryNeededGroup>
 
         <!--libraryNeeded context="plugin:org.talend.libraries.esb"
@@ -670,9 +620,44 @@
             <group id="slf4j" />
             <library id="zookeeper" />
             <library id="cxf-rt-features-clustering" />
+            <library id="pax-cdi-api" />
+            <library id="org.apache.servicemix.bundles.javax-inject" />
             <group id="cxf-rt-ws-policy" />
             <group id="cxf-rt-ws-security" />
+            <group id="osgi" />
         </libraryNeededGroup>
+        
+        <libraryNeededGroup
+                description="osgi"
+                id="osgi"
+                name="osgi">
+            <library id="org.osgi.core" />
+			<library id="org.osgi.compendium" />
+        </libraryNeededGroup>
+        
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="${tesb-org.osgi.core}"
+            id="org.osgi.core"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-org.osgi.core}"
+            bundleID="" />
+            
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="${tesb-org.osgi.compendium}"
+            id="org.osgi.compendium"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-org.osgi.compendium}"
+            bundleID="" />
+        
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="${tesb-pax-cdi-api}"
+            id="pax-cdi-api"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-pax-cdi-api}"
+            bundleID="" />
+            
+	   <libraryNeeded context="plugin:org.talend.libraries.esb"
+	        name="${tesb-org.apache.servicemix.bundles.javax-inject}"
+	        id="org.apache.servicemix.bundles.javax-inject"
+	        uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-org.apache.servicemix.bundles.javax-inject}"
+	        bundleID="" />
 
         <libraryNeeded context="plugin:org.talend.libraries.esb"
             name="${tesb-sam-agent}"
@@ -699,6 +684,9 @@
             <library id="sam-agent" />
             <library id="sam-common" />
             <library id="commons-lang" />
+            <group id="osgi" />
+            <library id="pax-cdi-api" />
+            <library id="org.apache.servicemix.bundles.javax-inject" />
         </libraryNeededGroup>
 
         <libraryNeeded context="plugin:org.talend.libraries.esb"

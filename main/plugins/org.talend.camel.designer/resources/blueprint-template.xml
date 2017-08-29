@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.2.0"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs" xmlns:sec="http://cxf.apache.org/configuration/security"
+	xmlns:http="http://cxf.apache.org/transports/http/configuration"
+	xmlns:cxf="http://cxf.apache.org/blueprint/core"
+
+	xsi:schemaLocation="
+        http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+        http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd
+        http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+        http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+        http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd
+        ">
+        
+        #if ($useSAM)
+        <reference id="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature" />
+        #end
+        
+        #if ($useSL)
+        <reference id="locatorFeature" interface="org.talend.esb.servicelocator.cxf.LocatorFeature" />
+        #end
+        
+        #if ($hasCXFComponent && ($hasCXFUsernameToken || $hasCXFSamlConsumer || $hasCXFSamlProvider))
+		#[[
+			
+        	<reference id="policyProvider" interface="org.talend.esb.security.policy.PolicyProvider" />
+		]]#
+		#end
+        <cm:property-placeholder id="${name}.properties" persistent-id="${name}" placeholder-prefix="$core1{"/>
+        
+#if ($hasCXFSamlProvider)
+#[[
+        <cm:property-placeholder id="org.talend.esb.job.service" persistent-id="org.talend.esb.job.service" placeholder-prefix="$core3{" />
+]]#
+#end
+
+#if ($hasCXFSamlConsumer)
+#[[
+        <cm:property-placeholder id="org.talend.esb.job.client" persistent-id="org.talend.esb.job.client" placeholder-prefix="$core4{"/>
+]]#
+#end
+        
+#if ($hasCXFRSSamlProviderAuthz)
+#[[
+    <cm:property-placeholder id="org.talend.esb.authorization.pep" persistent-id="org.talend.esb.authorization.pep" placeholder-prefix="$core2{"/>
+]]#
+#end
+
+#if ($hasCXFRSSamlProviderAuthz)
+#[[
+	<bean id="authorizingInterceptor" class="org.talend.esb.authorization.xacml.rt.pep.CXFXACMLAuthorizingInterceptor">
+		<property name="pdpAddress" value="$pep{tesb.pdp.address}"/>
+	</bean>
+]]#
+#end
+
+	<bean id="route" class="${className}">
+        <!--osgix:managed-properties persistent-id="${name}" update-strategy="bean-managed" update-method="setArguments" /-->
+        <property name="arguments" ref="${name}.properties" />
+
+#if ($useSAM)
+		<property name="eventFeature" ref="eventFeature" />
+#end
+
+#if ($useSL)
+		<property name="locatorFeature" ref="locatorFeature" />
+#end
+		
+#if ($hasCXFComponent && ($hasCXFUsernameToken || $hasCXFSamlConsumer || $hasCXFSamlProvider))
+#[[
+        <property name="policyProvider" ref="policyProvider"/>
+]]#
+#end
+
+#if ($hasCXFSamlProvider)
+#[[
+        <property name="securityProps" ref="org.talend.esb.job.service"/>
+]]#
+#end
+
+#if ($hasCXFSamlConsumer)
+#[[
+        <property name="clientProperties" ref="org.talend.esb.job.client"/>
+]]#
+#end
+
+#if ($hasCXFRSSamlProviderAuthz)
+#[[
+		<property name="authorizationInterceptor" ref="authorizingInterceptor"/>
+]]#
+#end
+
+#if (!$dataSources.isEmpty())
+		<property name="dataSources">
+			<map>
+#foreach ($alias in $dataSources)
+				<entry key="${alias}">
+					<reference interface="javax.sql.DataSource" filter="(osgi.jndi.service.name=${alias})" />
+				</entry>
+#end ## end data sources aliases loop
+			</map>
+		</property>
+#end
+	</bean>
+
+#if ($routelets)
+#foreach ($routelet in $routelets)
+    <reference id="${routelet}" interface="org.apache.camel.RoutesBuilder" filter="(id=${routelet})" />
+#end
+    <camelContext id="${idName}" xmlns="http://camel.apache.org/schema/blueprint">
+        <routeBuilder ref="route" />
+#foreach ($routelet in $routelets)
+        <routeBuilder ref="${routelet}" />
+#end
+    </camelContext>
+#else
+    <service interface="org.apache.camel.RoutesBuilder" ref="route" >
+        <service-properties>
+            <entry key="id" value="${idName}"/>
+        </service-properties>
+    </service>
+#end
+        
+</blueprint>        

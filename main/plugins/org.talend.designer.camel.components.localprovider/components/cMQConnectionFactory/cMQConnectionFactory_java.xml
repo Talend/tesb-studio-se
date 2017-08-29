@@ -357,8 +357,8 @@
                     UrlPath="platform:/base/plugins/javax.transaction_1.1.1.v201105210645.jar"
                     REQUIRED_IF="(MQ_TYPE == 'WMQ')" />
                     
-            <IMPORT MODULE="camel-wmq-alldep-2.17.6.jar" MVN="mvn:org.talend.libraries/camel-wmq-alldep-2.17.6/6.0.0" NAME="talend-camel-wmq" 
-                UrlPath="platform:/plugin/org.talend.libraries.camel.wmq.alldeps/lib/camel-wmq-alldep-2.17.6.jar"
+            <IMPORT MODULE="camel-wmq-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-wmq-alldep-${camel.version}/6.0.0" NAME="talend-camel-wmq" 
+                UrlPath="platform:/plugin/org.talend.libraries.camel.wmq.alldeps/lib/camel-wmq-alldep-${camel.version}.jar"
                     REQUIRED_IF="(MQ_TYPE == 'WMQ_N')" />
 		</IMPORTS>
 	</CODEGENERATION>

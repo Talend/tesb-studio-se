@@ -16,13 +16,18 @@ imports="
 
 	boolean asProductor = !node.getIncomingConnections().isEmpty();
 	if(asProductor){
-		Object desNode= ElementParameterParser.getValue(node, "____EXIST_ENDPOINT____");
-		if(desNode!=null){
-			String desNodeName = desNode.toString();	
-			for(INode aNode : node.getProcess().getGraphicalNodes()){
-				if(aNode.getUniqueName().equals(desNodeName)){
-					consumerNode=aNode;
-					break;
+	
+		Object inputEndpointName = ElementParameterParser.getValue(node, "__INPUT_ENDPOINT_NAME___");
+
+		if(!"true".equals(inputEndpointName)){
+			Object desNode= ElementParameterParser.getValue(node, "____EXIST_ENDPOINT____");
+			if(desNode!=null){
+				String desNodeName = desNode.toString();	
+				for(INode aNode : node.getProcess().getGraphicalNodes()){
+					if(aNode.getUniqueName().equals(desNodeName)){
+						consumerNode=aNode;
+						break;
+					}
 				}
 			}
 		}

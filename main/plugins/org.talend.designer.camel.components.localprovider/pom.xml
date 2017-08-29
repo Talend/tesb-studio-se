@@ -12,8 +12,8 @@
   <packaging>eclipse-plugin</packaging>
 
     <properties>
-        <camel.version>2.17.6</camel.version>
-        <activemq.version>5.14.5</activemq.version>
+        <camel.version>2.19.2</camel.version>
+        <activemq.version>5.15.0</activemq.version>
         <!--spring.osgi.compatible.version>1.2.1</spring.osgi.compatible.version-->
         <!-- camel-groovy -->
         <groovy.version>2.4.3</groovy.version>
@@ -67,6 +67,9 @@
         <mvn-commons-io>mvn:commons-io/commons-io/2.2</mvn-commons-io>
         <mvn-commons-lang>mvn:commons-lang/commons-lang/2.6</mvn-commons-lang>
         <mvn-commons-pool>mvn:commons-pool/commons-pool/1.6</mvn-commons-pool>
+        
+        <jetty-all.version>9.3.14.v20161028</jetty-all.version>
+        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
     </properties>
 
     <dependencies>
@@ -327,9 +330,22 @@
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-jetty8</artifactId>
+            <artifactId>camel-jetty9</artifactId>
             <version>${camel.version}</version>
         </dependency>
+
+		<dependency>
+		    <groupId>org.eclipse.jetty.aggregate</groupId>
+		    <artifactId>jetty-all</artifactId>
+		    <version>${jetty-all.version}</version>
+		    <classifier>uber</classifier>
+		</dependency>
+		
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>${javax.servlet-api.version}</version>
+		</dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -507,7 +523,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${spring4.version}</version>
+            <version>${spring.version}</version>
         </dependency>
     </dependencies>
 

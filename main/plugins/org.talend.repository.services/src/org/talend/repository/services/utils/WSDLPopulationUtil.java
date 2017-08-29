@@ -47,7 +47,7 @@ public class WSDLPopulationUtil extends XSDPopulationUtil2 {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.talend.datatools.xml.utils.XSDPopulationUtil2#getXSDSchema(java.lang.String, boolean)
      */
     @Override
@@ -61,16 +61,18 @@ public class WSDLPopulationUtil extends XSDPopulationUtil2 {
             return null;
         }
         if (loadFromWSDL) {
-            if (resourceSet.getResources().size() == 1) {
-                Resource resource = resourceSet.getResources().get(0);
-                if (resource.getContents().size() == 1) {
-                    Object oDef = resource.getContents().get(0);
-                    if (oDef instanceof Definition) {
-                        Definition definition = (Definition) oDef;
-                        for (Object o : definition.getETypes().getEExtensibilityElements()) {
-                            XSDSchemaExtensibilityElement schema = (XSDSchemaExtensibilityElement) o;
-                            if ((schema.getSchema() != null) && (namespace.equals(schema.getSchema().getTargetNamespace()))) {
-                                return schema.getSchema();
+            if (resourceSet.getResources().size() > 0) {
+                // TESB-19040:process schema from import wsdl files
+                for (Resource resource : resourceSet.getResources()) {
+                    if (resource.getContents().size() == 1) {
+                        Object oDef = resource.getContents().get(0);
+                        if (oDef instanceof Definition) {
+                            Definition definition = (Definition) oDef;
+                            for (Object o : definition.getETypes().getEExtensibilityElements()) {
+                                XSDSchemaExtensibilityElement schema = (XSDSchemaExtensibilityElement) o;
+                                if ((schema.getSchema() != null) && (namespace.equals(schema.getSchema().getTargetNamespace()))) {
+                                    return schema.getSchema();
+                                }
                             }
                         }
                     }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaInfInpositiva-v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaInfInpositiva-v1" xmlns:ns1="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1">
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" schemaLocation="cliente-v1_1_2_3.xsd"/>
+  <xsd:element name="ReqConsultaDatosInfInpositiva">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Data" type="DataConsultaDatosInfInpositivaReqType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="DataConsultaDatosInfInpositivaReqType">
+    <xsd:sequence>
+      <xsd:element name="identificador" type="ns1:IdClienteType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DataConsultaDatosInfInpositivaRespType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Row">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="inf" type="ns1:codDescStringType"/>
+            <xsd:element name="condicion" type="ns1:codDescStringType"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="RespConsultaDatosInfInpositiva">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Data" type="DataConsultaDatosInfInpositivaRespType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

@@ -5,6 +5,10 @@
     <reference id="eventFeature" interface="org.talend.esb.sam.agent.feature.EventFeature" />
 #end ## ($useSAM)
 
+#if ($useSL)
+	<reference interface="org.talend.esb.servicelocator.cxf.LocatorFeature" id="locatorFeature" />
+#end ## ($useSL)
+
 #if ($useEncryption || $useServiceRegistry)
     <reference id="xkmsCryptoProviderFactory" interface="org.apache.cxf.xkms.crypto.CryptoProviderFactory" />
     <bean id="cryptoProvider" factory-ref="xkmsCryptoProviderFactory" factory-method="create" />
@@ -63,24 +67,26 @@
 #end ## ($useSecuritySAML || $useServiceRegistry)
 
             <entry key="use.service.registry" value="${useServiceRegistry}" />
+#if ($useSL)
+	#if (!$slCustomProps.isEmpty())
+		    <entry key="esb.locator.properties">
+		        <map>
+		        	#foreach ($entry in $slCustomProps.entrySet())
+		            <entry key="${entry.key}" value="${entry.value}" />
+		            #end ## ($entry in $slCustomProps.entrySet())
+		        </map>
+		    </entry>
+	#end ## (!$slCustomProps.isEmpty())
+#end ## ($useSL)
         </jaxws:properties>
+
         <jaxws:features>
+#if ($useSL)
+	<ref component-id="locatorFeature" />
+#end ## ($useSL)
 #if ($useSAM)
             <ref component-id="eventFeature" />
 #end ## ($useSAM)
-#if ($useSL)
-            <bean class="org.talend.esb.servicelocator.cxf.LocatorFeature">
-#if (!$slCustomProps.isEmpty())
-                <property name="availableEndpointProperties">
-                    <map>
-#foreach ($entry in $slCustomProps.entrySet())
-                        <entry key="${entry.key}" value="${entry.value}" />
-#end ## ($entry in $slCustomProps.entrySet())
-                    </map>
-                </property>
-#end ## (!$slCustomProps.isEmpty())
-            </bean>
-#end ## ($useSL)
 #if ($logMessages)
             <bean class="org.apache.cxf.feature.LoggingFeature" />
 #end ## ($logMessages)
@@ -149,9 +155,6 @@
 #if ($useSecurityToken || $useSecuritySAML)
         <argument type="org.apache.cxf.Bus" ref="cxf" />
 #end ## ($useSecurityToken || $useSecuritySAML)
-#if ($useSAM)
-        <property name="eventFeature" ref="eventFeature" />
-#end ## ($useSAM)
         <property name="extractHeaders" value="true" />
     </bean>
     <service ref="genericServiceProvider" interface="org.osgi.service.cm.ManagedService">

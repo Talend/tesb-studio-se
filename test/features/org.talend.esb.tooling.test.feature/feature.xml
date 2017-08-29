@@ -17,10 +17,65 @@
    </license>
 
    <plugin
-         id="org.talend.designer.esb.runcontainer.test"
+         id="org.talend.esb.designer.esb.runcontainer.test"
          download-size="0"
          install-size="0"
          version="0.0.0"
          fragment="true"/>
+
+   <plugin
+         id="org.talend.esb.designer.esb.routines.test"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.talend.esb.designer.camel.dependencies.core.test"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.talend.esb.designer.camel.resource.core.test"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.talend.esb.camel.designer.codegen.test"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.talend.esb.repository.view.route.test"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.talend.esb.repository.services.test"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"/>
+
+   <plugin
+         id="org.talend.esb.camel.designer.test"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
 
 </feature>

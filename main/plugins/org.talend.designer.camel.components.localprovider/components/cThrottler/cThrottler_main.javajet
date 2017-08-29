@@ -12,13 +12,13 @@ imports="
 	INode node = (INode)codeGenArgument.getArgument();
 	String cid = node.getUniqueName();
 	
-	Integer messageCount=10;
+	String messageCount = "10";
 	if(!("".equals(ElementParameterParser.getValue(node, "__MESSAGE_COUNT__"))))
-		 messageCount = Integer.parseInt(ElementParameterParser.getValue(node, "__MESSAGE_COUNT__"));
+		 messageCount = ElementParameterParser.getValue(node, "__MESSAGE_COUNT__");
 		
-	Integer timePeriod = 1000;
+	String timePeriod = "1000";
 	if(!("".equals(ElementParameterParser.getValue(node, "__TIME_PERIOD__"))))
-		timePeriod = Integer.parseInt(ElementParameterParser.getValue(node, "__TIME_PERIOD__"));
+		timePeriod = ElementParameterParser.getValue(node, "__TIME_PERIOD__");
 	
 	String setTimePeriod = ElementParameterParser.getValue(node, "__SET_TIME_PERIOD__");
 	String useAsyncDelaying = ElementParameterParser.getValue(node, "__USE_ASYNC_DELAYING__");

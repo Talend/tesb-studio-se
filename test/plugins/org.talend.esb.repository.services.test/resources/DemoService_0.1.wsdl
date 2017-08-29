@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DemoService"
+		xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:tns="http://www.talend.org/service/"
+		targetNamespace="http://www.talend.org/service/">
+
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://www.talend.org/service/">
+			<xsd:element name="DemoServiceOperationRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="in" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="DemoServiceOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="out" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="DemoServiceOperationRequest">
+		<wsdl:part name="parameters" element="tns:DemoServiceOperationRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="DemoServiceOperationResponse">
+		<wsdl:part name="parameters" element="tns:DemoServiceOperationResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:portType name="DemoServicePortType">
+		<wsdl:operation name="DemoServiceOperation">
+			<wsdl:input message="tns:DemoServiceOperationRequest"></wsdl:input>
+			<wsdl:output message="tns:DemoServiceOperationResponse"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="DemoServiceBinding" type="tns:DemoServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="DemoServiceOperation">
+			<soap:operation soapAction="http://www.talend.org/service/DemoServiceOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="DemoService">
+		<wsdl:port name="DemoServicePort" binding="tns:DemoServiceBinding">
+			<soap:address location="http://localhost:8090/services/DemoService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

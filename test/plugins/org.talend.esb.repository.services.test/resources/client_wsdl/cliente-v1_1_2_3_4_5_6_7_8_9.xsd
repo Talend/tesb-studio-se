@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosDomicilio-v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosDomicilio-v1" xmlns:ns1="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1">
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" schemaLocation="cliente-v1_1_2_3.xsd"/>
+  <xsd:complexType name="DataConsultaDatosDomicilioReqType">
+    <xsd:sequence>
+      <xsd:element name="identificador" type="ns1:IdClienteType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DataConsultaDatosDomicilioRespType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Row">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="codDomicilio" type="xsd:string"/>
+            <xsd:element name="tipoDomicilio" type="xsd:string"/>
+            <xsd:element name="pais" type="ns1:codDescStringType"/>
+            <xsd:element name="nomCalle" type="xsd:string"/>
+            <xsd:element name="numCalle" type="xsd:string"/>
+            <xsd:element name="piso" type="xsd:string"/>
+            <xsd:element name="depto" type="xsd:string"/>
+            <xsd:element name="codigoPostal" type="xsd:string"/>
+            <xsd:element name="localidad" type="ns1:codDescStringType"/>
+            <xsd:element name="prov" type="ns1:codDescStringType"/>
+            <xsd:element name="telefonos">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" name="telefono">
+                    <xsd:complexType>
+                      <xsd:sequence>
+                        <xsd:element name="codigoPais" type="xsd:string"/>
+                        <xsd:element name="codigoArea" type="xsd:string"/>
+                        <xsd:element name="numero" type="xsd:string"/>
+                        <xsd:element name="extension" type="xsd:string"/>
+                        <xsd:element name="tipo" type="ns1:codDescStringType"/>
+                      </xsd:sequence>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="ReqConsultaDatosDomicilio">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Data" type="DataConsultaDatosDomicilioReqType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="RespConsultaDatosDomicilio">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Data" type="DataConsultaDatosDomicilioRespType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

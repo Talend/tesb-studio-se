@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.supervielle.com.ar/xsd/servicios/integracion/exception-v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.supervielle.com.ar/xsd/servicios/integracion/exception-v1">
+  <xsd:annotation>
+    <xsd:documentation>Comment describing your root element</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="Exception">
+    <xsd:sequence>
+      <xsd:element name="faultcode" type="xsd:string"/>
+      <xsd:element name="faultstring" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="faultactor" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="detail" type="xsd:anyType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="exception" type="Exception"/>
+</xsd:schema>

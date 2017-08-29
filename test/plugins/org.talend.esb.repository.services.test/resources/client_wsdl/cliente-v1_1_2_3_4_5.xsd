@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersona-v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" xmlns:tns="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersona-v1">
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" schemaLocation="cliente-v1_1_2_3.xsd"/>
+  <xsd:complexType name="DataConsultaDatosPersonaReqType">
+    <xsd:sequence>
+      <xsd:element name="identificador" type="ns1:IdClienteType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DataConsultaDatosPersonaRespType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Row">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="identificador" type="ns1:IdClienteType"/>
+            <xsd:element minOccurs="0" name="fechaAlta" type="xsd:date"/>
+            <xsd:element name="tipoPersona" type="ns1:codDescStringType"/>
+            <xsd:element name="email" type="xsd:string"/>
+            <xsd:element name="paginaWeb" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="ReqConsultaDatosPersona">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Data" type="tns:DataConsultaDatosPersonaReqType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="RespConsultaDatosPersona">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" ref="ns1:Paging"/>
+        <xsd:element name="Data" type="tns:DataConsultaDatosPersonaRespType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

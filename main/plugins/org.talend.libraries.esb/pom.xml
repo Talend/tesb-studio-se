@@ -57,28 +57,6 @@
 							<outputDirectory>${basedir}/lib</outputDirectory>
 						</configuration>
 					</execution>
-                    <!-- patch for wss4j-policy (TESB-19795) -->
-                    <execution>
-                        <id>copy</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.apache.wss4j</groupId>
-                                    <artifactId>wss4j-policy</artifactId>
-                                    <version>2.1.9</version>
-                                    <classifier>TESB</classifier>
-                                    <type>jar</type>
-                                    <outputDirectory>${basedir}/lib</outputDirectory>
-                                    <destFileName>wss4j-policy-2.1.9.jar</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                    <!-- patch for wss4j-policy (TESB-19795) -->
 				</executions>
 			</plugin>
 			<plugin>
@@ -343,6 +321,11 @@
 			</exclusion>
 		</exclusions>
 	</dependency>
+	<dependency>
+	    <groupId>aopalliance</groupId>
+	    <artifactId>aopalliance</artifactId>
+	    <version>1.0</version>
+	</dependency>
 	<!-- SL -->
 	<dependency>
 		<groupId>org.talend.esb</groupId>
@@ -362,6 +345,16 @@
 				<artifactId>wsdl4j</artifactId>
 			</exclusion>
 		</exclusions>
+	</dependency>
+	<dependency>
+		<groupId>org.ops4j.pax.cdi</groupId>
+		<artifactId>pax-cdi-api</artifactId>
+		<version>1.0.0.RC1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.servicemix.bundles</groupId>
+		<artifactId>org.apache.servicemix.bundles.javax-inject</artifactId>
+		<version>1_2</version>
 	</dependency>
 	<!-- SAM -->
 	<dependency>
@@ -393,6 +386,18 @@
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala.version}</version>
+    </dependency>
+    
+	<dependency>
+	    <groupId>org.osgi</groupId>
+	    <artifactId>org.osgi.core</artifactId>
+	    <version>4.3.1</version>
+	</dependency>
+	
+    <dependency>
+		<groupId>org.osgi</groupId>
+		<artifactId>org.osgi.compendium</artifactId>
+		<version>4.3.1</version>
     </dependency>
     
   </dependencies>

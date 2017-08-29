@@ -12,6 +12,7 @@
         java.net.URLEncoder
         org.talend.core.GlobalServiceRegister
         org.talend.core.model.process.IProcess
+        org.talend.core.model.process.IProcess2
         org.talend.core.model.process.INode
         org.talend.core.model.process.IConnection
         org.talend.core.model.process.EConnectionType
@@ -157,20 +158,23 @@ package <%= packageName %>;
  */
  
  <%
-        boolean exportTypeSpringBoot = false;
-        boolean isRoutelet = false;
-        try{
-            isRoutelet = (((org.talend.core.model.properties.Property)process.getClass().getMethod("getProperty", null).invoke(process, null)).getItem().getClass().getName().endsWith("RouteletProcessItemImpl"));
-        }catch(Exception eee){
-
-        }
-
-        if(process.getClass().getName().endsWith("MicroServiceProcess")){
-            exportTypeSpringBoot = true;
+        boolean exportTypeSpringBoot = process.getClass().getName().endsWith("MicroServiceProcess");
+        boolean isRoutelet = ((IProcess2) process).getProperty().getItem().getClass().getName().endsWith("RouteletProcessItemImpl");
+        
+        boolean hasCSoapOrCRest = false;
+        
+        for (INode node : graphicalNodes) {
+        	if ("cSOAP".equals(node.getComponent().getName()) || "cREST".equals(node.getComponent().getName())) {
+        		hasCSoapOrCRest = true;
+        	}
         }
 
         if(exportTypeSpringBoot){
  %>
+ 
+
+
+<% if(hasCSoapOrCRest) { %>
 
 /**
  * Applies configuration properties to a HTTPConduit
@@ -472,6 +476,8 @@ class HttpConduitConfigApplier {
         }
     }
 }
+
+<% } %>
  
 @org.springframework.boot.autoconfigure.SpringBootApplication
 @org.springframework.boot.context.properties.EnableConfigurationProperties(<%=className%>.ContextProperties.class)
@@ -490,27 +496,55 @@ public class <%=className%> extends org.apache.camel.builder.RouteBuilder implem
 
     private boolean inOSGi;
 
+	private static Object arguments;
+	
+	public void setArguments(Object arguments) {
+		this.inOSGi = true;
+		<%=className%>.arguments = arguments;
+	}
+	
+	public <T> Map<String, T> getArguments(Object props,Class c){
+		if (props != null) {
+			try {
+				java.lang.reflect.Field propertiesField = props.getClass().getDeclaredField("properties");
+				propertiesField.setAccessible(true);
+				java.util.Dictionary p = (java.util.Dictionary) propertiesField.get(props);
+				java.util.Map<String,T> result = new java.util.HashMap<>();
+				
+				if(p !=null ){
+					for (java.util.Enumeration<String> keys = p.keys(); keys.hasMoreElements();) {
+						String key = keys.nextElement();
+						if(c.equals(String.class)){
+							result.put(key, (T) String.valueOf(p.get(key)));
+						}else{
+							result.put(key, (T) p.get(key));
+						}
+						
+				    }
+				}
+			    
+			    return result;
 
-
-    public void setArguments(Map<String, String> arguments) {
-        inOSGi = true;
-        final String newContext = arguments.remove("context");
-        if (null != newContext) {
-            contextStr = newContext;
-        }
-        context_param.putAll(arguments);
-    }
-
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 <%
 
     boolean hasSam = false;
     boolean hasCorrelationID = false;
     boolean hasCXFRSProvider = false;
     boolean hasCXFRSServiceLocator = false;
+    boolean hasCXFServiceLocator = false;
     boolean hasOidcAuthentication = false;
     boolean hasOidcClientAuthentication = false;
     for (INode node : graphicalNodes) {
         if ("cSOAP".equals(node.getComponent().getName())) {
+            if(!hasCXFServiceLocator){
+                hasCXFServiceLocator = Boolean.parseBoolean(ElementParameterParser.getValue(node, "__ENABLE_SL__"));
+            }
             boolean useRegistry = false;
             String dataFormat = ElementParameterParser.getValue(node, "__DATAFORMAT__");
             if (isStudioEEVersion && !"RAW".equals(dataFormat) && !"CXF_MESSAGE".equals(dataFormat)) {
@@ -1065,7 +1099,7 @@ final Map<String, String> contentTypes = new java.util.HashMap<String, String>()
 
             if ("true".equals(ElementParameterParser.getValue(node, "__ENABLE_CORRELATION__"))) {
                 hasCorrelationID = true;
-%>
+%>  
     private final CorrelationIDCallbackHandler correlationIDCallbackHandler_<%=cid%> = new CorrelationIDCallbackHandler();
 <%
             } // CorrelationID
@@ -1075,16 +1109,53 @@ final Map<String, String> contentTypes = new java.util.HashMap<String, String>()
 
     if (hasSam) {
 %>
+  
     //ESB Service Activity Monitor Feature
-    private org.apache.cxf.feature.Feature eventFeature;
-
-    public void setEventFeature(org.apache.cxf.feature.Feature eventFeature) {
-        this.eventFeature = eventFeature;
+    
+    private org.talend.esb.sam.agent.feature.EventFeature eventFeature;
+    
+    public void setEventFeature(org.talend.esb.sam.agent.feature.EventFeature eventFeature){
+    	this.eventFeature = eventFeature;
+    }
+    
+    public org.talend.esb.sam.agent.feature.EventFeature getEventFeature(org.apache.cxf.Bus bus) {
+    	org.talend.esb.sam.agent.feature.EventFeature eventFeature_;
+    	if(inOSGi){
+			eventFeature_ = eventFeature;
+		}else{
+			eventFeature_ = new org.springframework.context.support.ClassPathXmlApplicationContext("META-INF/tesb/agent-context.xml").getBean(org.talend.esb.sam.agent.feature.EventFeature.class);
+		}
+		
+		return eventFeature_;
     }
 
 <%
     }
+    
+    if (hasCXFServiceLocator || hasCXFRSServiceLocator) {
+%>
+    //ESB Service Locator Feature
 
+	private org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature;
+
+    public org.talend.esb.servicelocator.cxf.LocatorFeature getLocatorFeature(org.apache.cxf.Bus bus) {
+    	org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature_ = null;
+        if(inOSGi){
+			locatorFeature_ = locatorFeature;
+        }else{  
+	    	org.springframework.context.support.ClassPathXmlApplicationContext context_ = new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/locator/beans.xml" });
+	    	locatorFeature_ = (org.talend.esb.servicelocator.cxf.LocatorFeature) context_.getBean(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
+        }
+        return locatorFeature_;
+    }
+    
+    public void setLocatorFeature(org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature){
+    	this.locatorFeature = locatorFeature;
+    }
+
+<%
+    }
+    
     if (hasCorrelationID) {
 %>
     static class CorrelationIDCallbackHandler implements org.talend.esb.policy.correlation.CorrelationIDCallbackHandler {
@@ -1181,7 +1252,6 @@ static class CxfPayloadProvider implements javax.ws.rs.ext.MessageBodyWriter<org
             boolean hasCXFRegistryProvider = false;
             boolean hasCXFRegistryConsumer = false;
             boolean hasCXFSAMLPropagateConsumer = false;
-            boolean hasCXFServiceLocator = false;
 
             List<INode> allCxfNodes = new ArrayList<INode>();
             allCxfNodes.addAll(process.getNodesOfType("cSOAP"));
@@ -1307,8 +1377,8 @@ static class CxfPayloadProvider implements javax.ws.rs.ext.MessageBodyWriter<org
             } if(hasCXF && exportTypeSpringBoot){
 %>
             @org.springframework.context.annotation.Bean
-            public org.springframework.boot.context.embedded.ServletRegistrationBean servletRegistrationBean(org.springframework.context.ApplicationContext context) {
-                return new org.springframework.boot.context.embedded.ServletRegistrationBean(new org.apache.cxf.transport.servlet.CXFServlet(), "/services/*");
+            public org.springframework.boot.web.servlet.ServletRegistrationBean servletRegistrationBean(org.springframework.context.ApplicationContext context) {
+                return new org.springframework.boot.web.servlet.ServletRegistrationBean(new org.apache.cxf.transport.servlet.CXFServlet(), "/services/*");
             }
             @org.springframework.context.annotation.Bean(name = "cxf")
             public org.apache.cxf.bus.spring.SpringBus springBus() {
@@ -1560,8 +1630,8 @@ if(hasCXFSamlTokenConsumer || hasCXFRegistryConsumer){
 
 private Map<String, String> clientProperties;
 
-public void setClientProperties(Map<String, String> clientProperties) {
-        this.clientProperties = clientProperties;
+public void setClientProperties(Object clientProperties) {
+        this.clientProperties = getArguments(clientProperties,String.class);
 }
 
 <%
@@ -1703,7 +1773,16 @@ private void addRegistry(org.apache.camel.component.cxf.CxfEndpoint cxfEndpoint,
                 public void clientCreated(org.apache.cxf.endpoint.Client client) {
                     String address = client.getEndpoint().getEndpointInfo().getAddress();
                     if ((address != null) && address.startsWith("locator://")) {
-                        new org.talend.esb.servicelocator.cxf.LocatorFeature().initialize(client, client.getBus());
+				    	org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature_ = null;
+				        if(inOSGi){
+				        	org.osgi.framework.BundleContext context = bus.getExtension(org.osgi.framework.BundleContext.class);
+							org.osgi.framework.ServiceReference<org.talend.esb.servicelocator.cxf.LocatorFeature> serviceRef = (org.osgi.framework.ServiceReference<org.talend.esb.servicelocator.cxf.LocatorFeature>) context.getServiceReference(org.talend.esb.servicelocator.cxf.LocatorFeature.class.getName());
+							locatorFeature_ = context.getService(serviceRef);
+				        }else{  
+					    	org.springframework.context.support.ClassPathXmlApplicationContext context_ = new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/locator/beans.xml" });
+					    	locatorFeature_ = (org.talend.esb.servicelocator.cxf.LocatorFeature) context_.getBean(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
+				        }
+                        locatorFeature_.initialize(client, client.getBus());
                     }
                 }
                 public void clientDestroyed(org.apache.cxf.endpoint.Client client) {
@@ -1834,8 +1913,8 @@ if (hasCXFSamlTokenProvider || hasCXFRegistryProvider) {
 %>
 private Map<String, Object> securityProps;
 
-public void setSecurityProps(Map<String, Object> securityProps) {
-    this.securityProps = securityProps;
+public void setSecurityProps(Object securityProps) {
+    this.securityProps = getArguments(securityProps,Object.class);
 }
 <%
 }
@@ -2050,14 +2129,14 @@ if (isProvider) {
     %>
     java.util.Map<String, String> getOidcSettings() {
         java.util.Map<String, String> settings = new java.util.HashMap<String, String>();
-
+    <% if(!exportTypeSpringBoot) {%>
 		if(!inOSGi){
 			org.springframework.context.support.ClassPathXmlApplicationContext context =
 				new org.springframework.context.support.ClassPathXmlApplicationContext("META-INF/tesb/oidc-context.xml");
 			org.talend.esb.security.oidc.OidcConfiguration oidcConfiguration = context.getBean(org.talend.esb.security.oidc.OidcConfiguration.class);
 			return oidcConfiguration.getOidcProperties();
 		}
-		
+    <% } %>		
         String tokenEndpoint = org.talend.esb.security.oidc.OidcClientUtils.getTokenEndpoint();
         String validationEndpoint = org.talend.esb.security.oidc.OidcClientUtils.getValidationEndpoint();
         String clientId = org.talend.esb.security.oidc.OidcClientUtils.getPublicClientID();
@@ -2309,6 +2388,7 @@ if (isProvider) {
                     swagger2Feature_<%=cid%>.setBasePath("<%=epForSwagger%>");
                     swagger2Feature_<%=cid%>.setUsePathBasedConfig(true);
                     swagger2Feature_<%=cid%>.setRunAsFilter(true);
+                    swagger2Feature_<%=cid%>.setSwaggerUiMavenGroupAndArtifact("org.talend.esb/swagger-ui");
                     swagger2Feature_<%=cid%>.setTitle("<%=swaggerTitle%>");
                     swagger2Feature_<%=cid%>.setDescription("<%=swaggerDescription%>");
                     swagger2Feature_<%=cid%>.setContact(null);
@@ -2419,48 +2499,48 @@ if (isProvider) {
                     factory_<%=cid%>.setServiceName(new javax.xml.namespace.QName(
                         <%=ElementParameterParser.getValue(node, "__SERVICE_NAMESPACE__")%>,
                         <%=ElementParameterParser.getValue(node, "__SERVICE_NAME__")%>));
-                    <%if(exportTypeSpringBoot){%>
-                        <%if(isProvider){%>
-                            factory_<%=cid%>.setBus(springBus());
-                        <% }else {%>
-                            factory_<%=cid%>.setBus(new org.apache.cxf.bus.spring.SpringBusFactory().createBus("META-INF/tesb/locator/beans.xml"));
-                        <%}%>
-                    <%}else{%>
-                        if (!inOSGi) {
-                            factory_<%=cid%>.setBus(new org.apache.cxf.bus.spring.SpringBusFactory().createBus("META-INF/tesb/locator/beans.xml"));
-                        }
-                    <%}%>
-
+						
+						
 <%
                         if (!isProvider) {
 %>
                             factory_<%=cid%>.setAddress("locator://rest");
+                            org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature_<%=cid%> = getLocatorFeature(cf_<%=cid%>.getBus());
 <%
-                        }
+                        }else{
 %>
-                        org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature_<%=cid%> = new org.talend.esb.servicelocator.cxf.LocatorFeature();
+							org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature_<%=cid%> = getLocatorFeature(sf_<%=cid%>.getBus());
 <%
-                        List<Map<String, String>> customProperties = (List<Map<String,String>>) ElementParameterParser.getObjectValue(node, "__SL_META_DATA__");
-                        if (!customProperties.isEmpty()) {
+						}
 %>
-                            java.util.Map<String, String> slCustomProps_<%=cid%> = new java.util.HashMap<String, String>();
-<%
-                            for (Map<String, String> custProp : customProperties) {
-%>
-                                slCustomProps_<%=cid%>.put(<%=custProp.get("NAME")%>, <%=custProp.get("VALUE")%>);
-<%
-                            }
 
-                            if (isProvider) {
-%>
-                                locatorFeature_<%=cid%>.setAvailableEndpointProperties(slCustomProps_<%=cid%>);
+                       
 <%
-                            } else {
+                    List<Map<String, String>> customProperties = (List<Map<String,String>>) ElementParameterParser.getObjectValue(node, "__SL_META_DATA__");
+					if (!customProperties.isEmpty()) 
+					{ 
 %>
-                                locatorFeature_<%=cid%>.setRequiredEndpointProperties(slCustomProps_<%=cid%>);
-<%
-                            }
-                        }
+					java.util.Map<String, String> slCustomProps_<%=cid%> = new java.util.HashMap<String, String>();
+					
+                    <% for (Map<String, String> custProp : customProperties) { %>
+                    	slCustomProps_<%=cid%>.put(<%=custProp.get("NAME")%>, <%=custProp.get("VALUE")%>);
+                    <% } %>
+					
+					<%if(!isProvider){%>
+                    	if(cf_<%=cid%>.getProperties() == null){
+                    		cf_<%=cid%>.setProperties(new java.util.HashMap<String, Object>());
+                    	}
+
+						cf_<%=cid%>.getProperties().put(org.talend.esb.servicelocator.cxf.LocatorFeature.LOCATOR_PROPERTIES, slCustomProps_<%=cid%>);
+                    <%}else{%>
+                    	if(sf_<%=cid%>.getProperties() == null){
+                    		sf_<%=cid%>.setProperties(new java.util.HashMap<String, Object>());
+                    	}
+                    	
+                    	sf_<%=cid%>.getProperties().put(org.talend.esb.servicelocator.cxf.LocatorFeature.LOCATOR_PROPERTIES, slCustomProps_<%=cid%>);
+                    <%}%>
+<% 
+					} 
 %>
                         factory_<%=cid%>.getFeatures().add(locatorFeature_<%=cid%>);
 <%
@@ -2472,18 +2552,25 @@ if (isProvider) {
                 }
 
                 if ("true".equals(ElementParameterParser.getValue(node, "__SERVICE_ACTIVITY_MONITOR__"))) {
+                
 %>
-                    if (eventFeature != null) {
-                        factory_<%=cid%>.getFeatures().add(eventFeature);
+<%
+                        if (!isProvider) {
+%>
+							org.talend.esb.sam.agent.feature.EventFeature eventFeature_<%=cid%> = getEventFeature(cf_<%=cid%>.getBus());
+<%
+                        }else{
+%>
+							org.talend.esb.sam.agent.feature.EventFeature eventFeature_<%=cid%> = getEventFeature(sf_<%=cid%>.getBus());
+<%
+						}
+%>
+
+					
+                    if (eventFeature_<%=cid%> != null) {
+                        factory_<%=cid%>.getFeatures().add(eventFeature_<%=cid%>);
                     }
 <%
-                    if(exportTypeSpringBoot){
-%>
-                        else {
-                            factory_<%=cid%>.getFeatures().add(new org.springframework.context.support.ClassPathXmlApplicationContext("META-INF/tesb/agent-context.xml").getBean(org.talend.esb.sam.agent.feature.EventFeature.class));
-                        }
-<%
-                    }
                 }
 
                 if ("true".equals(ElementParameterParser.getValue(node, "__ENABLE_CORRELATION__"))) {
@@ -3014,7 +3101,6 @@ if (isProvider) {
                 List<Map<String, String>> customProperties = (List<Map<String,String>>) ElementParameterParser.getObjectValue(node, "__SL_META_DATA__");
 %>
                 // Add Service Locator Service to <%=endpointVar%>
-                org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature_<%=cid%> = new org.talend.esb.servicelocator.cxf.LocatorFeature();
                 <%if(exportTypeSpringBoot){%>
                     <%if(isProvider){%>
                         <%=endpointVar%>.setBus(springBus());
@@ -3026,18 +3112,21 @@ if (isProvider) {
                         <%=endpointVar%>.setBus(new org.apache.cxf.bus.spring.SpringBusFactory().createBus("META-INF/tesb/locator/beans.xml"));
                     }
                 <%}%>
-
-
+                
+                org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature_<%=cid%> = getLocatorFeature(<%=endpointVar%>.getBus());
+                
                 <% if (!customProperties.isEmpty()) { %>
-                    java.util.Map<String, String> slCustomProps_<%=cid%> = new java.util.HashMap<String, String>();
-                    <% for (Map<String, String> custProp : customProperties) { %>
-                        slCustomProps_<%=cid%>.put(<%=custProp.get("NAME")%>, <%=custProp.get("VALUE")%>);
-                    <% } %>
-                    <% if (isProvider) { %>
-                        locatorFeature_<%=cid%>.setAvailableEndpointProperties(slCustomProps_<%=cid%>);
-                    <% } else { %>
-                        locatorFeature_<%=cid%>.setRequiredEndpointProperties(slCustomProps_<%=cid%>);
-                    <% } %>
+	                java.util.Map<String, String> slCustomProps_<%=cid%> = new java.util.HashMap<String, String>();
+	                <% for (Map<String, String> custProp : customProperties) { %>
+	                    slCustomProps_<%=cid%>.put(<%=custProp.get("NAME")%>, <%=custProp.get("VALUE")%>);
+	                <% } %>
+	
+	                java.util.Map<String, Object> endpointProps_<%=cid%> = <%=endpointVar%>.getProperties();
+	                if (endpointProps_<%=cid%> == null) {
+	                    endpointProps_<%=cid%> = new java.util.HashMap<String, Object>();
+	                }
+	                endpointProps_<%=cid%>.put(org.talend.esb.servicelocator.cxf.LocatorFeature.LOCATOR_PROPERTIES, slCustomProps_<%=cid%>);
+	                <%=endpointVar%>.setProperties(endpointProps_<%=cid%>);
                 <% } %>
 
                 <%=endpointVar%>.getFeatures().add(locatorFeature_<%=cid%>);
@@ -3067,17 +3156,14 @@ if (isProvider) {
             if ("true".equals(useSAM) && !"RAW".equals(formatType) && !useRegistry) {
 %>
                 // Add Service Activity Monitor Service to <%=endpointVar%>
-                if (eventFeature != null) {
-                    <%=endpointVar%>.getFeatures().add(eventFeature);
+                
+                org.talend.esb.sam.agent.feature.EventFeature eventFeature_<%=endpointVar%> = getEventFeature(<%=endpointVar%>.getBus());
+                
+                if (eventFeature_<%=endpointVar%> != null) {
+                    <%=endpointVar%>.getFeatures().add(eventFeature_<%=endpointVar%>);
                 }
+                
 <%
-                if(exportTypeSpringBoot){
-%>
-                    else {
-                        <%=endpointVar%>.getFeatures().add(new org.springframework.context.support.ClassPathXmlApplicationContext("META-INF/tesb/agent-context.xml").getBean(org.talend.esb.sam.agent.feature.EventFeature.class));
-                    }
-<%
-                }
             }
             if (!useRegistry && !isProvider) {
 %>			

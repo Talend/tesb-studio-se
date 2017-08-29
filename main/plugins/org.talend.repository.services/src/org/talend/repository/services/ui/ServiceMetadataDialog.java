@@ -125,19 +125,17 @@ public class ServiceMetadataDialog extends HelpAvailableDialog {
         
         Group samSlGroup = new Group(container, SWT.NONE);        
         Button schemaValidationCheck = null ;
-        if(isStudioEEVersion()){
-        	schemaValidationCheck = new Button(samSlGroup, SWT.CHECK);
-            schemaValidationCheck.setText("Use WSDL Schema Validation");
-            schemaValidationCheck.setSelection(wsdlSchemaValidation);
-            schemaValidationCheck.setEnabled(!useServiceRegistry);        
-            schemaValidationCheck.addSelectionListener(new SelectionAdapter() {
-            	public void widgetSelected(SelectionEvent e) {
-            		wsdlSchemaValidation = ((Button)e.widget).getSelection();
+
+        schemaValidationCheck = new Button(samSlGroup, SWT.CHECK);
+        schemaValidationCheck.setText("Use WSDL Schema Validation");
+        schemaValidationCheck.setSelection(wsdlSchemaValidation);
+        schemaValidationCheck.setEnabled(!useServiceRegistry);        
+        schemaValidationCheck.addSelectionListener(new SelectionAdapter() {
+        	public void widgetSelected(SelectionEvent e) {
+        		wsdlSchemaValidation = ((Button)e.widget).getSelection();
             	}
             });
-        }else{
-        	wsdlSchemaValidation = false;
-        }
+
         final Button tmpSchemaValidationCheck = schemaValidationCheck;
         
         final Button correlationCheck = new Button(samSlGroup, SWT.CHECK);

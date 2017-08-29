@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.supervielle.com.ar/xsd/Integracion/Header-v1" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.supervielle.com.ar/xsd/Integracion/Header-v1">
+  <xsd:element name="Header" type="tns:InternalHeader"/>
+  <xsd:element name="soapHeaderReq" type="tns:SoapHeaderReq"/>
+  <xsd:element name="soapHeaderRes" type="tns:SoapHeaderRes"/>
+  <xsd:complexType name="Property">
+    <xsd:sequence>
+      <xsd:element name="key" type="xsd:string"/>
+      <xsd:element name="value" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MessageContext">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="property" type="tns:Property"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UsernameToken">
+    <xsd:sequence>
+      <xsd:element name="userName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="userToken" type="xsd:anyType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="EndpointReference"/>
+  <xsd:complexType name="Destination">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="name" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="namespace" type="xsd:anyURI"/>
+      <xsd:element minOccurs="0" name="operation" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="Classifications">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="classification" type="xsd:anyURI"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SessionContext">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="clientDescription" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="clientId">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="country" type="xsd:string"/>
+            <xsd:element name="idType" type="xsd:string"/>
+            <xsd:element name="id" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="session">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userName" type="xsd:string"/>
+            <xsd:element name="systemId" type="xsd:string"/>
+            <xsd:element name="canalID" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="id" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RequestData">
+    <xsd:sequence>
+      <xsd:element name="userContext" type="tns:UsernameToken"/>
+      <xsd:element name="serviceContext" type="tns:Destination"/>
+      <xsd:element name="sessionContext" type="tns:SessionContext"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ResponseData">
+    <xsd:sequence>
+      <xsd:element name="Status" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="Warnings">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Description" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="InternalHeader">
+    <xsd:sequence>
+      <xsd:element name="txID" type="xsd:string"/>
+      <xsd:element name="timestamp" type="xsd:dateTime"/>
+      <xsd:sequence>
+        <xsd:element name="requestData" type="tns:RequestData"/>
+        <xsd:element minOccurs="0" name="responseData" type="tns:ResponseData"/>
+      </xsd:sequence>
+      <xsd:element minOccurs="0" name="consumerReferences">
+        <xsd:complexType>
+          <xsd:complexContent>
+            <xsd:extension base="tns:EndpointReference">
+              <xsd:sequence maxOccurs="unbounded">
+                <xsd:element name="routeStack">
+                  <xsd:complexType>
+                    <xsd:sequence>
+                      <xsd:element name="address" type="xsd:anyURI"/>
+                      <xsd:element minOccurs="0" name="correlationId" type="xsd:hexBinary"/>
+                      <xsd:element minOccurs="0" name="messageId" type="xsd:hexBinary"/>
+                    </xsd:sequence>
+                  </xsd:complexType>
+                </xsd:element>
+              </xsd:sequence>
+            </xsd:extension>
+          </xsd:complexContent>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="messageContext" type="tns:MessageContext"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SoapHeaderReq">
+    <xsd:sequence>
+      <xsd:element name="sessionContext" type="tns:SessionContext"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SoapHeaderRes">
+    <xsd:sequence>
+      <xsd:element name="txId" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="sessionContext" type="tns:SessionContext"/>
+      <xsd:element minOccurs="0" name="ResponseData" type="tns:ResponseData"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

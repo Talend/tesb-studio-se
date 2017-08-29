@@ -144,11 +144,10 @@ if (inputConn != null) {
                 }
             } %>
 
-            java.util.Map<String, String> customProps_<%=cid%> = null;
-            <% if (useSAM) {
+            final java.util.Map<String, String> customProps_<%=cid%> = new java.util.HashMap<String, String>();
+            <% if ((useSAM) || (useSR)) {
                 List<Entry<String, String>> customProperties = paramsHelper.getPropertiesPram("__SERVICE_ACTIVITY_CUSTOM_PROPERTIES__");
                 if (!customProperties.isEmpty()) { %>
-                    customProps_<%=cid%> = new java.util.HashMap<String, String>();
                     <% for (Entry<String, String> prop : customProperties) { %>
                     customProps_<%=cid%>.put(<%=prop.getKey()%>, <%=prop.getValue()%>);
                     <% } %>
@@ -221,6 +220,7 @@ if (inputConn != null) {
                }
             }
             <%}%>
+            
             if (null == registry) {
                 GenericConsumer genericConsumer_<%=cid%> = new GenericConsumer();
                 genericConsumer_<%=cid%>.setServiceQName(serviceName_<%=cid%>);
@@ -242,23 +242,19 @@ if (inputConn != null) {
 
                 <% if (useSl) { %>
                     genericConsumer_<%=cid%>.setAddress("locator://");
-                    genericConsumer_<%=cid%>.setBus(new org.apache.cxf.bus.spring.SpringBusFactory().createBus("META-INF/tesb/locator/beans.xml"));
-                    org.talend.esb.servicelocator.cxf.LocatorFeature featureSL_<%=cid%> = new org.talend.esb.servicelocator.cxf.LocatorFeature();
-                    if (null != slCustomProps_<%=cid%> && !slCustomProps_<%=cid%>.isEmpty()) {
-                        featureSL_<%=cid%>.setRequiredEndpointProperties(slCustomProps_<%=cid%>);
-                    }
+					org.talend.esb.servicelocator.cxf.LocatorFeature featureSL_<%=cid%> = null;
+
+				    org.springframework.context.support.ClassPathXmlApplicationContext context_ = new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/locator/beans.xml" });
+				    featureSL_<%=cid%> = (org.talend.esb.servicelocator.cxf.LocatorFeature) context_.getBean(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
+			        
                     esbFeatures_<%=cid%>.add(featureSL_<%=cid%>);
                 <% } %>
                 <% if (useSAM) { %>
                     org.springframework.context.support.ClassPathXmlApplicationContext classpathXmlApplicationContext =
                             new org.springframework.context.support.ClassPathXmlApplicationContext("META-INF/tesb/agent-context.xml");
                     org.talend.esb.sam.agent.feature.EventFeature featureSAM_<%=cid%> = classpathXmlApplicationContext.getBean(org.talend.esb.sam.agent.feature.EventFeature.class);
-                    if (null != customProps_<%=cid%> && !customProps_<%=cid%>.isEmpty()) {
-                        org.talend.esb.sam.common.handler.impl.CustomInfoHandler ciHandler = new org.talend.esb.sam.common.handler.impl.CustomInfoHandler();
-                        ciHandler.setCustomInfo(customProps_<%=cid%>);
-                        featureSAM_<%=cid%>.setHandler(ciHandler);
-                    }
                     esbFeatures_<%=cid%>.add(featureSAM_<%=cid%>);
+                    genericConsumer_<%=cid%>.setSamCustomProperties(customProps_<%=cid%>);
                 <% } %>
                 <% if (useBusinessCorrelation) { %>
                     esbFeatures_<%=cid%>.add(new org.talend.esb.policy.correlation.feature.CorrelationIDFeature());
@@ -347,12 +343,16 @@ if (inputConn != null) {
                             <% if ((useSl) || (useSR)){ %>
                                 put("SL-PROPS", slCustomProps_<%=cid%>);
                             <% } %>
+                            
+                            <% if ((useSAM) || (useSR)){ %>
+                                put("SAM-PROPS", customProps_<%=cid%>);
+                            <% } %>
 
                             // use Service Activity Monitor
                             put("useServiceActivityMonitor", <%=useSAM%>);
 			    
-			    // use Service Registry
-			    put("useServiceRegistry", <%=useSR%>);
+						    // use Service Registry
+						    put("useServiceRegistry", <%=useSR%>);
 
                             boolean use_auth_<%=cid%> = <%=useAuth%>;
                             if (use_auth_<%=cid%> || <%=useSR%>) {
@@ -414,7 +414,7 @@ if (inputConn != null) {
                     }
                 );
 
-                Object request_<%=cid%> = wrapPayload(requestTalendDoc_<%=cid%>.getDocument(), customProps_<%=cid%>);
+                Object request_<%=cid%> = wrapPayload(requestTalendDoc_<%=cid%>.getDocument());
                 Object consumerResponse_<%=cid%> = consumer_<%=cid%>.invoke(request_<%=cid%>);
                 if (null == consumerResponse_<%=cid%>) {
                     // one way call

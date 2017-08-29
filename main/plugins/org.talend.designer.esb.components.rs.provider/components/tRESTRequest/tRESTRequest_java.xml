@@ -147,7 +147,7 @@
 		</PARAMETER>
 		<!-- https://jira.talendforge.org/browse/TESB-9098 (SERVICE_ACTIVITY_MONITOR == 'true') -->
 		<PARAMETER NAME="SERVICE_ACTIVITY_MONITOR_CUSTOM_PROPERTIES" FIELD="TABLE" NUM_ROW="45"
-				REQUIRED="false" NB_LINES="5" SHOW_IF="false">
+				REQUIRED="false" NB_LINES="5" SHOW_IF="SERVICE_ACTIVITY_MONITOR == 'true'">
 			<ITEMS>
 				<ITEM NAME="PROP_NAME" FIELD="TEXT" VALUE='"new custom property name"'/>
 				<ITEM NAME="PROP_VALUE" FIELD="TEXT" VALUE='"new custom property value"'/>

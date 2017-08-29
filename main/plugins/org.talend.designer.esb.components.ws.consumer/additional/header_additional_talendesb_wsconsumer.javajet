@@ -78,6 +78,8 @@ if (actAsConsumer) {
         private java.util.Collection<org.apache.cxf.headers.Header> soapHeaders;
 
         private Object correlationIDCallbackHandler;
+        
+        private java.util.Map<String, String> samCustomProperties;
 
         private String correlationID;
         
@@ -188,6 +190,10 @@ if (actAsConsumer) {
         public void setCorrelationIDCallbackHandler(Object correlationIDCallbackHandler) {
             this.correlationIDCallbackHandler = correlationIDCallbackHandler;
         }
+        
+        public void setSamCustomProperties(java.util.Map<String, String> samCustomProperties){
+        	this.samCustomProperties = samCustomProperties;
+        }
 
         public String getCorrelationID() {
             return correlationID;
@@ -251,6 +257,10 @@ if (actAsConsumer) {
             if (null != correlationIDCallbackHandler) {
                 clientFactory.getProperties(true).put("correlation-id.callback-handler", correlationIDCallbackHandler);
             }
+           	if(null != samCustomProperties){
+           		clientFactory.getProperties(true).put("SAM-PROPS", samCustomProperties);
+           		clientFactory.getProperties(true).put("esb.sam.properties", samCustomProperties);
+           	}
 
             org.apache.cxf.endpoint.Client client = clientFactory.create();
 
@@ -558,12 +568,9 @@ if (actAsConsumer) {
 <% } // end if (actAsConsumer) %>
 
 <% if (actAsProvider || actAsConsumer) {%>
-    private Object wrapPayload(Object payload, Object customProperties) {
+    private Object wrapPayload(Object payload) {
         java.util.Map<String, Object> outputWrapped = new java.util.HashMap<String, Object>();
         outputWrapped.put("PAYLOAD", payload);
-        if (null != customProperties) {
-            outputWrapped.put("SAM-PROPS", customProperties);
-        }
         return outputWrapped;
     }
 <% } %>

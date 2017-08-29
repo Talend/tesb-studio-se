@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaUsuariosHBE-v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaUsuariosHBE-v1" xmlns:ns1="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1">
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" schemaLocation="cliente-v1_1_2_3.xsd"/>
+  <xsd:complexType name="DataConsultaUsuariosHBEReqType">
+    <xsd:sequence>
+      <xsd:element name="identificador" type="ns1:IdClienteType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DataConsultaUsuariosHBERespType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Row">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="linea">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="identificador" type="ns1:IdClienteType"/>
+                  <xsd:element name="usuarios">
+                    <xsd:complexType>
+                      <xsd:sequence>
+                        <xsd:element maxOccurs="unbounded" minOccurs="0" name="usuario">
+                          <xsd:complexType>
+                            <xsd:sequence>
+                              <xsd:element name="userID" type="xsd:decimal"/>
+                              <xsd:element name="tipoDocumento" type="xsd:decimal"/>
+                              <xsd:element name="numeroDocumento" type="xsd:decimal"/>
+                              <xsd:element name="nombre" type="xsd:string"/>
+                              <xsd:element name="apellido" type="xsd:string"/>
+                              <xsd:element name="fechaCreacion" type="xsd:dateTime"/>
+                            </xsd:sequence>
+                          </xsd:complexType>
+                        </xsd:element>
+                      </xsd:sequence>
+                    </xsd:complexType>
+                  </xsd:element>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="ReqConsultaUsuariosHBE">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Data" type="DataConsultaUsuariosHBEReqType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="RespConsultaUsuariosHBE">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Data" type="DataConsultaUsuariosHBERespType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

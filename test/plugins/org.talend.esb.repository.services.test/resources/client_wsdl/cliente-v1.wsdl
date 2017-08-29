@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:ns="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexNom-v1" xmlns:ns1="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" xmlns:ns10="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosDomicilio-v1" xmlns:ns11="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaInfInpositiva-v1" xmlns:ns12="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDocIdentificacion-v1" xmlns:ns13="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaExtensionPersona-v1" xmlns:ns14="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersonaJuridica-v1" xmlns:ns15="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexDoc-v1.1" xmlns:ns16="http://www.supervielle.com.ar/xsd/Integracion/cliente/consolidarCliente-v1" xmlns:ns17="http://www.supervielle.com.ar/xsd/Integracion/cliente/altaPersona-v1" xmlns:ns18="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaPersonasxCuenta-v1" xmlns:ns19="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaPersonasxCuenta" xmlns:ns2="http://www.supervielle.com.ar/xsd/Integracion/Header-v1" xmlns:ns20="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaPersonaxDoc-v1" xmlns:ns21="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaUsuariosHBE-v1" xmlns:ns22="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaPagoSueldoPersonaJuridica-v1" xmlns:ns23="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaConvenios-v1" xmlns:ns24="http://www.supervielle.com.ar/xsd/Integracion/transacciones/consultatransacciones-v1" xmlns:ns25="http://www.supervielle.com.ar/xsd/Integracion/cliente/actualizacionModular-v1" xmlns:ns26="http://www.supervielle.com.ar/xsd/Integracion/cliente/consolidarCliente-v1.1" xmlns:ns27="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersona-v1.1" xmlns:ns3="http://www.supervielle.com.ar/xsd/servicios/integracion/exception-v1" xmlns:ns4="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexDoc-v1" xmlns:ns5="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersona-v1" xmlns:ns6="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosAdicionales-v1" xmlns:ns7="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersonaFisica-v1" xmlns:ns8="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexCuenta-v1" xmlns:ns9="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosAdicionales-v1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+    
+  </wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns18="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaPersonasxCuenta" xmlns:ns19="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaPersonasxCuenta-v1" xmlns:ns20="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaPersonasxCuenta" xmlns:ns21="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaPersonaxDoc-v1" xmlns:ns22="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaUsuariosHBE-v1" xmlns:ns23="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaPagoSueldoPersonaJuridica-v1" xmlns:ns24="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaConvenios-v1" xmlns:ns25="http://www.supervielle.com.ar/xsd/Integracion/transacciones/consultatransacciones-v1" xmlns:ns26="http://www.supervielle.com.ar/xsd/Integracion/cliente/actulizacionModular-v1" xmlns:ns27="http://www.supervielle.com.ar/xsd/Integracion/cliente/actualizacionModular-v1" xmlns:ns28="http://www.supervielle.com.ar/xsd/Integracion/cliente/consolidarCliente-v1.1" xmlns:ns29="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersona-v1.1">
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/Header-v1" schemaLocation="cliente-v1.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/servicios/integracion/exception-v1" schemaLocation="cliente-v1_1.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexNom-v1" schemaLocation="cliente-v1_1_2.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexDoc-v1" schemaLocation="cliente-v1_1_2_3_4.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersona-v1" schemaLocation="cliente-v1_1_2_3_4_5.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersonaFisica-v1" schemaLocation="cliente-v1_1_2_3_4_5_6.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosAdicionales-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexCuenta-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosDomicilio-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaInfInpositiva-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDocIdentificacion-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaExtensionPersona-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersonaJuridica-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexDoc-v1.1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/altaPersona-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaPersonasxCuenta" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaPersonaxDoc-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaUsuariosHBE-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaConvenios-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaPagoSueldoPersonaJuridica-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/transacciones/consultatransacciones-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/actualizacionModular-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consolidarCliente-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consolidarCliente-v1.1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24.xsd"/>
+      <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersona-v1.1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22_23_24_25.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="FaultMessage">
+    <wsdl:part element="ns3:exception" name="exception"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaClientexNombre">
+    <wsdl:part element="ns:ReqConsultaClientexNom" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaClientexNombre">
+    <wsdl:part element="ns:RespConsultaClientexNom" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaClientexDoc">
+    <wsdl:part element="ns4:ReqConsultaClientexDoc" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaClientexDoc">
+    <wsdl:part element="ns4:RespConsultaClientexDoc" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaDatosPersona">
+    <wsdl:part element="ns5:ReqConsultaDatosPersona" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaDatosPersona">
+    <wsdl:part element="ns5:RespConsultaDatosPersona" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaDatosPersonaFisica">
+    <wsdl:part element="ns7:ReqConsultaDatosPersonaFisica" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaDatosPersonaFisica">
+    <wsdl:part element="ns7:RespConsultaDatosPersonaFisica" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaDatosAdicionales">
+    <wsdl:part element="ns6:ReqConsultaDatosAdicionales" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaDatosAdicionales">
+    <wsdl:part element="ns6:RespConsultaDatosAdicionales" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaClientexCuenta">
+    <wsdl:part element="ns8:ReqConsultaClientexCuenta" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaClientexCuenta">
+    <wsdl:part element="ns8:RespConsultaClientexCuenta" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaDatosDomicilio">
+    <wsdl:part element="ns10:ReqConsultaDatosDomicilio" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaDatosDomicilio">
+    <wsdl:part element="ns10:RespConsultaDatosDomicilio" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaDatosInfImpositiva">
+    <wsdl:part element="ns11:RespConsultaDatosInfInpositiva" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaDatosInfImpositiva">
+    <wsdl:part element="ns11:ReqConsultaDatosInfInpositiva" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaDocIdent">
+    <wsdl:part element="ns12:ReqConsultaDocIdent" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaDocIdent">
+    <wsdl:part element="ns12:RespConsultaDocIdent" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaExtPer">
+    <wsdl:part element="ns13:ReqConsultaExtPer" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaExtPe">
+    <wsdl:part element="ns13:RespConsultaExtPer" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaDatosPersonaJuridica">
+    <wsdl:part element="ns14:ReqConsultaDatosPerJur" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaDatosPersonaJuridica">
+    <wsdl:part element="ns14:RespConsultaDatosPerJur" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaClientexDoc_v1.1">
+    <wsdl:part element="ns15:ReqConsultaClientexDoc" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaClientexDoc_v1.1">
+    <wsdl:part element="ns15:RespConsultaClientexDoc" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsolidarCliente">
+    <wsdl:part element="ns16:ReqConsolidarCliente" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsolidarCliente">
+    <wsdl:part element="ns16:RespConsolidarCliente" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqAltaPersona">
+    <wsdl:part element="ns17:ReqAltaPersona" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespAltaPersona">
+    <wsdl:part element="ns17:RespAltaPersona" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaPersonasxCuenta">
+    <wsdl:part element="ns19:ReqConsultaPersonasxCuenta" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaPersonasxCuenta">
+    <wsdl:part element="ns19:RespConsultaPersonasxCuenta" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaPersonaxDoc">
+    <wsdl:part element="ns20:ReqConsultaPersonaxDoc" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaPersonaxDoc">
+    <wsdl:part element="ns20:RespConsultaPersonaxDoc" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaUsuariosHBE">
+    <wsdl:part element="ns21:ReqConsultaUsuariosHBE" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaUsuariosHBE">
+    <wsdl:part element="ns21:RespConsultaUsuariosHBE" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaConvenios">
+    <wsdl:part element="ns23:ReqConsultaConvenios" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaConvenios">
+    <wsdl:part element="ns23:RespConsultaConvenios" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaPagoSueldoPersonaJuridica">
+    <wsdl:part element="ns22:ReqConsultaPagoSueldoPersonaJuridica" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaPagoSueldoPersonaJuridica">
+    <wsdl:part element="ns22:RespConsultaPagoSueldoPersonaJuridica" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsultaTransacciones">
+    <wsdl:part element="ns24:ReqConsultaTransacciones" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaTransacciones">
+    <wsdl:part element="ns24:RespConsultaTransacciones" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqActualizacionModular">
+    <wsdl:part element="ns25:ReqActualizacionModular" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespActualizacionModular">
+    <wsdl:part element="ns25:RespActualizacionModular" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="ReqConsolidarCliente_v1.1">
+    <wsdl:part element="ns26:ReqConsolidarCliente" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsolidarCliente_v1.1">
+    <wsdl:part element="ns26:RespConsolidarCliente" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="NewMessage"/>
+  <wsdl:message name="faultMessage"/>
+  <wsdl:message name="ReqConsultaDatosPersona_v1.1">
+    <wsdl:part element="ns27:ReqConsultaDatosPersona" name="entrada"/>
+    <wsdl:part element="ns2:soapHeaderReq" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="RespConsultaDatosPersona_v1.1">
+    <wsdl:part element="ns27:RespConsultaDatosPersona" name="salida"/>
+    <wsdl:part element="ns2:soapHeaderRes" name="header"/>
+  </wsdl:message>
+  <wsdl:message name="NewMessage2"/>
+  <wsdl:portType name="ClientePortType_v1">
+    <wsdl:operation name="consultaClientexNombre">
+      <wsdl:input message="tns:ReqConsultaClientexNombre"/>
+      <wsdl:output message="tns:RespConsultaClientexNombre"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaClientexDoc">
+      <wsdl:input message="tns:ReqConsultaClientexDoc"/>
+      <wsdl:output message="tns:RespConsultaClientexDoc"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosPersona">
+      <wsdl:input message="tns:ReqConsultaDatosPersona"/>
+      <wsdl:output message="tns:RespConsultaDatosPersona"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosPersonaFisica">
+      <wsdl:input message="tns:ReqConsultaDatosPersonaFisica"/>
+      <wsdl:output message="tns:RespConsultaDatosPersonaFisica"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosAdicionales">
+      <wsdl:input message="tns:ReqConsultaDatosAdicionales"/>
+      <wsdl:output message="tns:RespConsultaDatosAdicionales"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaClientexCuenta">
+      <wsdl:input message="tns:ReqConsultaClientexCuenta"/>
+      <wsdl:output message="tns:RespConsultaClientexCuenta"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosDomicilio">
+      <wsdl:input message="tns:ReqConsultaDatosDomicilio"/>
+      <wsdl:output message="tns:RespConsultaDatosDomicilio"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosInfImpositiva">
+      <wsdl:input message="tns:ReqConsultaDatosInfImpositiva"/>
+      <wsdl:output message="tns:RespConsultaDatosInfImpositiva"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosDocIdentificacion">
+      <wsdl:input message="tns:ReqConsultaDocIdent"/>
+      <wsdl:output message="tns:RespConsultaDocIdent"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaExtensionPersona">
+      <wsdl:input message="tns:ReqConsultaExtPer"/>
+      <wsdl:output message="tns:RespConsultaExtPe"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosPersonaJuridica">
+      <wsdl:input message="tns:ReqConsultaDatosPersonaJuridica"/>
+      <wsdl:output message="tns:RespConsultaDatosPersonaJuridica"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consolidarCliente">
+      <wsdl:input message="tns:ReqConsolidarCliente"/>
+      <wsdl:output message="tns:RespConsolidarCliente"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="altaPersona">
+      <wsdl:input message="tns:ReqAltaPersona"/>
+      <wsdl:output message="tns:RespAltaPersona"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaPersonasxCuenta">
+      <wsdl:input message="tns:ReqConsultaPersonasxCuenta"/>
+      <wsdl:output message="tns:RespConsultaPersonasxCuenta"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaPersonaxDoc">
+      <wsdl:input message="tns:ReqConsultaPersonaxDoc"/>
+      <wsdl:output message="tns:RespConsultaPersonaxDoc"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaUsuariosHBE">
+      <wsdl:input message="tns:ReqConsultaUsuariosHBE"/>
+      <wsdl:output message="tns:RespConsultaUsuariosHBE"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaConvenios">
+      <wsdl:input message="tns:ReqConsultaConvenios"/>
+      <wsdl:output message="tns:RespConsultaConvenios"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaPagoSueldoPersonaJuridica">
+      <wsdl:input message="tns:ReqConsultaPagoSueldoPersonaJuridica"/>
+      <wsdl:output message="tns:RespConsultaPagoSueldoPersonaJuridica"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaTransacciones">
+      <wsdl:input message="tns:ReqConsultaTransacciones"/>
+      <wsdl:output message="tns:RespConsultaTransacciones"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="actualizacionModular">
+      <wsdl:input message="tns:ReqActualizacionModular"/>
+      <wsdl:output message="tns:RespActualizacionModular"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ClientePortType_v1.1">
+    <wsdl:operation name="consultaClientexDoc">
+      <wsdl:input message="tns:ReqConsultaClientexDoc_v1.1"/>
+      <wsdl:output message="tns:RespConsultaClientexDoc_v1.1"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consolidarCliente">
+      <wsdl:input message="tns:ReqConsolidarCliente_v1.1"/>
+      <wsdl:output message="tns:RespConsolidarCliente_v1.1"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosPersona">
+      <wsdl:input message="tns:ReqConsultaDatosPersona_v1.1"/>
+      <wsdl:output message="tns:RespConsultaDatosPersona_v1.1"/>
+      <wsdl:fault message="tns:FaultMessage" name="soaException"/>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

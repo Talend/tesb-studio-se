@@ -314,7 +314,7 @@ public class RunContainerPreferencePage extends FieldLayoutPreferencePage implem
                     totalMonitor.done();
                 }
             });
-        } catch (Throwable e) {
+        } catch (Exception e) {
             finished = false;
             ExceptionHandler.process(e);
             IStatus status = new Status(IStatus.ERROR, ESBRunContainerPlugin.PLUGIN_ID, e.getMessage(), e);

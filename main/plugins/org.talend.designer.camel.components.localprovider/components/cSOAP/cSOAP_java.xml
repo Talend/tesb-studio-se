@@ -282,6 +282,9 @@
             <IMPORT MODULE_GROUP="locator"
                     REQUIRED_IF="(ENABLE_SL == 'true') OR ((ENABLE_REGISTRY == 'true') AND (IS_STUDIO_EE_VERSION == 'true') AND ((DATAFORMAT == 'POJO') OR ( DATAFORMAT == 'PAYLOAD')))" />
 
+            <IMPORT MODULE_GROUP="sam-agent"
+                    REQUIRED_IF="ENABLE_SAM == 'true'" />
+
             <IMPORT MODULE_GROUP="correlationid-policy"
                     REQUIRED_IF="(ENABLE_CORRELATION == 'true') OR ((IS_STUDIO_EE_VERSION == 'true') AND (ENABLE_REGISTRY == 'true'))" />
 

@@ -268,7 +268,7 @@
 		</PARAMETER>
 		<PARAMETER NAME="SERVICE_ACTIVITY_CUSTOM_PROPERTIES" FIELD="TABLE" NUM_ROW="30"
 				REQUIRED="false" NB_LINES="5"
-				SHOW_IF="SERVICE_ACTIVITY_MONITOR == 'true'">
+				SHOW_IF="((SERVICE_ACTIVITY_MONITOR == 'true') OR (USE_SR == 'true') )">
 			<ITEMS>
 				<ITEM NAME="PROP_NAME" FIELD="TEXT" VALUE='"new custom property name"'/>
 				<ITEM NAME="PROP_VALUE" FIELD="TEXT" VALUE='"new custom property value"'/>

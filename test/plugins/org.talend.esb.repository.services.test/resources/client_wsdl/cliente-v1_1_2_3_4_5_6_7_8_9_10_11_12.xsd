@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaExtensionPersona-v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" xmlns:tns="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaExtensionPersona-v1">
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" schemaLocation="cliente-v1_1_2_3.xsd"/>
+  <xsd:element name="ReqConsultaExtPer">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" ref="ns1:Paging"/>
+        <xsd:element minOccurs="0" ref="ns1:Order"/>
+        <xsd:element name="Data" type="tns:DataConsultaExtPerReqType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="RespConsultaExtPer">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" ref="ns1:Paging"/>
+        <xsd:element name="Data" type="tns:DataConsultaExtPerRespType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="DataConsultaExtPerReqType">
+    <xsd:sequence>
+      <xsd:element name="identificador" type="ns1:IdClienteType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DataConsultaExtPerRespType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="Row">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="estyFormacion">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element name="actLaboral">
+                    <xsd:complexType>
+                      <xsd:sequence>
+                        <xsd:element name="actividad" type="ns1:codDescStringType"/>
+                        <xsd:element name="fechaInicio" type="xsd:date"/>
+                        <xsd:element name="fechaIngreso" type="xsd:date"/>
+                      </xsd:sequence>
+                    </xsd:complexType>
+                  </xsd:element>
+                  <xsd:element name="profesion" type="ns1:codDescStringType"/>
+                  <xsd:element name="nivelInstr" type="ns1:codDescStringType"/>
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="nomPadre" type="xsd:string"/>
+            <xsd:element name="apePadre" type="xsd:string"/>
+            <xsd:element name="nomMadre" type="xsd:string"/>
+            <xsd:element name="apeMadre" type="xsd:string"/>
+            <xsd:element name="nomConyugue" type="xsd:string"/>
+            <xsd:element name="apeConyugue" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

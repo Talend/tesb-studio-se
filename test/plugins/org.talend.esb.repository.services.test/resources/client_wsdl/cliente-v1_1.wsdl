@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:ns="http://www.supervielle.com.ar/xsd/Integracion/Header-v1" xmlns:ns1="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexCuenta-v1" xmlns:ns10="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaInfInpositiva-v1" xmlns:ns11="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" xmlns:ns12="http://www.supervielle.com.ar/xsd/servicios/integracion/exception-v1" xmlns:ns13="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersonaJuridica-v1" xmlns:ns14="http://www.supervielle.com.ar/xsd/Integracion/transacciones/consultatransacciones-v1" xmlns:ns2="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexDoc-v1" xmlns:ns3="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexNom-v1" xmlns:ns4="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosAdicionales-v1" xmlns:ns5="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosDomicilio-v1" xmlns:ns6="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersona-v1" xmlns:ns7="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersonaFisica-v1" xmlns:ns8="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDocIdentificacionv1" xmlns:ns9="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaExtensionPersona-v1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <wsdl:documentation>
+  </wsdl:documentation>
+  <wsdl:import location="cliente-v1.wsdl" namespace="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1"/>
+  <wsdl:types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://new.webservice.namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </wsdl:types>
+  <wsdl:binding name="ClienteBinding" type="tns:ClientePortType_v1">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="consultaDatosPersonaJuridica">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente/consultaDatosPersonaJuridica"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaDatosPersonaJuridica" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaDatosPersonaJuridica" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaExtensionPersona">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaEstudioyFormacion"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaExtPer" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaExtPe" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosDocIdentificacion">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaDatosDocIdentificacion"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaDocIdent" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaDocIdent" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosInfImpositiva">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaDatosInfImpositiva"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaDatosInfImpositiva" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaDatosInfImpositiva" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosDomicilio">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaDatosDomicilio"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaDatosDomicilio" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaDatosDomicilio" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaClientexCuenta">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaClientexCuenta"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaClientexCuenta" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaClientexCuenta" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosAdicionales">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaDatosAdicionales"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaDatosAdicionales" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaDatosAdicionales" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosPersonaFisica">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaDatosPersonaFisica"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaDatosPersonaFisica" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaDatosPersonaFisica" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosPersona">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaDatosPersona"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaDatosPersona" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaDatosPersona" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaClientexDoc">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaClientexDoc"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaClientexDoc" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaClientexDoc" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaClientexNombre">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaClientexNom"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaClientexNombre" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaClientexNombre" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consolidarCliente">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consolidarCliente"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsolidarCliente" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsolidarCliente" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="altaPersona">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/altaPersona"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqAltaPersona" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespAltaPersona" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaPersonasxCuenta">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaPersonasxCuenta"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaPersonasxCuenta" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaPersonasxCuenta" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaPersonaxDoc">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaPersonaxDoc"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaPersonaxDoc" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaPersonaxDoc" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaUsuariosHBE">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaUsuariosHBE"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaUsuariosHBE" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaUsuariosHBE" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaConvenios">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaConvenios"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaConvenios" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaConvenios" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaPagoSueldoPersonaJuridica">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaPagoSueldoPersonaJuridica"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaPagoSueldoPersonaJuridica" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaPagoSueldoPersonaJuridica" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaTransacciones">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultatransacciones-v1"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaTransacciones" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaTransacciones" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="actualizacionModular">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/actualizacionModular-v1"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqActualizacionModular" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespActualizacionModular" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ClienteBinding_v1" type="tns:ClientePortType_v1.1">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="consultaClientexDoc">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaClientexDoc"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaClientexDoc_v1.1" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaClientexDoc_v1.1" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consolidarCliente">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consolidarCliente"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsolidarCliente_v1.1" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsolidarCliente_v1.1" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="consultaDatosPersona">
+      <soap:operation soapAction="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaDatosPersona"/>
+      <wsdl:input>
+        <soap:body parts="entrada" use="literal"/>
+        <soap:header message="tns:ReqConsultaDatosPersona_v1.1" part="header" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="salida" use="literal"/>
+        <soap:header message="tns:RespConsultaDatosPersona_v1.1" part="header" use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="soaException">
+        <soap:fault name="soaException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Cliente">
+    <wsdl:port binding="tns:ClienteBinding" name="ClienteSvc">
+      <soap:address location="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1"/>
+    </wsdl:port>
+    <wsdl:port binding="tns:ClienteBinding_v1" name="ClienteSvc_v1">
+      <soap:address location="http://dasoa-01:9800/wsdl/servicios/integracion/cliente-v1.1"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -27,12 +27,7 @@
 	<bean id="route" class="${className}">
         <!--osgix:managed-properties persistent-id="${name}" update-strategy="bean-managed" update-method="setArguments" /-->
 		<property name="arguments" ref="${name}.properties" />
-		<!-- ESB Features For CXF -->
-#if ($useSAM)
-		<property name="eventFeature">
-			<osgi:reference interface="org.talend.esb.sam.agent.feature.EventFeature" />
-		</property>
-#end
+		
 #if ($hasCXFComponent && ($hasCXFUsernameToken || $hasCXFSamlConsumer || $hasCXFSamlProvider))
 #[[
         <property name="policyProvider">

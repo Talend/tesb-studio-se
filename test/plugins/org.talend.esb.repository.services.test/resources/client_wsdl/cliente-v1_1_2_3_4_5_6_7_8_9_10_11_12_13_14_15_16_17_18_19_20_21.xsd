@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.supervielle.com.ar/xsd/Integracion/transacciones/consultatransacciones-v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.supervielle.com.ar/xsd/Integracion/transacciones/consultatransacciones-v1" xmlns:ns1="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" xmlns:ns10="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaInfInpositiva-v1" xmlns:ns11="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaExtensionPersona-v1" xmlns:ns12="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDocIdentificacion-v1" xmlns:ns13="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexDoc-v1.1" xmlns:ns14="http://www.supervielle.com.ar/xsd/Integracion/cliente/consolidarCliente-v1" xmlns:ns15="http://www.supervielle.com.ar/xsd/Integracion/cliente/altaPersona-v1" xmlns:ns16="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaPersonasxCuenta-v1" xmlns:ns17="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaPersonasxCuenta" xmlns:ns18="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaPersonaxDoc-v1" xmlns:ns19="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaUsuariosHBE-v1" xmlns:ns20="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaPagoSueldoPersonaJuridica-v1" xmlns:ns21="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaConvenios-v1" xmlns:ns3="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexDoc-v1" xmlns:ns30="http://www.supervielle.com.ar/xsd/servicios/integracion/exception-v1" xmlns:ns4="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexNom-v1" xmlns:ns5="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersona-v1" xmlns:ns6="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosAdicionales-v1" xmlns:ns7="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersonaFisica-v1" xmlns:ns8="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexCuenta-v1" xmlns:ns9="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosDomicilio-v1">
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/common/commonTypes-v1" schemaLocation="cliente-v1_1_2_3.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/Header-v1" schemaLocation="cliente-v1.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/servicios/integracion/exception-v1" schemaLocation="cliente-v1_1.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexCuenta-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexDoc-v1" schemaLocation="cliente-v1_1_2_3_4.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexNom-v1" schemaLocation="cliente-v1_1_2.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersona-v1" schemaLocation="cliente-v1_1_2_3_4_5.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosAdicionales-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosPersonaFisica-v1" schemaLocation="cliente-v1_1_2_3_4_5_6.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDatosDomicilio-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaInfInpositiva-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaDocIdentificacion-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaClientexDoc-v1.1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consolidarCliente-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20_21_22.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/altaPersona-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaExtensionPersona-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/wsdl/servicios/integracion/cliente-v1/consultaPersonasxCuenta" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaPersonaxDoc-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/consultaUsuariosHBE-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaConvenios-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19.xsd"/>
+  <xsd:import namespace="http://www.supervielle.com.ar/xsd/Integracion/cliente/ConsultaPagoSueldoPersonaJuridica-v1" schemaLocation="cliente-v1_1_2_3_4_5_6_7_8_9_10_11_12_13_14_15_16_17_18_19_20.xsd"/>
+  <xsd:complexType name="DataConsultaTransaccionesReqType">
+    <xsd:sequence>
+      <xsd:element name="identificador">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" name="txID" nillable="false" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="source" nillable="true" type="xsd:string"/>
+            <xsd:element minOccurs="1" name="servicio" nillable="false" type="xsd:string"/>
+            <xsd:element minOccurs="1" name="operacion" nillable="false" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DataConsultaTransaccionesRespType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="Row">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="respuesta">
+              <xsd:complexType>
+                <xsd:choice>
+                  <xsd:element ref="ns3:ReqConsultaClientexDoc"/>
+                  <xsd:element ref="ns3:RespConsultaClientexDoc"/>
+                  <xsd:element ref="ns4:ReqConsultaClientexNom"/>
+                  <xsd:element ref="ns4:RespConsultaClientexNom"/>
+                  <xsd:element ref="ns5:ReqConsultaDatosPersona"/>
+                  <xsd:element ref="ns5:RespConsultaDatosPersona"/>
+                  <xsd:element ref="ns6:ReqConsultaDatosAdicionales"/>
+                  <xsd:element ref="ns6:RespConsultaDatosAdicionales"/>
+                  <xsd:element ref="ns7:ReqConsultaDatosPersonaFisica"/>
+                  <xsd:element ref="ns7:RespConsultaDatosPersonaFisica"/>
+                  <xsd:element ref="ns8:ReqConsultaClientexCuenta"/>
+                  <xsd:element ref="ns8:RespConsultaClientexCuenta"/>
+                  <xsd:element ref="ns9:ReqConsultaDatosDomicilio"/>
+                  <xsd:element ref="ns9:RespConsultaDatosDomicilio"/>
+                  <xsd:element ref="ns10:ReqConsultaDatosInfInpositiva"/>
+                  <xsd:element ref="ns10:RespConsultaDatosInfInpositiva"/>
+                  <xsd:element ref="ns11:ReqConsultaExtPer"/>
+                  <xsd:element ref="ns11:RespConsultaExtPer"/>
+                  <xsd:element ref="ns12:ReqConsultaDocIdent"/>
+                  <xsd:element ref="ns12:RespConsultaDocIdent"/>
+                  <xsd:element ref="ns13:ReqConsultaClientexDoc"/>
+                  <xsd:element ref="ns13:RespConsultaClientexDoc"/>
+                  <xsd:element ref="ns14:ReqConsolidarCliente"/>
+                  <xsd:element ref="ns14:RespConsolidarCliente"/>
+                  <xsd:element ref="ns15:ReqAltaPersona"/>
+                  <xsd:element ref="ns15:RespAltaPersona"/>
+                  <xsd:element ref="ns17:ReqConsultaPersonasxCuenta"/>
+                  <xsd:element ref="ns17:RespConsultaPersonasxCuenta"/>
+                  <xsd:element ref="ns18:ReqConsultaPersonaxDoc"/>
+                  <xsd:element ref="ns18:RespConsultaPersonaxDoc"/>
+                  <xsd:element ref="ns19:ReqConsultaUsuariosHBE"/>
+                  <xsd:element ref="ns19:RespConsultaUsuariosHBE"/>
+                  <xsd:element ref="ns20:ReqConsultaPagoSueldoPersonaJuridica"/>
+                  <xsd:element ref="ns20:RespConsultaPagoSueldoPersonaJuridica"/>
+                  <xsd:element ref="ns21:ReqConsultaConvenios"/>
+                  <xsd:element ref="ns21:RespConsultaConvenios"/>
+                  <xsd:element ref="ns30:exception"/>
+                </xsd:choice>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="ReqConsultaTransacciones">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Data" type="DataConsultaTransaccionesReqType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="RespConsultaTransacciones">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Data" type="DataConsultaTransaccionesRespType"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

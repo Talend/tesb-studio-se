@@ -32,8 +32,18 @@ public class RuntimeErrorDialog extends ErrorDialog {
     }
 
     public static int openError(Shell parentShell, String title, String message, IStatus status, int displayMask) {
-        ErrorDialog dialog = new RuntimeErrorDialog(parentShell, title, message, status, displayMask);
+        RuntimeErrorDialog dialog = new RuntimeErrorDialog(parentShell, title, message, status, displayMask);
         return dialog.open();
+    }
+
+    @Override
+    public int open() {
+        // patch for swtbot test
+        boolean mode = ErrorDialog.AUTOMATED_MODE;
+        ErrorDialog.AUTOMATED_MODE = false;
+        int code = super.open();
+        ErrorDialog.AUTOMATED_MODE = mode;
+        return code;
     }
 
     /*

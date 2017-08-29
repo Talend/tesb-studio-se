@@ -401,7 +401,7 @@ public class ESBProviderCallbackTalendJobWrapper_<%=cid%> implements ESBProvider
 		if (esbProviderCallback instanceof QueuedMessageHandlerImpl) {
 			return output;
 		}
-		return wrapPayload(output, customProperty);
+		return wrapPayload(output);
 	}
 }
 

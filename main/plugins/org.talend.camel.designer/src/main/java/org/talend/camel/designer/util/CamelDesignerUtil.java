@@ -23,7 +23,7 @@ public class CamelDesignerUtil {
 	}
 		
 	public static boolean checkRouteInputExistInJob(ProcessItem pi) {
-		if(pi == null){
+        if (pi == null || pi.getProcess() == null) {
 			return false;
 		}
 		EList<?> nodes = pi.getProcess().getNode();

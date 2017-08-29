@@ -140,19 +140,31 @@ try {
 			<%=paramsHelper.getStringParam("__SERVICE_NAMESPACE__")%>,
 			<%=paramsHelper.getStringParam("__SERVICE_NAME__")%>));
 
-		if (!inOSGi) {
-			factoryBean_<%=cid%>.setBus(new org.apache.cxf.bus.spring.SpringBusFactory().createBus("META-INF/tesb/locator/beans.xml"));
-		}
-
-		org.talend.esb.servicelocator.cxf.LocatorFeature feature_<%=cid%> =
-				new org.talend.esb.servicelocator.cxf.LocatorFeature();
-		<% List<Entry<String, String>> customProperties = paramsHelper.getPropertiesPram("__SERVICE_LOCATOR_CUSTOM_PROPERTIES__");
+		//if (!inOSGi) {
+		//	factoryBean_<%=cid%>.setBus(new org.apache.cxf.bus.spring.SpringBusFactory().createBus("META-INF/tesb/locator/beans.xml"));
+		//}
+		
+		org.talend.esb.servicelocator.cxf.LocatorFeature feature_<%=cid%> = null;
+		
+		if(!inOSGi){
+	    	feature_<%=cid%> = (org.talend.esb.servicelocator.cxf.LocatorFeature) new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/locator/beans.xml" }).getBean(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
+        }else{  
+            org.osgi.framework.BundleContext context = factoryBean_<%=cid%>.getBus().getExtension(org.osgi.framework.BundleContext.class);
+			org.osgi.framework.ServiceReference<org.talend.esb.servicelocator.cxf.LocatorFeature> serviceRef = (org.osgi.framework.ServiceReference<org.talend.esb.servicelocator.cxf.LocatorFeature>) context.getServiceReference(org.talend.esb.servicelocator.cxf.LocatorFeature.class.getName());
+			feature_<%=cid%> = context.getService(serviceRef);
+        }
+		
+		<% List<Map<String, String>> customProperties = (List<Map<String,String>>) ElementParameterParser.getObjectValue(node,"__SERVICE_LOCATOR_CUSTOM_PROPERTIES__");
 		if (!customProperties.isEmpty()) { %>
-				final java.util.Map<String, String> slCustomProps_<%=cid%> = new java.util.HashMap<String, String>();
-			<% for (Entry<String,String> prop : customProperties) { %>
-				slCustomProps_<%=cid%>.put(<%=prop.getKey()%>, <%=prop.getValue()%>);
+			java.util.Map<String, String> slCustomProps_<%=cid%> = new java.util.HashMap<String, String>();
+			if(factoryBean_<%=cid%>.getProperties() == null){
+        		factoryBean_<%=cid%>.setProperties(new java.util.HashMap<String, Object>());
+        	}
+			<% for (Map<String,String> prop : customProperties) { %>
+                	slCustomProps_<%=cid%>.put(<%=prop.get("PROP_NAME")%>, <%=prop.get("PROP_VALUE")%>);
 			<% } %>
-				feature_<%=cid%>.setRequiredEndpointProperties(slCustomProps_<%=cid%>);
+			
+			factoryBean_<%=cid%>.getProperties().put(org.talend.esb.servicelocator.cxf.LocatorFeature.LOCATOR_PROPERTIES,slCustomProps_<%=cid%>);
 		<% } %>
 
 		features_<%=cid%>.add(feature_<%=cid%>);
@@ -164,25 +176,30 @@ try {
 	<% } %>
 
 	<% if (isSAMEnable) { %>
-		org.talend.esb.sam.agent.feature.EventFeature samEventFeature = null;
-		if (null == eventFeature) {
-			org.springframework.context.support.ClassPathXmlApplicationContext context =
-					new org.springframework.context.support.ClassPathXmlApplicationContext("META-INF/tesb/agent-context.xml");
-			samEventFeature = context.getBean(org.talend.esb.sam.agent.feature.EventFeature.class);
-		} else {
-			samEventFeature = (org.talend.esb.sam.agent.feature.EventFeature) eventFeature;
-		}
+		org.talend.esb.sam.agent.feature.EventFeature samEventFeature_<%=cid%> = null;
+		
+		if(!inOSGi){
+	    	samEventFeature_<%=cid%> = (org.talend.esb.sam.agent.feature.EventFeature) new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/agent-context.xml" }).getBean(org.talend.esb.sam.agent.feature.EventFeature.class);
+        }else{  
+            org.osgi.framework.BundleContext context = factoryBean_<%=cid%>.getBus().getExtension(org.osgi.framework.BundleContext.class);
+			org.osgi.framework.ServiceReference<org.talend.esb.sam.agent.feature.EventFeature> serviceRef = (org.osgi.framework.ServiceReference<org.talend.esb.sam.agent.feature.EventFeature>) context.getServiceReference(org.talend.esb.sam.agent.feature.EventFeature.class.getName());
+			samEventFeature_<%=cid%> = context.getService(serviceRef);
+        }
+        
 		<% List<Entry<String, String>> samCustomProperties = paramsHelper.getPropertiesPram("__SERVICE_ACTIVITY_MONITOR_CUSTOM_PROPERTIES__");
 		if (!samCustomProperties.isEmpty()) { %>
-			org.talend.esb.sam.common.handler.impl.CustomInfoHandler ciHandler = new org.talend.esb.sam.common.handler.impl.CustomInfoHandler();
 			java.util.Map<String, String> samCustomProps_<%=cid%> = new java.util.HashMap<String, String>();
 			<% for (Entry<String,String> prop : samCustomProperties) { %>
 				samCustomProps_<%=cid%>.put(<%=prop.getKey()%>, <%=prop.getValue()%>);
 			<% } %>
-			ciHandler.setCustomInfo(samCustomProps_<%=cid%>);
-			samEventFeature.setHandler(ciHandler);
+			
+			if(factoryBean_<%=cid%>.getProperties() == null){
+				factoryBean_<%=cid%>.setProperties(new java.util.HashMap<String,Object>());
+			}
+			
+			factoryBean_<%=cid%>.getProperties().put(org.talend.esb.sam.agent.feature.EventFeature.SAM_PROPERTIES, samCustomProps_<%=cid%>);
 		<% } %>
-		features_<%=cid%>.add(samEventFeature);
+		features_<%=cid%>.add(samEventFeature_<%=cid%>);
 	<% } %>
 
 	<% if (paramsHelper.getBoolParam("__LOG_MESSAGES__")) { %>

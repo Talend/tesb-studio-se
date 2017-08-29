@@ -125,6 +125,11 @@
             id="camel-cxf-transport"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-cxf-transport}"
             bundleID="" />
+        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
+            name="${tesb-camel-http-common}"
+            id="camel-http-common"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-http-common}"
+            bundleID="" />    
 
         <libraryNeededGroup
                 description="camel-cxf"
@@ -132,6 +137,7 @@
                 name="camel-cxf">
             <library id="camel-cxf" />
             <library id="camel-cxf-transport" />
+            <library id="camel-http-common" />
             <group id="cxf-core" />
             <group id="cxf-rt-frontend-jaxws" />
             <group id="cxf-rt-rs-client" />
@@ -337,14 +343,9 @@
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-jetty-common}"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="${tesb-camel-jetty8}"
-            id="camel-jetty8"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-jetty8}"
-            bundleID="" />
-        <libraryNeeded context="plugin:org.talend.libraries.jetty"
-            name="jetty-all-8.1.12.v20130726.jar"
-            id="jetty-all"
-            uripath="platform:/plugin/org.talend.libraries.jetty/lib/jetty-all-8.1.12.v20130726.jar"
+            name="${tesb-camel-jetty9}"
+            id="camel-jetty9"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-jetty9}"
             bundleID="" />
 
         <libraryNeededGroup
@@ -353,12 +354,23 @@
                 name="camel-jetty">
             <library id="camel-jetty" />
             <library id="camel-jetty-common" />
-            <library id="camel-jetty8" />
+            <library id="camel-jetty9" />
             <library id="camel-http" />
             <library id="camel-http-common" />
-            <group id="jetty-server" />
             <library id="jetty-all" />
         </libraryNeededGroup>
+        
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="${tesb-jetty-all}"
+            id="jetty-all"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jetty-all}"
+            bundleID="" />
+
+       <libraryNeeded context="plugin:javax.servlet"
+            name="${tesb-javax.servlet-api}"
+            id="javax.servlet-api"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-javax.servlet-api}"
+            bundleID="" />
 
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
             name="${tesb-camel-xstream}"

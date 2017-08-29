@@ -243,7 +243,7 @@
                 System.setProperty("spring.config.location",argsMap.get("--spring.config.location"));
             }            
             loadConfig(argsMap,"--banner.location","banner.txt");
-            loadConfig(argsMap,"--logging.config","log4j.xml");
+            loadConfig(argsMap,"--logging.config","log4j2.xml");
             
             if (argsMap.get("--camel.springboot.typeConversion") == null) {
                 argsMap.put("--camel.springboot.typeConversion", "false");
@@ -274,6 +274,31 @@
         private final ContextProperties context = new ContextProperties();
 
         public static class ContextProperties extends Properties {
+        
+		public String getProperty(String key) {
+
+			String rs = null;
+
+			if (arguments != null) {
+				try {
+					java.lang.reflect.Method getProperty = arguments.getClass()
+							.getDeclaredMethod("getProperty",
+									new Class[] { String.class });
+					getProperty.setAccessible(true);
+					
+					rs = (String) getProperty.invoke(arguments, key);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (rs == null) {
+				rs = super.getProperty(key);
+			}
+
+			return rs;
+		}
+        
             public void synchronizeContext() {
                 <% for (IContextParameter ctxParam : params){
                     String cParaName = ctxParam.getName(); %>

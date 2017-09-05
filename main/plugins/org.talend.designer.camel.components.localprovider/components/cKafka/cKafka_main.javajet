@@ -20,11 +20,11 @@ imports="
     builder.setComponent("kafka");
     builder.useDoubleSlash(false);
 
-    String brokerList = ElementParameterParser.getValue(node, "__BROKER_LIST__").trim();
-    builder.setName(brokerList);
-
     String topic = ElementParameterParser.getValue(node, "__TOPIC__").trim();
-    builder.addParam("topic", topic);
+    builder.setName(topic);
+
+    String brokerList = ElementParameterParser.getValue(node, "__BROKER_LIST__").trim();
+    builder.addParam("brokers", brokerList);
 
     String clientId = ElementParameterParser.getValue(node, "__CLIENT_ID__").trim();
     if (!"\"\"".equals(clientId)) {
@@ -201,11 +201,6 @@ imports="
         String retryBackoffMs = ElementParameterParser.getValue(node, "__RETRY_BACKOFF_MS__").trim();
         if (!"\"\"".equals(retryBackoffMs)) {
             builder.addParam("retryBackoffMs", retryBackoffMs);
-        }
-
-        String barrierAwaitTimeoutMs = ElementParameterParser.getValue(node, "__BARRIER_AWAIT_TIMEOUT_MS__").trim();
-        if (!"\"\"".equals(barrierAwaitTimeoutMs)) {
-            builder.addParam("barrierAwaitTimeoutMs", barrierAwaitTimeoutMs);
         }
 
         String autoCommitEnable = ElementParameterParser.getValue(node, "__AUTO_COMMIT_ENABLE__").trim();

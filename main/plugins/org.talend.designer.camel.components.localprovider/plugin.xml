@@ -214,6 +214,11 @@
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-spring-jms}"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
+            name="${tesb-spring-messaging}"
+            id="spring-messaging"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-spring-messaging}"
+            bundleID="" />
+        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
             name="${tesb-commons-pool2}"
             id="commons-pool2"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-commons-pool2}"
@@ -226,6 +231,7 @@
             <library id="camel-jms" />
             <library id="geronimo-jms_1.1_spec" />
             <library id="spring-jms" />
+            <library id="spring-messaging" />
             <library id="commons-pool2" />
         </libraryNeededGroup>
 

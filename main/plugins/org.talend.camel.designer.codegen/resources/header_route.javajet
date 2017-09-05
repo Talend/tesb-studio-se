@@ -1152,6 +1152,17 @@ final Map<String, String> contentTypes = new java.util.HashMap<String, String>()
     public void setLocatorFeature(org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature){
     	this.locatorFeature = locatorFeature;
     }
+    
+    public void initLocator(CamelContext camelContext){
+    	if(camelContext.getComponent("locator") == null){
+			camelContext.addComponent("locator", new org.apache.camel.impl.DefaultComponent(){
+				@Override
+				protected org.apache.camel.Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
+					return null;
+				}
+			});
+		}
+    }
 
 <%
     }
@@ -2209,6 +2220,7 @@ if (isProvider) {
 
             public void doConfig() throws java.lang.Exception {
                 final /*org.apache.camel.model.Model*/CamelContext camelContext = getContext();
+                
                 final org.apache.camel.impl.SimpleRegistry registry = new org.apache.camel.impl.SimpleRegistry();
                 final org.apache.camel.impl.CompositeRegistry compositeRegistry =
                     new org.apache.camel.impl.CompositeRegistry();
@@ -2466,13 +2478,13 @@ if (isProvider) {
                                     throw new IllegalArgumentException("SAML based security scenarios are not supported in Studio (standalone)");
                                 }
                             <%}%>
-                            org.apache.cxf.ws.security.trust.STSClient stsClient =
+                            org.apache.cxf.ws.security.trust.STSClient stsClient_<%=cid%> =
                                 org.talend.esb.security.saml.STSClientUtils.createSTSClient(cf_<%=cid%>.getBus(),
                                     <%=ElementParameterParser.getValue(node, "__USERNAME__")%>, decryptedPassword_<%=cid%>);
                             <% if ("true".equals(ElementParameterParser.getValue(node, "__USE_AUTHORIZATION__"))) { %>
-                                org.talend.esb.security.saml.STSClientUtils.applyAuthorization(stsClient, <%=ElementParameterParser.getValue(node, "__ROLE_NAME__")%>);
+                                org.talend.esb.security.saml.STSClientUtils.applyAuthorization(stsClient_<%=cid%>, <%=ElementParameterParser.getValue(node, "__ROLE_NAME__")%>);
                             <% } %>
-                            org.talend.esb.security.saml.SAMLRESTUtils.configureClient(cf_<%=cid%>, stsClient);
+                            org.talend.esb.security.saml.SAMLRESTUtils.configureClient(cf_<%=cid%>, stsClient_<%=cid%>);
 <%
                         }
                     }
@@ -2503,8 +2515,11 @@ if (isProvider) {
 						
 <%
                         if (!isProvider) {
-%>
+%>						
+							initLocator(camelContext);
+							
                             factory_<%=cid%>.setAddress("locator://rest");
+
                             org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature_<%=cid%> = getLocatorFeature(cf_<%=cid%>.getBus());
 <%
                         }else{
@@ -3095,6 +3110,7 @@ if (isProvider) {
             if ("true".equals(useSL) && (isProvider || !useRegistry)) {
                 if (!isProvider) {
 %>
+					initLocator(camelContext);
                     <%=endpointVar%>.setAddress("locator://cSOAP");
 <%
                 }

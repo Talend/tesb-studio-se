@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2016 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2017 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -13,11 +13,9 @@
 package org.talend.camel.designer.ui.wizards;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Path;
@@ -44,14 +42,15 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Widget;
-import org.osgi.framework.Bundle;
 import org.talend.camel.designer.CamelDesignerPlugin;
 import org.talend.camel.designer.i18n.Messages;
 import org.talend.camel.designer.ui.wizards.actions.JavaCamelJobScriptsExportWSAction;
 import org.talend.camel.designer.ui.wizards.actions.JavaCamelJobScriptsExportWithMavenAction;
 import org.talend.commons.ui.runtime.exception.MessageBoxExceptionHandler;
+import org.talend.core.GlobalServiceRegister;
 import org.talend.core.PluginChecker;
 import org.talend.core.repository.constants.FileConstants;
+import org.talend.core.service.IESBMicroService;
 import org.talend.designer.runprocess.IProcessor;
 import org.talend.repository.ui.wizards.exportjob.ExportTreeViewer;
 import org.talend.repository.ui.wizards.exportjob.JavaJobScriptsExportWSWizardPage;
@@ -316,7 +315,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
     }
 
     private void createOptionsForKar(Composite optionsGroup, Font font) {
-        if (!PluginChecker.isPluginLoaded(PluginChecker.EXPORT_ROUTE_PLUGIN_ID)) {
+        if (!PluginChecker.isTIS()) {
             return;
         }
 
@@ -433,12 +432,14 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
             }
         }
 
-
+        IESBMicroService microService = null;
         if (exportTypeCombo.getText().equals(EXPORTTYPE_SPRING_BOOT)) {
 
-            Bundle bundle = Platform.getBundle(PluginChecker.EXPORT_ROUTE_PLUGIN_ID);
+            if (GlobalServiceRegister.getDefault().isServiceRegistered(IESBMicroService.class)) {
+                microService = (IESBMicroService) GlobalServiceRegister.getDefault().getService(IESBMicroService.class);
+            }
             try {
-                if (bundle != null) {
+                if (microService != null) {
                     // Get m2e preferences
                     boolean mvnOffline = Platform.getPreferencesService().getBoolean(M2E_CORE, M2_OFFLINE, false, null);
 
@@ -461,13 +462,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                         InstanceScope.INSTANCE.getNode(M2E_CORE).putBoolean(M2_OFFLINE, false);
                     }
 
-                    Class<?> javaCamelJobScriptsExportMicroServiceAction = bundle
-                            .loadClass("org.talend.resources.export.maven.action.JavaCamelJobScriptsExportMicroServiceAction");
-
-                    Constructor<?> constructor = javaCamelJobScriptsExportMicroServiceAction.getConstructor(Map.class, List.class,
-                            String.class, String.class, String.class);
-
-                    actionMS = (IRunnableWithProgress) constructor.newInstance(exportChoiceMap, Arrays.asList(getCheckNodes()),
+                    actionMS = microService.createRunnableWithProgress(exportChoiceMap, Arrays.asList(getCheckNodes()),
                             version, destinationKar, "");
 
                     try {

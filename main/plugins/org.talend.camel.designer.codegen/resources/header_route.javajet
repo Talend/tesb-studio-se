@@ -494,7 +494,7 @@ public class <%=className%> extends org.apache.camel.builder.RouteBuilder implem
    } 
 %>
 
-    private boolean inOSGi;
+    private boolean inOSGi = routines.system.BundleUtils.inOSGi();
 
 	private static Object arguments;
 	
@@ -1786,9 +1786,7 @@ private void addRegistry(org.apache.camel.component.cxf.CxfEndpoint cxfEndpoint,
                     if ((address != null) && address.startsWith("locator://")) {
 				    	org.talend.esb.servicelocator.cxf.LocatorFeature locatorFeature_ = null;
 				        if(inOSGi){
-				        	org.osgi.framework.BundleContext context = bus.getExtension(org.osgi.framework.BundleContext.class);
-							org.osgi.framework.ServiceReference<org.talend.esb.servicelocator.cxf.LocatorFeature> serviceRef = (org.osgi.framework.ServiceReference<org.talend.esb.servicelocator.cxf.LocatorFeature>) context.getServiceReference(org.talend.esb.servicelocator.cxf.LocatorFeature.class.getName());
-							locatorFeature_ = context.getService(serviceRef);
+							locatorFeature_ = routines.system.BundleUtils.getService(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
 				        }else{  
 					    	org.springframework.context.support.ClassPathXmlApplicationContext context_ = new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/locator/beans.xml" });
 					    	locatorFeature_ = (org.talend.esb.servicelocator.cxf.LocatorFeature) context_.getBean(org.talend.esb.servicelocator.cxf.LocatorFeature.class);

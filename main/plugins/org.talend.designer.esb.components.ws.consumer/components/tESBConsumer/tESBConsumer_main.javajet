@@ -62,6 +62,8 @@ boolean useSAM = paramsHelper.getVisibleBoolParam("__SERVICE_ACTIVITY_MONITOR__"
 boolean useBusinessCorrelation = paramsHelper.getVisibleBoolParam("__USE_BUSINESS_CORRELATION__");
 String correlationValue = paramsHelper.getStringParam("__CORRELATION_VALUE__");
 
+boolean useGZipCompression = paramsHelper.getVisibleBoolParam("__ENABLE_CXF_MESSAGE_GZIP__");
+
 String useAuth = ElementParameterParser.getValue(node, "__NEED_AUTH__");
 if (!node.getElementParameter("NEED_AUTH").isContextMode()) {
     // non-dynamic (bug with non updating parameter value after removing field from dynamic)
@@ -255,6 +257,9 @@ if (inputConn != null) {
                     org.talend.esb.sam.agent.feature.EventFeature featureSAM_<%=cid%> = classpathXmlApplicationContext.getBean(org.talend.esb.sam.agent.feature.EventFeature.class);
                     esbFeatures_<%=cid%>.add(featureSAM_<%=cid%>);
                     genericConsumer_<%=cid%>.setSamCustomProperties(customProps_<%=cid%>);
+                <% } %>				
+                <% if (useGZipCompression) { %>
+                    esbFeatures_<%=cid%>.add(new org.apache.cxf.transport.common.gzip.GZIPFeature());
                 <% } %>
                 <% if (useBusinessCorrelation) { %>
                     esbFeatures_<%=cid%>.add(new org.talend.esb.policy.correlation.feature.CorrelationIDFeature());
@@ -396,7 +401,11 @@ if (inputConn != null) {
                             if (useBusinessCorrelation || useSR) { %>
                                 put(org.talend.esb.policy.correlation.feature.CorrelationIDFeature.CORRELATION_ID_CALLBACK_HANDLER, correlationIDCallbackHandler);
                                 put("enhancedResponse", true);
-                            <% } %>
+                            <% }
+                            if (useGZipCompression) { %>
+                                put("useGZipCompression", true);
+                            <% } %>							
+							
                         }};
 
                         public String getEndpointUri() {

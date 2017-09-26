@@ -54,13 +54,15 @@
 		java.util.Map<String, Object> requestMessage_<%=cid%> =
 				(java.util.Map<String, Object>) globalMap.get("restRequest");
 
+		restEndpoint = <%=ElementParameterParser.getValue(node, "__REST_ENDPOINT__")%>;
+
 		if (null == requestMessage_<%=cid%>) {
 
 			if (restTalendJobAlreadyStarted) {
 				throw new RuntimeException("request is not provided");
 			} else {
 				if (!runInTalendEsbRuntimeContainer && null == thread4RestServiceProviderEndpoint) {
-					String endpointUrl_<%=cid%> = checkEndpointUrl(<%=ElementParameterParser.getValue(node, "__REST_ENDPOINT__")%>);
+					String endpointUrl_<%=cid%> = checkEndpointUrl(restEndpoint);
 					// *** external thread for endpoint initialization
 					thread4RestServiceProviderEndpoint = new Thread4RestServiceProviderEndpoint(this, endpointUrl_<%=cid%>);
 					thread4RestServiceProviderEndpoint.start();
@@ -69,14 +71,16 @@
 
 				restTalendJobAlreadyStarted = true;
 
-				Thread.currentThread();
-				try {
-					while(true) {
-						Thread.sleep(60000);
+				if(runInDaemonMode){
+					Thread.currentThread();
+					try {
+						while(true) {
+							Thread.sleep(60000);
+						}
+					} catch (InterruptedException e_<%=cid%>) {
+						// e_<%=cid%>.printStackTrace();
+						// throw new TalendException(e_<%=cid%>, "wholeJob", globalMap);
 					}
-				} catch (InterruptedException e_<%=cid%>) {
-					// e_<%=cid%>.printStackTrace();
-					// throw new TalendException(e_<%=cid%>, "wholeJob", globalMap);
 				}
 			}
 			return;

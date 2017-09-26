@@ -37,6 +37,8 @@ CodeGeneratorArgument codeGenArgument = (CodeGeneratorArgument) argument;
 Vector v = (Vector) codeGenArgument.getArgument();
 IProcess process = (IProcess) v.get(0);
 
+boolean exportTypeSpringBoot = org.talend.designer.runprocess.ProcessorUtilities.isExportJobAsMicroService();
+
 List<? extends INode> httpRequestComponentsList = process.getNodesOfType("tRESTRequest");
 if (!httpRequestComponentsList.isEmpty()) {
 
@@ -488,6 +490,18 @@ private boolean runInTalendEsbRuntimeContainer = false;
 
 public void setRunInTalendEsbRuntimeContainer(boolean flag) {
 	runInTalendEsbRuntimeContainer = flag;
+}
+
+protected String restEndpoint;
+
+public void setRestEndpoint(String restEndpoint){
+	this.restEndpoint = restEndpoint;
+}
+
+private boolean runInDaemonMode = true;
+
+public void setRunInDaemonMode(boolean flag) {
+	runInDaemonMode = flag;
 }
 
 private boolean restTalendJobAlreadyStarted = false;
@@ -1266,7 +1280,7 @@ public static class ExceptionMapper4TalendJobRestService extends org.apache.cxf.
 	}
 }
 
-private String checkEndpointUrl(String url) {
+protected String checkEndpointUrl(String url) {
 <%
 	String defaultUri = (String) System.getProperties().get("restServiceDefaultUri");
 	if (null == defaultUri || defaultUri.trim().isEmpty() || !defaultUri.contains("://")) {
@@ -1351,7 +1365,6 @@ public static class StreamingDOM4JProvider extends org.apache.cxf.jaxrs.provider
 	}
 }
 
-
 Thread4RestServiceProviderEndpoint thread4RestServiceProviderEndpoint = null;
 
 class Thread4RestServiceProviderEndpoint extends Thread {
@@ -1361,31 +1374,35 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 	private final <%=process.getName()%> job;
 
 	private org.apache.cxf.endpoint.Server server;
+	
+	private org.apache.cxf.jaxrs.JAXRSServerFactoryBean sf;
 
 	public Thread4RestServiceProviderEndpoint(<%=process.getName()%> job, String endpointUrl) {
 		this.job = job;
 		this.endpointUrl = endpointUrl;
+		this.sf = new org.apache.cxf.jaxrs.JAXRSServerFactoryBean();
 	}
 	
-	boolean inOSGi = false;
+	boolean inOSGi = routines.system.BundleUtils.inOSGi();
+	
+	public org.apache.cxf.endpoint.Server getServer(){
+		return server;
+	}
 
+	public org.apache.cxf.jaxrs.JAXRSServerFactoryBean getJAXRSServerFactoryBean(){
+		return sf;
+	}
 	
 	public void run() {
 
 		try {
 			RestServiceProviderImpl4TalendJob provider = new RestServiceProviderImpl4TalendJob(job);
-
-			org.apache.cxf.jaxrs.JAXRSServerFactoryBean sf = new org.apache.cxf.jaxrs.JAXRSServerFactoryBean();
 			
 			if(sf.getProperties() == null){
         		sf.setProperties(new java.util.HashMap<String, Object>());
         	}
-			try {
-				inOSGi = (null != sf.getBus().getExtension(Class.forName("org.osgi.framework.BundleContext")));
-			} catch (ClassNotFoundException e_<%=cid%>) {
-				; // ignore
-			}
-			java.util.List<Object> providers = new java.util.ArrayList<Object>();
+
+			java.util.List<Object> providers = (java.util.List<Object>)sf.getProviders();
 			providers.add(new ExceptionMapper4TalendJobRestService(provider));
 			providers.add(new StreamingDOM4JProvider());
 			<%if (Boolean.valueOf(ElementParameterParser.getValue(node,"__NEED_AUTH__")) && "OIDC_PASSWORD_GRANT".equals(ElementParameterParser.getValue(node,"__AUTH_TYPE__"))) {%>
@@ -1436,9 +1453,7 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 			    	org.springframework.context.support.ClassPathXmlApplicationContext context_ = new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/locator/beans.xml" });
 			    	slFeature = (org.talend.esb.servicelocator.cxf.LocatorFeature) context_.getBean(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
 		        }else{  
-		            org.osgi.framework.BundleContext context = sf.getBus().getExtension(org.osgi.framework.BundleContext.class);
-					org.osgi.framework.ServiceReference<org.talend.esb.servicelocator.cxf.LocatorFeature> serviceRef = (org.osgi.framework.ServiceReference<org.talend.esb.servicelocator.cxf.LocatorFeature>) context.getServiceReference(org.talend.esb.servicelocator.cxf.LocatorFeature.class.getName());
-					slFeature = context.getService(serviceRef);
+					slFeature = routines.system.BundleUtils.getService(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
 		        }
 
 				<% List<Map<String, String>> customProperties = (List<Map<String,String>>)
@@ -1461,9 +1476,7 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 				if(!inOSGi){
 			    	samEventFeature_<%=cid%> = (org.talend.esb.sam.agent.feature.EventFeature) new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/agent-context.xml" }).getBean(org.talend.esb.sam.agent.feature.EventFeature.class);
 		        }else{  
-		            org.osgi.framework.BundleContext context = sf.getBus().getExtension(org.osgi.framework.BundleContext.class);
-					org.osgi.framework.ServiceReference<org.talend.esb.sam.agent.feature.EventFeature> serviceRef = (org.osgi.framework.ServiceReference<org.talend.esb.sam.agent.feature.EventFeature>) context.getServiceReference(org.talend.esb.sam.agent.feature.EventFeature.class.getName());
-					samEventFeature_<%=cid%> = context.getService(serviceRef);
+					samEventFeature_<%=cid%> = routines.system.BundleUtils.getService(org.talend.esb.sam.agent.feature.EventFeature.class);
 		        }
 
 				<% List<Map<String, String>> samCustomProperties = (List<Map<String,String>>)

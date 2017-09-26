@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2016 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2017 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -236,32 +237,37 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
     private static void addParamsToPath(final QName portType, Operation oper, Message msg, final Set<String> paths,
             final Set<QName> alreadyCreated) throws URISyntaxException {
         if (msg != null) {
-            QName parameterFromMessage = getParameterFromMessage(msg);
-            if (parameterFromMessage == null) {
+            List<QName> messageParts = getMessageParts(msg);
+            if (messageParts.isEmpty()) {
                 return;
             }
-            if (alreadyCreated.add(parameterFromMessage)) {
-                String folderPath = FolderNameUtil.getImportedXmlSchemaPath(parameterFromMessage.getNamespaceURI(),
-                        portType.getLocalPart(), oper.getName());
-                paths.add(folderPath);
+            for(QName messagePart : messageParts) {
+                if (alreadyCreated.add(messagePart)) {
+                    String folderPath = FolderNameUtil.getImportedXmlSchemaPath(messagePart.getNamespaceURI(),
+                            portType.getLocalPart(), oper.getName());
+                    paths.add(folderPath);
+                }
             }
         }
     }
 
-    private static QName getParameterFromMessage(Message msg) {
-        // add first parameter from message.
+    private static List<QName> getMessageParts(Message msg) {
         @SuppressWarnings("unchecked")
         Collection<Part> values = msg.getParts().values();
         if (values == null || values.isEmpty()) {
             return null;
         }
-        Part part = values.iterator().next();
-        if (part.getElementName() != null) {
-            return part.getElementName();
-        } else if (part.getTypeName() != null) {
-            return part.getTypeName();
+        List<QName> result = new ArrayList<QName>();
+        Iterator<Part> iterator = values.iterator();
+        while (iterator.hasNext()) {
+            Part part = iterator.next();
+            if (part.getElementName() != null) {
+                result.add(part.getElementName());
+            } else if (part.getTypeName() != null) {
+                result.add(part.getTypeName());
+            }
         }
-        return null;
+        return result;
     }
 
     @SuppressWarnings("unchecked")
@@ -306,13 +312,15 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
                             Message inMsg = inDef.getMessage();
                             if (inMsg != null) {
                                 // fix for TDI-20699
-                                QName parameterFromMessage = getParameterFromMessage(inMsg);
-                                if (parameterFromMessage == null) {
+                                List<QName> messageParts = getMessageParts(inMsg);
+                                if (messageParts.isEmpty()) {
                                     continue;
                                 }
-                                if (alreadyCreated.add(parameterFromMessage)) {
-                                    XsdMetadataUtils.createMetadataFromXSD(parameterFromMessage, portType.getLocalPart(),
-                                            oper.getName(), selectTables, wsdlFile, populationUtil);
+                                for (QName messagePart : messageParts) {
+                                    if (alreadyCreated.add(messagePart)) {
+                                        XsdMetadataUtils.createMetadataFromXSD(messagePart, portType.getLocalPart(),
+                                                oper.getName(), selectTables, wsdlFile, populationUtil);
+                                    }
                                 }
                             }
                         }
@@ -321,26 +329,30 @@ public class PublishMetadataRunnable implements IRunnableWithProgress {
                         if (outDef != null) {
                             Message outMsg = outDef.getMessage();
                             if (outMsg != null) {
-                                QName parameterFromMessage = getParameterFromMessage(outMsg);
-                                if (parameterFromMessage == null) {
+                                List<QName> messageParts = getMessageParts(outMsg);
+                                if (messageParts.isEmpty()) {
                                     continue;
                                 }
-                                if (alreadyCreated.add(parameterFromMessage)) {
-                                    XsdMetadataUtils.createMetadataFromXSD(parameterFromMessage, portType.getLocalPart(),
-                                            oper.getName(), selectTables, wsdlFile, populationUtil);
+                                for (QName messagePart : messageParts) {
+                                    if (alreadyCreated.add(messagePart)) {
+                                        XsdMetadataUtils.createMetadataFromXSD(messagePart, portType.getLocalPart(),
+                                                oper.getName(), selectTables, wsdlFile, populationUtil);
+                                    }
                                 }
                             }
                         }
                         for (Fault fault : (Collection<Fault>) oper.getFaults().values()) {
                             Message faultMsg = fault.getMessage();
                             if (faultMsg != null) {
-                                QName parameterFromMessage = getParameterFromMessage(faultMsg);
-                                if (parameterFromMessage == null) {
+                                List<QName> messageParts = getMessageParts(faultMsg);
+                                if (messageParts.isEmpty()) {
                                     continue;
                                 }
-                                if (alreadyCreated.add(parameterFromMessage)) {
-                                    XsdMetadataUtils.createMetadataFromXSD(parameterFromMessage, portType.getLocalPart(),
-                                            oper.getName(), selectTables, wsdlFile, populationUtil);
+                                for (QName messagePart : messageParts) {
+                                    if (alreadyCreated.add(messagePart)) {
+                                        XsdMetadataUtils.createMetadataFromXSD(messagePart, portType.getLocalPart(),
+                                                oper.getName(), selectTables, wsdlFile, populationUtil);
+                                    }
                                 }
                             }
                         }

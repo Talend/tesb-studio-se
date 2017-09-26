@@ -10,7 +10,7 @@ public class CLASS {
         for (org.talend.core.model.process.INode node : process.getGeneratingNodes()) {
             if ("Routelets".equals(node.getComponent().getOriginalFamilyName())) {
                 org.talend.core.model.process.IProcess2 routelet = (org.talend.core.model.process.IProcess2) node.getComponent().getProcess();
-                final String clazz = org.talend.core.model.utils.JavaResourcesHelper.getJobClassName(routelet);
+                final String clazz = org.talend.core.model.utils.RouteUtil.resolveClassName(routelet);
                 if (routelets.add(clazz)) {
                     addRoutelets(routelets, routelet);
                 }
@@ -48,7 +48,7 @@ public class CLASS {
 	            List<Map<String,String>> userDefinedParams = useSelected ? (List<Map<String,String>>)ElementParameterParser.getObjectValue(node,"__CONTEXT_PARAM__")
 	            	: useRoute ? (List<Map<String,String>>)ElementParameterParser.getObjectValue(node,"__ROUTE_CONTEXT_PARAM__") : null;
 	            org.talend.core.model.process.IProcess2 routelet = (org.talend.core.model.process.IProcess2) node.getComponent().getProcess();
-	            final String routeletClass = org.talend.core.model.utils.JavaResourcesHelper.getJobClassName(routelet);
+	            final String routeletClass = org.talend.core.model.utils.RouteUtil.resolveClassName(routelet);
 	            final String instanceName = routeletClass.substring(routeletClass.lastIndexOf('.')+1);
 	            code.append(routeletClass +" "+ instanceName +"=new "+ routeletClass+ "(){@Override\n public void configure() throws java.lang.Exception {this.doConfig();}};\n");
 	            if(useRoute){

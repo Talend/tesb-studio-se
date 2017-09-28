@@ -39,6 +39,46 @@ public class CLASS {
 			return "";
 		}
 	}
+	
+	public static String generateAddRoutesMethod(final org.talend.core.model.process.IProcess process){
+		StringBuilder code = new StringBuilder();
+        for (org.talend.core.model.process.INode node : process.getGeneratingNodes()) {
+            if ("Routelets".equals(node.getComponent().getOriginalFamilyName())) {
+	            boolean useSelected = "true".equals(ElementParameterParser.getValue(node, "__SELECTED_CONTEXT__"));
+	            boolean useRoute    = "true".equals(ElementParameterParser.getValue(node, "__ROUTE_CONTEXT__"));
+	            List<Map<String,String>> userDefinedParams = useSelected ? (List<Map<String,String>>)ElementParameterParser.getObjectValue(node,"__CONTEXT_PARAM__")
+	            	: useRoute ? (List<Map<String,String>>)ElementParameterParser.getObjectValue(node,"__ROUTE_CONTEXT_PARAM__") : null;
+	            org.talend.core.model.process.IProcess2 routelet = (org.talend.core.model.process.IProcess2) node.getComponent().getProcess();
+	            final String routeletClass = org.talend.core.model.utils.RouteUtil.resolveClassName(routelet);
+	            final String instanceName = routeletClass.substring(routeletClass.lastIndexOf('.')+1);
+	            code.append(routeletClass +" "+ instanceName +"=new "+ routeletClass+ "();\n");
+	            if(useRoute){
+	            	if(!routeContextCodeGenerated){
+	            		routeContextCodeGenerated=true;
+				        code.append("final Map<String, String> routeContext = new HashMap<String, String>();\n" + 
+			                "readContextValues(contextStr);\n" + 
+			                "for (java.util.Map.Entry<Object, Object> entry : context.entrySet()) {\n" + 
+			                "    routeContext.put((String) entry.getKey(), (String) entry.getValue());\n" + 
+			                "}\n");
+	            	}
+	            	code.append(instanceName +".setArguments(routeContext);\n");
+	            }else if(useSelected){
+	            	//do nothing
+	            }
+	            if(userDefinedParams!=null && userDefinedParams.size()>0){
+	            	code.append("final Map<String, String> overwriteContext_"+instanceName+" = new HashMap<String, String>();\n"); 
+	            	for(Map<String,String> map :userDefinedParams){
+	            		code.append("overwriteContext_"+instanceName+".put(\""+map.get("Parameters")+"\", "+map.get("Values")+");\n"); 
+	            	}
+	            	code.append(instanceName +".setArguments(overwriteContext_"+instanceName+");\n");
+	            }
+
+	            code.append("camelContext.addRoutes("+instanceName+");");
+            }
+        }
+        
+        return code.toString();
+    }
 
     private static void addRouteletsWithContext(final org.talend.core.model.process.IProcess process, StringBuilder code){
         for (org.talend.core.model.process.INode node : process.getGeneratingNodes()) {

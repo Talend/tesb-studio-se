@@ -2228,7 +2228,9 @@ if (isProvider) {
 
 
                 <%if(exportTypeSpringBoot){%>
-
+					<%if(!isRoutelet){%>
+						<%= generateAddRoutesMethod(process)%>
+					<%}%>
                 <%}else{%>
                     //read context values
                     readContextValues(contextStr);

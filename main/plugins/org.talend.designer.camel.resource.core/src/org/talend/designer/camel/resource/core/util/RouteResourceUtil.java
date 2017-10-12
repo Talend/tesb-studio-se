@@ -202,7 +202,7 @@ public class RouteResourceUtil {
         }
         final IRunProcessService processService = (IRunProcessService) GlobalServiceRegister.getDefault().getService(
                 IRunProcessService.class);
-        final ITalendProcessJavaProject talendProcessJavaProject = processService.getTalendProcessJavaProject();
+        final ITalendProcessJavaProject talendProcessJavaProject = processService.getTalendJobJavaProject(item.getProperty());
         if (talendProcessJavaProject == null) {
             return null;
         }

@@ -19,14 +19,9 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -43,7 +38,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Widget;
 import org.talend.camel.core.model.camelProperties.CamelProcessItem;
-import org.talend.camel.designer.CamelDesignerPlugin;
 import org.talend.camel.designer.i18n.Messages;
 import org.talend.camel.designer.ui.wizards.actions.JavaCamelJobScriptsExportWSAction;
 import org.talend.camel.designer.ui.wizards.actions.JavaCamelJobScriptsExportWithMavenAction;
@@ -65,12 +59,6 @@ import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManag
  * 
  */
 public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizardPage {
-
-    private static final String TOGGLE_MVN_ONLINE = "ALWAYS_MAVEN_ONLINE_FOR_MICROSERVICE";
-
-    private static final String M2_OFFLINE = "eclipse.m2.offline";
-
-    private static final String M2E_CORE = "org.eclipse.m2e.core";
 
     private static final String EXPORTTYPE_KAR = Messages.getString("JavaCamelJobScriptsExportWSWizardPage.ExportKar");//$NON-NLS-1$
 
@@ -311,7 +299,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         }
         exportChoiceMap.put(ExportChoice.onlyDefautContext, onlyExportDefaultContext);
 
-
         return exportChoiceMap;
     }
 
@@ -421,7 +408,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                 && exportChoiceMap.get(ExportChoice.needMavenScript) == Boolean.TRUE;
 
         if (needMavenScript && destinationKar.regionMatches(true, destinationKar.length() - 4, ".kar", 0, 4)) {
-        	destinationKar = destinationKar.substring(0, destinationKar.length() - 3) + "zip";
+            destinationKar = destinationKar.substring(0, destinationKar.length() - 3) + "zip";
         }
 
         if (new File(destinationKar).exists()) {
@@ -441,41 +428,15 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
             }
             try {
                 if (microService != null) {
-                    // Get m2e preferences
-                    boolean mvnOffline = Platform.getPreferencesService().getBoolean(M2E_CORE, M2_OFFLINE, false, null);
 
-                    if (mvnOffline) {
-                        // Change mvn to online ONLY if maven is offline needs run this part
-                        IPreferenceStore camelStore = CamelDesignerPlugin.getDefault().getPreferenceStore();
-                        // camelStore.setValue(TOGGLE_MAVEN_ONLINE, MessageDialogWithToggle.NEVER); //for bebug
-                        if (!MessageDialogWithToggle.ALWAYS.equals(camelStore.getString(TOGGLE_MVN_ONLINE))) {
-                            MessageDialogWithToggle dlg = MessageDialogWithToggle.openOkCancelConfirm(getShell(),
-                                    Messages.getString("JavaCamelJobScriptsExportWSWizardPage.MavenConfirm"),
-                                    Messages.getString("JavaCamelJobScriptsExportWSWizardPage.MavenMesssage"),
-                                    Messages.getString("JavaCamelJobScriptsExportWSWizardPage.ShowItAgain"), false, camelStore,
-                                    TOGGLE_MVN_ONLINE);
-
-                            if (dlg.getReturnCode() != IDialogConstants.OK_ID) {
-                                return false;
-                            }
-                        }
-
-                        InstanceScope.INSTANCE.getNode(M2E_CORE).putBoolean(M2_OFFLINE, false);
-                    }
-
-                    actionMS = microService.createRunnableWithProgress(exportChoiceMap, Arrays.asList(getCheckNodes()),
-                            version, destinationKar, "");
+                    actionMS = microService.createRunnableWithProgress(exportChoiceMap, Arrays.asList(getCheckNodes()), version,
+                            destinationKar, "");
 
                     try {
                         getContainer().run(false, true, actionMS);
                     } catch (Exception e) {
                         MessageBoxExceptionHandler.process(e.getCause(), getShell());
                         return false;
-                    } finally {
-                        if (mvnOffline) {
-                            // restore maven status
-                            InstanceScope.INSTANCE.getNode(M2E_CORE).putBoolean(M2_OFFLINE, mvnOffline);
-                        }
                     }
                 }
 

@@ -2,7 +2,7 @@
 <feature
       id="org.talend.esb.tooling.ws.consumer.feature"
       label="Talend Designer ESB Tooling web service consumer feature"
-      version="6.5.0.qualifier">
+      version="7.0.1.qualifier">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]

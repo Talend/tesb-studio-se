@@ -12,7 +12,6 @@
 // ============================================================================
 package org.talend.camel.designer.ui.bean;
 
-import java.util.HashSet;
 import java.util.Properties;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -30,7 +29,6 @@ import org.talend.commons.runtime.model.repository.ERepositoryStatus;
 import org.talend.commons.ui.runtime.exception.MessageBoxExceptionHandler;
 import org.talend.commons.ui.runtime.image.ImageProvider;
 import org.talend.core.CorePlugin;
-import org.talend.core.model.general.ModuleNeeded;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.repository.ProjectManager;
 import org.talend.repository.model.IProxyRepositoryFactory;
@@ -46,11 +44,11 @@ public class EditCamelBean extends AbstractBeanAction implements IIntroAction {
 
     private String EDIT_LABEL = Messages.getString("EditProcess.editBean"); //$NON-NLS-1$
 
-//    private String OPEN_LABEL = Messages.getString("EditProcess.openBean"); //$NON-NLS-1$
+    //    private String OPEN_LABEL = Messages.getString("EditProcess.openBean"); //$NON-NLS-1$
 
-//    private static final String DBPROJECT_LABEL = "teneo";
+    // private static final String DBPROJECT_LABEL = "teneo";
 
-//    private Properties params;
+    // private Properties params;
 
     public EditCamelBean() {
         super();
@@ -68,8 +66,9 @@ public class EditCamelBean extends AbstractBeanAction implements IIntroAction {
             canWork = false;
         }
         RepositoryNode node = (RepositoryNode) selection.getFirstElement();
-        if (canWork && (node.getObjectType() != CamelRepositoryNodeType.repositoryBeansType
-                || !ProjectManager.getInstance().isInCurrentMainProject(node) || !isLastVersion(node))) {
+        if (canWork
+                && (node.getObjectType() != CamelRepositoryNodeType.repositoryBeansType
+                        || !ProjectManager.getInstance().isInCurrentMainProject(node) || !isLastVersion(node))) {
             canWork = false;
         }
         if (canWork) {
@@ -92,8 +91,7 @@ public class EditCamelBean extends AbstractBeanAction implements IIntroAction {
         try {
             openBeanEditor(beanItem, false);
             refresh(repositoryNode);
-            CorePlugin.getDefault().getLibrariesService().resetModulesNeeded();
-            CorePlugin.getDefault().getRunProcessService().updateLibraries(new HashSet<ModuleNeeded>(), null);
+            CorePlugin.getDefault().getRunProcessService().updateLibraries(beanItem);
         } catch (PartInitException e) {
             MessageBoxExceptionHandler.process(e);
         } catch (SystemException e) {
@@ -111,8 +109,9 @@ public class EditCamelBean extends AbstractBeanAction implements IIntroAction {
      * 
      * @see org.eclipse.ui.intro.config.IIntroAction#run(org.eclipse.ui.intro.IIntroSite, java.util.Properties)
      */
+    @Override
     public void run(IIntroSite site, Properties params) {
-//        this.params = params;
+        // this.params = params;
         PlatformUI.getWorkbench().getIntroManager().closeIntro(PlatformUI.getWorkbench().getIntroManager().getIntro());
         doRun();
 

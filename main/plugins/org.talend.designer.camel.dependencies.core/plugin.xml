@@ -9,6 +9,7 @@
 
         <importPackage
             name="org.apache.camel,
+                org.apache.camel.component.properties,
                 org.apache.camel.builder,
                 org.apache.camel.impl,
                 org.apache.camel.main,

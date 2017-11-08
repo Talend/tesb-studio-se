@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
-import org.talend.commons.ui.runtime.image.ECoreImage;
+import org.talend.commons.ui.runtime.image.EImage;
 import org.talend.commons.ui.runtime.image.ImageProvider;
 import org.talend.commons.utils.VersionUtils;
 import org.talend.core.context.Context;
@@ -26,10 +26,12 @@ import org.talend.core.model.properties.Property;
 import org.talend.core.runtime.CoreRuntimePlugin;
 import org.talend.metadata.managment.ui.utils.ConnectionContextHelper;
 import org.talend.metadata.managment.ui.wizard.CheckLastVersionRepositoryWizard;
+import org.talend.metadata.managment.ui.wizard.metadata.connection.Step0WizardPage;
 import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.model.RepositoryNodeUtilities;
 import org.talend.repository.services.model.services.ServiceItem;
 import org.talend.repository.services.model.services.ServicesFactory;
+import org.talend.repository.services.utils.ESBRepositoryNodeType;
 
 /**
  * hwang class global comment. Detailled comment
@@ -37,7 +39,7 @@ import org.talend.repository.services.model.services.ServicesFactory;
 public class ESBWizard extends CheckLastVersionRepositoryWizard {
 
     /** Main page. */
-    private CreateServiceStep0WizardPage mainPage;
+    private Step0WizardPage mainPage;
 
     private OpenWSDLPage wsdlPage;
 
@@ -58,7 +60,7 @@ public class ESBWizard extends CheckLastVersionRepositoryWizard {
     public ESBWizard(IWorkbench workbench, boolean creation, ISelection selection) {
         super(workbench, creation);
         setWindowTitle("Services");
-        setDefaultPageImageDescriptor(ImageProvider.getImageDesc(ECoreImage.SERVICES_ICON));
+        setDefaultPageImageDescriptor(ImageProvider.getImageDesc(EImage.DEFAULT_IMAGE));
 
         this.selection = selection;
         setNeedsProgressMonitor(true);
@@ -110,8 +112,7 @@ public class ESBWizard extends CheckLastVersionRepositoryWizard {
 
     @Override
     public void addPages() {
-
-        mainPage = new CreateServiceStep0WizardPage(property, pathToSave);
+        mainPage = new Step0WizardPage(property, pathToSave, ESBRepositoryNodeType.SERVICES, false, true);
         addPage(mainPage);
         wsdlPage = new OpenWSDLPage(node, pathToSave, serviceItem, creation);
         addPage(wsdlPage);

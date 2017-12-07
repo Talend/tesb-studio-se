@@ -415,9 +415,24 @@
         <extension
               point="org.talend.core.runtime.buildExport_provider">
            <buildProvider
-                 description="Test case for Route job"
-                 id="testcase.route.job"
+                 description="Test case for Route"
+                 id="build.provider.esb.route.testcase"
                  provider="org.talend.camel.designer.build.RouteTestCaseBuildProvider">
+              <buildType
+                    label="Route test case"
+                    name="Route test case"
+                    order="40">
+              </buildType>
+           </buildProvider>
+           <buildProvider
+                 description="Build OSGi bundle for ESB Route"
+                 id="build.provider.esb.route.osgibundle"
+                 provider="org.talend.camel.designer.build.RouteOSGiBundleBuildProvider">
+                 <buildType
+                       label="Route"
+                       name="Route"
+                 order="30">
+           </buildType>
            </buildProvider>
         </extension>
 

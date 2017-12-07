@@ -10,7 +10,6 @@ import org.talend.camel.designer.codegen.jet.JetUtil;
 import org.talend.commons.utils.PasswordEncryptUtil;
 import org.talend.core.model.process.IContext;
 import org.talend.core.model.process.IContextParameter;
-import org.talend.core.model.utils.ContextParameterUtils;
 import org.talend.designer.codegen.config.CodeGeneratorArgument;
 import org.talend.designer.codegen.config.EInternalTemplate;
 import org.talend.designer.codegen.config.JetBean;
@@ -40,7 +39,7 @@ public class ContextPartGenerator extends ArgumentBuilderHolder implements PartG
 
 		codeGenArgument.setContextName(designerContext.getName());
 
-		List<IContextParameter> listParametersCopy = tranformEncryptedParamsAndHandleEscape(listParameters);
+		List<IContextParameter> listParametersCopy = tranformEncryptedParams(listParameters);
 		codeGenArgument.setNode(listParametersCopy);
 
 		JetBean jetBean = JetUtil.createJetBean(codeGenArgument);
@@ -53,13 +52,13 @@ public class ContextPartGenerator extends ArgumentBuilderHolder implements PartG
 		return JetUtil.jetGenerate(jetBean);
 	}
 
-	private static List<IContextParameter> tranformEncryptedParamsAndHandleEscape(List<IContextParameter> listParameters) {
+	private static List<IContextParameter> tranformEncryptedParams(List<IContextParameter> listParameters) {
 		 List<IContextParameter> listParametersCopy = new ArrayList<IContextParameter>(listParameters.size());
 
 	        // encrypt the password
 	        for (IContextParameter iContextParameter : listParameters) {
-	            IContextParameter icp = iContextParameter.clone();
 	            if (PasswordEncryptUtil.isPasswordType(iContextParameter.getType())) {
+	                IContextParameter icp = iContextParameter.clone();
 	                String pwd = icp.getValue();
 	                if (pwd != null && !pwd.isEmpty()) {
 	                    try {
@@ -68,10 +67,10 @@ public class ContextPartGenerator extends ArgumentBuilderHolder implements PartG
 	                        log.error(e.getMessage(), e);
 	                    }
 	                }
+	                listParametersCopy.add(icp);
 	            } else {
-	                ContextParameterUtils.unescapeValue(icp);
+	                listParametersCopy.add(iContextParameter);
 	            }
-	            listParametersCopy.add(icp);
 	        }
 		return listParametersCopy;
 	}

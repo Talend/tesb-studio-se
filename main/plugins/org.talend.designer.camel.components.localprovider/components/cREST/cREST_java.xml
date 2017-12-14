@@ -238,9 +238,9 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/swagger-annotations-1.5.12.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="cxf-rt-rs-service-description-swagger-3.1.12.jar" MVN="mvn:org.talend.libraries/cxf-rt-rs-service-description-swagger/6.0.0"
-                NAME="cxf-rt-rs-service-description-swagger-3.1.12"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/cxf-rt-rs-service-description-swagger-3.1.12.jar"
+            <IMPORT MODULE="cxf-rt-rs-service-description-swagger-3.1.14.jar" MVN="mvn:org.talend.libraries/cxf-rt-rs-service-description-swagger/6.0.0"
+                NAME="cxf-rt-rs-service-description-swagger-3.1.14"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/cxf-rt-rs-service-description-swagger-3.1.14.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
             <IMPORT MODULE="swagger-jaxrs-1.5.12.jar" MVN="mvn:org.talend.libraries/swagger-jaxrs/6.0.0" NAME="swagger-jaxrs-1.5.12"

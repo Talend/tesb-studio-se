@@ -43,7 +43,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IPath;
 import org.talend.camel.core.model.camelProperties.CamelProcessItem;
-import org.talend.camel.designer.util.CamelFeatureUtil;
 import org.talend.core.GlobalServiceRegister;
 import org.talend.core.model.process.ElementParameterParser;
 import org.talend.core.model.process.IProcess;
@@ -52,7 +51,6 @@ import org.talend.core.repository.constants.FileConstants;
 import org.talend.core.runtime.process.ITalendProcessJavaProject;
 import org.talend.designer.camel.dependencies.core.DependenciesResolver;
 import org.talend.designer.camel.resource.core.model.ResourceDependencyModel;
-import org.talend.designer.camel.dependencies.core.model.BundleClasspath;
 import org.talend.designer.camel.resource.core.util.RouteResourceUtil;
 import org.talend.designer.core.model.utils.emf.talendfile.ConnectionType;
 import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
@@ -224,15 +222,6 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                         list.add(libPath.append(s).toFile().toURI().toURL());
                     }
                 }
-                // Camel quartz2 library is explicitly included to bundle for TESB-20793
-                if (resolver.getBundleClasspaths() != null) {
-                    for (BundleClasspath bcp : resolver.getBundleClasspaths()){
-                        if (bcp.getName() != null && bcp.getName().toLowerCase()
-                                .contains(CamelFeatureUtil.FEATURE_CAMEL_QUARTZ2_BNDL_NAME)){
-                            list.add(libPath.append(bcp.getName()).toFile().toURI().toURL());
-                        }
-                    }
-                }
                 libResource.addResources(list);
             }
         }
@@ -293,6 +282,10 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                 } else {
                     Namespace blueprintCamelNsp = Namespace.get("camel", CAMEL_BLUEPRINT_NSURI);
                     moveNamespace(root,springCamelNsp, blueprintCamelNsp);
+                    if (springCamelNsp.equals(root.getNamespaceForPrefix("camel"))) {
+                        root.remove(springCamelNsp);
+                        root.add(blueprintCamelNsp);
+                    }
                     Namespace springCamelDefNsp = Namespace.get(CAMEL_SPRING_NSURI);
                     Namespace blueprintCamelDefNsp = Namespace.get(CAMEL_BLUEPRINT_NSURI);
                     for (Iterator<?> i = root.elementIterator("camelContext"); i.hasNext();) {

@@ -12,8 +12,8 @@
   <packaging>eclipse-plugin</packaging>
 
     <properties>
-        <camel.version>2.19.2</camel.version>
-        <activemq.version>5.15.0</activemq.version>
+        <camel.version>2.20.1</camel.version>
+        <activemq.version>5.15.2</activemq.version>
         <!--spring.osgi.compatible.version>1.2.1</spring.osgi.compatible.version-->
         <!-- camel-groovy -->
         <groovy.version>2.4.3</groovy.version>
@@ -106,6 +106,12 @@
             <artifactId>spring-osgi-core</artifactId>
             <version>${spring.osgi.compatible.version}</version>
         </dependency-->
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-blueprint</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>

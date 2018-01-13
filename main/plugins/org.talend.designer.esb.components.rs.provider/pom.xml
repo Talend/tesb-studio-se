@@ -11,12 +11,12 @@
   <packaging>eclipse-plugin</packaging>
   <name>Talend Designer ESB Tooling REST Service provider plugin</name>
   <properties>
-      <swagger.version>1.5.12</swagger.version>
+      <swagger.version>1.5.16</swagger.version>
 	  <commons-lang3.version>3.2.1</commons-lang3.version>
-	  <slf4j-api.version>1.6.3</slf4j-api.version>
-	  <reflections.version>0.9.10</reflections.version>
-	  <jackson.version>2.8.4</jackson.version>
-	  <guava.version>18.0</guava.version>
+	  <slf4j-api.version>1.7.22</slf4j-api.version>
+	  <reflections.version>0.9.11</reflections.version>
+	  <jackson.version>2.8.9</jackson.version>
+	  <guava.version>20.0</guava.version>
 	  <validation-api.version>1.1.0.Final</validation-api.version>
       <snakeyaml.version>1.17</snakeyaml.version>
   </properties>

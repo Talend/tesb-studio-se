@@ -89,6 +89,11 @@
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-spring}"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
+            name="${tesb-camel-blueprint}"
+            id="camel-blueprint"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-blueprint}"
+            bundleID="" />
+        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
             name="${tesb-spring-tx}"
             id="spring-tx"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-spring-tx}"
@@ -109,6 +114,7 @@
                 id="camel-spring"
                 name="camel-spring">
             <library id="camel-spring" />
+            <library id="camel-blueprint" />
             <group id="spring-context" />
             <library id="spring-tx" />
             <library id="spring-osgi-core" />

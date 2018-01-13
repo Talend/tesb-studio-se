@@ -501,6 +501,9 @@ public class <%=className%> extends org.apache.camel.builder.RouteBuilder implem
 	public void setArguments(Object arguments) {
 		this.inOSGi = true;
 		<%=className%>.arguments = arguments;
+		if (null != context && null != context.getProperty("context")) {
+			contextStr = (String) context.getProperty("context");
+		}		
 	}
 	
 	public <T> Map<String, T> getArguments(Object props,Class c){

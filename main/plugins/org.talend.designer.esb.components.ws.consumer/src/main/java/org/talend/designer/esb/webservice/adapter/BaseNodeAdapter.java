@@ -13,6 +13,7 @@
 package org.talend.designer.esb.webservice.adapter;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
 import java.util.List;
 
 import javax.wsdl.Definition;
@@ -41,6 +42,7 @@ public abstract class BaseNodeAdapter {
 		
 		setupSSLIfNeeded();
 		Definition definition = WSDLHelper.load(wsdl, node.getUniqueName());
+        setNamespacePrefixes(definition);
 		return definition;
 	}
 
@@ -79,4 +81,34 @@ public abstract class BaseNodeAdapter {
 		}
 	}
 
+
+    private void setNamespacePrefixes(Definition definition) {
+        if (definition == null || definition.getNamespaces() == null) {
+            return;
+        }
+
+        Collection namespaces = definition.getNamespaces().values();
+        if (namespaces == null) {
+            return;
+        }
+
+        if (!namespaces.contains("http://schemas.xmlsoap.org/wsdl/http/")) {
+            definition.addNamespace("http", "http://schemas.xmlsoap.org/wsdl/http/");
+        }
+        if (!namespaces.contains("http://schemas.xmlsoap.org/wsdl/mime/")) {
+            definition.addNamespace("mime", "http://schemas.xmlsoap.org/wsdl/mime/");
+        }
+        if (!namespaces.contains("http://schemas.xmlsoap.org/wsdl/soap/")) {
+            definition.addNamespace("soap", "http://schemas.xmlsoap.org/wsdl/soap/");
+		}
+        if (!namespaces.contains("http://schemas.xmlsoap.org/wsdl/soap/")) {
+            definition.addNamespace("soap", "http://schemas.xmlsoap.org/wsdl/soap/");
+        }
+        if (!namespaces.contains("http://schemas.xmlsoap.org/wsdl/soap12/")) {
+            definition.addNamespace("soap12", "http://schemas.xmlsoap.org/wsdl/soap12/");
+        }
+        if (!namespaces.contains("http://schemas.xmlsoap.org/wsdl/")) {
+            definition.addNamespace("wsdl", "http://schemas.xmlsoap.org/wsdl/");
+        }
+    }
 }

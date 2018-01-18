@@ -58,6 +58,9 @@ if (!process.getNodesOfType("tESBProviderRequest").isEmpty()) { // if ESB provid
 	}
 
 	Boolean logMessages = Boolean.valueOf(ElementParameterParser.getValue(tESBProviderRequestNode, "__LOG_MESSAGES__"));
+	String exchangeTimeout = ElementParameterParser.getValue(tESBProviderRequestNode, "__EXCHANGE_TIMEOUT__");
+    String maxParallelRequests = ElementParameterParser.getValue(tESBProviderRequestNode, "__MAX_PARALLEL_REQUESTS__");
+    String requestsProcessingTimeout = ElementParameterParser.getValue(tESBProviderRequestNode, "__REQUEST_PROCESSING_TIMEOUT__");
 %>
 	public ESBEndpointInfo getEndpoint() {
 		return new ESBEndpointInfo() {
@@ -99,7 +102,7 @@ public class QueuedExchangeContextImpl<IN, OUT> {
 	/**
 	 * Exchange timeout in seconds
 	 */
-	private static final long EXCHANGE_TIMEOUT = 50;
+	private static final long EXCHANGE_TIMEOUT = <%=exchangeTimeout%>;
 
 	private final java.util.concurrent.Exchanger<Exception> exceptionExchange =
 		new java.util.concurrent.Exchanger<Exception>();
@@ -174,9 +177,9 @@ public class QueuedExchangeContextImpl<IN, OUT> {
  * message exchange controller
  */
 public class QueuedMessageHandlerImpl<IN, OUT> implements ESBProviderCallback {
-	private final int MAX_QUEUE_SIZE = 1000;
+	private final int MAX_QUEUE_SIZE = <%=maxParallelRequests%>;
 
-	private final int WAIT_TIMEOUT_SECONDS = 120;
+	private final int WAIT_TIMEOUT_SECONDS = <%=requestsProcessingTimeout%>;
 
 	private final java.util.concurrent.BlockingQueue<QueuedExchangeContextImpl<IN, OUT>> queue =
 		new java.util.concurrent.LinkedBlockingQueue<QueuedExchangeContextImpl<IN, OUT>>(MAX_QUEUE_SIZE);

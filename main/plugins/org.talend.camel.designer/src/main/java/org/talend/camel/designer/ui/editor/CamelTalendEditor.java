@@ -51,7 +51,7 @@ import org.talend.utils.io.FilesUtils;
 public class CamelTalendEditor extends AbstractTalendEditor {
 
     private Map<String,String> cConfigStoredInfo = null;
-    
+
     private static CamelComponentsHandler CAMEL_COMPONENTS_HANDLER;
 
     public CamelTalendEditor() {
@@ -77,19 +77,19 @@ public class CamelTalendEditor extends AbstractTalendEditor {
 
         IAction pasteAction = new RoutePasteAction(this);
         getActionRegistry().registerAction(pasteAction);
-        
+
         List<? extends INode> graphicalNodes = this.getProcess().getGraphicalNodes();
-        
+
         cConfigStoredInfo = new HashMap<>();
-        
+
         for (INode node : graphicalNodes) {
             if (node.getComponent().getName().equals("cConfig")){
                 List<Map<String,String>> jars = (List) node.getElementParameter("DRIVER_JAR").getValue();
-                
+
                 for(Map<String,String> o:jars){
                     String jn = TalendQuoteUtils.removeQuotes(o.get("JAR_NAME"));
                     String jnv = TalendQuoteUtils.removeQuotes(o.get("JAR_NEXUS_VERSION"));
-                    
+
                     cConfigStoredInfo.put(jn, jnv);
                 }
             }
@@ -99,24 +99,24 @@ public class CamelTalendEditor extends AbstractTalendEditor {
     @Override
     public void doSave(IProgressMonitor monitor) {
         super.doSave(monitor);
-        
+
         if (!PluginChecker.isTIS()) {
             return;
         }
-        
+
         NexusServerBean nexusServerBean = TalendLibsServerManager.getInstance().getCustomNexusServer();
-        
+
         if(nexusServerBean == null){
             return;
         }
-        
+
         if (GlobalServiceRegister.getDefault().isServiceRegistered(ILibrariesService.class)) {
-        
+
             List<? extends INode> graphicalNodes = this.getProcess().getGraphicalNodes();
             for (INode node : graphicalNodes) {
                 if (node.getComponent().getName().equals("cConfig")){
                     List<Map<String,String>> jars = (List) node.getElementParameter("DRIVER_JAR").getValue();
-                    
+
                     try {
                         if (isAvailable(nexusServerBean)) {
                             new ProgressMonitorDialog(getParent().getEditorSite().getShell()).run(true, true,
@@ -138,9 +138,9 @@ public class CamelTalendEditor extends AbstractTalendEditor {
                 }
             }
         }
-    
+
     }
-    
+
     private class RunnableWithProgress implements IRunnableWithProgress {
 
         private List<Map<String, String>> jars;
@@ -246,6 +246,10 @@ public class CamelTalendEditor extends AbstractTalendEditor {
                 monitor.worked(i);
 
             }
+
+
+            ((ILibrariesService) GlobalServiceRegister.getDefault().getService(ILibrariesService.class))
+                    .updateModulesNeededForCurrentJob(getProcess());
 
             monitor.done();
             if (monitor.isCanceled())

@@ -207,7 +207,7 @@ public class RouteResourceUtil {
             return null;
         }
 
-        final IFolder routeResourceFolder = talendProcessJavaProject.getResourcesFolder();
+        final IFolder routeResourceFolder = talendProcessJavaProject.getExternalResourcesFolder();
 
         final Collection<IPath> result = new ArrayList<IPath>();
         // https://jira.talendforge.org/browse/TESB-7893

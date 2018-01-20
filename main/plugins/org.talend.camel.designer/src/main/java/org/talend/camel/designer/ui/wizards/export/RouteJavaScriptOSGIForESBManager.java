@@ -149,7 +149,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                     IRunProcessService.class);
             ITalendProcessJavaProject talendProcessJavaProject = processService.getTalendJobJavaProject(processItem.getProperty());
             if (talendProcessJavaProject != null) {
-                srcFolder = talendProcessJavaProject.getResourcesFolder();
+                srcFolder = talendProcessJavaProject.getExternalResourcesFolder();
             }
         }
         if (srcFolder == null) {

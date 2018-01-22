@@ -39,6 +39,7 @@ import org.talend.designer.core.model.utils.emf.talendfile.ElementParameterType;
 import org.talend.designer.core.model.utils.emf.talendfile.ElementValueType;
 import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
 import org.talend.designer.core.model.utils.emf.talendfile.ProcessType;
+import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.publish.core.models.FeatureModel;
 import org.talend.designer.publish.core.models.FeaturesModel;
 import org.talend.repository.ProjectManager;
@@ -259,15 +260,12 @@ public final class CamelFeatureUtil {
 	 */
 	public static String getMavenGroupId(Item item) {
 		if (item != null) {
-			String projectName = JavaResourcesHelper.getProjectFolderName(item);
-			String itemName = item.getProperty().getDisplayName(); // .getLabel()
-																	// ?
-
-			return projectName + '.' + itemName;
+		    return PomIdsHelper.getJobGroupId(item.getProperty());
 		}
 		return null;
 	}
 
+	@Deprecated
 	public static String getMavenGroupId(String jobId, String jobName, String defaultProject) {
 		return JavaResourcesHelper.getGroupItemName(
 				getJobProjectName(jobId, jobName, defaultProject), jobName);

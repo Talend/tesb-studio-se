@@ -17,9 +17,9 @@
 #if ($useSecuritySAML || $useServiceRegistry)
 #[[
     <property-placeholder persistent-id="org.talend.esb.job.service" placeholder-prefix="$default{"
-        xmlns="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.3.0"/>
+        xmlns="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.3.0" id="tesbJobServiceDefaults"/>
     <property-placeholder ]]#persistent-id="org.talend.esb.job.service.${samlConfig}"#[[ placeholder-prefix="$service{"
-        xmlns="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.3.0" >
+        xmlns="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.3.0" depends-on="tesbJobServiceDefaults">
         <default-properties>
             <property name="security.signature.username" value="$default{security.signature.username}" />
             <property name="security.signature.password" value="$default{security.signature.password}" />

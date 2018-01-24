@@ -281,12 +281,18 @@
 
 			if (arguments != null) {
 				try {
-					java.lang.reflect.Method getProperty = arguments.getClass()
-							.getDeclaredMethod("getProperty",
-									new Class[] { String.class });
-					getProperty.setAccessible(true);
+				
+					if(arguments instanceof java.util.HashMap) {
+						rs = (String)((java.util.HashMap)arguments).get(key);
+					}else {
 					
-					rs = (String) getProperty.invoke(arguments, key);
+						java.lang.reflect.Method getProperty = arguments.getClass()
+								.getDeclaredMethod("getProperty",
+										new Class[] { String.class });
+						getProperty.setAccessible(true);
+						
+						rs = (String) getProperty.invoke(arguments, key);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -348,6 +354,11 @@ for (IContextParameter ctxParam : params) {
 	}
 
 	private String contextStr = "<%=codeGenArgument.getContextName() %>";
+
+	
+	public void setContextName(String contextName){
+		contextStr = contextName;
+	}
 
 <%
     if(stats) {

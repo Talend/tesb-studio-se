@@ -86,7 +86,7 @@
 		<PARAMETER NAME="AMQ_PASSWORD" FIELD="PASSWORD" NUM_ROW="14"
 			SHOW_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_AUTH == 'true')">
 			<DEFAULT>""</DEFAULT>
-		</PARAMETER>	
+		</PARAMETER>
 
         <PARAMETER NAME="AMQ_USE_RETROACTIVE_CONSUMER" FIELD="CHECK" REQUIRED="false"
             NUM_ROW="15" SHOW_IF="MQ_TYPE == 'ACTIVEMQ'">
@@ -110,8 +110,8 @@
 				<ITEM NAME="BINDINGS" VALUE="0" />
 				<ITEM NAME="CLIENT" VALUE="1" />
 				<ITEM NAME="BINDINGS_CLIENT" VALUE="8" />
-				<!--<ITEM NAME="DIRECT_TCPIP" VALUE="2" /> <ITEM NAME="DIRECT_HTTP" VALUE="4"
-					/> -->
+				<!-- <ITEM NAME="DIRECT_TCPIP" VALUE="2" />
+				<ITEM NAME="DIRECT_HTTP" VALUE="4" /> -->
 			</ITEMS>
 		</PARAMETER>
 
@@ -151,8 +151,8 @@
 				<ITEM NAME="JAR_NAME" FIELD="MODULE_LIST" />
 			</ITEMS>
 		</PARAMETER>
-		
-		<!-- WebSphere MQ Native -->				
+
+		<!-- WebSphere MQ Native -->
 		<PARAMETER NAME="WMQ_N_SEVER" FIELD="TEXT" NUM_ROW="7"
 			SHOW_IF="MQ_TYPE == 'WMQ_N'">
 			<DEFAULT>"localhost"</DEFAULT>
@@ -162,12 +162,12 @@
 			SHOW_IF="MQ_TYPE == 'WMQ_N'">
 			<DEFAULT>"1414"</DEFAULT>
 		</PARAMETER>
-		
+
 		<PARAMETER NAME="WMQ_N_CHANNEL" FIELD="TEXT" NUM_ROW="9"
 			SHOW_IF="MQ_TYPE == 'WMQ_N'">
 			<DEFAULT>"channel.name"</DEFAULT>
 		</PARAMETER>
-		
+
 		<PARAMETER NAME="WMQ_N_NAME" FIELD="TEXT" NUM_ROW="10"
 			SHOW_IF="MQ_TYPE == 'WMQ_N'">
 			<DEFAULT>"default"</DEFAULT>
@@ -177,7 +177,7 @@
 			NUM_ROW="12" SHOW_IF="MQ_TYPE == 'WMQ_N'">
 			<DEFAULT>false</DEFAULT>
 		</PARAMETER>
-		
+
 		<PARAMETER NAME="WMQ_N_CCSID" FIELD="CCSID" NUM_ROW="13"
 			SHOW_IF="(MQ_TYPE == 'WMQ_N') AND (WMQ_N_AUTH == 'true')">
 			<DEFAULT>""</DEFAULT>
@@ -241,7 +241,7 @@
 			SHOW_IF="MQ_TYPE == 'MQTT'">
 			<DEFAULT>1883</DEFAULT>
 		</PARAMETER>
-		
+
 		<PARAMETER NAME="MQTT_SSL" FIELD="CHECK" NUM_ROW="6"
 			SHOW_IF="MQ_TYPE == 'MQTT'">
 		</PARAMETER>
@@ -251,14 +251,14 @@
 		<PARAMETER NAME="MQTT_SSL_TRUST_STORE_PASSWORD" FIELD="PASSWORD" NUM_ROW="7"
 			SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
 		</PARAMETER>
-		
+
         <PARAMETER NAME="MQTT_SSL_KEY_STORE" FIELD="FILE" NUM_ROW="8"
             SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
         </PARAMETER>
         <PARAMETER NAME="MQTT_SSL_KEY_STORE_PASSWORD" FIELD="PASSWORD" NUM_ROW="8"
             SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_SSL == 'true')">
-        </PARAMETER>		
-		
+        </PARAMETER>
+
 		<PARAMETER NAME="MQTT_CONNECT_ATTEMPTS" FIELD="TEXT" NUM_ROW="11"
 			SHOW_IF="MQ_TYPE == 'MQTT'">
 			<DEFAULT>-1</DEFAULT>
@@ -307,12 +307,12 @@
 				<ITEM NAME="JAR_NAME" FIELD="MODULE_LIST" />
 			</ITEMS>
 		</PARAMETER>
-		
+
         <PARAMETER NAME="MQTT_AUTH" FIELD="CHECK" REQUIRED="true"
             NUM_ROW="31" SHOW_IF="(MQ_TYPE == 'MQTT')">
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
-        
+
         <PARAMETER NAME="MQTT_USERNAME" FIELD="TEXT" NUM_ROW="32"
             SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_AUTH == 'true')">
             <DEFAULT>""</DEFAULT>
@@ -321,21 +321,22 @@
         <PARAMETER NAME="MQTT_PASSWORD" FIELD="PASSWORD" NUM_ROW="32"
             SHOW_IF="(MQ_TYPE == 'MQTT') AND (MQTT_AUTH == 'true')">
             <DEFAULT>""</DEFAULT>
-        </PARAMETER>    		
+        </PARAMETER>
 
-	</PARAMETERS>
+    </PARAMETERS>
 
-	<ADVANCED_PARAMETERS>
-	</ADVANCED_PARAMETERS>
+    <ADVANCED_PARAMETERS>
+    </ADVANCED_PARAMETERS>
 
-	<CODEGENERATION>
-		<IMPORTS>
+    <CODEGENERATION>
+        <IMPORTS>
             <IMPORT MODULE_GROUP="camel-core" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-spring" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-jms" REQUIRED="true"/>
             <!-- IMPORT MODULE_GROUP="camel-wmq-alldep" REQUIRED_IF="(MQ_TYPE == 'WMQ_N')" / -->
 
-            <IMPORT MODULE="activemq-all"
+            <IMPORT MODULE="activemq-all-5.15.2.tesb1.jar" MVN="mvn:org.talend.libraries/activemq-all-5.15.2.tesb1/6.0.0" NAME="activemq-all"
+                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/activemq-all-5.15.2.tesb1.jar"
                     REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ')" />
             <IMPORT MODULE="commons-pool" 
                     REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL=='true')" />
@@ -356,12 +357,12 @@
             <IMPORT NAME="javax.transaction" MODULE="javax.transaction_1.1.1.v201105210645.jar" 
                     UrlPath="platform:/base/plugins/javax.transaction_1.1.1.v201105210645.jar"
                     REQUIRED_IF="(MQ_TYPE == 'WMQ')" />
-                    
+
             <IMPORT MODULE="camel-wmq-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-wmq-alldep-${camel.version}/6.0.0" NAME="talend-camel-wmq" 
                 UrlPath="platform:/plugin/org.talend.libraries.camel.wmq.alldeps/lib/camel-wmq-alldep-${camel.version}.jar"
                     REQUIRED_IF="(MQ_TYPE == 'WMQ_N')" />
-		</IMPORTS>
-	</CODEGENERATION>
+        </IMPORTS>
+    </CODEGENERATION>
 
-	<RETURNS />
+    <RETURNS />
 </COMPONENT>

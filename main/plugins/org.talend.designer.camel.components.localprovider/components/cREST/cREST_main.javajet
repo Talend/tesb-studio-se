@@ -52,10 +52,6 @@ imports="
 			})
 <%
 	} else {
-        if (hasOidcClientAuthentication) {
-        %>
-        .setHeader("Authorization", constant(oidcClientBearer(<%=ElementParameterParser.getValue(node, "__USERNAME__")%>, <%=ElementParameterParser.getValue(node, "__PASSWORD__")%>)))<%
-        }
 
 		if ("MANUAL".equals(ElementParameterParser.getValue(node, "__SERVICE_TYPE__"))) {
 			String acceptType = paramsHelper.getVisibleStringParam("__ACCEPT_TYPE__");

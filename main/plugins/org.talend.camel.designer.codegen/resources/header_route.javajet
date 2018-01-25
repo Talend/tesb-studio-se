@@ -2491,6 +2491,12 @@ if (isProvider) {
                             <% } %>
                             org.talend.esb.security.saml.SAMLRESTUtils.configureClient(cf_<%=cid%>, stsClient_<%=cid%>);
 <%
+                        }else if ("OIDC".equals(ElementParameterParser.getValue(node, "__SECURITY_TYPE__"))) {
+                        	if(hasOidcClientAuthentication){
+%>
+                            org.talend.esb.security.oidc.OidcClientUtils.configureClient(cf_<%=cid%>, <%=ElementParameterParser.getValue(node, "__USERNAME__")%>, <%=ElementParameterParser.getValue(node, "__PASSWORD__")%>, getOidcSettings());
+<%
+                        	}
                         }
                     }
                 }

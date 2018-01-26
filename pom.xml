@@ -129,7 +129,10 @@
     <module>main/plugins/org.talend.designer.esb.components.rs.consumer</module>
     <module>main/plugins/org.talend.designer.esb.components.rs.provider</module>
     <module>main/plugins/org.talend.designer.esb.components.ws.consumer</module>
+    <module>main/plugins/org.talend.designer.esb.components.ws.crest</module>
     <module>main/plugins/org.talend.designer.esb.components.ws.provider</module>
+    <module>main/plugins/org.talend.designer.esb.components.ws.tools.extensions</module>
+    <module>main/plugins/org.talend.designer.esb.components.ws.trestrequest</module>
     <module>main/plugins/org.talend.designer.esb.routines</module>
     <module>main/plugins/org.talend.libraries.esb</module>
     <module>main/plugins/org.talend.rcp.branding.esbstandard</module>

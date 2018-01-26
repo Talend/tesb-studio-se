@@ -52,9 +52,9 @@
             bundleID="" />
 
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="activemq-all-5.15.2.tesb1.jar"
+            name="${tesb-activemq-all}"
             id="activemq-all"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/activemq-all-5.15.2.tesb1.jar"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-activemq-all}"
             bundleID="" />
 
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"

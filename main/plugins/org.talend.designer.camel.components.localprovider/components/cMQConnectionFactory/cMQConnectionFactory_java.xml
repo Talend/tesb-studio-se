@@ -335,8 +335,7 @@
             <IMPORT MODULE_GROUP="camel-jms" REQUIRED="true"/>
             <!-- IMPORT MODULE_GROUP="camel-wmq-alldep" REQUIRED_IF="(MQ_TYPE == 'WMQ_N')" / -->
 
-            <IMPORT MODULE="activemq-all-5.15.2.tesb1.jar" MVN="mvn:org.talend.libraries/activemq-all-5.15.2.tesb1/6.0.0" NAME="activemq-all"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/activemq-all-5.15.2.tesb1.jar"
+            <IMPORT MODULE="activemq-all"
                     REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ')" />
             <IMPORT MODULE="commons-pool" 
                     REQUIRED_IF="(MQ_TYPE == 'ACTIVEMQ') AND (AMQ_POOL=='true')" />

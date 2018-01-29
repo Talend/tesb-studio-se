@@ -2237,6 +2237,11 @@ if (isProvider) {
 						<%= generateAddRoutesMethod(process)%>
 					<%}%>
                 <%}else{%>
+                	<%if(!isRoutelet) {%>
+                	if(inOSGi){
+						<%= generateAddRoutesMethod(process)%>
+					}
+                	<%}%>
                     //read context values
                     readContextValues(contextStr);
                 <%}%>

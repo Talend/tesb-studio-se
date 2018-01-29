@@ -60,14 +60,15 @@ public class CLASS {
 			                "readContextValues(contextStr);\n" + 
 			                "for (java.util.Map.Entry<Object, Object> entry : context.entrySet()) {\n" + 
 			                "    routeContext.put((String) entry.getKey(), (String) entry.getValue());\n" + 
-			                "}\n");	            		
+			                "}\n");
+			        	code.append(instanceName +".setArguments(routeContext);\n");
 	            	}
-	            	if(!exportTypeSpringBoot){
-						code.append(instanceName +".setArguments(routeContext);\n");	            	
-	            	}
+	            	code.append(instanceName+".setContextName(contextStr);\n");
 	            }else if(useSelected){
 	            	//do nothing
-	            }
+	            }else if(useRoutelet){
+	            	code.append(instanceName+".setContextName(\""+node.getComponent().getProcess().getContextManager().getDefaultContext().getName()+"\");\n");
+	            }	            
 	            if(userDefinedParams!=null && userDefinedParams.size()>0){
 	            	code.append("final Map<String, String> overwriteContext_"+instanceName+" = new HashMap<String, String>();\n"); 
 	            	for(Map<String,String> map :userDefinedParams){
@@ -76,7 +77,7 @@ public class CLASS {
 	            	code.append(instanceName +".setArguments(overwriteContext_"+instanceName+");\n");
 	            }
 
-	            code.append("camelContext.addRoutes("+instanceName+");");
+	            if (exportTypeSpringBoot) code.append("camelContext.addRoutes("+instanceName+");");
             }
         }
         

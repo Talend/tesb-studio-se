@@ -353,7 +353,7 @@ for (IContextParameter ctxParam : params) {
 %>
 	}
 
-	private String contextStr = "<%=codeGenArgument.getContextName() %>";
+	private static String contextStr = "<%=codeGenArgument.getContextName() %>";
 
 	
 	public void setContextName(String contextName){

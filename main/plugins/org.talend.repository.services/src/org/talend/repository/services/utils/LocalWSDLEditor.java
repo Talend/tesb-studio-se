@@ -38,7 +38,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.wsdl.ui.internal.InternalWSDLMultiPageEditor;
-import org.eclipse.wst.wsdl.ui.internal.WSDLEditorResourceChangeHandler;
 import org.eclipse.wst.wsdl.ui.internal.actions.OpenInNewEditor;
 import org.eclipse.wst.wsdl.ui.internal.adapters.WSDLBaseAdapter;
 import org.eclipse.wst.wsdl.ui.internal.asd.actions.BaseSelectionAction;

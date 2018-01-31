@@ -4,20 +4,29 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.ui.PlatformUI;
+import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.utils.io.FilesUtils;
 import org.talend.core.model.process.IContext;
 import org.talend.core.model.properties.Item;
 import org.talend.core.model.repository.IRepositoryViewObject;
+import org.talend.core.runtime.process.ITalendProcessJavaProject;
+import org.talend.core.runtime.process.TalendProcessArgumentConstant;
 import org.talend.core.ui.export.ArchiveFileExportOperationFullPath;
+import org.talend.designer.maven.model.TalendMavenConstants;
 import org.talend.designer.runprocess.IProcessor;
 import org.talend.repository.documentation.ExportFileResource;
 import org.talend.repository.model.IRepositoryNode.ENodeType;
@@ -38,6 +47,8 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
 
     private ServiceExportWithMavenManager manager;
 
+    private boolean addMavenScript;
+
     /**
      * DOC ycbai ExportServiceWithMavenAction constructor comment.
      * 
@@ -47,8 +58,9 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
      * @throws InvocationTargetException
      */
     public ExportServiceWithMavenAction(ServiceExportWithMavenManager manager, Map<ExportChoice, Object> exportChoiceMap,
-            ServiceItem serviceItem, String targetPath) throws InvocationTargetException {
+            ServiceItem serviceItem, String targetPath, boolean addMavenScript) throws InvocationTargetException {
         super(serviceItem, targetPath, exportChoiceMap);
+        this.addMavenScript = addMavenScript;
 
         if (manager == null) {
             this.manager = new ServiceExportWithMavenManager(exportChoiceMap, IContext.DEFAULT, JobScriptsManager.LAUNCHER_ALL,
@@ -67,6 +79,36 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
             addJobFilesToExport(monitor);
             addMavenFilesToExport(monitor);
             super.processFinalResult(serviceManager.getDestinationPath());
+            if (!addMavenScript) {
+                ITalendProcessJavaProject javaProject = createServiceJavaProject();
+                String path = javaProject.getProject().getLocation().toPortableString();
+                ZipToFile.unZipFile(serviceManager.getDestinationPath(), path);
+                new File(serviceManager.getDestinationPath()).delete();
+
+                final Map<String, Object> argumentsMap = new HashMap<String, Object>();
+                argumentsMap.put(TalendProcessArgumentConstant.ARG_GOAL, TalendMavenConstants.GOAL_PACKAGE);
+                // argumentsMap.put(TalendProcessArgumentConstant.ARG_PROGRAM_ARGUMENTS, exportChoiceMap);
+                javaProject.buildModules(monitor, null, argumentsMap);
+                
+                IFolder targetFolder = javaProject.getTargetFolder();
+                IFile jobFile = null;
+                try {
+                    targetFolder.refreshLocal(IResource.DEPTH_ONE, null);
+                    // we only build one zip at a time, so just get the zip file to be able to manage some pom customizations.
+                    for (IResource resource : targetFolder.members()) {
+                        if (resource instanceof IFile) {
+                            IFile file = (IFile) resource;
+                            if ("kar".equals(file.getFileExtension())) {
+                                jobFile = file;
+                                break;
+                            }
+                        }
+                    }
+                } catch (CoreException e) {
+                    ExceptionHandler.process(e);
+                }
+                FilesUtils.copyFile(jobFile.getLocation().toFile(), new File(serviceManager.getDestinationPath())); //$NON-NLS-1$
+            }
         } catch (Throwable e) {
             throw new InvocationTargetException(e);
         } finally {
@@ -77,8 +119,8 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
     private void addMavenFilesToExport(IProgressMonitor monitor) throws Throwable {
         manager.setDestinationPath(serviceManager.getDestinationPath());
         String tempDestinationPath = getTempDestinationValue();
-        List<ExportFileResource> resourcesToExport = manager.getExportResources(
-                new ExportFileResource[] { new ExportFileResource(serviceItem, "") }); //$NON-NLS-1$
+        List<ExportFileResource> resourcesToExport = manager
+                .getExportResources(new ExportFileResource[] { new ExportFileResource(serviceItem, "") }); //$NON-NLS-1$
         ArchiveFileExportOperationFullPath exporterOperation = new ArchiveFileExportOperationFullPath(resourcesToExport,
                 tempDestinationPath);
         manager.setTopFolder(resourcesToExport);
@@ -93,8 +135,7 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
         // control bundle file
         ZipToFile.unZipFile(getControlBundleFilePath(), tempFolder + PATH_SEPERATOR + resourcesPath);
         // feature file
-        FilesUtils.copyFile(getFeatureFile(), new File(tempFolder + PATH_SEPERATOR + resourcesPath
-                + "/feature/feature.xml")); //$NON-NLS-1$
+        FilesUtils.copyFile(getFeatureFile(), new File(tempFolder + PATH_SEPERATOR + resourcesPath + "/feature/feature.xml")); //$NON-NLS-1$
         FilesUtils.removeFolder(tempFolder + PATH_SEPERATOR + repositoryPath, true);
     }
 
@@ -134,11 +175,12 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
             File destFile = new File(tempFolder + PATH_SEPERATOR + artefactName + osgiManager.getOutputSuffix());
             String destinationPath = destFile.getAbsolutePath();
             osgiManager.setDestinationPath(destinationPath);
-            JobExportAction job = new JobExportAction(Collections.singletonList(new RepositoryNode(node, null, ENodeType.REPOSITORY_ELEMENT)),
-                    version, osgiManager, directoryName);
+            JobExportAction job = new JobExportAction(
+                    Collections.singletonList(new RepositoryNode(node, null, ENodeType.REPOSITORY_ELEMENT)), version, osgiManager,
+                    directoryName);
             job.run(monitor);
-            ZipToFile.unZipFile(destinationPath, tempFolder + PATH_SEPERATOR + ServiceExportWithMavenManager.OPERATIONS_PATH
-                    + artefactName);
+            ZipToFile.unZipFile(destinationPath,
+                    tempFolder + PATH_SEPERATOR + ServiceExportWithMavenManager.OPERATIONS_PATH + artefactName);
             FilesUtils.removeFile(destFile);
         }
     }
@@ -146,7 +188,8 @@ public class ExportServiceWithMavenAction extends ExportServiceAction {
     /**
      * Export the passed resource and recursively export all of its child resources (iff it's a container). Answer a
      * boolean indicating success.
-     * @throws Throwable 
+     * 
+     * @throws Throwable
      */
     private void executeExportOperation(ArchiveFileExportOperationFullPath op, IProgressMonitor monitor) throws Throwable {
         op.setCreateLeadupStructure(true);

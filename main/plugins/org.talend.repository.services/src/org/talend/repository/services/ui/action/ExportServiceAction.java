@@ -12,12 +12,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.maven.model.Model;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.m2e.core.MavenPlugin;
+import org.eclipse.m2e.core.internal.Messages;
+import org.eclipse.m2e.core.internal.project.ProjectConfigurationManager;
+import org.eclipse.m2e.core.project.ProjectImportConfiguration;
+import org.eclipse.osgi.util.NLS;
 import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.exception.PersistenceException;
 import org.talend.commons.runtime.utils.io.FileCopyUtils;
@@ -26,9 +36,15 @@ import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.model.repository.IRepositoryViewObject;
 import org.talend.core.repository.constants.FileConstants;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
+import org.talend.core.runtime.process.ITalendProcessJavaProject;
+import org.talend.designer.maven.model.MavenSystemFolders;
+import org.talend.designer.maven.model.ProjectSystemFolder;
+import org.talend.designer.maven.model.TalendMavenConstants;
+import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.publish.core.models.BundleModel;
 import org.talend.designer.publish.core.models.FeatureModel;
 import org.talend.designer.publish.core.models.FeaturesModel;
+import org.talend.designer.runprocess.java.TalendJavaProjectManager;
 import org.talend.repository.model.IRepositoryNode.ENodeType;
 import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.services.model.services.ServiceConnection;
@@ -139,6 +155,10 @@ public class ExportServiceAction implements IRunnableWithProgress {
     }
 
     public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+        
+        ITalendProcessJavaProject javaProject = createServiceJavaProject();
+        String path = javaProject.getProject().getLocation().toPortableString();
+        
         String destinationPath = serviceManager.getDestinationPath();
         if (!destinationPath.endsWith(FileConstants.KAR_FILE_SUFFIX)) {
             destinationPath = destinationPath.replace("\\", PATH_SEPERATOR); //$NON-NLS-1$
@@ -178,6 +198,101 @@ public class ExportServiceAction implements IRunnableWithProgress {
         }
     }
 
+
+    protected ITalendProcessJavaProject createServiceJavaProject() {
+        IProgressMonitor monitor = new NullProgressMonitor();
+
+        // temp model.
+        Model model = new Model();
+        model.setModelVersion("4.0.0"); //$NON-NLS-1$
+        model.setGroupId(PomIdsHelper.getJobGroupId("services.talend.org.CRMService.CRMService"));
+        model.setArtifactId("talend"); //$NON-NLS-1$
+        model.setVersion(PomIdsHelper.getProjectVersion());
+        model.setPackaging(TalendMavenConstants.PACKAGING_JAR);
+        // if (pomFile.exists()) {
+        // model = MavenPlugin.getMavenModelManager().readMavenModel(pomFile);
+        // } else {
+        // // first time create, use temp model.
+        // }
+        // always use temp model to avoid classpath problem?
+
+        final ProjectImportConfiguration importConfiguration = new ProjectImportConfiguration();
+        IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject("LOCAL_PROJECT");
+        // beforeCreate(monitor, p);// mvn clean
+
+        try {
+            return createSimpleProject(monitor, p, model, importConfiguration);
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+        // gen jobs project with OSGi type
+
+        // package the parent maven project
+
+    }
+    
+
+    private ITalendProcessJavaProject createSimpleProject(IProgressMonitor monitor, IProject p, Model model,
+            ProjectImportConfiguration importConfiguration) throws CoreException {
+        final String[] directories = getFolders();
+
+        ProjectConfigurationManager projectConfigurationManager = (ProjectConfigurationManager) MavenPlugin
+                .getProjectConfigurationManager();
+
+        String projectName = p.getName();
+        monitor.beginTask(NLS.bind(Messages.ProjectConfigurationManager_task_creating, projectName), 5);
+
+        monitor.subTask(Messages.ProjectConfigurationManager_task_creating_workspace);
+        IProjectDescription description = ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
+
+        ITalendProcessJavaProject javaProject = TalendJavaProjectManager.getTalendJobJavaProject(serviceItem.getProperty());
+        // ITalendProcessJavaProject javaProject =
+        // TalendJavaProjectManager.getTalendCodeJavaProject(ERepositoryObjectType.PROCESS);
+        
+        p.open(monitor);
+        monitor.worked(1);
+
+        // hideNestedProjectsFromParents(Collections.singletonList(p));
+
+        monitor.worked(1);
+
+        monitor.subTask(Messages.ProjectConfigurationManager_task_creating_pom);
+        IFile pomFile = p.getFile(TalendMavenConstants.POM_FILE_NAME);
+        if (!pomFile.exists()) {
+            MavenPlugin.getMavenModelManager().createMavenModel(pomFile, model);
+        }
+        monitor.worked(1);
+
+        monitor.subTask(Messages.ProjectConfigurationManager_task_creating_folders);
+        for (int i = 0; i < directories.length; i++) {
+            ProjectConfigurationManager.createFolder(p.getFolder(directories[i]), false);
+        }
+        monitor.worked(1);
+
+        monitor.subTask(Messages.ProjectConfigurationManager_task_creating_project);
+        projectConfigurationManager.enableMavenNature(p, importConfiguration.getResolverConfiguration(), monitor);
+        monitor.worked(1);
+
+        // if (this.pomFile == null) {
+        // this.pomFile = pomFile;
+        // }
+
+        return javaProject;
+    }
+    
+    protected String[] getFolders() {
+        ProjectSystemFolder[] mavenDirectories = MavenSystemFolders.ALL_DIRS;
+
+        String[] directories = new String[mavenDirectories.length];
+        for (int i = 0; i < directories.length; i++) {
+            directories[i] = mavenDirectories[i].getPath();
+        }
+
+        return directories;
+    }
+    
     private void addControlBundle(FeaturesModel feature) throws IOException, CoreException {
         final String artifactName = getServiceName() + "-control-bundle"; //$NON-NLS-1$
         feature.addBundle(new BundleModel(getGroupId(), artifactName, getServiceVersion(), generateControlBundle(getGroupId(),

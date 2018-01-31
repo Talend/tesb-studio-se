@@ -5,11 +5,11 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.talend.commons.ui.runtime.image.ECoreImage;
 import org.talend.commons.ui.runtime.image.ImageProvider;
+import org.talend.core.model.repository.RepositoryManager;
 import org.talend.repository.services.Messages;
 import org.talend.repository.services.ui.assign.AssignJobWizard;
 import org.talend.repository.services.ui.assign.AssignJobWizardDialog;
 import org.talend.repository.ui.actions.AContextualAction;
-import org.talend.core.model.repository.RepositoryManager;
 
 public class NewAssignJobAction extends AContextualAction {
 

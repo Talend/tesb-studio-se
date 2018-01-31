@@ -1,7 +1,6 @@
 package org.talend.repository.services.ui.validate;
 
 import org.eclipse.swt.SWT;
-
 import org.eclipse.swt.widgets.ToolTip;
 import org.eclipse.ui.PlatformUI;
 import org.talend.core.model.process.EConnectionType;

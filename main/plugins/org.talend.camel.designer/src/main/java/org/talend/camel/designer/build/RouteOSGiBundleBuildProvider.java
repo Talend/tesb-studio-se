@@ -19,7 +19,7 @@ import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IPath;
-import org.talend.camel.designer.ui.view.handler.BuildOsgiHandler;
+import org.talend.camel.designer.ui.view.handler.BuildBundleHandler;
 import org.talend.core.model.properties.Item;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.Property;
@@ -74,7 +74,7 @@ public class RouteOSGiBundleBuildProvider extends RepositoryObjectTypeBuildProvi
         if (!(choiceOption instanceof Map)) {
             return null;
         }
-        IBuildJobHandler buildHandler = new BuildOsgiHandler((ProcessItem) item, version.toString(), contextGroup.toString(),
+        IBuildJobHandler buildHandler = new BuildBundleHandler((ProcessItem) item, version.toString(), contextGroup.toString(),
                 (Map<ExportChoice, Object>) choiceOption);
         return buildHandler;
     }

@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -45,11 +46,16 @@ import org.talend.commons.ui.runtime.exception.MessageBoxExceptionHandler;
 import org.talend.core.GlobalServiceRegister;
 import org.talend.core.PluginChecker;
 import org.talend.core.repository.constants.FileConstants;
+import org.talend.core.runtime.process.IBuildJobHandler;
+import org.talend.core.runtime.process.LastGenerationInfo;
 import org.talend.core.service.IESBMicroService;
 import org.talend.designer.runprocess.IProcessor;
+import org.talend.designer.runprocess.ProcessorUtilities;
 import org.talend.repository.ui.wizards.exportjob.ExportTreeViewer;
 import org.talend.repository.ui.wizards.exportjob.JavaJobScriptsExportWSWizardPage;
+import org.talend.repository.ui.wizards.exportjob.JavaJobScriptsExportWSWizardPage.JobExportType;
 import org.talend.repository.ui.wizards.exportjob.JobScriptsExportWizardPage;
+import org.talend.repository.ui.wizards.exportjob.scriptsmanager.BuildJobFactory;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager.ExportChoice;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManagerFactory;
@@ -421,11 +427,12 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         }
 
         IESBMicroService microService = null;
+        if (GlobalServiceRegister.getDefault().isServiceRegistered(IESBMicroService.class)) {
+            microService = (IESBMicroService) GlobalServiceRegister.getDefault().getService(IESBMicroService.class);
+        }
+        
         if (exportTypeCombo.getText().equals(EXPORTTYPE_SPRING_BOOT)) {
 
-            if (GlobalServiceRegister.getDefault().isServiceRegistered(IESBMicroService.class)) {
-                microService = (IESBMicroService) GlobalServiceRegister.getDefault().getService(IESBMicroService.class);
-            }
             try {
                 if (microService != null) {
 
@@ -454,14 +461,29 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                 }
             }
 
+            IBuildJobHandler buildJobHandler = null;
+
             if (needMavenScript) {
                 action = new JavaCamelJobScriptsExportWithMavenAction(exportChoiceMap, nodes[0], version, destinationKar, false);
             } else {
+
+                buildJobHandler = BuildJobFactory.createBuildJobHandler(getProcessItem(), getContextName(), version,
+                        exportChoiceMap, JobExportType.ROUTE);
+
                 action = new JavaCamelJobScriptsExportWSAction(nodes[0], version, destinationKar, false);
+
+                ProcessorUtilities.setExportAsOSGI(true);
             }
 
             try {
                 getContainer().run(false, true, action);
+                try {
+                    buildJobHandler.build(new NullProgressMonitor());
+                } catch (Exception e) {
+                    MessageBoxExceptionHandler.process(e.getCause(), getShell());
+                    return false;
+                }
+                LastGenerationInfo.getInstance().setCurrentExportRootJob(null);
             } catch (InvocationTargetException e) {
                 MessageBoxExceptionHandler.process(e.getCause(), getShell());
                 return false;

@@ -288,5 +288,18 @@
        </RepositoryType>
     </RepositorySupportType>
  </extension>
+ <extension
+       point="org.talend.core.runtime.buildExport_provider">
+           <buildProvider
+                 description="Build SOAP service"
+                 id="org.talend.repository.services.export.BuildDataServiceProvider"
+                 provider="org.talend.repository.services.export.BuildDataServiceProvider">
+                 <buildType
+                       label="Service"
+                       name="Service"
+                 order="10">
+           </buildType>
+           </buildProvider>
+ </extension>
 
 </plugin>

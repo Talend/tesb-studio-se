@@ -26,6 +26,7 @@ import java.util.jar.Manifest;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
@@ -42,6 +43,8 @@ import org.talend.core.runtime.process.IBuildJobHandler;
 import org.talend.core.runtime.process.ITalendProcessJavaProject;
 import org.talend.core.runtime.process.TalendProcessArgumentConstant;
 import org.talend.designer.maven.model.TalendMavenConstants;
+import org.talend.designer.maven.utils.PomIdsHelper;
+import org.talend.designer.publish.core.models.BundleModel;
 import org.talend.designer.publish.core.models.FeatureModel;
 import org.talend.designer.publish.core.models.FeaturesModel;
 import org.talend.designer.runprocess.IProcessor;
@@ -100,7 +103,7 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
     private IFolder targetFolder;
 
     private ServiceExportWithMavenManager serviceExportWithMavenManager;
-    
+
     private ServiceExportManager serviceExportManager;
 
     public BuildDataServiceHandler(ServiceItem serviceItem, String version, String contextName,
@@ -164,7 +167,7 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
 
         serviceExportWithMavenManager = new ServiceExportWithMavenManager(exportChoiceMap, IContext.DEFAULT,
                 JobScriptsManager.LAUNCHER_ALL, IProcessor.NO_STATISTICS, IProcessor.NO_TRACES);
-        
+
         serviceExportManager = new ServiceExportManager(exportChoiceMap);
     }
 
@@ -216,7 +219,6 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
         FeaturesModel features = new FeaturesModel(getGroupId(), serviceName, serviceVersion);
         features.setConfigName(serviceName);
         features.setContexts(contextValues);
-
         ServiceConnection connection = (ServiceConnection) serviceItem.getConnection();
         String useRegistry = connection.getAdditionalInfo().get(ServiceMetadataDialog.USE_SERVICE_REGISTRY);
         if (!"true".equals(useRegistry)) {
@@ -233,28 +235,38 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
                 break;
             }
         }
-        
-        IFile feature = talendProcessJavaProject.createSubFolder(monitor, talendProcessJavaProject.getResourcesFolder(), "feature").getFile("feature.xml");
+
+        for (IRepositoryViewObject node : nodes) {
+            features.addBundle(new BundleModel(PomIdsHelper.getJobGroupId(node.getProperty()), serviceExportManager.getNodeLabel(node) + "-bundle", serviceVersion));
+        }
+        final String artifactName = serviceName + "-control-bundle"; //$NON-NLS-1$
+        features.addBundle(new BundleModel(PomIdsHelper.getJobGroupId(serviceItem.getProperty()), artifactName, serviceVersion));
+
+        IFile feature = talendProcessJavaProject
+                .createSubFolder(monitor, talendProcessJavaProject.getResourcesFolder(), "feature").getFile("feature.xml");
         setFileContent(features.getContent(), feature, monitor);
 
         // resources\META-INF\MANIFEST.MF
         Manifest manifest = serviceExportManager.getManifest(serviceName, serviceVersion, additionalInfo);
-        IFile mf = talendProcessJavaProject.createSubFolder(monitor, talendProcessJavaProject.getResourcesFolder(), "META-INF").getFile("MANIFEST.MF");
-        //talendProcessJavaProject.getResourceSubFolder(monitor, "META-INF").getFile("MANIFEST.MF");
+        IFile mf = talendProcessJavaProject.createSubFolder(monitor, talendProcessJavaProject.getResourcesFolder(), "META-INF")
+                .getFile("MANIFEST.MF");
+        // talendProcessJavaProject.getResourceSubFolder(monitor, "META-INF").getFile("MANIFEST.MF");
         FileOutputStream outputStream = new FileOutputStream(mf.getLocation().toFile());
         manifest.write(outputStream);
         outputStream.flush();
         outputStream.close();
-        
+
         // resources\**.wsdl
         IFile wsdl = talendProcessJavaProject.getResourcesFolder().getFile(serviceWsdl.getName());
         setFileContent(serviceWsdl.getContents(), wsdl, monitor);
-        
+
         // resources\OSGI-INF\blueprint\blueprint.xml
-        IFile blueprint = talendProcessJavaProject.createSubFolder(monitor, talendProcessJavaProject.getResourcesFolder(), "OSGI-INF/blueprint").getFile("blueprint.xml"); 
-                //talendProcessJavaProject.getResourceSubFolder(monitor, "OSGI-INF/blueprint").getFile("blueprint.xml");
+        IFile blueprint = talendProcessJavaProject
+                .createSubFolder(monitor, talendProcessJavaProject.getResourcesFolder(), "OSGI-INF/blueprint")
+                .getFile("blueprint.xml");
+        // talendProcessJavaProject.getResourceSubFolder(monitor, "OSGI-INF/blueprint").getFile("blueprint.xml");
         serviceExportManager.createBlueprint(blueprint.getLocation().toFile(), ports, additionalInfo, wsdl, serviceName);
-        
+
         // Generate poms
         List<ExportFileResource> resources = serviceExportWithMavenManager
                 .getExportResources(new ExportFileResource[] { new ExportFileResource(serviceItem, "") });
@@ -305,14 +317,33 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
     }
 
     /*
-     * (non-Javadoc)
+     * Bundle extention is kar
      * 
      * @see org.talend.core.runtime.process.IBuildJobHandler#getJobTargetFile()
      */
     @Override
     public IFile getJobTargetFile() {
-        // TODO Auto-generated method stub
-        return null;
+        if (talendProcessJavaProject == null) {
+            return null;
+        }
+        IFolder targetFolder = talendProcessJavaProject.getTargetFolder();
+        IFile bundleFile = null;
+        try {
+            targetFolder.refreshLocal(IResource.DEPTH_ONE, null);
+            // we only build one zip at a time, so just get the zip file to be able to manage some pom customizations.
+            for (IResource resource : targetFolder.members()) {
+                if (resource instanceof IFile) {
+                    IFile file = (IFile) resource;
+                    if ("kar".equals(file.getFileExtension())) {
+                        bundleFile = file;
+                        break;
+                    }
+                }
+            }
+        } catch (CoreException e) {
+            ExceptionHandler.process(e);
+        }
+        return bundleFile;
     }
 
     public String getGroupId() {
@@ -335,13 +366,17 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
         return (servNS + serviceName).replace('/', '.');
     }
 
-    /* (non-Javadoc)
-     * @see org.talend.core.runtime.repository.build.IBuildExportHandler#prepare(org.eclipse.core.runtime.IProgressMonitor, java.util.Map)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.talend.core.runtime.repository.build.IBuildExportHandler#prepare(org.eclipse.core.runtime.IProgressMonitor,
+     * java.util.Map)
      */
     @Override
     public void prepare(IProgressMonitor monitor, Map<String, Object> parameters) throws Exception {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

@@ -36,6 +36,7 @@ import org.talend.designer.maven.model.TalendJavaProjectConstants;
 import org.talend.designer.maven.model.TalendMavenConstants;
 import org.talend.designer.maven.template.MavenTemplateManager;
 import org.talend.designer.maven.tools.AggregatorPomsHelper;
+import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.maven.utils.PomUtil;
 import org.talend.designer.runprocess.ProcessorException;
 import org.talend.repository.documentation.ExportFileResource;
@@ -111,15 +112,12 @@ public class ServiceExportWithMavenManager extends JavaScriptForESBWithMavenMana
 
                 if (FilesUtils.allInSameFolder(templatePomFile,
                         IProjectSettingTemplateConstants.MAVEN_CONTROL_BUILD_BUNDLE_FILE_NAME,
-                        IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_FEATURE_FILE_NAME,
-                        IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_PARENT_FILE_NAME)) {
+                        IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_FEATURE_FILE_NAME)) {
 
                     templateBundleFile = new File(templatePomFile.getParentFile(),
                             IProjectSettingTemplateConstants.MAVEN_CONTROL_BUILD_BUNDLE_FILE_NAME);
                     templateFeatureFile = new File(templatePomFile.getParentFile(),
                             IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_FEATURE_FILE_NAME);
-                    templateParentFile = new File(templatePomFile.getParentFile(),
-                            IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_PARENT_FILE_NAME);
 
                 } else { // don't use template file from repository.
                     // other files is not init, so no need set null at all.
@@ -133,8 +131,6 @@ public class ServiceExportWithMavenManager extends JavaScriptForESBWithMavenMana
                 getTmpFolder() + PATH_SEPARATOR + IProjectSettingTemplateConstants.MAVEN_CONTROL_BUILD_BUNDLE_FILE_NAME);
         File mavenBuildFeatureFile = new File(
                 getTmpFolder() + PATH_SEPARATOR + IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_FEATURE_FILE_NAME);
-        File mavenBuildParentFile = new File(
-                getTmpFolder() + PATH_SEPARATOR + IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_PARENT_FILE_NAME);
 
         try {
             final Map<String, Object> templateParameters = PomUtil.getTemplateParameters(item.getProperty());
@@ -169,17 +165,6 @@ public class ServiceExportWithMavenManager extends JavaScriptForESBWithMavenMana
                 createMavenBuildFileFromTemplate(mavenBuildFeatureFile, mavenScript);
                 updateMavenBuildFileContent(mavenBuildFeatureFile, mavenPropertiesMap);
                 scriptsUrls.add(mavenBuildFeatureFile.toURL());
-            }
-
-            mavenScript = MavenTemplateManager.getTemplateContent(templateParentFile,
-                    IProjectSettingPreferenceConstants.TEMPLATE_SERVICES_KARAF_PARENT, PluginChecker.EXPORT_ROUTE_PLUGIN_ID,
-                    IProjectSettingTemplateConstants.PATH_SERVICES + '/'
-                            + IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_PARENT_FILE_NAME,
-                    templateParameters);
-            if (mavenScript != null) {
-                createMavenBuildFileFromTemplate(mavenBuildParentFile, mavenScript);
-                updateMavenBuildFileContent(mavenBuildParentFile, mavenPropertiesMap);
-                scriptsUrls.add(mavenBuildParentFile.toURL());
             }
         } catch (Exception e) {
             ExceptionHandler.process(e);
@@ -241,6 +226,9 @@ public class ServiceExportWithMavenManager extends JavaScriptForESBWithMavenMana
         if (getMavenGroupId() != null) {
             mavenPropertiesMap.put(EMavenBuildScriptProperties.ItemGroupName.getVarScript(), getMavenGroupId());
         }
+        mavenPropertiesMap.put("@ProjectGroupName@", PomIdsHelper.getProjectGroupId());
+        mavenPropertiesMap.put("@ProjectArtifactId@", PomIdsHelper.getProjectArtifactId());
+        mavenPropertiesMap.put("@ProjectVersion@", PomIdsHelper.getProjectVersion());
         return mavenPropertiesMap;
     }
 

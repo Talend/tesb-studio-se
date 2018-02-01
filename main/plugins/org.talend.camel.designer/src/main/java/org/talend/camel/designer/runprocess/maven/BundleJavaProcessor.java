@@ -25,6 +25,8 @@ import org.talend.core.model.properties.Property;
 import org.talend.core.repository.seeker.RepositorySeekerManager;
 import org.talend.core.runtime.repository.build.IMavenPomCreator;
 import org.talend.designer.maven.model.TalendMavenConstants;
+import org.talend.designer.maven.tools.AggregatorPomsHelper;
+import org.talend.designer.maven.utils.PomUtil;
 import org.talend.designer.runprocess.ProcessorException;
 import org.talend.designer.runprocess.maven.MavenJavaProcessor;
 import org.talend.repository.model.IRepositoryNode;
@@ -72,6 +74,26 @@ public class BundleJavaProcessor extends MavenJavaProcessor {
     @Override
     public void generateCode(boolean statistics, boolean trace, boolean javaProperties, int option) throws ProcessorException {
         super.generateCode(statistics, trace, javaProperties, option);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.talend.designer.runprocess.maven.MavenJavaProcessor#generateCodeAfter(boolean, boolean, boolean, int)
+     */
+    @Override
+    protected void generateCodeAfter(boolean statistics, boolean trace, boolean javaProperties, int option)
+            throws ProcessorException {
+        if (isStandardJob()) {
+            generatePom(option);
+        } else {
+            try {
+                PomUtil.updatePomDependenciesFromProcessor(this);
+                AggregatorPomsHelper.createRoutinesPom(getPomFile(), null);
+            } catch (Exception e) {
+                throw new ProcessorException(e);
+            }
+        }
     }
 
     /*

@@ -210,7 +210,7 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
                 e.printStackTrace();
             }
 
-            processResults(featuresModel, monitor);
+            // processResults(featuresModel, monitor);
 
         } finally {
             // remove generated files

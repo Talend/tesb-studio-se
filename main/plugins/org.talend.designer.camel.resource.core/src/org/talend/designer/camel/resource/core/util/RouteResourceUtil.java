@@ -13,6 +13,7 @@
 package org.talend.designer.camel.resource.core.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,6 +45,9 @@ import org.talend.core.model.process.EParameterFieldType;
 import org.talend.core.model.process.IElementParameter;
 import org.talend.core.model.process.INode;
 import org.talend.core.model.process.IProcess2;
+import org.talend.core.model.properties.FolderItem;
+import org.talend.core.model.properties.FolderType;
+import org.talend.core.model.properties.Item;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.ReferenceFileItem;
 import org.talend.core.model.repository.IRepositoryViewObject;
@@ -56,6 +60,7 @@ import org.talend.designer.core.model.utils.emf.talendfile.ElementParameterType;
 import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
 import org.talend.designer.runprocess.IRunProcessService;
 import org.talend.repository.ProjectManager;
+import org.talend.utils.io.FilesUtils;
 
 /**
  * Route Resource Utility
@@ -72,6 +77,8 @@ public class RouteResourceUtil {
     private static final String REPACE_SLASH_TAG = "\\|";
 
     private static final String ROUTE_RESOURCES_PROP = "ROUTE_RESOURCES_PROP";
+
+    private static final String RESOURCES = "resources";
 
     /**
      * Get source file of Item.
@@ -230,8 +237,22 @@ public class RouteResourceUtil {
         }
 
         for (ResourceDependencyModel model : getResourceDependencies(item)) {
+
             IFile file = copyResources(routeResourceFolder, model);
+
+            String itemName = getItemName(model.getItem()) + file.getName();
+
             if (file != null) {
+
+                try {
+                    FilesUtils.copyFile(file.getLocation().toFile(),
+                            new File(talendProcessJavaProject.getBundleResourcesFolder().getLocation().toOSString()
+                                    + File.separator
+                                    + RESOURCES + File.separator + itemName));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 result.add(file.getLocation());
             }
         }
@@ -259,6 +280,23 @@ public class RouteResourceUtil {
             }
         }
         return models;
+    }
+
+    private static String getItemName(Item item) {
+        Item pi = (Item) item.getParent();
+
+        if (pi instanceof FolderItem) {
+            FolderItem folderItem = (FolderItem) pi;
+
+            if (folderItem.getType() == FolderType.SYSTEM_FOLDER_LITERAL) {
+                return "";
+            } else if (folderItem.getType() == FolderType.FOLDER_LITERAL) {
+                String in = getItemName(folderItem);
+                return in + folderItem.getProperty().getLabel() + File.separator;
+            }
+        }
+
+        return null;
     }
 
     /**

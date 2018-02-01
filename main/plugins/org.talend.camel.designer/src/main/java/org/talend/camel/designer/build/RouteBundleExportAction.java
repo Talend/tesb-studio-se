@@ -1,0 +1,130 @@
+//============================================================================
+//
+// Talend Community Edition
+//
+// Copyright (C) 2006-2013 Talend – www.talend.com
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+//
+//============================================================================
+package org.talend.camel.designer.build;
+
+import java.io.File;
+import java.net.URL;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.talend.camel.designer.ui.wizards.export.RouteJavaScriptOSGIForESBManager;
+import org.talend.commons.utils.io.FilesUtils;
+import org.talend.core.CorePlugin;
+import org.talend.core.repository.constants.FileConstants;
+import org.talend.core.runtime.process.ITalendProcessJavaProject;
+import org.talend.designer.runprocess.IRunProcessService;
+import org.talend.repository.documentation.ExportFileResource;
+import org.talend.repository.model.IRepositoryNode;
+import org.talend.repository.ui.wizards.exportjob.action.JobExportAction;
+import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager;
+
+/**
+ * DOC sunchaoqun  class global comment. Detailled comment
+ * <br/>
+ *
+ * $Id$
+ *
+ */
+public class RouteBundleExportAction extends JobExportAction {
+
+    private List<? extends IRepositoryNode> nodes;
+
+    private IRunProcessService runProcessService;
+
+    private RouteJavaScriptOSGIForESBManager manager;
+
+    private String type;
+
+    private final String LIB = "lib";
+
+    /**
+     * DOC sunchaoqun RouteBundleExportAction constructor comment.
+     * 
+     * @param nodes
+     * @param jobVersion
+     * @param bundleVersion
+     * @param manager
+     * @param directoryName
+     * @param type
+     */
+    public RouteBundleExportAction(List<? extends IRepositoryNode> nodes, String jobVersion, String bundleVersion,
+            JobScriptsManager manager, String directoryName, String type) {
+        super(nodes, jobVersion, bundleVersion, manager, directoryName, type);
+        this.nodes = nodes;
+        this.runProcessService = CorePlugin.getDefault().getRunProcessService();
+        this.type = type;
+        this.manager = (RouteJavaScriptOSGIForESBManager) manager;
+    }
+
+    private File getTemporaryStoreFile(File realFile, String relatedPath) {
+
+        if (nodes != null && nodes.size() > 0) {
+            ITalendProcessJavaProject talendProcessJavaProject = runProcessService
+                    .getTalendJobJavaProject(nodes.get(0).getObject().getProperty());
+
+            File temporaryFile = new File(talendProcessJavaProject.getBundleResourcesFolder().getLocation().toOSString()
+                    + File.separator
+                    + relatedPath + File.separator + realFile.getName());
+
+            return temporaryFile;
+        }
+
+        return null;
+    }
+
+    @Override
+    protected void doArchiveExport(IProgressMonitor monitor, List<ExportFileResource> resourcesToExport) {
+        for (ExportFileResource fileResource : resourcesToExport) {
+            // String rootName = fileResource.getDirectoryName();
+
+            Set<String> paths = fileResource.getRelativePathList();
+
+            for (Object element : paths) {
+                String relativePath = (String) element;
+                Set<URL> resource = fileResource.getResourcesByRelativePath(relativePath);
+                for (URL url : resource) {
+                    String currentResource = FilesUtils.getFileRealPath(url.getPath());
+                    try {
+                        File file = new File(url.toURI());
+                        if (FileConstants.META_INF_FOLDER_NAME.equals(fileResource.getDirectoryName())) {
+                            FilesUtils.copyFile(file, getTemporaryStoreFile(file, FileConstants.META_INF_FOLDER_NAME));
+                        } else if (fileResource.getDirectoryName().equals(LIB)) {
+                            FilesUtils.copyFile(file, getTemporaryStoreFile(file, LIB));
+                        } else if (fileResource.getDirectoryName().equals("")) {
+                            if (FileConstants.BLUEPRINT_FOLDER_NAME.equals(relativePath)) {
+                                FilesUtils.copyFile(file, getTemporaryStoreFile(file, FileConstants.BLUEPRINT_FOLDER_NAME));
+                            } else if (FileConstants.SPRING_FOLDER_NAME.equals(relativePath)) {
+                                FilesUtils.copyFile(file, getTemporaryStoreFile(file, FileConstants.BLUEPRINT_FOLDER_NAME));
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+    }
+
+}

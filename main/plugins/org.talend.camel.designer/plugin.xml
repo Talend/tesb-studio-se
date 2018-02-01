@@ -11,6 +11,11 @@
             class="org.talend.camel.designer.CamelDesignerCoreUIService"
             serviceId="ICamelDesignerCoreUIService">
       </Service>
+      
+      <Service
+            class="org.talend.camel.designer.service.RouteService"
+            serviceId="IESBRouteService">
+      </Service>
    </extension>
 
     <extension point="org.talend.core.repository.repository_content">
@@ -430,8 +435,8 @@
                  provider="org.talend.camel.designer.build.RouteOSGiBundleBuildProvider">
                  <buildType
                        label="Route"
-                       name="Route"
-                 order="30">
+                       name="ROUTE"
+                 order="20">
            </buildType>
            </buildProvider>
         </extension>

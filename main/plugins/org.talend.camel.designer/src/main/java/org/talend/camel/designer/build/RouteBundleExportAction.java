@@ -114,7 +114,7 @@ public class RouteBundleExportAction extends JobExportAction {
                             if (FileConstants.BLUEPRINT_FOLDER_NAME.equals(relativePath)) {
                                 FilesUtils.copyFile(file, getTemporaryStoreFile(file, FileConstants.BLUEPRINT_FOLDER_NAME));
                             } else if (FileConstants.SPRING_FOLDER_NAME.equals(relativePath)) {
-                                FilesUtils.copyFile(file, getTemporaryStoreFile(file, FileConstants.BLUEPRINT_FOLDER_NAME));
+                                FilesUtils.copyFile(file, getTemporaryStoreFile(file, FileConstants.SPRING_FOLDER_NAME));
                             }
                         }
 

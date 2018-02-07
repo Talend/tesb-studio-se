@@ -106,9 +106,6 @@ public class CamelTalendEditor extends AbstractTalendEditor {
 
         NexusServerBean nexusServerBean = TalendLibsServerManager.getInstance().getCustomNexusServer();
 
-        if(nexusServerBean == null){
-            return;
-        }
 
         if (GlobalServiceRegister.getDefault().isServiceRegistered(ILibrariesService.class)) {
 
@@ -116,12 +113,15 @@ public class CamelTalendEditor extends AbstractTalendEditor {
             for (INode node : graphicalNodes) {
                 if (node.getComponent().getName().equals("cConfig")){
                     List<Map<String,String>> jars = (List) node.getElementParameter("DRIVER_JAR").getValue();
+                    if (jars == null || jars.isEmpty()) {
+                        continue;
+                    }
+
+                    boolean nexusIsAvailable = nexusServerBean != null && isAvailable(nexusServerBean);
 
                     try {
-                        if (isAvailable(nexusServerBean)) {
-                            new ProgressMonitorDialog(getParent().getEditorSite().getShell()).run(true, true,
-                                    new RunnableWithProgress(jars, null));
-                        }
+                        new ProgressMonitorDialog(getParent().getEditorSite().getShell()).run(true, true,
+                                new RunnableWithProgress(jars, null, nexusIsAvailable));
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -147,20 +147,32 @@ public class CamelTalendEditor extends AbstractTalendEditor {
 
         private List needUpdateJars;
 
-        public RunnableWithProgress(List jars, List needUpdateJars) {
+        private boolean updateNexusJars;
+
+        public RunnableWithProgress(List jars, List needUpdateJars, boolean updateNexusJars) {
             this.jars = jars;
             this.needUpdateJars = needUpdateJars;
+            this.updateNexusJars = updateNexusJars;
         }
 
         @Override
         public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
+            if (jars == null || jars.isEmpty()) {
+                return;
+            }
+
+
             ILibrariesService service = (ILibrariesService) GlobalServiceRegister.getDefault()
                     .getService(ILibrariesService.class);
 
-            INexusService nexusService = (INexusService) GlobalServiceRegister.getDefault().getService(INexusService.class);
+            INexusService nexusService = null;
+            NexusServerBean nexusServerBean = null;
 
-            NexusServerBean nexusServerBean = TalendLibsServerManager.getInstance().getCustomNexusServer();
+            if (updateNexusJars) {
+                nexusService = (INexusService) GlobalServiceRegister.getDefault().getService(INexusService.class);
+                nexusServerBean = TalendLibsServerManager.getInstance().getCustomNexusServer();
+            }
 
             monitor.beginTask("Syncing the nexus server...", false ? IProgressMonitor.UNKNOWN : jars.size());
 
@@ -185,7 +197,7 @@ public class CamelTalendEditor extends AbstractTalendEditor {
                         try {
                             monitor.subTask("Installing local dependency ... " + jn);
 
-                            service.deployLibrary(jarFile.toURI().toURL(), "mvn:org.talend.libraries/" + a + "/" + jnv + "/jar");
+                            service.deployLibrary(jarFile.toURI().toURL(), "mvn:org.talend.libraries/" + a + "/" + jnv + "/jar", true, updateNexusJars);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -248,8 +260,8 @@ public class CamelTalendEditor extends AbstractTalendEditor {
             }
 
 
-            ((ILibrariesService) GlobalServiceRegister.getDefault().getService(ILibrariesService.class))
-                    .updateModulesNeededForCurrentJob(getProcess());
+            //((ILibrariesService) GlobalServiceRegister.getDefault().getService(ILibrariesService.class))
+            //        .updateModulesNeededForCurrentJob(getProcess());
 
             monitor.done();
             if (monitor.isCanceled())

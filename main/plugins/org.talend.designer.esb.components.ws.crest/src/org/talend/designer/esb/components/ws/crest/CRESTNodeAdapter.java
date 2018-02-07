@@ -19,6 +19,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.talend.core.model.process.IElementParameter;
 import org.talend.core.model.utils.TalendTextUtils;
 import org.talend.designer.esb.components.ws.tools.extensions.external.IOASDecoder;
@@ -31,15 +32,21 @@ public class CRESTNodeAdapter implements CRESTConstants {
 
     protected CRESTNode node;
 
+    private IPreferenceStore prefs;
+
     public CRESTNodeAdapter(CRESTNode node) {
         this.node = node;
+        this.prefs = CRESTPlugin.getDefault().getPreferenceStore();
     }
 
     @SuppressWarnings("unchecked")
     public IStatus setNodeSetting(IOASDecoder oasManager) {
 
         // endpoint
-        node.setParamValue(URL, TalendTextUtils.addQuotes(oasManager.getEndpoint()));
+        boolean keepEndpointValue = prefs.getBoolean(CRESTConstants.PREF_KEEP_ENDPOINT);
+        if (StringUtils.isBlank(TalendTextUtils.removeQuotes(node.getParamStringValue(URL))) || !keepEndpointValue) {
+            node.setParamValue(URL, TalendTextUtils.addQuotes(oasManager.getEndpoint()));
+        }
 
         node.setParamValue(SERVICE_TYPE, "MANUAL");
 
@@ -68,6 +75,10 @@ public class CRESTNodeAdapter implements CRESTConstants {
         node.setParamValue(COMMENT, oasManager.getDocumentationComment());
 
         return Status.OK_STATUS;
+    }
+
+    public boolean isEndpointNotNull() {
+        return StringUtils.isNotBlank(TalendTextUtils.removeQuotes(node.getParamStringValue(URL)));
     }
 
     @SuppressWarnings("unchecked")

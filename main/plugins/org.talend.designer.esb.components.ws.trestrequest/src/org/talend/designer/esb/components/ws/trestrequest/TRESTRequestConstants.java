@@ -2,6 +2,8 @@ package org.talend.designer.esb.components.ws.trestrequest;
 
 public interface TRESTRequestConstants {
 
+    String PREF_KEEP_ENDPOINT = "PREF_KEEP_ENDPOINT";
+
     String REST_ENDPOINT = "REST_ENDPOINT"; // scheme + host + port
 
     String PATH = "PATH"; // endpoint

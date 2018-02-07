@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: WS provider
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.talend.designer.esb.components.ws.trestrequest;singleton:=true
 Bundle-Version: 7.0.1.qualifier
-Bundle-Vendor: .Talend SA.
+Bundle-Vendor: %providerName
 Bundle-Activator: org.talend.designer.esb.components.ws.trestrequest.TRESTRequestPlugin
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.ui,
@@ -20,5 +20,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.emf.ecore.xmi,
  org.talend.libraries.apache,
  org.apache.xerces,
- org.talend.designer.esb.components.ws.tools.extensions;bundle-version="7.0.1"
+ org.talend.designer.esb.components.ws.tools.extensions
 Eclipse-BundleShape: dir

@@ -2,6 +2,8 @@ package org.talend.designer.esb.components.ws.crest;
 
 public interface CRESTConstants {
 
+    String PREF_KEEP_ENDPOINT = "PREF_KEEP_ENDPOINT";
+
     String URL = "URL"; // scheme + host + port
 
     String PATH = "PATH"; // endpoint

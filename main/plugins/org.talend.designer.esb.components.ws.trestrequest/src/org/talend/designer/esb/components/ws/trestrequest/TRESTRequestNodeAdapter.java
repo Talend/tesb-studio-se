@@ -19,6 +19,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.talend.core.model.metadata.MetadataTable;
 import org.talend.core.model.process.IElementParameter;
 import org.talend.core.model.utils.TalendTextUtils;
 import org.talend.designer.esb.components.ws.tools.extensions.external.IOASDecoder;
@@ -29,21 +31,29 @@ import org.talend.designer.esb.components.ws.tools.extensions.external.RestAPIMa
  */
 public class TRESTRequestNodeAdapter implements TRESTRequestConstants {
 
-    protected TRESTRequestNode node;
+    private TRESTRequestNode node;
+
+    private IPreferenceStore prefs;
 
     public TRESTRequestNodeAdapter(TRESTRequestNode node) {
         this.node = node;
+        this.prefs = TRESTRequestPlugin.getDefault().getPreferenceStore();
     }
 
     @SuppressWarnings("unchecked")
     public IStatus setNodeSetting(IOASDecoder oasManager) {
 
         // endpoint
-        node.setParamValue(REST_ENDPOINT, TalendTextUtils.addQuotes(oasManager.getEndpoint()));
+        boolean keepEndpointValue = prefs.getBoolean(TRESTRequestConstants.PREF_KEEP_ENDPOINT);
+        if (StringUtils.isBlank(TalendTextUtils.removeQuotes(node.getParamStringValue(REST_ENDPOINT))) || !keepEndpointValue) {
+            node.setParamValue(REST_ENDPOINT, TalendTextUtils.addQuotes(oasManager.getEndpoint()));
+        }
 
         IElementParameter schemasParameter = node.getElementParameter("SCHEMAS");
         List<Map<?, ?>> schemasChildren = (List<Map<?, ?>>) schemasParameter.getValue();
         schemasChildren.clear();
+
+        node.getMetadataList().clear();
 
         // API Mappings
         for (RestAPIMapping mapping : oasManager.getMappings()) {
@@ -58,12 +68,22 @@ public class TRESTRequestNodeAdapter implements TRESTRequestConstants {
 
             schemasChildren.add(newMapping);
 
+            if (StringUtils.isNotBlank(mapping.getOutputFlow())) {
+                MetadataTable metadataTable = new MetadataTable();
+                metadataTable.setTableName(mapping.getOutputFlow());
+                node.getMetadataList().add(metadataTable);
+            }
+
         }
 
         // documentation
         node.setParamValue(COMMENT, oasManager.getDocumentationComment());
 
         return Status.OK_STATUS;
+    }
+
+    public boolean isEndpointNotNull() {
+        return StringUtils.isNotBlank(TalendTextUtils.removeQuotes(node.getParamStringValue(REST_ENDPOINT)));
     }
 
     @SuppressWarnings("unchecked")

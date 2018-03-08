@@ -91,7 +91,7 @@ public class BundleJavaProcessor extends MavenJavaProcessor {
         } else {
             try {
                 PomUtil.updatePomDependenciesFromProcessor(this);
-                AggregatorPomsHelper.createRoutinesPom(getPomFile(), null);
+                new AggregatorPomsHelper().createRoutinesPom(getPomFile(), null);
             } catch (Exception e) {
                 throw new ProcessorException(e);
             }

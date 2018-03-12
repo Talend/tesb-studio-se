@@ -459,6 +459,10 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         if (needMavenScript && destinationKar.regionMatches(true, destinationKar.length() - 4, ".kar", 0, 4)) {
             destinationKar = destinationKar.substring(0, destinationKar.length() - 3) + "zip";
         }
+        
+        if(exportAsZip) {
+            exportChoiceMap.put(ExportChoice.needAssembly, Boolean.TRUE);
+        }
 
         if (new File(destinationKar).exists()) {
             boolean yes = MessageDialog.openQuestion(getShell(),

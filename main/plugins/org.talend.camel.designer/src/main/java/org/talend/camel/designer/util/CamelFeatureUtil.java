@@ -32,6 +32,7 @@ import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.model.repository.IRepositoryViewObject;
 import org.talend.core.model.utils.JavaResourcesHelper;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
+import org.talend.core.runtime.process.TalendProcessOptionConstants;
 import org.talend.designer.core.IDesignerCoreService;
 import org.talend.designer.core.model.components.EParameterName;
 import org.talend.designer.core.model.utils.emf.talendfile.ConnectionType;
@@ -236,7 +237,7 @@ public final class CamelFeatureUtil {
         IProcess process = designerService.getProcessFromProcessItem(routeProcess, false);
 
         Collection<FeatureModel> features = new HashSet<FeatureModel>();
-        for (String lib : process.getNeededLibraries(true)) {      	
+        for (String lib : process.getNeededLibraries(TalendProcessOptionConstants.MODULES_WITH_CHILDREN)) {      	
             Collection<FeatureModel> featureModel = computeFeature(getNameWithoutVersion(lib));
             if (featureModel != null) {
                 features.addAll(featureModel);

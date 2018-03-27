@@ -136,10 +136,6 @@ public class BuildBundleHandler extends BuildJobHandler {
 
     @Override
     public void build(IProgressMonitor monitor) throws Exception {
-        // Change to maven online,
-
-        CommonsPlugin.setMavenOfflineState(false);
         super.build(monitor);
-        CommonsPlugin.setMavenOfflineState(true);
     }
 }

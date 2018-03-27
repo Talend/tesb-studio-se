@@ -193,15 +193,12 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
      * IProgressMonitor)
      */
     public void build(IProgressMonitor monitor) throws Exception {
-        // Change to maven online,
-    	CommonsPlugin.setMavenOfflineState(false);
         final Map<String, Object> argumentsMap = new HashMap<String, Object>();
         argumentsMap.put(TalendProcessArgumentConstant.ARG_GOAL, TalendMavenConstants.GOAL_PACKAGE);
         argumentsMap.put(TalendProcessArgumentConstant.ARG_PROGRAM_ARGUMENTS, getProgramArgs());
 
         argumentsMap.put(TalendProcessArgumentConstant.ARG_GOAL, TalendMavenConstants.GOAL_PACKAGE);
         talendProcessJavaProject.buildModules(monitor, null, argumentsMap);
-        CommonsPlugin.setMavenOfflineState(true);
     }
 
     protected String getProgramArgs() {

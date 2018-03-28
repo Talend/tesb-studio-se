@@ -30,6 +30,7 @@ import org.talend.core.runtime.repository.build.IBuildExportHandler;
 import org.talend.core.runtime.repository.build.IMavenPomCreator;
 import org.talend.core.runtime.repository.build.RepositoryObjectTypeBuildProvider;
 import org.talend.designer.runprocess.IProcessor;
+import org.talend.designer.runprocess.ProcessorUtilities;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager.ExportChoice;
 
 /**
@@ -115,7 +116,7 @@ public class RouteOSGiBundleBuildProvider extends RepositoryObjectTypeBuildProvi
         }
 
         final Object assemblyFile = parameters.get(FILE_ASSEMBLY);
-        if (assemblyFile == null || !(assemblyFile instanceof IFile)) {
+        if (!ProcessorUtilities.isGeneratePomOnly() && (assemblyFile == null || !(assemblyFile instanceof IFile))) {
             return null;
         }
         final Object winClassPath = parameters.get(CP_WIN);

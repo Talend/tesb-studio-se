@@ -264,7 +264,7 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
         if (!isOptionChoosed(ExportChoice.executeTests)) {
             otherArgsBuffer.append(TalendMavenConstants.ARG_SKIPTESTS);
         } else {
-            otherArgsBuffer.append("-fn");
+            otherArgsBuffer.append(TalendMavenConstants.ARG_TEST_FAILURE_IGNORE);
         }
         otherArgsBuffer.append(" -Dmaven.main.skip=true");
 

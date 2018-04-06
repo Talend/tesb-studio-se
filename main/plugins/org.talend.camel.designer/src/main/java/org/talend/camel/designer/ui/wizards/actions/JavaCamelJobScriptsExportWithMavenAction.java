@@ -27,6 +27,8 @@ import org.talend.core.repository.constants.FileConstants;
 import org.talend.designer.publish.core.models.FeaturesModel;
 import org.talend.designer.runprocess.IProcessor;
 import org.talend.repository.model.IRepositoryNode;
+import org.talend.repository.model.RepositoryNode;
+import org.talend.repository.model.IRepositoryNode.ENodeType;
 import org.talend.repository.ui.wizards.exportjob.action.JobExportAction;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager.ExportChoice;
@@ -65,7 +67,8 @@ public class JavaCamelJobScriptsExportWithMavenAction extends JavaCamelJobScript
     private void exportMavenResources(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
         scriptsManager.setMultiNodes(false);
         scriptsManager.setDestinationPath(destinationPath);
-        JobExportAction action = new JobExportAction(Collections.singletonList(routeNode), version, bundleVersion, scriptsManager,
+        RepositoryNode node = new RepositoryNode(routeObject, null, ENodeType.REPOSITORY_ELEMENT);
+        JobExportAction action = new JobExportAction(Collections.singletonList(node), version, bundleVersion, scriptsManager,
                 getTempDir(), "Route"); //$NON-NLS-1$
         action.run(monitor);
     }
@@ -75,8 +78,8 @@ public class JavaCamelJobScriptsExportWithMavenAction extends JavaCamelJobScript
     }
 
     private Collection<String> getReferenceRoutlets() {
-        ProcessItem routeProcess = (ProcessItem) routeNode.getObject().getProperty().getItem();
-        String routeName = routeNode.getObject().getProperty().getDisplayName();
+        ProcessItem routeProcess = getProcessItem();
+        String routeName = routeObject.getProperty().getDisplayName();
         Set<String> routelets = new HashSet<>();
         try {
             exportAllReferenceRoutelets(routeName, routeProcess, routelets);

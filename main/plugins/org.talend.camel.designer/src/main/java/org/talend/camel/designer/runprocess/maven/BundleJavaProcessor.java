@@ -18,10 +18,13 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.talend.camel.core.model.camelProperties.CamelProcessItem;
 import org.talend.camel.designer.ui.wizards.actions.JavaCamelJobScriptsExportWSAction;
+import org.talend.commons.exception.ExceptionHandler;
 import org.talend.core.GlobalServiceRegister;
 import org.talend.core.model.process.IProcess;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.Property;
+import org.talend.core.model.repository.IRepositoryObject;
+import org.talend.core.model.repository.RepositoryObject;
 import org.talend.core.repository.seeker.RepositorySeekerManager;
 import org.talend.core.runtime.process.TalendProcessArgumentConstant;
 import org.talend.core.runtime.process.TalendProcessOptionConstants;
@@ -169,42 +172,17 @@ public class BundleJavaProcessor extends MavenJavaProcessor {
      */
     @Override
     public void generatePom(int option) {
-
-        if (BitwiseOptionUtils.containOption(option, TalendProcessOptionConstants.GENERATE_POM_ONLY)) {
-
-            ProcessItem processItem = (ProcessItem) getProperty().getItem();
-
-            Object bt = processItem.getProperty().getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
-
-            if (processItem instanceof CamelProcessItem) {
-                CamelProcessItem camelProcessItem = (CamelProcessItem) processItem;
-                if (bt == null || "ROUTE".equals(bt)) {
-                    camelProcessItem.setExportMicroService(false);
-                } else {
-                    camelProcessItem.setExportMicroService(true);
-                }
-            }
-
-            if (!BitwiseOptionUtils.containOption(option, TalendProcessOptionConstants.GENERATE_NO_CODEGEN)) {
-                try {
-                    ProcessorUtilities.generateCode(processItem, getContext().getName(), true, false);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-        } else {
-            super.generatePom(option);
-        }
+        super.generatePom(option);
         try {
-            IRepositoryNode repositoryNode = RepositorySeekerManager.getInstance().searchRepoViewNode(getProperty().getId(),
-                    false);
+            IRepositoryObject repositoryObject = new RepositoryObject(getProperty());
 
-            IRunnableWithProgress action = new JavaCamelJobScriptsExportWSAction(repositoryNode, getProperty().getVersion(), "",
+            RepositorySeekerManager.getInstance().searchRepoViewNode(getProperty().getId(), false);
+
+            IRunnableWithProgress action = new JavaCamelJobScriptsExportWSAction(repositoryObject, getProperty().getVersion(), "",
                     false);
             action.run(new NullProgressMonitor());
         } catch (Exception e) {
-            e.printStackTrace();
+            ExceptionHandler.process(e);
         }
     }
 }

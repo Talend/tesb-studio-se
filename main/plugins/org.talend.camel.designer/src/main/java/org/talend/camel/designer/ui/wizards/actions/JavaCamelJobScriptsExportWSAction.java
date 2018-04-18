@@ -362,8 +362,10 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
                 if (!fileList.isEmpty()) {
                     for (File f : fileList) {
                         if (f.isFile() && f.getName().endsWith(extension) && destination != null) {
-                            FilesUtils.copyFile(f, destination);
-                            break;
+                            if(!"classpath.jar".equalsIgnoreCase(f.getName())) {
+                                FilesUtils.copyFile(f, destination);
+                                break;
+                            }
                         }
                     }
                 }

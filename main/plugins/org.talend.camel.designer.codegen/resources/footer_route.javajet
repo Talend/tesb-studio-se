@@ -351,6 +351,18 @@ for (IContextParameter ctxParam : params) {
 <%	}
 }
 %>
+	public Object getProperty(String n) {
+		if (n != null && !n.isEmpty()) {
+			try {
+				java.lang.reflect.Method m = this.getClass()
+						.getDeclaredMethod("get" + Character.toUpperCase(n.charAt(0)) + n.substring(1));
+				return m.invoke(this);
+			} catch (Exception e) {
+			}
+		}
+		return null;
+	}
+	
 	}
 
 	private static String contextStr = "<%=codeGenArgument.getContextName() %>";

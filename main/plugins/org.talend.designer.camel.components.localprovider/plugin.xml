@@ -713,21 +713,21 @@
         </libraryNeeded>
         
 		<libraryNeeded context="plugin:org.talend.libraries.esb"
-			name="jackson-annotations-2.8.9.jar"
+			name="jackson-annotations-${jackson.version}.jar"
 			id="aws-jackson-annotations"
-			uripath="platform:/plugin/org.talend.libraries.esb/lib/jackson-annotations-2.8.9.jar"
+			uripath="platform:/plugin/org.talend.libraries.esb/lib/jackson-annotations-${jackson.version}.jar"
 			bundleID="" />
 
 		<libraryNeeded context="plugin:org.talend.libraries.esb"
 			name="jackson-core-2.8.9.jar"
 			id="aws-jackson-core"
-			uripath="platform:/plugin/org.talend.libraries.esb/lib/jackson-core-2.8.9.jar"
+			uripath="platform:/plugin/org.talend.libraries.esb/lib/jackson-core-${jackson.version}.jar"
 			bundleID="" />
 			
 		<libraryNeeded context="plugin:org.talend.libraries.esb"
-			name="jackson-databind-2.8.9.jar"
+			name="jackson-databind-${jackson.version}.jar"
 			id="aws-jackson-databind"
-			uripath="platform:/plugin/org.talend.libraries.esb/lib/jackson-databind-2.8.9.jar"
+			uripath="platform:/plugin/org.talend.libraries.esb/lib/jackson-databind-${jackson.version}.jar"
 			bundleID="" />
         
         <libraryNeededGroup

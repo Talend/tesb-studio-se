@@ -418,6 +418,14 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
 
     }
 
+    @Override
+    public IFolder getTargetFolder() {
+        if (talendProcessJavaProject == null) {
+            return null;
+        }
+        return talendProcessJavaProject.getTargetFolder();
+    }
+
     /*
      * Bundle extention is kar
      * 
@@ -425,10 +433,7 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
      */
     @Override
     public IFile getJobTargetFile() {
-        if (talendProcessJavaProject == null) {
-            return null;
-        }
-        IFolder targetFolder = talendProcessJavaProject.getTargetFolder();
+        IFolder targetFolder = getTargetFolder();
         IFile bundleFile = null;
         try {
             targetFolder.refreshLocal(IResource.DEPTH_ONE, null);

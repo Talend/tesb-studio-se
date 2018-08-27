@@ -14,6 +14,8 @@ package org.talend.camel.designer.ui.editor;
 
 import java.text.MessageFormat;
 
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPage;
@@ -117,6 +119,21 @@ public class CamelMultiPageTalendEditor extends AbstractMultiPageTalendEditor {
             title += revisionNumStr;
         }
         setPartName(title);
+    }
+
+    @Override
+    protected void createPages() {
+        createPage0();
+        createPage1();
+        createPage2();
+
+        if (getPageCount() == 1) {
+            Composite container = getContainer();
+            if (container instanceof CTabFolder) {
+                ((CTabFolder) container).setTabHeight(0);
+            }
+        }
+
     }
 
     @Override

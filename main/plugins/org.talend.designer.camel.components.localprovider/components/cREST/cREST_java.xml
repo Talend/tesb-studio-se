@@ -263,8 +263,8 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/commons-lang3-3.2.1.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="slf4j-api-1.7.22.jar" MVN="mvn:org.talend.libraries/slf4j-api/6.0.0" NAME="slf4j-api-1.7.22"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/slf4j-api-1.7.22.jar"
+            <IMPORT MODULE="slf4j-api-1.7.25.jar" MVN="mvn:org.talend.libraries/slf4j-api/6.0.0" NAME="slf4j-api-1.7.25"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/slf4j-api-1.7.25.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
             <IMPORT MODULE="reflections-0.9.11.jar" MVN="mvn:org.talend.libraries/reflections/6.0.0" NAME="reflections-0.9.11"

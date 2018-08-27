@@ -1,18 +1,26 @@
 <%@ jet 
 imports="
     org.talend.core.model.process.INode
+    org.talend.core.model.process.IProcess
     org.talend.core.model.process.ElementParameterParser
     org.talend.core.model.process.IConnection
     org.talend.core.model.process.IElementParameter
+    org.talend.core.model.utils.JavaResourcesHelper
     org.talend.designer.codegen.config.CodeGeneratorArgument
     org.talend.designer.codegen.config.NodeParamsHelper
     org.talend.designer.codegen.config.CamelEndpointBuilder
     java.util.List
+    org.talend.core.model.process.ProcessUtils
 "
 %>
+
 <%
 	CodeGeneratorArgument codeGenArgument = (CodeGeneratorArgument) argument;
+	
 	INode node = (INode)codeGenArgument.getArgument();
+	
+	IProcess process = node.getProcess();
+	
 	String cid = node.getUniqueName();
 
 	NodeParamsHelper paramsHelper = new NodeParamsHelper(node);
@@ -22,12 +30,69 @@ imports="
                                               && !node.getIncomingConnections().isEmpty();
 
 	CamelEndpointBuilder builder = CamelEndpointBuilder.getBuilder();
+	CamelEndpointBuilder builderRT = CamelEndpointBuilder.getBuilder();
+	builder.useComponentColon(false);
+	builder.useDoubleSlash(false);
+	builderRT.useComponentColon(false);
+	builderRT.useDoubleSlash(false);
+	
+	
+%>
 
-	builder.setComponent("cxfrs://bean");
-	builder.setName("\"" + node.getUniqueName() + "\"");
-
+<%	
+	String endpointUrlRT = ElementParameterParser.getValue(node, "__URL__");
+		
+	String endpointUrlStudio = endpointUrlRT;
+	
+	if(node.getIncomingConnections().isEmpty()) {
+		
+        if (endpointUrlRT != null && !endpointUrlRT.trim().isEmpty() && !endpointUrlRT.contains("://")) {
+            if (endpointUrlRT.startsWith("/services")) {
+                endpointUrlRT = endpointUrlRT.substring("/services".length());
+            }
+            if (!endpointUrlRT.startsWith("/")) {
+            	if(!endpointUrlRT.startsWith("context.")){
+            		endpointUrlRT = endpointUrlRT;
+            	}
+            }
+        }
+        
+        String defaultEndpointUrl = "\"http://127.0.0.1:8090\"";
+        
+        if (null == endpointUrlStudio || endpointUrlStudio.trim().isEmpty()) {
+            endpointUrlStudio = defaultEndpointUrl;
+        } else if (!endpointUrlStudio.contains("://")) { // relative
+            if (endpointUrlStudio.startsWith("/")) {
+                endpointUrlStudio = endpointUrlStudio.substring(1);
+            }
+            
+            if(!endpointUrlStudio.startsWith("context.")){
+            	endpointUrlStudio = defaultEndpointUrl + "+" + endpointUrlStudio;
+            }
+        }
+		
+		boolean isTestContainer = ProcessUtils.isTestContainer(process);
+		
+		String className = isTestContainer ? process.getName() + "Test" : process.getName();
+		
+		String routeFolderName = "";
+	    IProcess baseProcess = ProcessUtils.getTestContainerBaseProcess(process);
+	    
+	    if (baseProcess != null) {
+	        routeFolderName = JavaResourcesHelper.getJobFolderName(baseProcess.getName(), baseProcess.getVersion()) + ".";
+	    }
+	    
+	    routeFolderName = routeFolderName + JavaResourcesHelper.getJobFolderName(process.getName(), process.getVersion());
+	    
+	    String packageName = codeGenArgument.getCurrentProjectName().toLowerCase() + "." + routeFolderName;
+	
+		builder.addParam("resourceClasses", "\"" + packageName + "." + className + "$Service_" + cid + "\"");
+		builderRT.addParam("resourceClasses", "\"" + packageName + "." + className + "$Service_" + cid + "\"");
+	}
+	
     builder.addParam("loggingFeatureEnabled", "\"" + (String) ElementParameterParser.getValue(node, "__LOG_MESSAGES__") + "\"");
-
+    builderRT.addParam("loggingFeatureEnabled", "\"" + (String) ElementParameterParser.getValue(node, "__LOG_MESSAGES__") + "\"");
+    
     java.util.List<java.util.Map<String, String>> tableValues = (java.util.List<java.util.Map<String, String>>) ElementParameterParser.getObjectValue(node, "__ADVARGUMENTS__");
     for (java.util.Map<String, String> map : tableValues) {
         String argName = map.get("NAME").trim();
@@ -36,13 +101,32 @@ imports="
 			argName = argName.substring(1, argName.length() - 1);
 		}
 		builder.addParam(argName, argValue);
+		builderRT.addParam(argName, argValue);
     }
-
-    String uri = builder.build();
+    
+   	builder.setComponent("cxfrs://");
+	builderRT.setComponent("cxfrs://");
+	
+	if("".equals(endpointUrlStudio) || endpointUrlStudio == null || "\"\"".equals(endpointUrlStudio)){
+		builder.appendPath("\"/\"");
+	}else{
+		builder.appendPath(endpointUrlStudio);
+	}
+	
+	if("".equals(endpointUrlRT) || endpointUrlRT == null || "\"\"".equals(endpointUrlRT)){
+		builderRT.appendPath("\"/\"");
+	}else{
+		builderRT.appendPath(endpointUrlRT);
+	}
+	
+    String uriRT = builderRT.build();
+   
+    String uriStudio = builder.build();
+    
     String responseClass = "javax.ws.rs.core.Response.class";
 	if (node.getIncomingConnections().isEmpty()) {
 %>
-		from(<%=uri%>)
+		from(inOSGi?<%=uriRT%>:<%=uriStudio%>)
 		.process(new org.apache.camel.Processor() {
 				public void process(org.apache.camel.Exchange exchange) throws Exception {
 					org.apache.camel.Message inMessage = exchange.getIn();
@@ -80,7 +164,7 @@ imports="
 				}
 			})
 <% } %>
-		.inOut(<%=uri%>)
+		.inOut(inOSGi?<%=uriRT%>:<%=uriStudio%>)
 		.unmarshal(new  org.apache.camel.spi.DataFormat() {
 			public java.lang.Object unmarshal(org.apache.camel.Exchange exchange, java.io.InputStream is) throws java.lang.Exception {
 		   	java.lang.Object b = exchange.getOut().getBody();

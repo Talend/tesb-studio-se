@@ -59,7 +59,6 @@
         <commons-lang3.version>3.2.1</commons-lang3.version>
         <slf4j-api.version>1.6.3</slf4j-api.version>
         <reflections.version>0.9.10</reflections.version>
-        <jackson.version>2.9.5</jackson.version>
         <guava.version>20.0</guava.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <snakeyaml.version>1.17</snakeyaml.version>

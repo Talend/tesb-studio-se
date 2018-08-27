@@ -9,20 +9,21 @@ package org.talend.camel.core.model.camelProperties;
 import org.talend.core.model.properties.FileItem;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Route Resource Item</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Route Resource Item</b></em>'. <!-- end-user-doc
+ * -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.talend.camel.core.model.camelProperties.RouteResourceItem#getBindingExtension <em>Binding Extension</em>}</li>
+ * <li>{@link org.talend.camel.core.model.camelProperties.RouteResourceItem#getBindingExtension <em>Binding
+ * Extension</em>}</li>
  * </ul>
  * </p>
  *
  * @see org.talend.camel.core.model.camelProperties.CamelPropertiesPackage#getRouteResourceItem()
  * @model
  * @generated
+ * @deprecated
  */
 public interface RouteResourceItem extends FileItem {
 

@@ -36,7 +36,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.talend.camel.core.model.camelProperties.CamelProcessItem;
 import org.talend.camel.core.model.camelProperties.CamelPropertiesPackage;
-import org.talend.camel.core.model.camelProperties.RouteResourceItem;
 import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.exception.PersistenceException;
 import org.talend.core.GlobalServiceRegister;
@@ -51,6 +50,7 @@ import org.talend.core.model.properties.Item;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.ReferenceFileItem;
 import org.talend.core.model.repository.IRepositoryViewObject;
+import org.talend.core.model.resources.ResourceItem;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.core.runtime.process.ITalendProcessJavaProject;
 import org.talend.designer.camel.resource.core.model.ResourceDependencyModel;
@@ -86,7 +86,7 @@ public class RouteResourceUtil {
      * @param item
      * @return
      */
-    public static IFile getSourceFile(RouteResourceItem item) {
+    public static IFile getSourceFile(ResourceItem item) {
         // the file may come from a reference project
         IFolder rrfolder = null;
         Resource eResource = item.eResource();
@@ -107,7 +107,7 @@ public class RouteResourceUtil {
 
             IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(technicalLabel);
             String folderPath = item.getState().getPath();
-            rrfolder = project.getFolder(RouteResourceItem.ROUTE_RESOURCES_FOLDER);
+            rrfolder = project.getFolder("resources");
             if (folderPath != null && !folderPath.isEmpty()) {
                 rrfolder = rrfolder.getFolder(folderPath);
             }
@@ -185,7 +185,7 @@ public class RouteResourceUtil {
             }
             if (rvo != null) {
                 final ResourceDependencyModel model =
-                    new ResourceDependencyModel((RouteResourceItem) rvo.getProperty().getItem());
+                        new ResourceDependencyModel((ResourceItem) rvo.getProperty().getItem());
                 model.setSelectedVersion(version);
                 return model;
             }
@@ -395,7 +395,7 @@ public class RouteResourceUtil {
      * @throws CoreException
      */
     private static IFile copyResources(final IFolder folder, final ResourceDependencyModel model) {
-        final RouteResourceItem item = model.getItem();
+        final ResourceItem item = model.getItem();
         EList<?> referenceResources = item.getReferenceResources();
         if (referenceResources.isEmpty()) {
             return null;

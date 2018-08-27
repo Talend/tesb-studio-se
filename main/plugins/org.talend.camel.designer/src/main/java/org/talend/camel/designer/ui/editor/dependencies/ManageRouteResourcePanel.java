@@ -48,10 +48,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
-import org.talend.camel.core.model.camelProperties.RouteResourceItem;
 import org.talend.camel.designer.dialog.RouteResourceSelectionDialog;
 import org.talend.camel.designer.ui.editor.dependencies.controls.SearchCellLabelProvider;
 import org.talend.core.model.properties.Item;
+import org.talend.core.model.resources.ResourceItem;
 import org.talend.designer.camel.resource.core.model.ResourceDependencyModel;
 
 /**
@@ -204,7 +204,7 @@ public class ManageRouteResourcePanel extends Composite {
 		RouteResourceSelectionDialog dialog = new RouteResourceSelectionDialog(getShell());
 		if (Dialog.OK == dialog.open()) {
 			Item item = dialog.getResult().getObject().getProperty().getItem();
-			if (item instanceof RouteResourceItem) {
+            if (item instanceof ResourceItem) {
 				for (ResourceDependencyModel rsmodel : getInput()) {
 					if (rsmodel.getItem().getProperty().getId()
 							.equals(item.getProperty().getId())) {
@@ -214,7 +214,7 @@ public class ManageRouteResourcePanel extends Composite {
 					}
 				}
 				ResourceDependencyModel model = new ResourceDependencyModel(
-						(RouteResourceItem) item);
+                        (ResourceItem) item);
 				getInput().add(model);
 				resourcesTV.refresh();
 				resourcesTV.setSelection(new StructuredSelection(model));

@@ -299,6 +299,15 @@
                 name="UpdateBuildTypeForCTalendJobMigrationTask"
                 version="7.0.1">
           </projecttask>
+          <projecttask
+                beforeLogon="false"
+                breaks="7.1.1"
+                class="org.talend.camel.designer.migration.ChangeRouteResourceItemToResourceItemTask"
+                description="Change RouteResourceItem to ResourceItem"
+                id="org.talend.camel.designer.migration.ChangeRouteResourceItemToResourceItemTask"
+                name="ChangeRouteResourceItemToResourceItemTask"
+                version="7.1.1">
+          </projecttask>
     </extension>
 
         <extension

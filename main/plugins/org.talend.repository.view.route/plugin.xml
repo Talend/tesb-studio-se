@@ -120,64 +120,6 @@
          </actionProvider>
       </navigatorContent>
 
-      <navigatorContent
-            activeByDefault="true"
-            contentProvider="org.talend.repository.view.route.viewer.content.RouteResourceContentProvider"
-            id="org.talend.repository.view.route.route_resource"
-            labelProvider="org.talend.repository.viewer.label.RepositoryViewLabelProvider"
-            name="Route Resources" >
-         <triggerPoints>
-            <or>
-               <adapt
-                     type="org.talend.core.repository.model.ProjectRepositoryNode">
-               </adapt>
-               <instanceof
-                     value="org.talend.core.repository.model.ProjectRepositoryNode">
-               </instanceof>
-               <and>
-                  <instanceof
-                        value="org.talend.repository.model.RepositoryNode">
-                  </instanceof>
-                  <test
-                        forcePluginActivation="true"
-                        property="org.talend.repository.node.route.isRouteResourceNode">
-                  </test>
-               </and>
-            </or>
-         </triggerPoints>
-         <possibleChildren>
-            <and>
-               <instanceof
-                     value="org.talend.repository.model.RepositoryNode">
-               </instanceof>
-               <test
-                     forcePluginActivation="true"
-                     property="org.talend.repository.node.route.isRouteResourceNode">
-               </test>
-            </and>
-         </possibleChildren>
-         <actionProvider
-               class="org.talend.repository.viewer.action.RepoNodeActionProvider"
-               id="org.talend.repository.route.resources.action.provider.id">
-            <enablement>
-               <and>
-                  <instanceof
-                        value="org.talend.repository.model.RepositoryNode">
-                  </instanceof>
-                  <test
-                        forcePluginActivation="true"
-                        property="org.talend.repository.node.route.isRouteResourceNode">
-                  </test>
-                  <not>
-                     <test
-                           forcePluginActivation="true"
-                           property="org.talend.repository.node.isDeleted">
-                     </test>
-                  </not>
-               </and>
-            </enablement>
-         </actionProvider>
-      </navigatorContent>
    </extension>
 
    <extension
@@ -186,7 +128,7 @@
             class="org.talend.repository.view.route.viewer.tester.RouteNodeTester"
             id="org.talend.repository.node.route.tester"
             namespace="org.talend.repository.node.route"
-            properties="isRoutesTopNode,isBeans,isRouteResourceNode"
+            properties="isRoutesTopNode,isBeans"
             type="org.talend.repository.model.RepositoryNode">
       </propertyTester>
    </extension>

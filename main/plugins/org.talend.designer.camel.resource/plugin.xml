@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension
+         point="org.talend.core.repository.repository_node_provider">
+      <repositoryNode
+            folder="resources"
+            isAllowMultiName="true"
+            isAllowPlainFolder="true"
+            isResouce="true"
+            key="Resource"
+            label="Resources"
+            name_pattern="\w+([\.-]\w+)*"
+            ordinal="45"
+            products="DI"
+            type="ROUTE_RESOURCES">
+      </repositoryNode>
+   </extension>
 
    <extension
          point="org.talend.core.repository.checkDeleteItemReference">

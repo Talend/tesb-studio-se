@@ -23,12 +23,12 @@ package org.talend.esb.designer.camel.resource.core.model;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.talend.camel.core.model.camelProperties.CamelPropertiesFactory;
-import org.talend.camel.core.model.camelProperties.RouteResourceItem;
 import org.talend.core.model.properties.ByteArray;
 import org.talend.core.model.properties.ItemState;
 import org.talend.core.model.properties.PropertiesFactory;
 import org.talend.core.model.properties.Property;
+import org.talend.core.model.resources.ResourceItem;
+import org.talend.core.model.resources.ResourcesFactory;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.designer.camel.resource.core.model.ResourceDependencyModel;
 
@@ -42,7 +42,7 @@ public class ResourceDependencyModelTest {
     @Test
     public void testResourceDependencyModel() {
 
-        RouteResourceItem item = CamelPropertiesFactory.eINSTANCE.createRouteResourceItem();
+        ResourceItem item = ResourcesFactory.eINSTANCE.createResourceItem();
         Property property = PropertiesFactory.eINSTANCE.createProperty();
         String id = ProxyRepositoryFactory.getInstance().getNextId();
         property.setId(id);

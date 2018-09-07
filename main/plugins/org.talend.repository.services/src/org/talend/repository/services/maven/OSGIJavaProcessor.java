@@ -12,13 +12,19 @@
 // ============================================================================
 package org.talend.repository.services.maven;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.talend.core.model.process.IProcess;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.Property;
+import org.talend.core.model.utils.JavaResourcesHelper;
+import org.talend.core.runtime.process.TalendProcessArgumentConstant;
 import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.publish.core.models.BundleModel;
 import org.talend.designer.publish.core.models.FeaturesModel;
@@ -27,7 +33,6 @@ import org.talend.designer.runprocess.maven.MavenJavaProcessor;
 import org.talend.repository.utils.JobContextUtils;
 
 public class OSGIJavaProcessor extends MavenJavaProcessor {
-    
 
     /**
      * DOC sunchaoqun OSGIJavaProcessor constructor comment.
@@ -43,6 +48,8 @@ public class OSGIJavaProcessor extends MavenJavaProcessor {
     @Override
     public void generateCode(boolean statistics, boolean trace, boolean javaProperties, int option) throws ProcessorException {
         super.generateCode(statistics, trace, javaProperties, option);
+
+        IProgressMonitor monitor = new NullProgressMonitor();
         ProcessItem processItem = (ProcessItem) property.getItem();
         FeaturesModel featuresModel = new FeaturesModel(PomIdsHelper.getJobGroupId(processItem.getProperty()),
                 processItem.getProperty().getDisplayName(), PomIdsHelper.getJobVersion(processItem.getProperty()));
@@ -51,7 +58,6 @@ public class OSGIJavaProcessor extends MavenJavaProcessor {
         BundleModel bundleModel = new BundleModel(PomIdsHelper.getJobGroupId(processItem.getProperty()),
                 processItem.getProperty().getDisplayName(), PomIdsHelper.getJobVersion(processItem.getProperty()));
         featuresModel.addBundle(bundleModel);
-        IProgressMonitor monitor = new NullProgressMonitor();
         IFile feature = getTalendJavaProject().createSubFolder(monitor, getTalendJavaProject().getResourcesFolder(), "feature")
                 .getFile("feature.xml");
 
@@ -65,5 +71,28 @@ public class OSGIJavaProcessor extends MavenJavaProcessor {
         } catch (CoreException e) {
             e.printStackTrace();
         }
+        // Delete microservice launcher for OSGi type running in studio
+        String packageFolder = JavaResourcesHelper.getJobClassPackageFolder(property.getItem(), true);
+        IFolder srcFolder = getTalendJavaProject().getSrcSubFolder(null, packageFolder);
+        IFile app = srcFolder.getFile("App.java");
+        if (app.exists()) {
+            try {
+                app.delete(true, monitor);
+            } catch (CoreException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getArguments() {
+        Map<String, Object> argumentsMap = super.getArguments();
+        if (argumentsMap == null) {
+            argumentsMap = new HashMap<String, Object>();
+        }
+        if (!argumentsMap.containsKey(TalendProcessArgumentConstant.ARG_BUILD_TYPE)) {
+            argumentsMap.put(TalendProcessArgumentConstant.ARG_BUILD_TYPE, "OSGI");
+        }
+        return argumentsMap;
     }
 }

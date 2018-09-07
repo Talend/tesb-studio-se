@@ -104,6 +104,13 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
 
     private Map<IRepositoryViewObject, Map<String, File>> buildArtifactsMap = new HashMap<>();
 
+    /*
+     * Contains manifest Import-Package entries for subjobs used by cTalendJob components
+     * Key - ProcessItem.id of the route
+     * Value - Import-package string
+     */
+    private Map<String, String> subjobImportPackages = new HashMap<>();
+
     private IBuildJobHandler buildJobHandler = null;
 
     private boolean buildProject = false;
@@ -389,6 +396,9 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
 
     private void exportAllReferenceJobs(String routeName, ProcessItem routeProcess)
             throws InvocationTargetException, InterruptedException {
+
+        Set<String> jobPackageNames = new HashSet<String>();
+
         for (NodeType cTalendJob : EmfModelUtils.getComponentsByName(routeProcess, "cTalendJob")) { //$NON-NLS-1$
             String jobId = null;
             String jobVersion = null;
@@ -415,8 +425,10 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
                 continue;
             }
             IRepositoryViewObject repositoryObject;
+            Project jobProject;
             try {
                 repositoryObject = getJobRepositoryNode(jobId, ERepositoryObjectType.PROCESS);
+                jobProject = getJobProject(jobId, ERepositoryObjectType.PROCESS);
             } catch (PersistenceException e) {
                 throw new InvocationTargetException(e);
             }
@@ -428,6 +440,12 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
             String jobName = repositoryObject.getProperty().getDisplayName();
             String jobBundleName = routeName + "_" + jobName;
             String jobBundleSymbolicName = jobBundleName;
+
+            String jobPackageName = getJobPackageName(jobProject, jobName, jobVersion);
+            if (!jobPackageNames.contains(jobPackageName)) {
+                jobPackageNames.add(jobPackageName);
+            }
+
             Project project = ProjectManager.getInstance().getCurrentProject();
             if (project != null) {
                 String projectName = project.getLabel();
@@ -444,12 +462,14 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
             }
             String jobArtifactVersion = buildArtifactVersionForReferencedJob(routeProcess, jobId);
             String jobBundleVersion = bundleVersion;
-            BundleModel jobModel = new BundleModel(getGroupId(), jobBundleName, jobArtifactVersion, jobFile);
+            BundleModel jobModel = new BundleModel(PomIdsHelper.getJobGroupId(repositoryObject.getProperty()), jobBundleName, jobArtifactVersion, jobFile);
             if (featuresModel.addBundle(jobModel)) {
                 exportRouteUsedJobBundle(repositoryObject, jobFile, jobVersion, jobBundleName, jobBundleSymbolicName,
                         jobBundleVersion, getArtifactId(), version, jobContext);
             }
         }
+
+        addJobPackageToOsgiImport(routeProcess, jobPackageNames);
     }
     
     private String buildArtifactVersionForReferencedJob(ProcessItem routeProcess, String jobId){
@@ -524,7 +544,8 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
                         routeletBundleSymbolicName = projectName.toLowerCase() + '.' + routeletBundleSymbolicName;
                     }
                 }
-                BundleModel routeletModel = new BundleModel(getGroupId(), routeletBundleName, getArtifactVersion(), routeletFile);// PomIdsHelper.getJobVersion(referencedRouteletNode.getProperty())
+                BundleModel routeletModel = new BundleModel(PomIdsHelper.getJobGroupId(referencedRouteletNode.getProperty()), routeletBundleName,
+                        PomIdsHelper.getJobVersion(referencedRouteletNode.getProperty()), routeletFile);
                 if (featuresModel.addBundle(routeletModel)) {
                     exportRouteBundle(referencedRouteletNode, routeletFile, routeletVersion, routeletBundleName,
                             routeletBundleSymbolicName, bundleVersion, idSuffix, null,
@@ -556,6 +577,57 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
         return null;
     }
 
+
+    private static Project getJobProject(String jobId, ERepositoryObjectType type)
+            throws PersistenceException {
+        // Check reference project first
+        List<Project> projects = ProjectManager.getInstance().getAllReferencedProjects();
+        for (Project p : projects) {
+            for (IRepositoryViewObject job : ProxyRepositoryFactory.getInstance().getAll(p, type)) {
+                if (job.getId().equals(jobId)) {
+                    return p;
+                }
+            }
+        }
+        // If the job is not from reference project, then it is from current project
+        return ProjectManager.getInstance().getCurrentProject();
+    }
+    private String getJobPackageName(Project project, String jobName, String version) {
+        String p = project.getTechnicalLabel().toLowerCase();
+        String j = jobName.toLowerCase();
+        String[] varr = version.split("\\.");
+        return p + "." + j + "_" + varr[0] + "_" + varr[1];
+    }
+    private void addJobPackageToOsgiImport(ProcessItem process, Set<String> jobPackageNames) {
+        if (jobPackageNames.isEmpty()) {
+            return;
+        }
+        String packages = "";
+        for (String packageName : jobPackageNames) {
+            if (!packages.isEmpty()) {
+                packages = packages + ",";
+            }
+            packages = packages + packageName;
+        }
+        final String IMPORT_PACKAGE_KEY = "Import-Package";
+        if (process.getProperty().getAdditionalProperties().containsKey(IMPORT_PACKAGE_KEY)) {
+            Object o = process.getProperty().getAdditionalProperties().get(IMPORT_PACKAGE_KEY);
+            if (o == null) {
+                subjobImportPackages.put(process.getProperty().getId(), packages);
+            } else if (o instanceof String) {
+                String s = (String)o;
+                if (s.isEmpty()) {
+                    subjobImportPackages.put(process.getProperty().getId(), packages);
+                } else {
+                    subjobImportPackages.put(process.getProperty().getId(), s + "," + packages);
+                }
+            }
+        } else {
+            subjobImportPackages.put(process.getProperty().getId(), packages);
+        }
+    }
+
+
     private void exportRouteBundle(IRepositoryViewObject object, File filePath, String version, String bundleName,
             String bundleSymbolicName, String bundleVersion, String idSuffix, Collection<String> routelets, String context)
             throws InvocationTargetException, InterruptedException {
@@ -567,6 +639,7 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
         talendJobManager.setOsgiServiceIdSuffix(idSuffix);
         talendJobManager.setMultiNodes(false);
         talendJobManager.setDestinationPath(filePath.getAbsolutePath());
+        talendJobManager.setSubjobImportPackages(subjobImportPackages);
 
         RepositoryNode node = new RepositoryNode(object, null, ENodeType.REPOSITORY_ELEMENT);
         JobExportAction action = new RouteBundleExportAction(Collections.singletonList(node), version, bundleVersion,

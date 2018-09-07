@@ -134,12 +134,12 @@
 		<groupId>org.apache.cxf</groupId>
 		<artifactId>cxf-core</artifactId>
 		<version>${cxf.version}</version>
-		<!--exclusions>
+		<exclusions>
 			<exclusion>
 				<groupId>org.codehaus.woodstox</groupId>
 				<artifactId>stax2-api</artifactId>
 			</exclusion>
-		</exclusions-->
+		</exclusions>
 	</dependency>
 	<dependency>
 		<groupId>org.apache.cxf</groupId>
@@ -177,6 +177,11 @@
 		<artifactId>cxf-rt-transports-http</artifactId>
 		<version>${cxf.version}</version>
 	</dependency>
+    <dependency>
+        <groupId>org.codehaus.woodstox</groupId>
+        <artifactId>stax2-api</artifactId>
+        <version>3.1.4</version>
+    </dependency>
 	<dependency>
 		<groupId>org.apache.cxf</groupId>
 		<artifactId>cxf-rt-ws-security</artifactId>
@@ -410,22 +415,22 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.9.5</version>
+      <version>${jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.9.5</version>
+      <version>${jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
-      <version>2.9.5</version>
+      <version>${jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
-      <version>2.9.5</version>
+      <version>${jackson.version}</version>
     </dependency>
   </dependencies>
 </project>

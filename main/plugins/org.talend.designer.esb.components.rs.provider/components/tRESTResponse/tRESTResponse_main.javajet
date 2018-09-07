@@ -99,7 +99,14 @@ for (Map<String, String> header : headers) { %>
 
 			javax.ws.rs.core.MediaType responseMediaType_<%=cid%> = null;
 			if (!responseAlreadySent_<%=cid%>) {
-				org.apache.cxf.jaxrs.utils.JAXRSUtils.getCurrentMessage().getExchange().put(StreamingDOM4JProvider.SUPRESS_XML_DECLARATION, true);
+                org.apache.cxf.message.Message currentMessage = null;
+                if (org.apache.cxf.jaxrs.utils.JAXRSUtils.getCurrentMessage() != null) {
+                    org.apache.cxf.jaxrs.utils.JAXRSUtils.getCurrentMessage();
+                } else {
+                    currentMessage = ((org.apache.cxf.message.Message)restRequest_<%=cid%>.get("CURRENT_MESSAGE"));
+                }
+
+                currentMessage.getExchange().put(StreamingDOM4JProvider.SUPRESS_XML_DECLARATION, true);
 
 				messageContext_<%=cid%>.put(org.apache.cxf.message.Message.RESPONSE_CODE, restProviderStatusCode_<%=cid%>);
 				javax.ws.rs.core.MultivaluedMap<String, String> headersMultivaluedMap_<%=cid%> = new org.apache.cxf.jaxrs.impl.MetadataMap<String, String>();
@@ -109,7 +116,7 @@ for (Map<String, String> header : headers) { %>
 				messageContext_<%=cid%>.put(org.apache.cxf.message.Message.PROTOCOL_HEADERS, headersMultivaluedMap_<%=cid%>);
 
 				// String responseContentType_<%=cid%> = (String) messageContext_<%=cid%>.get(org.apache.cxf.message.Message.CONTENT_TYPE);
-				String responseContentType_<%=cid%> = (String) org.apache.cxf.jaxrs.utils.JAXRSUtils.getCurrentMessage().getExchange().get(org.apache.cxf.message.Message.CONTENT_TYPE);
+                String responseContentType_<%=cid%> = (String) currentMessage.getExchange().get(org.apache.cxf.message.Message.CONTENT_TYPE);
 				if (null == responseContentType_<%=cid%>) {
 					// this should not be needed, just in case. set it to the first value in the sorted list returned from HttpHeaders
 					responseMediaType_<%=cid%> = messageContext_<%=cid%>.getHttpHeaders().getAcceptableMediaTypes().get(0);
@@ -147,6 +154,11 @@ for (Map<String, String> header : headers) { %>
 				javax.ws.rs.ext.Providers messageBodyProviders_<%=cid%> = messageContext_<%=cid%>.getProviders();
 				javax.ws.rs.ext.MessageBodyWriter messageBodyWriter_<%=cid%> = messageBodyProviders_<%=cid%>.getMessageBodyWriter(
 						responseBodyClass_<%=cid%>, responseBodyClass_<%=cid%>, null, responseMediaType_<%=cid%>);
+
+                if (messageBodyWriter_<%=cid%> instanceof StreamingDOM4JProvider) {
+                    ((StreamingDOM4JProvider)messageBodyWriter_<%=cid%>).setGlobalMap(globalMap);
+                }
+
 				messageBodyWriter_<%=cid%>.writeTo(restProviderResponse_<%=cid%>, responseBodyClass_<%=cid%>, responseBodyClass_<%=cid%>,
 						new java.lang.annotation.Annotation[] {}, responseMediaType_<%=cid%>, null, outputStream_<%=cid%>);
 			}

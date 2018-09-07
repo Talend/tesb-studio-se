@@ -85,3 +85,10 @@
 			}
 			return;
 		}
+
+        requestMessage_<%=cid%>.put("CURRENT_MESSAGE", org.apache.cxf.jaxrs.utils.JAXRSUtils.getCurrentMessage());
+
+        Object ctx_<%=cid%> = requestMessage_<%=cid%>.get("MESSAGE_CONTEXT");
+        if (ctx_<%=cid%> != null && ctx_<%=cid%> instanceof org.apache.cxf.jaxrs.impl.tl.ThreadLocalMessageContext) {
+            requestMessage_<%=cid%>.put("MESSAGE_CONTEXT", ((org.apache.cxf.jaxrs.impl.tl.ThreadLocalMessageContext)ctx_<%=cid%>).get());
+        }

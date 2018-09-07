@@ -296,8 +296,10 @@ public class CamelTalendEditor extends AbstractTalendEditor {
             try {
                 if (nexusServerBean.getType().equals(ArtifactRepositoryBean.NexusType.NEXUS_3.name())) {
                     return isAvailableNexus3(nexusServerBean);
-                } else {
+                } else if (nexusServerBean.getType().equals(ArtifactRepositoryBean.NexusType.NEXUS_2.name())) {
                     return isAvailableNexus2(nexusServerBean);
+                } else if (nexusServerBean.getType().equals(ArtifactRepositoryBean.NexusType.ARTIFACTORY.name())) {
+                    return isAvailableArtifactory(nexusServerBean);
                 }
             } catch (Exception ex) {
                 MessageDialog.openError(getParent().getEditorSite().getShell(), "Checking Nexus Connection Error",
@@ -308,6 +310,28 @@ public class CamelTalendEditor extends AbstractTalendEditor {
             }
         }
 
+        return false;
+    }
+
+    protected boolean isAvailableArtifactory(ArtifactRepositoryBean nexusServerBean) throws Exception {
+        String authUrl = nexusServerBean.getServer() + "api/system/ping?_dc=" + System.currentTimeMillis();
+        URL url = new URL(authUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setConnectTimeout(3000);
+
+        String userpass = nexusServerBean.getUserName() + ":" + nexusServerBean.getPassword();
+        String basicAuth = "Basic " + new String(new Base64().encode(userpass.getBytes()));
+        con.setRequestProperty("Authorization", basicAuth);
+
+        int state = con.getResponseCode();
+
+        if (state == 200) {
+            return true;
+        } else if (state == 401) {
+            MessageDialog.openError(getParent().getEditorSite().getShell(), "Checking Nexus Connection Error",
+                    "Can not connect to " + nexusServerBean.getServer() + "\n" + con.getResponseMessage() + " ResponseCode : "
+                            + state + " Please upload the related jar files manually");
+        }
         return false;
     }
 

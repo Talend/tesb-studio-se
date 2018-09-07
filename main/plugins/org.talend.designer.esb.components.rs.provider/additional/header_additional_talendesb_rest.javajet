@@ -1340,9 +1340,16 @@ protected String checkEndpointUrl(String url) {
 	return endpointUrl;
 }
 
+
 public static class StreamingDOM4JProvider extends org.apache.cxf.jaxrs.provider.dom4j.DOM4JProvider {
 
 	public static final String SUPRESS_XML_DECLARATION = "supress.xml.declaration";
+
+	private java.util.Map<String, Object> globalMap = null;
+
+	public void setGlobalMap(java.util.Map<String, Object> globalMap) {
+		this.globalMap = globalMap;
+	}
 
 	public void writeTo(org.dom4j.Document doc, Class<?> cls, java.lang.reflect.Type type,
 			java.lang.annotation.Annotation[] anns, javax.ws.rs.core.MediaType mt,
@@ -1350,7 +1357,14 @@ public static class StreamingDOM4JProvider extends org.apache.cxf.jaxrs.provider
 					throws java.io.IOException, javax.ws.rs.WebApplicationException {
 		if (mt.getSubtype().contains("xml")) {
 			org.dom4j.io.XMLWriter writer;
-			if (org.apache.cxf.jaxrs.utils.JAXRSUtils.getCurrentMessage().getExchange().containsKey(SUPRESS_XML_DECLARATION)) {
+			org.apache.cxf.message.Message currentMessage = null;
+			if (org.apache.cxf.jaxrs.utils.JAXRSUtils.getCurrentMessage() != null) {
+				currentMessage = org.apache.cxf.jaxrs.utils.JAXRSUtils.getCurrentMessage();
+			} else {
+				currentMessage = (org.apache.cxf.message.Message)((java.util.Map<String, Object>)globalMap.get("restRequest")).get("CURRENT_MESSAGE");
+			}
+
+			if (currentMessage.getExchange().containsKey(SUPRESS_XML_DECLARATION)) {
 				org.dom4j.io.OutputFormat format = new org.dom4j.io.OutputFormat();
 				format.setSuppressDeclaration(true);
 				writer = new org.dom4j.io.XMLWriter(os, format);

@@ -12,8 +12,8 @@
   <packaging>eclipse-plugin</packaging>
 
     <properties>
-        <camel.version>2.20.1</camel.version>
-        <activemq.version>5.15.2</activemq.version>
+        <camel.version>2.21.2</camel.version>
+        <activemq.version>5.15.5</activemq.version>
         <!-- camel-groovy -->
         <groovy.version>2.4.6</groovy.version>
         <!-- camel-xstream -->
@@ -59,7 +59,6 @@
         <commons-lang3.version>3.2.1</commons-lang3.version>
         <slf4j-api.version>1.6.3</slf4j-api.version>
         <reflections.version>0.9.10</reflections.version>
-        <jackson.version>2.9.5</jackson.version>
         <guava.version>20.0</guava.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <snakeyaml.version>1.17</snakeyaml.version>
@@ -196,7 +195,7 @@
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-all</artifactId>
-            <version>${activemq.version}.tesb1</version>
+            <version>${activemq.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>

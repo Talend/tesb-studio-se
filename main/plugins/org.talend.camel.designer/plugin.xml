@@ -352,9 +352,6 @@
            <checknodes
                  class="org.talend.camel.designer.check.CheckRouteBuilderNodeService">
            </checknodes>
-           <checknodes
-                 class="org.talend.camel.designer.check.CheckConfigNodesService">
-           </checknodes>
         </extension>
         <extension
               point="org.eclipse.ui.views">

@@ -263,7 +263,7 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/commons-lang3-3.2.1.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="slf4j-api-1.7.25.jar" MVN="mvn:org.talend.libraries/slf4j-api/6.0.0" NAME="slf4j-api-1.7.25"
+            <IMPORT MODULE="slf4j-api-1.7.25.jar" MVN="mvn:org.slf4j/slf4j-api/1.7.25" NAME="slf4j-api-1.7.25"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/slf4j-api-1.7.25.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
@@ -287,11 +287,11 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jackson-annotations-${jackson.version}.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="guava-${guava.version}.jar" MVN="mvn:org.talend.libraries/guava/6.0.0" NAME="guava-${guava.version}.jar"
+            <IMPORT MODULE="guava-${guava.version}.jar" MVN="mvn:com.google.guava/guava/20.0" NAME="guava-${guava.version}.jar"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/guava-${guava.version}.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="validation-api-1.1.0.Final.jar" MVN="mvn:org.talend.libraries/validation-api/6.0.0" NAME="validation-api-1.1.0.Final"
+            <IMPORT MODULE="validation-api-1.1.0.Final.jar" MVN="mvn:javax.validation/validation-api/1.1.0.Final" NAME="validation-api-1.1.0.Final"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/validation-api-1.1.0.Final.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 

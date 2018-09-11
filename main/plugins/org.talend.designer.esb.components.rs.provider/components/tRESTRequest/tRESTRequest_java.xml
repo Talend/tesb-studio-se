@@ -208,7 +208,7 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/commons-lang3-${commons-lang3.version}.jar"
                 REQUIRED="true"/>
 
-            <IMPORT MODULE="slf4j-api-${slf4j-api.version}.jar" MVN="mvn:org.talend.libraries/slf4j-api/6.0.0" NAME="slf4j-api-${slf4j-api.version}"
+            <IMPORT MODULE="slf4j-api-${slf4j-api.version}.jar" MVN="mvn:org.slf4j/slf4j-api/1.7.25" NAME="slf4j-api-${slf4j-api.version}"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/slf4j-api-${slf4j-api.version}.jar"
                 REQUIRED="true"/>
 
@@ -232,11 +232,11 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jackson-annotations-${jackson.version}.jar"
                 REQUIRED="true"/>
 
-            <IMPORT MODULE="guava-${guava.version}.jar" MVN="mvn:org.talend.libraries/guava/6.0.0" NAME="guava-${guava.version}.jar"
+            <IMPORT MODULE="guava-${guava.version}.jar" MVN="mvn:com.google.guava/guava/20.0" NAME="guava-${guava.version}.jar"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/guava-${guava.version}.jar"
                 REQUIRED="true"/>
 
-            <IMPORT MODULE="validation-api-${validation-api.version}.jar" MVN="mvn:org.talend.libraries/validation-api/6.0.0" NAME="validation-api-${validation-api.version}"
+            <IMPORT MODULE="validation-api-${validation-api.version}.jar" MVN="mvn:javax.validation/validation-api/1.1.0.Final" NAME="validation-api-${validation-api.version}"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/validation-api-${validation-api.version}.jar"
                 REQUIRED="true"/>
 

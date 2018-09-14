@@ -87,4 +87,10 @@
     </libraryNeededGroup>
 
  </extension>
+ <extension
+       point="org.eclipse.core.runtime.preferences">
+    <initializer
+          class="org.talend.designer.esb.components.rs.provider.ESBPreferenceInitializer">
+    </initializer>
+ </extension>
 </plugin>

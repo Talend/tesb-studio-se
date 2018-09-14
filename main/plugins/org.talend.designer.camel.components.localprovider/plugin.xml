@@ -626,6 +626,56 @@
             id="aws-java-sdk-ses"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-ses}"
             bundleID="" />
+            
+        <libraryNeededGroup
+                description="jackson-providers"
+                id="jackson-providers"
+                name="jackson-providers">
+            <library id="aws-jackson-core"/>
+            <library id="aws-jackson-annotations"/>
+			<library id="aws-jackson-databind"/>
+			<library id="jackson-jackson-databind"/>
+            <library id="jackson-dataformat-xml" />
+            <library id="jackson-jaxrs-base" />
+            <library id="jackson-jaxrs-json-provider" />
+            <library id="jackson-jaxrs-xml-provider" />
+            <library id="jackson-module-jaxb-annotations" />
+        </libraryNeededGroup>
+        
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="jackson-jaxrs-json-provider"
+              name="${tesb-jackson-jaxrs-json-provider}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-jaxrs-json-provider}">
+        </libraryNeeded>
+        
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="jackson-jaxrs-xml-provider"
+              name="${tesb-jackson-jaxrs-xml-provider}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-jaxrs-xml-provider}">
+        </libraryNeeded>
+        
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="jackson-jaxrs-base"
+              name="${tesb-jackson-jaxrs-base}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-jaxrs-base}">
+        </libraryNeeded>
+        
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="jackson-dataformat-xml"
+              name="${tesb-jackson-dataformat-xml}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-dataformat-xml}">
+        </libraryNeeded>
+        
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="jackson-module-jaxb-annotations"
+              name="${tesb-jackson-module-jaxb-annotations}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-module-jaxb-annotations}">
+        </libraryNeeded>
         
         <libraryNeededGroup
             description="camel-aws-ses"

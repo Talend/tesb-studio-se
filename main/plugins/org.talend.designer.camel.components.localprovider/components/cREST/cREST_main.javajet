@@ -47,8 +47,8 @@ imports="
 	if(node.getIncomingConnections().isEmpty()) {
 		
         if (endpointUrlRT != null && !endpointUrlRT.trim().isEmpty() && !endpointUrlRT.contains("://")) {
-            if (endpointUrlRT.startsWith("/services")) {
-                endpointUrlRT = endpointUrlRT.substring("/services".length());
+            if (endpointUrlRT.startsWith("\"/services")) {
+                endpointUrlRT = endpointUrlRT.replaceFirst("/services","");
             }
             if (!endpointUrlRT.startsWith("/")) {
             	if(!endpointUrlRT.startsWith("context.")){
@@ -56,8 +56,11 @@ imports="
             	}
             }
         }
-        
-        String defaultEndpointUrl = "\"http://127.0.0.1:8090\"";
+        String defaultUri = (String) System.getProperties().get("restServiceDefaultUri");
+        if (null == defaultUri || defaultUri.trim().isEmpty() || !defaultUri.contains("://")) {
+        	defaultUri = "http://127.0.0.1:8090";
+        }
+        String defaultEndpointUrl = "\""+defaultUri+"\"";
         
         if (null == endpointUrlStudio || endpointUrlStudio.trim().isEmpty()) {
             endpointUrlStudio = defaultEndpointUrl;
@@ -88,7 +91,11 @@ imports="
 	
 		builder.addParam("resourceClasses", "\"" + packageName + "." + className + "$Service_" + cid + "\"");
 		builderRT.addParam("resourceClasses", "\"" + packageName + "." + className + "$Service_" + cid + "\"");
+		
 	}
+	
+	builder.addParam("providers", "\"providers\"");
+	builderRT.addParam("providers", "\"providers\"");
 	
     builder.addParam("loggingFeatureEnabled", "\"" + (String) ElementParameterParser.getValue(node, "__LOG_MESSAGES__") + "\"");
     builderRT.addParam("loggingFeatureEnabled", "\"" + (String) ElementParameterParser.getValue(node, "__LOG_MESSAGES__") + "\"");

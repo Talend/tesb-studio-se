@@ -28,7 +28,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <cxf.version>3.2.6</cxf.version>
-    <spring.version>4.3.10.RELEASE</spring.version>
+    <spring.version>4.3.18.RELEASE</spring.version>
     <scala.version>2.11.7</scala.version>
     <jettison.version>1.3.8</jettison.version>
     <!--slf4j.version>1.7.9</slf4j.version-->
@@ -131,10 +131,7 @@
     <module>main/plugins/org.talend.designer.esb.components.rs.consumer</module>
     <module>main/plugins/org.talend.designer.esb.components.rs.provider</module>
     <module>main/plugins/org.talend.designer.esb.components.ws.consumer</module>
-    <module>main/plugins/org.talend.designer.esb.components.ws.crest</module>
     <module>main/plugins/org.talend.designer.esb.components.ws.provider</module>
-    <module>main/plugins/org.talend.designer.esb.components.ws.tools.extensions</module>
-    <module>main/plugins/org.talend.designer.esb.components.ws.trestrequest</module>
     <module>main/plugins/org.talend.designer.esb.routines</module>
     <module>main/plugins/org.talend.libraries.esb</module>
     <module>main/plugins/org.talend.rcp.branding.esbstandard</module>
@@ -212,6 +209,16 @@
 					<mapping>
 						<from>
 							<name>[^:]+:([^:]+):jar:uber</name>
+							<value>.*[\\/]([^\\/]+)</value>
+						</from>
+						<to>
+							<name>tesb-$1</name>
+							<value>$2</value>
+						</to>
+					</mapping>
+					<mapping>
+						<from>
+							<name>[^:]+:([^:]+):jar:TESB</name>
 							<value>.*[\\/]([^\\/]+)</value>
 						</from>
 						<to>

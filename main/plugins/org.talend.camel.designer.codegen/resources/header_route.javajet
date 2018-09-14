@@ -2244,6 +2244,18 @@ if (isProvider) {
                 	<%}%>
                     //read context values
                     readContextValues(contextStr);
+                    
+                    <%
+                    	if(process.getNodesOfType("cREST").size() > 0){
+                    %>
+                    
+		                java.util.List<Object> providers = new java.util.ArrayList<Object>();
+				        providers.add(new com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider());
+				        providers.add(new com.fasterxml.jackson.jaxrs.xml.JacksonJaxbXMLProvider());
+		                registry.put("providers", providers);
+	                
+	                <%}%>
+	                
                 <%}%>
 
 <%
@@ -2310,6 +2322,7 @@ if (isProvider) {
                 org.apache.cxf.jaxrs.AbstractJAXRSFactoryBean factory_<%=cid%>;
 <%
                 boolean isProvider = node.getIncomingConnections().isEmpty();
+                
                 if (isProvider) {
                     String serviceClass = ("MANUAL".equals(ElementParameterParser.getValue(node, "__SERVICE_TYPE__")))
                         ? ("Service_" + cid) : ElementParameterParser.getValue(node, "__RESOURCE_CLASS__");
@@ -2321,6 +2334,7 @@ if (isProvider) {
                     sf_<%=cid%>.setProvider(new CxfPayloadProvider());
                     // avoid JAXBException in runtime
                     sf_<%=cid%>.setProvider(new org.apache.cxf.jaxrs.provider.SourceProvider());
+                    
 <%
                     if ("true".equals(ElementParameterParser.getValue(node, "__ENABLE_SECURITY__"))) {
                         if("BASIC".equals(ElementParameterParser.getValue(node, "__SECURITY_TYPE__"))) {

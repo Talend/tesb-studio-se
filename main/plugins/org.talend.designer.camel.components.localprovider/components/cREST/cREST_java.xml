@@ -2,7 +2,6 @@
 
 	<HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
 		COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20100401A"
-		EXTENSION="org.talend.designer.esb.components.ws.crest"
 		STARTABLE="true">
 		<SIGNATURE />
 	</HEADER>
@@ -28,20 +27,23 @@
 
 	<PARAMETERS>
 	
-		<PARAMETER NAME="OAS_IMPORT" FIELD="EXTERNAL" NUM_ROW="1" GROUP="OAS_GROUP"  SHOW_IF="(#LINK@CONNECTOR.IN.ANY &lt; '1') AND (SERVICE_TYPE == 'MANUAL') AND (IS_STUDIO_EE_VERSION == 'true')" />
+		<PARAMETER NAME="PROPERTY" FIELD="PROPERTY_TYPE" GROUP="OAS_GROUP"
+				NUM_ROW="1" REPOSITORY_VALUE="METADATA_DATASERVICES_REST" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &lt; '1') AND (SERVICE_TYPE == 'MANUAL') AND (IS_STUDIO_EE_VERSION == 'true')" />
 	
-		<PARAMETER NAME="URL" FIELD="TEXT" NUM_ROW="2" REQUIRED="true">
+		<PARAMETER FIELD="TEXT" NAME="API_ID" REPOSITORY_VALUE="API_ID" NUM_ROW="2" SHOW="false" />
+	
+		<PARAMETER NAME="URL" FIELD="TEXT" NUM_ROW="3" REQUIRED="true">
 			<DEFAULT>"http://127.0.0.1:8040"</DEFAULT>
 		</PARAMETER>
 
-		<PARAMETER NAME="SERVICE_TYPE" FIELD="CLOSED_LIST" NUM_ROW="3">
+		<PARAMETER NAME="SERVICE_TYPE" FIELD="CLOSED_LIST" NUM_ROW="4">
 			<ITEMS DEFAULT="MANUAL">
 				<ITEM NAME="MANUAL" VALUE="MANUAL" />
 				<ITEM NAME="RESOURCECLASS" VALUE="RESOURCECLASS" />
 			</ITEMS>
 		</PARAMETER>
 
-		<PARAMETER NAME="PATH" FIELD="TEXT" NUM_ROW="4" REQUIRED="true" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND SERVICE_TYPE=='MANUAL'">
+		<PARAMETER NAME="PATH" FIELD="TEXT" NUM_ROW="5" REQUIRED="true" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND SERVICE_TYPE=='MANUAL'">
 			<DEFAULT>constant("/services/customers/")</DEFAULT>
 		</PARAMETER>
 
@@ -225,6 +227,7 @@
             <IMPORT MODULE_GROUP="camel-core" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-spring" REQUIRED="true" />
             <IMPORT MODULE_GROUP="camel-cxf" REQUIRED="true" />
+            <IMPORT MODULE_GROUP="jackson-providers" REQUIRED="true" />
 
             <IMPORT MODULE_GROUP="locator"
                     REQUIRED_IF="SERVICE_LOCATOR == 'true'" />
@@ -263,7 +266,7 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/commons-lang3-3.2.1.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="slf4j-api-1.7.25.jar" MVN="mvn:org.talend.libraries/slf4j-api/6.0.0" NAME="slf4j-api-1.7.25"
+            <IMPORT MODULE="slf4j-api-1.7.25.jar" MVN="mvn:org.slf4j/slf4j-api/1.7.25" NAME="slf4j-api-1.7.25"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/slf4j-api-1.7.25.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
@@ -287,11 +290,11 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jackson-annotations-${jackson.version}.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="guava-${guava.version}.jar" MVN="mvn:org.talend.libraries/guava/6.0.0" NAME="guava-${guava.version}.jar"
+            <IMPORT MODULE="guava-${guava.version}.jar" MVN="mvn:com.google.guava/guava/20.0" NAME="guava-${guava.version}.jar"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/guava-${guava.version}.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="validation-api-1.1.0.Final.jar" MVN="mvn:org.talend.libraries/validation-api/6.0.0" NAME="validation-api-1.1.0.Final"
+            <IMPORT MODULE="validation-api-1.1.0.Final.jar" MVN="mvn:javax.validation/validation-api/1.1.0.Final" NAME="validation-api-1.1.0.Final"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/validation-api-1.1.0.Final.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 

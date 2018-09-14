@@ -70,6 +70,7 @@
         
         <jetty-all.version>9.3.14.v20161028</jetty-all.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <jackson.version>2.9.6</jackson.version>
     </properties>
 
     <dependencies>
@@ -118,6 +119,7 @@
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-cxf</artifactId>
             <version>${camel.version}</version>
+            <classifier>TESB</classifier>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.cxf</groupId>
@@ -562,6 +564,37 @@
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        
+		<dependency>
+		    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+		    <artifactId>jackson-jaxrs-base</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+        
+		<dependency>
+		    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+		    <artifactId>jackson-jaxrs-xml-provider</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+        
+        <dependency>
+		   <groupId>com.fasterxml.jackson.jaxrs</groupId>
+		   <artifactId>jackson-jaxrs-json-provider</artifactId>
+		   <version>${jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-xml</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.fasterxml.jackson.module</groupId>
+		    <artifactId>jackson-module-jaxb-annotations</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+
     </dependencies>
 
     <build>

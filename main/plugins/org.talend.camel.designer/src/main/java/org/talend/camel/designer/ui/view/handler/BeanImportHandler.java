@@ -60,7 +60,7 @@ public class BeanImportHandler extends ImportRepTypeHandler {
             EList imports = beanItem.getImports();
             List<ModuleNeeded> beansDefaultNeeds = ModulesNeededProvider.getModulesNeededForBeans();
             for (ModuleNeeded defaultNeed : beansDefaultNeeds) {
-                String moduleName = defaultNeed.getModuleName().substring(0, defaultNeed.getModuleName().lastIndexOf('-'));
+                String moduleName = defaultNeed.getId();
                 for (Object imp : imports) {
                     if (imp instanceof IMPORTType) {
                         IMPORTType importType = (IMPORTType) imp;

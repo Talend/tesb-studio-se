@@ -17,6 +17,7 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
+import org.talend.commons.exception.ExceptionHandler;
 import org.talend.core.model.components.AbstractComponentsProvider;
 
 public class ComponentsProvider extends AbstractComponentsProvider {
@@ -32,7 +33,7 @@ public class ComponentsProvider extends AbstractComponentsProvider {
                 url = FileLocator.toFileURL(url);
                 providedLocation = new File(url.getPath());
             } catch (Exception e) {
-                plugin.getLog().log(Activator.getStatus(null, e));
+                ExceptionHandler.process(e);
             }
         }
         return providedLocation;

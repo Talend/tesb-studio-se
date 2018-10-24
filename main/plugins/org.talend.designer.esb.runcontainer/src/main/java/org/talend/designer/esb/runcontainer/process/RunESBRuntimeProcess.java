@@ -243,30 +243,39 @@ public class RunESBRuntimeProcess extends Process {
                 if (EmfModelUtils.getComponentByName(processItem, "tESBProviderRequest") != null) {
                     List<Item> items = new ArrayList<Item>(1);
                     items.add(processItem);
-                    Collection<IRepositoryViewObject> allDependencies = ProcessUtils
-                            .getProcessDependencies(ERepositoryObjectType.METADATA, items, false);
+                    Collection<IRepositoryViewObject> allDependencies =
+                            ProcessUtils.getProcessDependencies(ERepositoryObjectType.METADATA, items, false);
                     // check service
                     if (!allDependencies.isEmpty()) {
-                        target = File.createTempFile("service", FileConstants.KAR_FILE_SUFFIX, null);
                         for (IRepositoryViewObject object : allDependencies) {
-                            if (object.getProperty().getItem() != null && object.getProperty().getItem() instanceof ServiceItem) {
+                            if (object.getProperty().getItem() != null
+                                    && object.getProperty().getItem() instanceof ServiceItem) {
                                 ServiceItem serviceItem = (ServiceItem) object.getProperty().getItem();
-                                // ExportServiceAction action = new ExportServiceAction(serviceItem,
-                                // target.getAbsolutePath(), null,
-                                // new ServiceExportForESBRuntimeManager(null, statisticsPort, tracePort));
-                                // action.run(monitor);
 
-                                Map<ExportChoice, Object> exportChoiceMap = new EnumMap<ExportChoice, Object>(ExportChoice.class);
+                                Map<ExportChoice, Object> exportChoiceMap =
+                                        new EnumMap<ExportChoice, Object>(ExportChoice.class);
+
                                 exportChoiceMap.put(ExportChoice.needLauncher, true);
                                 exportChoiceMap.put(ExportChoice.needSystemRoutine, true);
                                 exportChoiceMap.put(ExportChoice.needUserRoutine, true);
                                 exportChoiceMap.put(ExportChoice.needTalendLibraries, true);
                                 exportChoiceMap.put(ExportChoice.needJobItem, true);
                                 exportChoiceMap.put(ExportChoice.needJobScript, true);
-                                exportChoiceMap.put(ExportChoice.needContext, true);
-                                exportChoiceMap.put(ExportChoice.needSourceCode, true);
-                                exportChoiceMap.put(ExportChoice.applyToChildren, false);
                                 exportChoiceMap.put(ExportChoice.doNotCompileCode, false);
+                                exportChoiceMap.put(ExportChoice.needDependencies, false);
+                                exportChoiceMap.put(ExportChoice.addStatistics, false);
+                                exportChoiceMap.put(ExportChoice.addTracs, false);
+                                exportChoiceMap.put(ExportChoice.needAntScript, false);
+                                exportChoiceMap.put(ExportChoice.needMavenScript, false);
+                                exportChoiceMap.put(ExportChoice.applyToChildren, false);
+                                exportChoiceMap.put(ExportChoice.needContext, true);
+                                exportChoiceMap.put(ExportChoice.binaries, true);
+                                exportChoiceMap.put(ExportChoice.needSourceCode, false);
+                                exportChoiceMap.put(ExportChoice.executeTests, false);
+                                exportChoiceMap.put(ExportChoice.includeTestSource, false);
+                                exportChoiceMap.put(ExportChoice.includeLibs, true);
+                                exportChoiceMap.put(ExportChoice.needLog4jLevel, false);
+                                exportChoiceMap.put(ExportChoice.needAssembly, true);
 
                                 Map<String, Object> parameters = new HashMap<String, Object>();
                                 parameters.put(IBuildParametes.ITEM, serviceItem);
@@ -274,15 +283,16 @@ public class RunESBRuntimeProcess extends Process {
                                 parameters.put(IBuildJobParameters.CONTEXT_GROUP, IContext.DEFAULT);
                                 parameters.put(IBuildJobParameters.CHOICE_OPTION, exportChoiceMap);
 
-                                AbstractBuildProvider buildProvider = BuildExportManager.getInstance().getBuildProvider("Service",
-                                        parameters);
+                                AbstractBuildProvider buildProvider =
+                                        BuildExportManager.getInstance().getBuildProvider("Service", parameters);
 
-                                IBuildJobHandler buildServiceHandler = (IBuildJobHandler) buildProvider
-                                        .createBuildExportHandler(parameters);
-                                buildServiceHandler.generateJobFiles(monitor);
+                                IBuildJobHandler buildServiceHandler =
+                                        (IBuildJobHandler) buildProvider.createBuildExportHandler(parameters);
+                                buildServiceHandler.prepare(monitor, parameters);
                                 buildServiceHandler.build(monitor);
                                 applyContextConfiguration(configID);
-                                kars = JMXUtil.installKar(buildServiceHandler.getJobTargetFile().getLocation().toFile());
+                                kars = JMXUtil
+                                        .installKar(buildServiceHandler.getJobTargetFile().getLocation().toFile());
 
                             }
                         }
@@ -291,8 +301,9 @@ public class RunESBRuntimeProcess extends Process {
                     // publish job
                     target = File.createTempFile("job", FileConstants.JAR_FILE_SUFFIX, null);
                     JobScriptsManager jobScriptsManager = new JobJavaScriptOSGIForESBRuntimeManager(
-                            JobScriptsManagerFactory.getDefaultExportChoiceMap(), processItem.getProcess().getDefaultContext(),
-                            JobScriptsManager.LAUNCHER_ALL, statisticsPort, tracePort);
+                            JobScriptsManagerFactory.getDefaultExportChoiceMap(),
+                            processItem.getProcess().getDefaultContext(), JobScriptsManager.LAUNCHER_ALL,
+                            statisticsPort, tracePort);
                     // generate
                     jobScriptsManager.setDestinationPath(target.getAbsolutePath());
                     JobExportAction jobAction = new JobExportAction(Collections.singletonList(node),
@@ -311,8 +322,8 @@ public class RunESBRuntimeProcess extends Process {
             } else if (ComponentCategory.CATEGORY_4_CAMEL.getName().equals(process.getComponentsType())) {
                 // publish route
                 target = File.createTempFile("route", FileConstants.KAR_FILE_SUFFIX, null);
-                JavaCamelJobScriptsExportWSAction camelAction = new JavaCamelJobScriptsExportWSAction(node, process.getVersion(),
-                        target.getAbsolutePath(), true, statisticsPort, tracePort);
+                JavaCamelJobScriptsExportWSAction camelAction = new JavaCamelJobScriptsExportWSAction(node,
+                        process.getVersion(), target.getAbsolutePath(), true, statisticsPort, tracePort);
                 camelAction.setBuildProject(true);
                 camelAction.run(monitor);
                 applyContextConfiguration(configID);

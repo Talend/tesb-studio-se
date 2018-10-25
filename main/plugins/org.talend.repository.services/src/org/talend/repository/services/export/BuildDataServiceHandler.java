@@ -321,6 +321,7 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
      */
     @Override
     public IProcessor generateJobFiles(IProgressMonitor monitor) throws Exception {
+        BuildCacheManager.getInstance().clearAllCaches();
 
         // TESB-22307
         if (GlobalServiceRegister.getDefault().isServiceRegistered(IESBService.class)) {
@@ -482,7 +483,6 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
      */
     @Override
     public void prepare(IProgressMonitor monitor, Map<String, Object> parameters) throws Exception {
-        BuildCacheManager.getInstance().clearAllCaches();
         // generate sources
         generateJobFiles(monitor);
         // Generate nodes job

@@ -186,6 +186,7 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
      * @see org.talend.repository.ui.wizards.exportjob.handler.BuildJobHandler#build(org.eclipse.core.runtime.
      * IProgressMonitor)
      */
+    @Override
     public void build(IProgressMonitor monitor) throws Exception {
         // final Map<String, Object> argumentsMap = new HashMap<String, Object>();
         // argumentsMap.put(TalendProcessArgumentConstant.ARG_GOAL, TalendMavenConstants.GOAL_PACKAGE);
@@ -197,9 +198,12 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
         argumentsMap.put(TalendProcessArgumentConstant.ARG_GOAL, TalendMavenConstants.GOAL_PACKAGE);
         argumentsMap.put(TalendProcessArgumentConstant.ARG_PROGRAM_ARGUMENTS, getProgramArgs());
 
-        talendProcessJavaProject.buildModules(monitor, null, argumentsMap);
-
-        BuildCacheManager.getInstance().performBuildSuccess();
+        try {
+            talendProcessJavaProject.buildModules(monitor, null, argumentsMap);
+            BuildCacheManager.getInstance().performBuildSuccess();
+        } finally {
+            BuildCacheManager.getInstance().clearAllCaches();
+        }
     }
 
     protected String getProgramArgs() {
@@ -317,6 +321,7 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
      */
     @Override
     public IProcessor generateJobFiles(IProgressMonitor monitor) throws Exception {
+        BuildCacheManager.getInstance().clearAllCaches();
 
         // TESB-22307
         if (GlobalServiceRegister.getDefault().isServiceRegistered(IESBService.class)) {

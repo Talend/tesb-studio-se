@@ -21,8 +21,6 @@
 // ============================================================================
 package org.talend.esb.camel.designer.build;
 
-import static org.junit.Assert.fail;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -61,9 +59,11 @@ public class RouteTestCaseBuildProviderTest {
     /**
      * Test method for
      * {@link org.talend.camel.designer.build.RouteTestCaseBuildProvider#createPomCreator(java.util.Map)}.
+     * 
+     * @throws Exception
      */
     @Test
-    public void testCreatePomCreator() {
+    public void testCreatePomCreator() throws Exception {
 
         ProcessItem processItem = PropertiesFactory.eINSTANCE.createProcessItem();
         Property property = PropertiesFactory.eINSTANCE.createProperty();
@@ -89,35 +89,30 @@ public class RouteTestCaseBuildProviderTest {
         processor.setContext(process.getContextManager().getDefaultContext());
 
         Project project = ProjectManager.getInstance().getCurrentProject();
-        try {
-            IProject fsProject = ResourceUtils.getProject(project);
-            IPath path = new Path("poms")
-                    .append("jobs")
-                    .append("process")
-                    .append(property.getLabel().concat("_").concat(property.getVersion()).toLowerCase())
-                    .append("temp");
-            ResourceUtils.createFolder(fsProject.getFolder(path));
-            path = path.append("pom.xml");
-            IFile file = fsProject.getFile(path);
-            String pomContent = "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n"
-                    + "  <modelVersion>4.0.0</modelVersion>\n"
-                    + "  <artifactId>esb.tooling.test</artifactId>\n"
-                    + "  <packaging>jar</packaging>\n" + "  <name>Test POM</name>\n" + "</project>";
-            InputStream inputStream = new ByteArrayInputStream(pomContent.getBytes(StandardCharsets.UTF_8));
-            file.delete(true, new NullProgressMonitor());
-            file.create(inputStream, false, new NullProgressMonitor());
-            Map<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put(IBuildParametes.ITEM, processItem);
-            parameters.put(IBuildPomCreatorParameters.PROCESSOR, processor);
-            parameters.put(IBuildPomCreatorParameters.FILE_POM, file);
-            parameters.put(IBuildPomCreatorParameters.OVERWRITE_POM, Boolean.TRUE);
+        IProject fsProject = ResourceUtils.getProject(project);
+        IPath path = new Path("poms")
+                .append("jobs")
+                .append("process")
+                .append(property.getLabel().concat("_").concat(property.getVersion()).toLowerCase())
+                .append("temp");
+        ResourceUtils.createFolder(fsProject.getFolder(path));
+        path = path.append("pom.xml");
+        IFile file = fsProject.getFile(path);
+        String pomContent =
+                "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n"
+                        + "  <modelVersion>4.0.0</modelVersion>\n" + "  <artifactId>esb.tooling.test</artifactId>\n"
+                        + "  <packaging>jar</packaging>\n" + "  <name>Test POM</name>\n" + "</project>";
+        InputStream inputStream = new ByteArrayInputStream(pomContent.getBytes(StandardCharsets.UTF_8));
+        file.delete(true, new NullProgressMonitor());
+        file.create(inputStream, false, new NullProgressMonitor());
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put(IBuildParametes.ITEM, processItem);
+        parameters.put(IBuildPomCreatorParameters.PROCESSOR, processor);
+        parameters.put(IBuildPomCreatorParameters.FILE_POM, file);
+        parameters.put(IBuildPomCreatorParameters.OVERWRITE_POM, Boolean.TRUE);
 
-            IMavenPomCreator creator = new RouteTestCaseBuildProvider().createPomCreator(parameters);
-            creator.create(new NullProgressMonitor());
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Test testCreatePomCreator() method failure.");
-        }
+        IMavenPomCreator creator = new RouteTestCaseBuildProvider().createPomCreator(parameters);
+        creator.create(new NullProgressMonitor());
 
     }
 

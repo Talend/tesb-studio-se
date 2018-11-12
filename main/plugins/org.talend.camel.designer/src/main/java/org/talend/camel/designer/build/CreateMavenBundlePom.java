@@ -37,29 +37,19 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.talend.camel.designer.ui.editor.RouteProcess;
 import org.talend.commons.exception.ExceptionHandler;
-import org.talend.core.CorePlugin;
-import org.talend.core.GlobalServiceRegister;
-import org.talend.core.context.Context;
-import org.talend.core.context.RepositoryContext;
-import org.talend.core.model.process.IProcess;
-import org.talend.core.model.process.IProcess2;
 import org.talend.core.model.process.JobInfo;
-import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.Property;
 import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.runtime.maven.MavenConstants;
 import org.talend.core.runtime.process.ITalendProcessJavaProject;
 import org.talend.core.runtime.projectsetting.IProjectSettingPreferenceConstants;
 import org.talend.core.runtime.projectsetting.IProjectSettingTemplateConstants;
-import org.talend.designer.core.IDesignerCoreService;
 import org.talend.designer.maven.model.TalendMavenConstants;
 import org.talend.designer.maven.template.MavenTemplateManager;
 import org.talend.designer.maven.tools.creator.CreateMavenJobPom;
 import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.maven.utils.PomUtil;
 import org.talend.designer.runprocess.IProcessor;
-import org.talend.designer.runprocess.IRunProcessService;
-import org.talend.designer.runprocess.ItemCacheManager;
 import org.talend.repository.ProjectManager;
 import org.talend.utils.io.FilesUtils;
 
@@ -179,7 +169,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         for (JobInfo job : getJobProcessor().getBuildChildrenJobs()) {
             if (isRoutelet(job)) {
                 IPath currentProjectRootDir = getTalendJobJavaProject(getJobProcessor()).getProject().getLocation();
-                IPath routeletPomPath = getTalendJobJavaProject(getProcessor(job)).getProjectPom().getLocation();
+                IPath routeletPomPath = getTalendJobJavaProject(job).getProjectPom().getLocation();
                 String relativePomPath = routeletPomPath.makeRelativeTo(currentProjectRootDir).toString();
                 // pom.addModule(relativePomPath); //TESB-22753
             }
@@ -287,6 +277,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
 
     }
 
+    @Override
     protected void generateAssemblyFile(IProgressMonitor monitor, final Set<JobInfo> clonedChildrenJobInfors) throws Exception {
         IFile assemblyFile = this.getAssemblyFile();
         if (assemblyFile != null) {
@@ -545,9 +536,10 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
 
         Xpp3Dom file = new Xpp3Dom("file");
         boolean addFile = false;
-        if (getJobProcessor() != null && getProcessor(job) != null) {
-            IPath currentProjectRootDir = getTalendJobJavaProject(getJobProcessor()).getProject().getLocation();
-            IPath targetDir = getTalendJobJavaProject(getProcessor(job)).getTargetFolder().getLocation();
+        if (getJobProcessor() != null) {
+            ITalendProcessJavaProject talendJobJavaProject = getTalendJobJavaProject(job);
+            IPath currentProjectRootDir = talendJobJavaProject.getProject().getLocation();
+            IPath targetDir = talendJobJavaProject.getTargetFolder().getLocation();
             String relativeTargetDir = targetDir.makeRelativeTo(currentProjectRootDir).toString();
             
             if(!ProjectManager.getInstance().isInCurrentMainProject(job.getProcessItem().getProperty())) {
@@ -608,75 +600,8 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         return false;
     }
 
-    public static IProcessor getProcessor(JobInfo jobInfo) {
 
-        if (jobInfo.getProcessor() != null) {
-            return jobInfo.getProcessor();
-        }
 
-        IProcess process = null;
-        ProcessItem processItem;
-
-        processItem = jobInfo.getProcessItem();
-
-        if (processItem == null && jobInfo.getJobVersion() == null) {
-            processItem = ItemCacheManager.getProcessItem(jobInfo.getJobId());
-        }
-
-        if (processItem == null && jobInfo.getJobVersion() != null) {
-            processItem = ItemCacheManager.getProcessItem(jobInfo.getJobId(), jobInfo.getJobVersion());
-        }
-
-        if (processItem == null && jobInfo.getProcess() == null) {
-            return null;
-        }
-
-        if (jobInfo.getProcess() == null) {
-            if (processItem != null) {
-                IDesignerCoreService service = CorePlugin.getDefault().getDesignerCoreService();
-                process = service.getProcessFromProcessItem(processItem);
-                if (process instanceof IProcess2) {
-                    ((IProcess2) process).setProperty(processItem.getProperty());
-                }
-            }
-            if (process == null) {
-                return null;
-            }
-        } else {
-            process = jobInfo.getProcess();
-        }
-
-        Property curProperty = processItem.getProperty();
-        if (processItem.getProperty() == null && process instanceof IProcess2) {
-            curProperty = ((IProcess2) process).getProperty();
-        }
-
-        IRunProcessService service = CorePlugin.getDefault().getRunProcessService();
-        IProcessor processor = service.createCodeProcessor(process, curProperty,
-                ((RepositoryContext) CorePlugin.getContext().getProperty(Context.REPOSITORY_CONTEXT_KEY)).getProject()
-                        .getLanguage(),
-                true);
-
-        jobInfo.setProcessor(processor);
-
-        return processor;
-    }
-
-    private ITalendProcessJavaProject getTalendJobJavaProject(IProcessor processor) {
-        ITalendProcessJavaProject talendProcessJavaProject = processor.getTalendJavaProject();
-
-        if (talendProcessJavaProject == null) {
-            if (GlobalServiceRegister.getDefault().isServiceRegistered(IRunProcessService.class)) {
-                IRunProcessService service = (IRunProcessService) GlobalServiceRegister.getDefault()
-                        .getService(IRunProcessService.class);
-
-                talendProcessJavaProject = service.getTalendJobJavaProject(processor.getProperty());
-
-            }
-        }
-
-        return talendProcessJavaProject;
-    }
     
     /**
      * Skip clean control-bundle file in target folde, in case of using mvn clean + package goal

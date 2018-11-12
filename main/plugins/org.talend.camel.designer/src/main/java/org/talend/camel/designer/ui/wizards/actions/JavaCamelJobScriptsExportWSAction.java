@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -43,6 +44,7 @@ import org.talend.commons.utils.io.FilesUtils;
 import org.talend.core.CorePlugin;
 import org.talend.core.model.general.Project;
 import org.talend.core.model.process.JobInfo;
+import org.talend.core.model.process.ProcessUtils;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.ProjectReference;
 import org.talend.core.model.relationship.RelationshipItemBuilder;
@@ -575,6 +577,7 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
     }
 
     private static IRepositoryViewObject getJobRepositoryNode(String jobId, ERepositoryObjectType type) throws PersistenceException {
+        String projectLable = ProcessUtils.getProjectLabelFromItemId(jobId);
         List<IRepositoryViewObject> list = new ArrayList<>();
         List<Project> projects = ProjectManager.getInstance().getAllReferencedProjects();
         for (Project p : projects) {
@@ -585,7 +588,9 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
 
         for (IRepositoryViewObject job : list) {
             if (job.getId().equals(jobId)) {
-                return new RepositoryObject(job.getProperty());
+                if (projectLable == null || StringUtils.equalsIgnoreCase(projectLable, job.getProjectLabel())) {
+                    return new RepositoryObject(job.getProperty());
+                }
             }
         }
         return null;
@@ -594,6 +599,10 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
 
     private static Project getJobProject(String jobId, ERepositoryObjectType type)
             throws PersistenceException {
+        String projectLable = ProcessUtils.getProjectLabelFromItemId(jobId);
+        if (projectLable != null) {
+            return ProjectManager.getInstance().getProjectFromProjectTechLabel(projectLable);
+        }
         // Check reference project first
         List<Project> projects = ProjectManager.getInstance().getAllReferencedProjects();
         for (Project p : projects) {

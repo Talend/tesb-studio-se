@@ -588,7 +588,7 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
 
         for (IRepositoryViewObject job : list) {
             if (job.getId().equals(jobId)) {
-                if (projectLable == null || StringUtils.equalsIgnoreCase(projectLable, job.getProjectLabel())) {
+                if (projectLable == null || StringUtils.equals(projectLable, job.getProjectLabel())) {
                     return new RepositoryObject(job.getProperty());
                 }
             }

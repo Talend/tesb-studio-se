@@ -62,6 +62,6 @@ Feel free to share your Talend components on [Talend Exchange](http://www.talend
 
 ## License
 
-Copyright (c) 2006-2016 Talend
+Copyright (c) 2006-2018 Talend
 
 Licensed under the Apache V2 License

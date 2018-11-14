@@ -52,6 +52,7 @@ import org.talend.core.model.properties.Property;
 import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.runtime.maven.MavenConstants;
 import org.talend.core.runtime.process.ITalendProcessJavaProject;
+import org.talend.core.runtime.process.TalendProcessArgumentConstant;
 import org.talend.core.runtime.projectsetting.IProjectSettingPreferenceConstants;
 import org.talend.core.runtime.projectsetting.IProjectSettingTemplateConstants;
 import org.talend.designer.core.IDesignerCoreService;
@@ -324,6 +325,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 String artifactId;
                 String version;
                 String type = null;
+                String buildType = null;
                 if (!jobInfo.isJoblet()) {
                     property = jobInfo.getProcessItem().getProperty();
                     groupId = PomIdsHelper.getJobGroupId(property);
@@ -354,11 +356,14 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 } else {
                     property = jobInfo.getJobletProperty();
                     groupId = PomIdsHelper.getJobletGroupId(property);
-                    artifactId = PomIdsHelper.getJobletArtifactId(property) + "-bundle";
+                    artifactId = PomIdsHelper.getJobletArtifactId(property);
                     version = PomIdsHelper.getJobletVersion(property);
                     type = MavenConstants.PACKAGING_POM;
                 }
-                Dependency d = PomUtil.createDependency(groupId, isJob(jobInfo) ? artifactId + "-bundle" : artifactId, version, type);
+                if(property != null) {
+                    buildType = (String) property.getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
+                }
+                Dependency d = PomUtil.createDependency(groupId, "OSGI".equals(buildType) && isJob(jobInfo) ? artifactId + "-bundle" : artifactId, version, type);
                 dependencies.add(d);
             }
         }
@@ -595,11 +600,24 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                             targetDir = new Path(targetDir.getDevice(), targetDir.toString().replaceAll("/\\d+/", "/"));
                             relativeTargetDir = targetDir.makeRelativeTo(currentProjectRootDir).toString();
                         }
-                        String pathToJar = isRoutelet(subjob)
-                                ? relativeTargetDir + Path.SEPARATOR + subjob.getJobName().toLowerCase() + "_"
-                                        + PomIdsHelper.getJobVersion(subjob).replaceAll("\\.", "_") + ".jar"
-                                : relativeTargetDir + Path.SEPARATOR + subjob.getJobName() + "-bundle-"
-                                        + PomIdsHelper.getJobVersion(subjob.getProcessItem().getProperty()) + ".jar";
+
+                        Property property = null;
+                        String buildType = null;
+                        if (!subjob.isJoblet()) {
+                            property = subjob.getProcessItem().getProperty();
+                        } else {
+                            property = subjob.getJobletProperty();
+                        }
+                        if (property != null) {
+                            buildType = (String) property.getAdditionalProperties()
+                                    .get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
+                        }
+                        
+                        String pathToJar = "OSGI".equals(buildType)
+                                ? relativeTargetDir + Path.SEPARATOR + subjob.getJobName() + "-bundle-"
+                                        + PomIdsHelper.getJobVersion(subjob.getProcessItem().getProperty()) + ".jar"
+                                : relativeTargetDir + Path.SEPARATOR + subjob.getJobName().toLowerCase() + "_"
+                                        + PomIdsHelper.getJobVersion(subjob).replaceAll("\\.", "_") + ".jar";
                         subjobFile.setValue(pathToJar);
                         addFile = true;
                     }
@@ -697,11 +715,24 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 targetDir = new Path(targetDir.getDevice()  ,targetDir.toString().replaceAll("/\\d+/", "/"));
                 relativeTargetDir = targetDir.makeRelativeTo(currentProjectRootDir).toString();
             }
-            String pathToJar = isRoutelet(job)
-                    ? relativeTargetDir + Path.SEPARATOR + job.getJobName().toLowerCase() + "_"
-                            + PomIdsHelper.getJobVersion(job).replaceAll("\\.", "_") + ".jar"
-                    : relativeTargetDir + Path.SEPARATOR + job.getJobName() + "-bundle-"
-                            + PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()) + ".jar";
+            
+            Property property = null;
+            String buildType = null;
+            if (!job.isJoblet()) {
+                property = job.getProcessItem().getProperty();
+            } else {
+                property = job.getJobletProperty();
+            }
+            if (property != null) {
+                buildType = (String) property.getAdditionalProperties()
+                        .get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
+            }
+            
+            String pathToJar = "OSGI".equals(buildType)
+                    ? relativeTargetDir + Path.SEPARATOR + job.getJobName() + "-bundle-"
+                            + PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()) + ".jar"
+                    : relativeTargetDir + Path.SEPARATOR + job.getJobName().toLowerCase() + "_"
+                            + PomIdsHelper.getJobVersion(job).replaceAll("\\.", "_") + ".jar";
             
             file.setValue(pathToJar);
             addFile = true;

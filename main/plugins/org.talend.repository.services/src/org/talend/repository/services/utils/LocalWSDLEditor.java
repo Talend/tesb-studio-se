@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -90,6 +91,10 @@ public class LocalWSDLEditor extends InternalWSDLMultiPageEditor {
         getEditDomain().setActiveTool(tool);
         getEditDomain().setDefaultTool(tool);
         getEditDomain().setCommandStack(new LocalCommandStack(this));
+    }
+
+    public CommandStack getCommandStack() {
+        return getEditDomain().getCommandStack();
     }
 
     @Override

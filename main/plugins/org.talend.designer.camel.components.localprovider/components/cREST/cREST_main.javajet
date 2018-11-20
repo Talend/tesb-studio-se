@@ -84,28 +84,34 @@ imports="
 		.unmarshal(new  org.apache.camel.spi.DataFormat() {
 			public java.lang.Object unmarshal(org.apache.camel.Exchange exchange, java.io.InputStream is) throws java.lang.Exception {
 		   	java.lang.Object b = exchange.getOut().getBody();
-		   	if(b instanceof org.apache.cxf.jaxrs.impl.ResponseImpl){
+		   	if (b instanceof org.apache.cxf.jaxrs.impl.ResponseImpl) {
 				org.apache.cxf.jaxrs.impl.ResponseImpl r = (org.apache.cxf.jaxrs.impl.ResponseImpl)b;
-		   		if ("javax.ws.rs.core.Response.class".equalsIgnoreCase("<%=responseClass%>")) {
-		   			return <%=responseClass%>.cast(r);
-                } else if ("<%=responseClass%>".equalsIgnoreCase("java.io.InputStream.class")) {
+<%  if ("javax.ws.rs.core.Response.class".equalsIgnoreCase(responseClass)) { %>
+                    return <%=responseClass%>.cast(r);
+<% } else if (responseClass.regionMatches(true, responseClass.length() - "InputStream.class".length(), "InputStream.class", 0, "InputStream.class".length())) { %>
+                int status = r.getStatus();
+                if ((status < 200 || status == 204) && r.getLength() <= 0 || status >= 300) {
+                    return null;
+                }
                     return new java.util.Iterator() {
+                        private boolean next = true;
                         @Override
                         public boolean hasNext() {
-                            return true;
+                            return next;
                         }
-
                         @Override
                         public Object next() {
+                            next = false;
                             return is;
                         }
                     };
+<% } else { %>
+                int status = r.getStatus();
+                if ((status < 200 || status == 204) && r.getLength() <= 0 || status >= 300) {
+                    return null;
                 }
-		   		int status = r.getStatus();
-		   		if ((status < 200 || status == 204) && r.getLength() <= 0 || status >= 300) {
-		   			return null;
-		   		}
-		   		return r.doReadEntity(<%=responseClass%>, <%=responseClass%>, new java.lang.annotation.Annotation[]{});
+                return r.doReadEntity(<%=responseClass%>, <%=responseClass%>, new java.lang.annotation.Annotation[]{});
+<% } %>
 		   	}
 		   	return b;
 		   }
@@ -113,7 +119,7 @@ imports="
 					throws Exception {}
 		})
 <%
-        if (responseClass.equalsIgnoreCase("java.io.InputStream.class")) {
+        if (responseClass.regionMatches(true, responseClass.length() - "InputStream.class".length(), "InputStream.class", 0, "InputStream.class".length())) {
 %>
         .process(new org.apache.camel.Processor() {
             public void process(org.apache.camel.Exchange exchange) {

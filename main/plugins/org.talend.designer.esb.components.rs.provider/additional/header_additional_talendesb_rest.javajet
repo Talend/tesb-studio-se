@@ -498,6 +498,10 @@ public void setRestEndpoint(String restEndpoint){
 	this.restEndpoint = restEndpoint;
 }
 
+public String getRestEndpoint() {
+	return <%=ElementParameterParser.getValue(node, "__REST_ENDPOINT__")%>;
+}
+
 private boolean runInDaemonMode = true;
 
 public void setRunInDaemonMode(boolean flag) {
@@ -1521,7 +1525,7 @@ class Thread4RestServiceProviderEndpoint extends Thread {
             <% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__EXPOSE_SWAGGER_SPEC__"))) {
                 String swaggerDescription = "";
                 if (Boolean.valueOf(ElementParameterParser.getValue(node,"__INCLUDE_DOC_INTO_SWAGGER_SPEC__"))) {
-                    swaggerDescription = ElementParameterParser.getValue(node,"__COMMENT__");
+                    swaggerDescription = ElementParameterParser.getValue(node,"__COMMENT__").replace("\"", "\\\"");
                     if (swaggerDescription.contains("\r\n")) {
                         swaggerDescription = swaggerDescription.replace("\r\n", "\\n\" + \n\"");
                     } else {

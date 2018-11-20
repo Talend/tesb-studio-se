@@ -2435,7 +2435,7 @@ if (isProvider) {
                         String swaggerTitle = className + " REST Application";
                         String swaggerDescription = "";
                         if ("true".equals(ElementParameterParser.getValue(node, "__INCLUDE_DOC_INTO_SWAGGER_SPEC__"))) {
-                            swaggerDescription = ElementParameterParser.getValue(node, "__COMMENT__");
+                            swaggerDescription = ElementParameterParser.getValue(node, "__COMMENT__").replace("\"", "\\\"");
                             if (swaggerDescription.contains("\r\n")) {
                               swaggerDescription = swaggerDescription.replace("\r\n", "\\n\" + \n\"");
                             } else {

@@ -54,7 +54,7 @@
 		java.util.Map<String, Object> requestMessage_<%=cid%> =
 				(java.util.Map<String, Object>) globalMap.get("restRequest");
 
-		restEndpoint = <%=ElementParameterParser.getValue(node, "__REST_ENDPOINT__")%>;
+		restEndpoint = getRestEndpoint();
 
 		if (null == requestMessage_<%=cid%>) {
 

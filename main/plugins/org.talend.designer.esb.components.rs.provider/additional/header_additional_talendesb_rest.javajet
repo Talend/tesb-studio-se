@@ -498,6 +498,10 @@ public void setRestEndpoint(String restEndpoint){
 	this.restEndpoint = restEndpoint;
 }
 
+public String getRestEndpoint() {
+	return <%=ElementParameterParser.getValue(node, "__REST_ENDPOINT__")%>;
+}
+
 private boolean runInDaemonMode = true;
 
 public void setRunInDaemonMode(boolean flag) {

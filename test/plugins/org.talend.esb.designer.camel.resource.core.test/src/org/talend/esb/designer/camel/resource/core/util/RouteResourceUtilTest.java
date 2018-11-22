@@ -21,15 +21,17 @@
 // ============================================================================
 package org.talend.esb.designer.camel.resource.core.util;
 
+import static org.junit.Assert.fail;
+
 import org.eclipse.core.runtime.Path;
 import org.junit.Assert;
 import org.junit.Test;
+import org.talend.camel.core.model.camelProperties.CamelPropertiesFactory;
+import org.talend.camel.core.model.camelProperties.RouteResourceItem;
 import org.talend.commons.exception.PersistenceException;
 import org.talend.core.model.properties.ByteArray;
 import org.talend.core.model.properties.PropertiesFactory;
 import org.talend.core.model.properties.Property;
-import org.talend.core.model.resources.ResourceItem;
-import org.talend.core.model.resources.ResourcesFactory;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.designer.camel.resource.core.model.ResourceDependencyModel;
 import org.talend.designer.camel.resource.core.util.RouteResourceUtil;
@@ -40,13 +42,29 @@ public class RouteResourceUtilTest {
      * Test method for
      * {@link org.talend.designer.camel.resource.core.util.RouteResourceUtil#createDependency(java.lang.String, java.lang.String)}
      * .
-     * 
-     * @throws PersistenceException
      */
     @Test
-    public void testCreateDependency() throws PersistenceException {
+    public void testCreateDependency() {
 
-        ResourceItem item = ResourcesFactory.eINSTANCE.createResourceItem();
+        // IComponent component = ComponentsFactoryProvider.getInstance().get("cTimer", "CAMEL"); //$NON-NLS-1$ //$NON-NLS-2$
+        // Process process = new Process(new FakePropertyImpl());
+        // Node node = new Node(component, process);
+        // ((List<INode>) process.getGraphicalNodes()).add(node);
+        //
+        // ProcessItem processItem = PropertiesFactory.eINSTANCE.createProcessItem();
+        // Property myProperty = PropertiesFactory.eINSTANCE.createProperty();
+        // String id = ProxyRepositoryFactory.getInstance().getNextId();
+        // myProperty.setId(id);
+        // ItemState itemState = PropertiesFactory.eINSTANCE.createItemState();
+        // itemState.setDeleted(false);
+        // itemState.setPath("");
+        // processItem.setState(itemState);
+        // processItem.setProperty(myProperty);
+        // myProperty.setLabel("myJob");
+        // myProperty.setVersion("0.1");
+        // processItem.setProcess(TalendFileFactory.eINSTANCE.createProcessType());
+
+        RouteResourceItem item = CamelPropertiesFactory.eINSTANCE.createRouteResourceItem();
         Property property = PropertiesFactory.eINSTANCE.createProperty();
         String id = ProxyRepositoryFactory.getInstance().getNextId();
         property.setId(id);
@@ -58,14 +76,20 @@ public class RouteResourceUtilTest {
         ByteArray byteArray = PropertiesFactory.eINSTANCE.createByteArray();
         byteArray.setInnerContent(new byte[0]);
         item.setContent(byteArray);
-        ProxyRepositoryFactory.getInstance().create(item, new Path(""));
-        Assert
-                .assertEquals(resName,
-                        RouteResourceUtil.createDependency(id, ResourceDependencyModel.LATEST_VERSION).toString());
+        try {
+            ProxyRepositoryFactory.getInstance().create(item, new Path(""));
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            fail("Test testCreateDependency() method failure.");
+        }
+        Assert.assertEquals(resName, RouteResourceUtil.createDependency(id, ResourceDependencyModel.LATEST_VERSION).toString());
         Assert.assertEquals(resName, RouteResourceUtil.createDependency(id, resVersion).toString());
 
-        ProxyRepositoryFactory
-                .getInstance()
-                .deleteObjectPhysical(ProxyRepositoryFactory.getInstance().getLastVersion(id));
+        try {
+            ProxyRepositoryFactory.getInstance().deleteObjectPhysical(ProxyRepositoryFactory.getInstance().getLastVersion(id));
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            fail("Test testCreateDependency() method failure, cannot delete myResource.");
+        }
     }
 }

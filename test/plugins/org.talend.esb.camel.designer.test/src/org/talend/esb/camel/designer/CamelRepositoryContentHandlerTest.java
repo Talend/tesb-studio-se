@@ -41,18 +41,9 @@ public class CamelRepositoryContentHandlerTest {
     public void testCreateNewItem() {
         CamelRepositoryContentHandler handler = new CamelRepositoryContentHandler();
         Assert.assertTrue(handler.createNewItem(ERepositoryObjectType.PROCESS_ROUTE) instanceof CamelProcessItem);
-        Assert.assertTrue(handler.createNewItem(ERepositoryObjectType.RESOURCES) instanceof RouteResourceItem);
-        Assert
-                .assertTrue(handler
-                        .createNewItem(ERepositoryObjectType
-                                .valueOf(ERepositoryObjectType.class, "BEANS")) instanceof BeanItem);
-        Assert
-                .assertNull(handler
-                        .createNewItem(ERepositoryObjectType.valueOf(ERepositoryObjectType.class, "ROUTE_RESOURCES")));
-        Assert
-                .assertTrue(handler
-                        .createNewItem(ERepositoryObjectType
-                                .valueOf(ERepositoryObjectType.class, "ROUTE_DOC")) instanceof RouteDocumentItem);
+        Assert.assertTrue(handler.createNewItem(ERepositoryObjectType.valueOf(ERepositoryObjectType.class, "BEANS")) instanceof BeanItem);
+        Assert.assertTrue(handler.createNewItem(ERepositoryObjectType.valueOf(ERepositoryObjectType.class, "ROUTE_RESOURCES")) instanceof RouteResourceItem);
+        Assert.assertTrue(handler.createNewItem(ERepositoryObjectType.valueOf(ERepositoryObjectType.class, "ROUTE_DOC")) instanceof RouteDocumentItem);
     }
 
 }

@@ -25,10 +25,10 @@ public interface CamelRepositoryNodeType {
 
     ERepositoryObjectType repositoryBeansType = ERepositoryObjectType.valueOf(ERepositoryObjectType.class, "BEANS"); //$NON-NLS-1$
 
-    ERepositoryObjectType repositoryRouteResourceType = ERepositoryObjectType.RESOURCES;
+    ERepositoryObjectType repositoryRouteResourceType = ERepositoryObjectType.valueOf(ERepositoryObjectType.class,
+            "ROUTE_RESOURCES"); //$NON-NLS-1$
 
-    ERepositoryObjectType repositoryDocumentationType =
-            ERepositoryObjectType.valueOf(ERepositoryObjectType.class, "ROUTE_DOC"); //$NON-NLS-1$
+    ERepositoryObjectType repositoryDocumentationType = ERepositoryObjectType.valueOf(ERepositoryObjectType.class, "ROUTE_DOC"); //$NON-NLS-1$
 
     ERepositoryObjectType repositoryRouteDesinsType = ERepositoryObjectType.valueOf("ROUTE_DESIGNS"); //$NON-NLS-1$
 

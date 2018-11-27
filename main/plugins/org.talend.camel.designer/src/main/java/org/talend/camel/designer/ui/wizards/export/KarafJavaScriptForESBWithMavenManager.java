@@ -41,6 +41,7 @@ import org.talend.commons.exception.PersistenceException;
 import org.talend.core.GlobalServiceRegister;
 import org.talend.core.PluginChecker;
 import org.talend.core.model.process.IContext;
+import org.talend.core.model.process.ProcessUtils;
 import org.talend.core.model.properties.Item;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.Property;
@@ -220,7 +221,7 @@ public class KarafJavaScriptForESBWithMavenManager extends JavaScriptForESBWithM
                         EList elementParameters = node.getElementParameter();
                         for (ElementParameterType paramType : (List<ElementParameterType>) elementParameters) {
                             if ("SELECTED_JOB_NAME:PROCESS_TYPE_PROCESS".equals(paramType.getName())) { //$NON-NLS-1$
-                                talendJobId = paramType.getValue();
+                                talendJobId = ProcessUtils.getPureItemId(paramType.getValue());
                             } else if ("SELECTED_JOB_NAME:PROCESS_TYPE_VERSION".equals(paramType.getName())) { //$NON-NLS-1$
                                 talendJobVersion = paramType.getValue();
                             } else if ("SELECTED_JOB_NAME:PROCESS_TYPE_CONTEXT".equals(paramType.getName())) { //$NON-NLS-1$

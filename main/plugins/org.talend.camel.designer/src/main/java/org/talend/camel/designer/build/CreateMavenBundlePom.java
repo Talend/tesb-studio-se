@@ -23,6 +23,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.maven.model.Activation;
 import org.apache.maven.model.ActivationProperty;
 import org.apache.maven.model.Build;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Parent;
 import org.apache.maven.model.Plugin;
@@ -86,7 +87,22 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         }
 
         bundleModel = createModel();
-
+        // patch for TESB-23953: find "tdm-lib-di-" and remove in route, only keep 'tdm-camel'
+        boolean containsTdmCamelDependency = false;
+        Dependency tdmDIDependency = null;
+        List<Dependency> dependencies = bundleModel.getDependencies();
+        for (int i = 0; i < dependencies.size(); i++) {
+            String artifactId = dependencies.get(i).getArtifactId();
+            if (artifactId.startsWith("tdm-lib-di-")) {
+                tdmDIDependency = dependencies.get(i);
+            }
+            if (artifactId.startsWith("tdm-camel-")) {
+                containsTdmCamelDependency = true;
+            }
+        }
+        if (containsTdmCamelDependency && tdmDIDependency != null) {
+            bundleModel.getDependencies().remove(tdmDIDependency);
+        }
         IContainer parent = curPomFile.getParent();
 
         Model pom = new Model();

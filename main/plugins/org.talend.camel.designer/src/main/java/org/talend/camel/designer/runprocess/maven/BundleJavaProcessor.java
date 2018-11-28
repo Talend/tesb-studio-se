@@ -38,7 +38,6 @@ import org.talend.core.runtime.repository.build.BuildExportManager;
 import org.talend.core.runtime.repository.build.IBuildParametes;
 import org.talend.core.runtime.repository.build.IBuildPomCreatorParameters;
 import org.talend.core.runtime.repository.build.IMavenPomCreator;
-import org.talend.designer.maven.launch.MavenPomCommandLauncher;
 import org.talend.designer.maven.model.TalendMavenConstants;
 import org.talend.designer.maven.tools.AggregatorPomsHelper;
 import org.talend.designer.maven.utils.PomUtil;
@@ -99,17 +98,6 @@ public class BundleJavaProcessor extends MavenJavaProcessor {
     @Override
     protected void generateCodeAfter(boolean statistics, boolean trace, boolean javaProperties, int option)
             throws ProcessorException {
-        
-        MavenPomCommandLauncher mavenLauncher = new MavenPomCommandLauncher(getTalendJavaProject().getProjectPom(),
-                TalendMavenConstants.GOAL_COMPILE);
-        mavenLauncher.setSkipCIBuilder(true);
-        mavenLauncher.setSkipTests(true);
-        try {
-            mavenLauncher.execute(new NullProgressMonitor());
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        
         if (isStandardJob()) {
             generatePom(option);
         } else {
@@ -236,12 +224,6 @@ public class BundleJavaProcessor extends MavenJavaProcessor {
     public void generatePom(int option) {
         super.generatePom(option);
         try {
-            MavenPomCommandLauncher mavenLauncher = new MavenPomCommandLauncher(getTalendJavaProject().getProjectPom(),
-                    TalendMavenConstants.GOAL_COMPILE);
-            mavenLauncher.setSkipCIBuilder(true);
-            mavenLauncher.setSkipTests(true);
-            mavenLauncher.execute(new NullProgressMonitor());
-
             IRepositoryObject repositoryObject = new RepositoryObject(getProperty());
 
             // Fix TESB-22660: Avoide to operate repo viewer before it open

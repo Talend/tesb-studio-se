@@ -602,7 +602,7 @@ final Map<String, String> contentTypes = new java.util.HashMap<String, String>()
         put("ANY", "{ \"*/*\" }");
     }};
 
-    if ("true".equals(ElementParameterParser.getValue(node, "__EXPOSE_SWAGGER_SPEC__"))) {
+    if ("true".equals(ElementParameterParser.getValue(node, "__EXPOSE_SWAGGER_SPEC__")) && !"RESOURCECLASS".equals(ElementParameterParser.getValue(node, "__SERVICE_TYPE__"))) {
 %>
     @javax.ws.rs.Path("/")
     @io.swagger.annotations.Api(value = "/", description = "<%=className%> <%=cid%> JAX-RS service")
@@ -640,7 +640,7 @@ final Map<String, String> contentTypes = new java.util.HashMap<String, String>()
         @javax.ws.rs.Produces(<%=producesContentTypes%>)
 <%
             }
-            if ("true".equals(ElementParameterParser.getValue(node, "__EXPOSE_SWAGGER_SPEC__"))) {
+            if ("true".equals(ElementParameterParser.getValue(node, "__EXPOSE_SWAGGER_SPEC__")) && !"RESOURCECLASS".equals(ElementParameterParser.getValue(node, "__SERVICE_TYPE__"))) {
                 String opName = "Operation " + outputConn;
                 String notes = "";
                 if (producesContentTypes != null) {
@@ -2398,7 +2398,7 @@ if (isProvider) {
                             <%
                         }
                     }
-                    if ("true".equals(ElementParameterParser.getValue(node, "__EXPOSE_SWAGGER_SPEC__"))) {
+                    if ("true".equals(ElementParameterParser.getValue(node, "__EXPOSE_SWAGGER_SPEC__")) && !"RESOURCECLASS".equals(ElementParameterParser.getValue(node, "__SERVICE_TYPE__"))) {
 %>
                     org.apache.cxf.jaxrs.swagger.Swagger2Feature swagger2Feature_<%=cid%> = new org.apache.cxf.jaxrs.swagger.Swagger2Feature();
                     swagger2Feature_<%=cid%>.setScan(false);

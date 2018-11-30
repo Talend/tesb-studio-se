@@ -514,7 +514,7 @@ private boolean restTalendJobAlreadyStarted = false;
  * REST provider implementation
  */
 @javax.ws.rs.Path("/")
-<% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__EXPOSE_SWAGGER_SPEC__"))) { %>
+<% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__EXPOSE_SWAGGER_SPEC__")) && !"RESOURCECLASS".equals(ElementParameterParser.getValue(node, "__SERVICE_TYPE__"))) { %>
 @io.swagger.annotations.Api(value = "/", description = "Sample JAX-RS service with Swagger documentation")
 <% } %>
 public static class RestServiceProviderImpl4TalendJob {
@@ -1042,7 +1042,7 @@ if (contentTypes.containsKey(produces)) {
 <% } else if ("ONEWAY".equals(produces)) {
 %>	@org.apache.cxf.jaxrs.ext.Oneway()
 <% }
-boolean exposeSwagger = Boolean.valueOf(ElementParameterParser.getValue(node,"__EXPOSE_SWAGGER_SPEC__"));
+boolean exposeSwagger = (Boolean.valueOf(ElementParameterParser.getValue(node,"__EXPOSE_SWAGGER_SPEC__"))  && !"RESOURCECLASS".equals(ElementParameterParser.getValue(node, "__SERVICE_TYPE__")));
 if (exposeSwagger) {
 	String opName = "Operation " + connName;
 	String notes = "";
@@ -1522,7 +1522,7 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 				features.add(new org.apache.cxf.feature.LoggingFeature());
 			<% } %>
 
-            <% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__EXPOSE_SWAGGER_SPEC__"))) {
+            <% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__EXPOSE_SWAGGER_SPEC__")) && !"RESOURCECLASS".equals(ElementParameterParser.getValue(node, "__SERVICE_TYPE__"))) {
                 String swaggerDescription = "";
                 if (Boolean.valueOf(ElementParameterParser.getValue(node,"__INCLUDE_DOC_INTO_SWAGGER_SPEC__"))) {
                     swaggerDescription = ElementParameterParser.getValue(node,"__COMMENT__").replace("\"", "\\\"");

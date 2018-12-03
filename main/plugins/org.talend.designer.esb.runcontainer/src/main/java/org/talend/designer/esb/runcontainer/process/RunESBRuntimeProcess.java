@@ -237,7 +237,7 @@ public class RunESBRuntimeProcess extends Process {
             ProcessItem processItem = (ProcessItem) node.getObject().getProperty().getItem();
             String configID = node.getObject().getLabel();
 
-            monitor.setTaskName("Deploy articact into Runimte server");
+            monitor.setTaskName("Deploy artifact into Runtime server");
             if (ComponentCategory.CATEGORY_4_DI.getName().equals(process.getComponentsType())) {
                 // publish service
                 if (EmfModelUtils.getComponentByName(processItem, "tESBProviderRequest") != null) {

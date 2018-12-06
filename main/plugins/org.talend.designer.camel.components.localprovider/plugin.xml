@@ -854,7 +854,7 @@
                  id="camel-saxon">
            </library>
            <library
-                 id="Saxon-HE">
+                 id="org.apache.servicemix.bundles.saxon">
            </library>
         </libraryNeededGroup>
         <libraryNeeded
@@ -865,10 +865,10 @@
         </libraryNeeded>
         <libraryNeeded
               context="plugin:org.talend.designer.camel.components.localprovider"
-              id="Saxon-HE"
-              name="${tesb-Saxon-HE}"
-              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-Saxon-HE}">
-        </libraryNeeded>
+              id="org.apache.servicemix.bundles.saxon"
+              name="${tesb-org.apache.servicemix.bundles.saxon}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-org.apache.servicemix.bundles.saxon}"
+			  bundleID="" />
         
         <libraryNeededGroup
               description="camel-kafka-alldep"

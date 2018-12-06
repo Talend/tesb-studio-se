@@ -43,7 +43,6 @@
         <aws-java-sdk-version>1.11.186</aws-java-sdk-version>
         <!-- camel-hawtdb -->
         <hawtdb-version>1.6</hawtdb-version>
-        <Saxon-HE-version>9.5.1-5</Saxon-HE-version>
         <!-- camel-kafka -->
         <kafka-clients-version>0.11.0.2</kafka-clients-version>
         <snappy-java-version>1.1.1.7</snappy-java-version>
@@ -513,11 +512,11 @@
             <artifactId>camel-saxon</artifactId>
             <version>${camel.version}</version>
         </dependency>
-        <dependency>
-            <groupId>net.sf.saxon</groupId>
-            <artifactId>Saxon-HE</artifactId>
-            <version>${Saxon-HE-version}</version>
-        </dependency>
+		<dependency>
+		    <groupId>org.apache.servicemix.bundles</groupId>
+		    <artifactId>org.apache.servicemix.bundles.saxon</artifactId>
+		    <version>9.8.0-8_1</version>
+		</dependency>
 
         <!-- camel-kafka -->
         <dependency>

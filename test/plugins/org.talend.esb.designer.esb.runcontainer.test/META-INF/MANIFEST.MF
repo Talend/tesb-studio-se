@@ -4,6 +4,6 @@ Bundle-Name: org.talend.esb.designer.esb.runcontainer.test
 Bundle-SymbolicName: org.talend.esb.designer.esb.runcontainer.test
 Bundle-Version: 7.2.1.qualifier
 Fragment-Host: org.talend.designer.esb.runcontainer
-Require-Bundle: org.talend.testutils,
- org.talend.model,
- org.talend.designer.core
+Require-Bundle: org.talend.model,
+ org.talend.designer.core,
+ org.talend.testutils

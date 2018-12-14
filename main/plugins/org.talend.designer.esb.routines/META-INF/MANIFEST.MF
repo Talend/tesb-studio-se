@@ -7,7 +7,8 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-Activator: org.talend.designer.esb.routines.Activator
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.osgi
- ,org.eclipse.core.runtime
- ,org.talend.core
+Require-Bundle: org.eclipse.osgi,
+ org.eclipse.core.runtime,
+ org.talend.core,
+ org.talend.core.runtime
 Eclipse-BundleShape: dir

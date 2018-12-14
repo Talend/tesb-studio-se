@@ -53,6 +53,7 @@ Bundle-ClassPath: .,
 Export-Package: org.talend.repository.services.action,
  org.talend.repository.services.model.services,
  org.talend.repository.services.model.services.util,
+ org.talend.repository.services.ui,
  org.talend.repository.services.ui.action,
  org.talend.repository.services.ui.scriptmanager,
  org.talend.repository.services.utils

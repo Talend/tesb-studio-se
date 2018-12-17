@@ -124,3 +124,4 @@ Export-Package: org.talend.camel.designer.dialog;
 Bundle-Vendor: .Talend SA.
 Import-Package: org.eclipse.jdt.core,
  org.apache.commons.collections
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -20,3 +20,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.talend.core.runtime
 Import-Package: org.eclipse.gef.commands
 Eclipse-BundleShape: dir
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

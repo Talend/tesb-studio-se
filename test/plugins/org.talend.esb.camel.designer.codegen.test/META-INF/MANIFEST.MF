@@ -9,3 +9,4 @@ Require-Bundle: org.talend.testutils,
  org.talend.designer.core,
  org.talend.core.repository,
  org.talend.camel.designer
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

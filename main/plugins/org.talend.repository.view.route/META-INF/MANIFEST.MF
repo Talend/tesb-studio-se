@@ -3,10 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ESB
 Bundle-SymbolicName: org.talend.repository.view.route;singleton:=true
 Bundle-Version: 7.2.1.qualifier
-Bundle-Vendor: .Talend.
+Bundle-Vendor: .Talend SA.
 Bundle-Localization: plugin
 Require-Bundle: org.talend.core.runtime,
  org.talend.core.repository,
  org.talend.repository.view,
  org.talend.camel.model
 Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

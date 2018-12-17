@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Codegen
 Bundle-SymbolicName: org.talend.camel.designer.codegen;singleton:=true
 Bundle-Version: 7.2.1.qualifier
+Bundle-Vendor: .Talend SA.
 Bundle-Activator: org.talend.camel.designer.codegen.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -18,4 +19,5 @@ Require-Bundle: org.eclipse.ui,
  org.talend.camel.model
 Bundle-ActivationPolicy: lazy
 Eclipse-BundleShape: dir
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: codegen.jar

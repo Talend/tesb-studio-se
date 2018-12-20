@@ -115,7 +115,7 @@
     <module>main/features/org.talend.camel.designer.feature</module>
     <module>main/features/org.talend.esb.tooling.feature</module>
     <module>main/features/org.talend.esb.tooling.rs.provider.feature</module>
-    <!--<module>main/features/org.talend.esb.tooling.ws.consumer.feature</module>-->
+    <module>main/features/org.talend.esb.tooling.ws.consumer.feature</module>
     <module>main/features/org.talend.esb.tooling.ws.provider.feature</module>
     <module>main/features/org.talend.esbstandard.feature</module>
     <module>main/features/org.talend.rcp.branding.esbstandard.feature</module>
@@ -128,12 +128,12 @@
     <module>main/plugins/org.talend.designer.camel.resource</module>
     <module>main/plugins/org.talend.designer.camel.resource.core</module>
     <module>main/plugins/org.talend.designer.esb.components.router</module>
-    <!--<module>main/plugins/org.talend.designer.esb.components.rs.consumer</module>-->
+    <module>main/plugins/org.talend.designer.esb.components.rs.consumer</module>
     <module>main/plugins/org.talend.designer.esb.components.rs.provider</module>
-    <!--<module>main/plugins/org.talend.designer.esb.components.ws.consumer</module>-->
+    <module>main/plugins/org.talend.designer.esb.components.ws.consumer</module>
     <module>main/plugins/org.talend.designer.esb.components.ws.provider</module>
-    <!--<module>main/plugins/org.talend.designer.esb.routines</module>-->
-    <!--<module>main/plugins/org.talend.libraries.esb</module>-->
+    <module>main/plugins/org.talend.designer.esb.routines</module>
+    <module>main/plugins/org.talend.libraries.esb</module>
     <module>main/plugins/org.talend.rcp.branding.esbstandard</module>
     <module>main/plugins/org.talend.repository.services</module>
     <module>main/plugins/org.talend.repository.view.route</module>

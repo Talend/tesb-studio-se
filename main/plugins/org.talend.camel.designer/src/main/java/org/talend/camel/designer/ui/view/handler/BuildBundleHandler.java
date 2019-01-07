@@ -18,14 +18,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.talend.commons.CommonsPlugin;
 import org.talend.commons.exception.ExceptionHandler;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.Property;
 import org.talend.core.model.utils.JavaResourcesHelper;
 import org.talend.designer.maven.model.TalendMavenConstants;
-import org.talend.designer.runprocess.IProcessor;
 import org.talend.repository.ui.wizards.exportjob.handler.BuildJobHandler;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager.ExportChoice;
 
@@ -48,11 +45,6 @@ public class BuildBundleHandler extends BuildJobHandler {
         super(processItem, version, contextName, exportChoiceMap);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.repository.ui.wizards.exportjob.handler.AbstractBuildJobHandler#getProfileArgs()
-     */
     @Override
     protected StringBuffer getProfileArgs() {
         StringBuffer profileBuffer = new StringBuffer();
@@ -98,21 +90,6 @@ public class BuildBundleHandler extends BuildJobHandler {
         return profileBuffer;
     }
 
-    private Map<ExportChoice, Object> exportChoiceMap;
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.talend.repository.ui.wizards.exportjob.handler.BuildJobHandler#generateJobFiles(org.eclipse.core.runtime.
-     * IProgressMonitor)
-     */
-    @Override
-    public IProcessor generateJobFiles(IProgressMonitor monitor) throws Exception {
-        // TODO Auto-generated method stub
-        return super.generateJobFiles(monitor);
-    }
-
     @Override
     public IFile getJobTargetFile() {
         if (talendProcessJavaProject == null) {
@@ -132,10 +109,5 @@ public class BuildBundleHandler extends BuildJobHandler {
         }
         IFile jobFile = targetFolder.getFile(jobName);
         return jobFile;
-    }
-
-    @Override
-    public void build(IProgressMonitor monitor) throws Exception {
-        super.build(monitor);
     }
 }

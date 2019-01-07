@@ -296,7 +296,7 @@
                  provider="org.talend.repository.services.export.BuildDataServiceProvider">
                  <buildType
                        label="Service"
-                       name="Service"
+                       name="SERVICE"
                  order="10">
            </buildType>
            </buildProvider>

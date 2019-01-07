@@ -15,7 +15,6 @@ package org.talend.camel.designer.runprocess.maven;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -25,7 +24,6 @@ import org.eclipse.ui.PlatformUI;
 import org.talend.camel.designer.build.CreateMavenBundlePom;
 import org.talend.camel.designer.ui.wizards.actions.JavaCamelJobScriptsExportWSAction;
 import org.talend.commons.exception.ExceptionHandler;
-import org.talend.core.GlobalServiceRegister;
 import org.talend.core.model.process.IProcess;
 import org.talend.core.model.properties.Property;
 import org.talend.core.model.repository.IRepositoryObject;
@@ -45,7 +43,6 @@ import org.talend.designer.maven.utils.PomUtil;
 import org.talend.designer.runprocess.ProcessorException;
 import org.talend.designer.runprocess.ProcessorUtilities;
 import org.talend.designer.runprocess.maven.MavenJavaProcessor;
-import org.talend.repository.model.IRepositoryService;
 
 /**
  * DOC sunchaoqun class global comment. Detailled comment <br/>
@@ -54,8 +51,6 @@ import org.talend.repository.model.IRepositoryService;
  *
  */
 public class BundleJavaProcessor extends MavenJavaProcessor {
-
-    private static Logger log = Logger.getLogger(BundleJavaProcessor.class);
 
     @Override
     public void generateEsbFiles() throws ProcessorException {
@@ -210,10 +205,6 @@ public class BundleJavaProcessor extends MavenJavaProcessor {
     @Override
     protected boolean packagingAndAssembly() {
         return true;
-    }
-
-    private static IRepositoryService getRepositoryService() {
-        return (IRepositoryService) GlobalServiceRegister.getDefault().getService(IRepositoryService.class);
     }
 
     /*

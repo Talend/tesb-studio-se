@@ -40,7 +40,7 @@
         <!-- camel-mail -->
         <mail.version>1.4.7</mail.version>
         <!-- camel-aws -->
-        <aws-java-sdk-version>1.11.186</aws-java-sdk-version>
+        <aws-java-sdk-version>1.11.269</aws-java-sdk-version>
         <!-- camel-hawtdb -->
         <hawtdb-version>1.6</hawtdb-version>
         <!-- camel-kafka -->

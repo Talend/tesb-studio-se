@@ -1,0 +1,73 @@
+<%@ jet 
+imports="
+    org.talend.core.model.process.INode 
+    org.talend.core.model.process.ElementParameterParser 
+    org.talend.core.model.process.IConnection
+    org.talend.core.model.process.IElementParameter
+    org.talend.designer.codegen.config.CodeGeneratorArgument
+    org.talend.designer.codegen.config.CamelEndpointBuilder
+    java.util.List
+    java.util.Map
+    java.io.UnsupportedEncodingException
+    java.net.URLEncoder
+" 
+%>
+<%
+    CodeGeneratorArgument codeGenArgument = (CodeGeneratorArgument) argument;
+    INode node = (INode) codeGenArgument.getArgument();
+   	String cid = node.getUniqueName();
+
+	CamelEndpointBuilder builder = CamelEndpointBuilder.getBuilder();
+	
+	builder.setComponent("aws-mq");
+	builder.useDoubleSlash(false);
+	builder.setName("\""+cid + "\"");
+
+	String amazonMQClient = ElementParameterParser.getValue(node, "__AWS_CONNECTION_CLIENT__");
+	builder.addParam("amazonMqClient", "\"#cAWSMQ_" +amazonMQClient+"\"");
+	
+	List<Map<String, String>> tableValues = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__URI_OPTIONS__");
+	for (Map<String, String> map : tableValues) {
+       String argName = map.get("NAME").trim();
+       String argValue = map.get("VALUE").trim();
+       if(argName.startsWith("\"") && argName.endsWith("\"") && argName.length() >= 2) {
+           argName = argName.substring(1, argName.length() - 1);
+       }
+       builder.addParam(argName, argValue);
+	}
+
+	List<Map<String, String>> messageHeaders = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__MESSAGE_HEADERS__");
+	
+	String uri = builder.build();
+	
+	List< ? extends IConnection> conns = node.getIncomingConnections();	
+	
+	if(messageHeaders.size()>0){
+	    StringBuilder sb1 = new StringBuilder();
+	    for (Map<String, String> map : messageHeaders) {
+	        String header = map.get("MESSAGE_HEADER");
+	        String value = map.get("MESSAGE_HEADER_VALUE");
+            
+	        sb1.append(".setHeader(\"");
+	        sb1.append(header);
+	        sb1.append("\",");
+	        sb1.append("constant(");
+	        sb1.append(value);
+	        sb1.append("))");
+	    }
+%>
+	<%=sb1.toString()%>.to(<%=uri%>)
+
+<% } else { %>
+    <%
+        if(conns.size()>0) {
+    %>
+            .to(<%=uri%>)
+    <%
+        } else {
+    %>
+            from(<%=uri%>)
+    <%
+        }
+    %>
+<%}%>

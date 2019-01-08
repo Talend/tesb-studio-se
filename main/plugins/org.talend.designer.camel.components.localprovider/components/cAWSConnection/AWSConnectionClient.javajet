@@ -10,6 +10,7 @@
             put("cAWSSES", "com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient");
             put("cAWSSQS", "com.amazonaws.services.sqs.AmazonSQSClient");
             put("cAWSSNS", "com.amazonaws.services.sns.AmazonSNSClient");
+			put("cAWSMQ", "com.amazonaws.services.mq.AmazonMQ");
         }
     };
 
@@ -86,20 +87,42 @@
             if (cid.equals(client)) {
                 String clientClass = awsTypeMap.get(processNode.getComponent().getName());
                 String clientName = processNode.getComponent().getName() + "_" + cid;
-                if(hasClientConfiguration){
+                boolean isAWSMQ = processNode.getComponent().getName().equalsIgnoreCase("cAWSMQ");
+                if(hasClientConfiguration && !isAWSMQ){
                 %>
                     <%=clientClass%> <%=clientName%> = new <%=clientClass%>(credentials_<%=cid%>, clientConfig_<%=cid%>);
                 <%
-                }else{
+                }else if(!isAWSMQ){
                 %>
                     <%=clientClass%> <%=clientName%> = new <%=clientClass%>(credentials_<%=cid%>);
                 <%                      
                 }
-                if(region!=null && !region.isEmpty() && !"DEFAULT".equalsIgnoreCase(region)){
+                if(region!=null && !region.isEmpty() && !"DEFAULT".equalsIgnoreCase(region) && !isAWSMQ){
                 %>
                     <%=clientName%>.setRegion(com.amazonaws.regions.RegionUtils.getRegion(<%=region%>));
                 <%
                 }
+				
+				if (isAWSMQ){
+				%>
+				    <%=clientClass%> <%=clientName%> = com.amazonaws.services.mq.AmazonMQClientBuilder.standard()
+                        .withCredentials(new com.amazonaws.auth.AWSCredentialsProvider() {
+                            @Override
+                            public void refresh() {
+                            }
+                            @Override
+                            public com.amazonaws.auth.AWSCredentials getCredentials() {
+                                return credentials_<%=cid%>;
+                            }
+				        })					
+				    <% if(region!=null && !region.isEmpty() && !"DEFAULT".equalsIgnoreCase(region)){ %>
+				        .withRegion(<%=region%>)
+				    <% } %>
+				    <% if(hasClientConfiguration){ %>
+				        .withClientConfiguration(clientConfig_<%=cid%>)   
+				    <% } %>	
+				    .build();
+				<%}
                 %>
                     registry.put("<%=clientName%>", <%=clientName%>);
                 <%       

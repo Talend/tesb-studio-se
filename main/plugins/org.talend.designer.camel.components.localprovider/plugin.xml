@@ -601,6 +601,12 @@
               name="${tesb-aws-java-sdk-sns}"
               uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-sns}" bundleID="">
         </libraryNeeded>
+        <libraryNeeded 
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              name="${tesb-aws-java-sdk-mq}"
+              id="aws-java-sdk-mq"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-mq}"
+              bundleID="" />        
             
         
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
@@ -685,6 +691,16 @@
             <library id="aws-java-sdk-core" />
             <library id="aws-java-sdk-kinesis" />
             <library id="aws-java-sdk-ses" />
+            <library id="javax.mail" />
+        </libraryNeededGroup>
+        <libraryNeededGroup
+            description="camel-aws-mq"
+            id="camel-aws-mq"
+            name="camel-aws-mq">
+            <library id="camel-aws" />
+            <library id="aws-java-sdk-core" />
+            <library id="aws-java-sdk-kinesis" />
+            <library id="aws-java-sdk-mq" />
             <library id="javax.mail" />
         </libraryNeededGroup>
         <libraryNeededGroup

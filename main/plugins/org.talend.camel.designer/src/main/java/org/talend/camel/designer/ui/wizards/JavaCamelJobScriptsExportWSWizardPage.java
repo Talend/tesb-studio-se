@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -791,6 +792,8 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
     @Override
     public boolean finish() {
 
+        IProgressMonitor monitor = new NullProgressMonitor();
+
         String version = getSelectedJobVersion();
         String destinationKar = getDestinationValue();
         JavaCamelJobScriptsExportWSAction action = null;
@@ -841,7 +844,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                     prepareParams.put(IBuildResourceParametes.OPTION_ITEMS_DEPENDENCIES, true);
 
                     try {
-                        buildJobHandler.prepare(new NullProgressMonitor(), prepareParams);
+                        buildJobHandler.prepare(monitor, prepareParams);
                     } catch (Exception e) {
                         MessageBoxExceptionHandler.process(e.getCause() == null ? e : e.getCause(), getShell());
                         return false;
@@ -858,7 +861,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
             try {
                 getContainer().run(false, true, actionMS);
-                buildJobHandler.build(new NullProgressMonitor());
+                buildJobHandler.build(monitor);
             } catch (Exception e) {
                 MessageBoxExceptionHandler.process(e.getCause() == null ? e : e.getCause(), getShell());
                 return false;
@@ -887,7 +890,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                 prepareParams.put(IBuildResourceParametes.OPTION_ITEMS_DEPENDENCIES, true);
 
                 try {
-                    buildJobHandler.prepare(new NullProgressMonitor(), prepareParams);
+                    buildJobHandler.prepare(monitor, prepareParams);
                 } catch (Exception e) {
                     MessageBoxExceptionHandler.process(e.getCause() == null ? e : e.getCause(), getShell());
                     return false;
@@ -901,7 +904,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
             try {
                 getContainer().run(false, true, action);
 
-                buildJobHandler.build(new NullProgressMonitor());
+                buildJobHandler.build(monitor);
             } catch (Exception e) {
                 MessageBoxExceptionHandler.process(e.getCause(), getShell());
                 return false;
@@ -959,7 +962,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 //        exportChoiceMap.put(ExportChoice.needDependencies, Boolean.TRUE);
 //        exportChoiceMap.put(ExportChoice.needJobScript, Boolean.FALSE);
 //        exportChoiceMap.put(ExportChoice.needAssembly, Boolean.FALSE);
-//        exportChoiceMap.put(ExportChoice.needContext, isNeedConext());
+        exportChoiceMap.put(ExportChoice.needContext, Boolean.TRUE);
 //        exportChoiceMap.put(ExportChoice.contextName, getContextName());
 
         if (remoteRadio.getSelection()) {

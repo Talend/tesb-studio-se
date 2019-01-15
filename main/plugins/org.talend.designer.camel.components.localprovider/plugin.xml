@@ -33,10 +33,10 @@
     <extension point="org.talend.core.runtime.librariesNeeded">
 
         <!-- ${tesb-commons-collections} -->
-        <libraryNeeded context="plugin:org.apache.commons.collections"
-            name="org.apache.commons.collections_3.2.0.v2013030210310.jar"
+        <libraryNeeded context="plugin:org.talend.libraries.apache.common"
+            name="commons-collections-3.2.2.jar"
             id="commons-collections"
-            uripath="platform:/base/plugins/org.apache.commons.collections_3.2.0.v2013030210310.jar"
+            uripath="platform:/plugin/org.talend.libraries.apache.common/lib/commons-collections-3.2.2.jar"
             bundleID="" />
         <!-- ${tesb-commons-io} -->
         <libraryNeeded context="plugin:org.apache.commons.io"

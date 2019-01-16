@@ -559,6 +559,17 @@
             id="slf4j-api"
             uripath="platform:/plugin/org.talend.libraries.slf4j/lib/slf4j-api-1.7.5.jar"
             bundleID="" />
+        <!-- ms azure -->
+        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
+            name="${tesb-azure-storage}"
+            id="azure-storage"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-azure-storage}"
+            bundleID="" />
+        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
+            name="${tesb-azure-keyvault-core}"
+            id="azure-keyvault-core"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-azure-keyvault-core}"
+            bundleID="" />            
         <!-- aws s3 -->
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
             name="${tesb-aws-java-sdk-s3}"
@@ -602,12 +613,26 @@
               uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-sns}" bundleID="">
         </libraryNeeded>
             
+        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
+            name="${tesb-camel-azure}"
+            id="camel-azure"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-azure}"
+            bundleID="" />
         
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
             name="${tesb-camel-aws}"
             id="camel-aws"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-aws}"
             bundleID="" />
+
+        <libraryNeededGroup
+                description="camel-azure"
+                id="camel-azure"
+                name="camel-azure">
+            <library id="camel-azure" />
+            <library id="azure-storage" />
+            <library id="azure-keyvault-core" />
+        </libraryNeededGroup>
 
         <libraryNeededGroup
                 description="camel-aws-s3"
@@ -764,6 +789,24 @@
         
 		<libraryNeeded context="plugin:org.talend.libraries.esb"
 			name="jackson-annotations-${jackson.version}.jar"
+			id="azure-jackson-annotations"
+			uripath="platform:/plugin/org.talend.libraries.esb/lib/jackson-annotations-${jackson.version}.jar"
+			bundleID="" />
+
+		<libraryNeeded context="plugin:org.talend.libraries.esb"
+			name="jackson-core-${jackson.version}.jar"
+			id="azure-jackson-core"
+			uripath="platform:/plugin/org.talend.libraries.esb/lib/jackson-core-${jackson.version}.jar"
+			bundleID="" />
+			
+		<libraryNeeded context="plugin:org.talend.libraries.esb"
+			name="jackson-databind-${jackson.version}.jar"
+			id="azure-jackson-databind"
+			uripath="platform:/plugin/org.talend.libraries.esb/lib/jackson-databind-${jackson.version}.jar"
+			bundleID="" />        
+        
+		<libraryNeeded context="plugin:org.talend.libraries.esb"
+			name="jackson-annotations-${jackson.version}.jar"
 			id="aws-jackson-annotations"
 			uripath="platform:/plugin/org.talend.libraries.esb/lib/jackson-annotations-${jackson.version}.jar"
 			bundleID="" />
@@ -794,6 +837,21 @@
                  id="aws-jackson-databind">
            </library>
         </libraryNeededGroup>
+
+        <libraryNeededGroup
+              description="azure-jackson"
+              id="azure-jackson"
+              name="azure-jackson">
+           <library
+                 id="azure-jackson-annotations">
+           </library>
+           <library
+                 id="azure-jackson-core">
+           </library>
+           <library
+                 id="azure-jackson-databind">
+           </library>
+        </libraryNeededGroup>        
 
         <libraryNeededGroup
               description="camel-jsonpath-alldep"

@@ -1,0 +1,19 @@
+<%@ jet%>
+<%
+    boolean isLog4jEnabled = ("true").equals(ElementParameterParser.getValue(node.getProcess(), "__LOG4J_ACTIVATE__"));
+
+    String storageAccountName = ElementParameterParser.getValue(node, "__STORAGE_ACCOUNT_NAME__");
+	
+    if (isLog4jEnabled) {
+    %>
+        log.info("<%=cid%> - Creating new connection.");
+    <%
+    }
+	String passwordFieldName = "__STORAGE_ACCESS_KEY__";
+    %>
+	
+	<%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>
+    com.microsoft.azure.storage.StorageCredentialsAccountAndKey credentials_<%=cid%> = new com.microsoft.azure.storage.StorageCredentialsAccountAndKey(<%=storageAccountName%>,decryptedPassword_<%=cid%>);
+	
+    registry.put("credentials_<%=cid%>", credentials_<%=cid%>);
+

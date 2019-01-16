@@ -41,6 +41,9 @@
         <mail.version>1.4.7</mail.version>
         <!-- camel-aws -->
         <aws-java-sdk-version>1.11.186</aws-java-sdk-version>
+        <!-- camel-azure -->
+        <azure-storage-version>7.0.0</azure-storage-version>        
+        <azure-keyvault-core-version>1.0.0</azure-keyvault-core-version>
         <!-- camel-hawtdb -->
         <hawtdb-version>1.6</hawtdb-version>
         <!-- camel-kafka -->
@@ -292,6 +295,16 @@
 				      <artifactId>jackson-annotations</artifactId>
             		</exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-keyvault-core</artifactId>
+            <version>${azure-keyvault-core-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-storage</artifactId>
+            <version>${azure-storage-version}</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>

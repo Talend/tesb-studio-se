@@ -33,12 +33,20 @@
 		<PARAMETER NAME="MESSAGE_HEADERS" FIELD="TABLE" NUM_ROW="120" NB_LINES="7" GROUP="MESSAGE_GROUP" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
 			<ITEMS>
 				<ITEM NAME="MESSAGE_HEADER" FIELD="OPENED_LIST">
-					<ITEMS DEFAULT="CamelAwsMQBrokerName">
-						<ITEM NAME="CamelAwsMQBrokerName" FIELD="TEXT" VALUE="CamelAwsMQBrokerName" SHOW_IF="(BROKER_NAME == '')" />
-						<ITEM NAME="CamelAwsMQBrokerId" FIELD="TEXT" VALUE="CamelAwsMQBrokerId" SHOW_IF="(BROKER_ID == '')"/>
-						<ITEM NAME="CamelAwsMQOperation" FIELD="TEXT" VALUE="CamelAwsMQOperation" SHOW_IF="(OPERATION == '')"/>
+					<ITEMS DEFAULT="CamelAwsMQOperation">
 						<ITEM NAME="CamelAwsMQBrokerDeploymentMode" FIELD="TEXT" VALUE="CamelAwsMQBrokerDeploymentMode"/>
+						<ITEM NAME="CamelAwsMQBrokerEngine" FIELD="TEXT" VALUE="CamelAwsMQBrokerEngine"/>
+						<ITEM NAME="CamelAwsMQBrokerEngineVersion" FIELD="TEXT" VALUE="CamelAwsMQBrokerEngineVersion"/>
+						<ITEM NAME="CamelAwsMQBrokerId" FIELD="TEXT" VALUE="CamelAwsMQBrokerId" />
+						<ITEM NAME="CamelAwsMQBrokerInstanceType" FIELD="TEXT" VALUE="CamelAwsMQBrokerInstanceType"/>
+						<ITEM NAME="CamelAwsMQBrokerName" FIELD="TEXT" VALUE="CamelAwsMQBrokerName" />
+						<ITEM NAME="CamelAwsMQBrokerUserName" FIELD="TEXT" VALUE="CamelAwsMQBrokerUserName" />
+						<ITEM NAME="CamelAwsMQBrokerUserPassword" FIELD="TEXT" VALUE="CamelAwsMQBrokerUserPassword" />
+						<ITEM NAME="CamelAwsMQBrokerUserGroups" FIELD="TEXT" VALUE="CamelAwsMQBrokerUserGroups" />						
+						<ITEM NAME="CamelAwsMQBrokerUserConsoleAccess" FIELD="TEXT" VALUE="CamelAwsMQBrokerUserConsoleAccess" />
+						<ITEM NAME="CamelAwsMQOperation" FIELD="TEXT" VALUE="CamelAwsMQOperation" />
 						<ITEM NAME="CamelAwsMQMaxResults" FIELD="TEXT" VALUE="CamelAwsMQMaxResults"/>
+						<ITEM NAME="CamelAwsMQBrokerPubliclyAccessible" FIELD="TEXT" VALUE="CamelAwsMQBrokerPubliclyAccessible"/>
 					</ITEMS>
 				</ITEM>
 				<ITEM NAME="MESSAGE_HEADER_VALUE" />

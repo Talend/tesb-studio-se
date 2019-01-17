@@ -29,9 +29,93 @@ imports="
     builder.addParam("credentials", "\"#credentials_" + cid + "\"");
 	
 	String operation = ElementParameterParser.getValue(node, "__OPERATION__");
-	builder.addParam("operation", "\"" + operation + "\"");
+	boolean setOperation = (operation !=null && !operation.isEmpty());
+	if (setOperation){
+	    builder.addParam("operation", "\"" + operation + "\"");
+	}
 	
+	String blobOffset  = ElementParameterParser.getValue(node, "__BLOB_OFFSET__");
+	boolean setBlobOffset = (blobOffset !=null && !blobOffset.isEmpty() && blobOffset !="\"\"");
+	if (setBlobOffset){
+	    builder.addParam("blobOffset", blobOffset);
+	}	
+	
+	
+	String closeStreamAfterRead = ElementParameterParser.getValue(node, "__CLOSE_STREAM_AFTER_READ__");
+    if ("true".equals(closeStreamAfterRead)) {
+        builder.addParam("closeStreamAfterRead", "\"" + closeStreamAfterRead + "\"");
+    }
+	
+	String closeStreamAfterWrite = ElementParameterParser.getValue(node, "__CLOSE_STREAM_AFTER_WRITE__");
+    if ("true".equals(closeStreamAfterWrite)) {
+        builder.addParam("closeStreamAfterWrite", "\"" + closeStreamAfterWrite + "\"");
+    }
 
+	String dataLength  = ElementParameterParser.getValue(node, "__DATA_LENGTH__");
+	boolean setDataLength = (dataLength !=null && !dataLength.isEmpty() && dataLength !="\"\"");
+	if (setDataLength){
+	    builder.addParam("dataLength", dataLength);
+	}		
+	
+	String fileDir  = ElementParameterParser.getValue(node, "__FILE_DIR__");
+	boolean setFileDir = (fileDir !=null && !fileDir.isEmpty() && fileDir !="\"\"");
+	if (setFileDir){
+	    builder.addParam("fileDir", fileDir);
+	}	
+
+	String bridgeErrorHandler = ElementParameterParser.getValue(node, "__BRIDGE_ERROR_HANDLER__");
+    if ("true".equals(bridgeErrorHandler)) {
+        builder.addParam("bridgeErrorHandler", "\"" + bridgeErrorHandler + "\"");
+    }
+	
+	/*
+	List<Map<String, String>> blobMetadataList = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__BLOB_METADATA__");
+	if (blobMetadataList != null && !blobMetadataList.isEmpty()){
+	    StringBuilder sb = new StringBuilder();
+		sb.append("new HashMap<String, String>{");
+		for (Map<String, String> map : blobMetadataList) {
+            String argName = map.get("BLOB_METADATA_KEY").trim();
+            String argValue = map.get("BLOB_METADATA_VALUE").trim();
+            if(argName.startsWith("\"") && argName.endsWith("\"") && argName.length() >= 2) {
+                argName = argName.substring(1, argName.length() - 1);
+            }
+			sb.append("\""+argName+"\":"+argValue);
+        }
+	    sb.append("}");
+		builder.addParam("blobMetadata", sb.toString());
+	}
+	*/
+	
+	String streamReadSize  = ElementParameterParser.getValue(node, "__STREAM_READ_SIZE__");
+	boolean setStreamReadSize = (streamReadSize !=null && !streamReadSize.isEmpty() && streamReadSize !="\"\"" );
+	if (setStreamReadSize){
+	    builder.addParam("streamReadSize", streamReadSize );
+	}		
+	
+	String streamWriteSize  = ElementParameterParser.getValue(node, "__STREAM_WRITE_SIZE__");
+	boolean setStreamWriteSize = (streamWriteSize !=null && !streamWriteSize.isEmpty() && streamWriteSize !="\"\"" );
+	if (setStreamWriteSize){
+	    builder.addParam("streamWriteSize", streamWriteSize );
+	}		
+	
+	
+	String useFlatListing = ElementParameterParser.getValue(node, "__USE_FLAT_LISTING__");
+    if ("true".equals(useFlatListing)) {
+        builder.addParam("useFlatListing", "\"" + useFlatListing + "\"");
+    }
+	
+	String synchronous = ElementParameterParser.getValue(node, "__SYNCHRONOUS__");
+    if ("true".equals(synchronous)) {
+        builder.addParam("synchronous", "\"" + synchronous + "\"");
+    }
+	
+	
+	String blobPrefix  = ElementParameterParser.getValue(node, "__BLOB_PREFIX__");
+	boolean setBlobPrefix = (blobPrefix !=null && !blobPrefix.isEmpty() && blobPrefix !="\"\"");
+	if (setBlobPrefix){
+	    builder.addParam("blobPrefix", blobPrefix );
+	}	
+	
     List<Map<String, String>> tableValues = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__URI_OPTIONS__");
     for (Map<String, String> map : tableValues) {
         String argName = map.get("NAME").trim();
@@ -63,15 +147,6 @@ imports="
             sb1.append("\",");
             sb1.append("constant(");
             sb1.append(value);
-            sb1.append("))");
-        }
-
-        if (("true".equals(useMessageHeadersUserDefined)) && (userDefinedHeaders.size()>0)) {
-            sb1.append(".setHeader(\"");
-            sb1.append("CamelAwsS3Headers");
-            sb1.append("\",");
-            sb1.append("constant(");
-            sb1.append(cid+"userDefinedHeaders");
             sb1.append("))");
         }
 %>

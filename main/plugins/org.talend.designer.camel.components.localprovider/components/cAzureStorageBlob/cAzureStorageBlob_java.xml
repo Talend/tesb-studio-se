@@ -55,7 +55,8 @@
 				<ITEM NAME="PageBlob" VALUE="PAGE_BLOB"/>
                 <ITEM NAME="AppendBlob" VALUE="APPEND_BLOB" />
             </ITEMS>
-        </PARAMETER>	
+        </PARAMETER>
+
         <PARAMETER NAME="OPERATION" FIELD="CLOSED_LIST"
             RAW="true" NUM_ROW="50" REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
             <ITEMS DEFAULT="listBlobs">
@@ -84,16 +85,91 @@
         <PARAMETER NAME="BLOB_OFFSET" FIELD="TEXT" NUM_ROW="60"
             REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'deleteBlob') OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'createAppendBlob') OR (OPERATION == 'updateAppendBlob')
 				OR (OPERATION == 'createPageBlob') OR (OPERATION == 'updatePageBlob') OR (OPERATION == 'resizePageBlob') OR (OPERATION == 'clearPageBlob') OR (OPERATION == 'getPageBlobRanges')">
+            <DEFAULT>"0"</DEFAULT>
+        </PARAMETER>
+		
+        <PARAMETER NAME="DATA_LENGTH" FIELD="TEXT" NUM_ROW="70"
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'deleteBlob') OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'createAppendBlob') OR (OPERATION == 'updateAppendBlob')
+				OR (OPERATION == 'createPageBlob') OR (OPERATION == 'updatePageBlob') OR (OPERATION == 'resizePageBlob') OR (OPERATION == 'clearPageBlob') OR (OPERATION == 'getPageBlobRanges')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
 		
-        <PARAMETER NAME="CLOSE_STREAM_AFTER_READ" FIELD="CHECK"
-            NUM_ROW="70" REQUIRED="true" GROUP="URI_GROUP"
-            SHOW_IF="(#LINK@CONNECTOR.IN.ANY == '0')">
+		<PARAMETER NAME="FILE_DIR" FIELD="TEXT" NUM_ROW="80"
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'getBlob')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+		
+        <PARAMETER NAME="CLOSE_STREAM_AFTER_READ" FIELD="CHECK" NUM_ROW="90"
+            REQUIRED="true" GROUP="URI_GROUP"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY == '0') AND (OPERATION == 'getBlob')">
             <DEFAULT>true</DEFAULT>
         </PARAMETER>
+		
+		<PARAMETER NAME="CLOSE_STREAM_AFTER_WRITE" FIELD="CHECK" NUM_ROW="95"
+            REQUIRED="true" GROUP="URI_GROUP"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+            <DEFAULT>true</DEFAULT>
+        </PARAMETER>
+		
+        <PARAMETER NAME="PUBLIC_FOR_READ" FIELD="CHECK" NUM_ROW="100"
+            REQUIRED="true" GROUP="URI_GROUP">
+            <DEFAULT>true</DEFAULT>
+        </PARAMETER>
+		
+        <PARAMETER NAME="BRIDGE_ERROR_HANDLER" FIELD="CHECK" NUM_ROW="105"
+            REQUIRED="true" GROUP="URI_GROUP"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY == '0')">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+		
+        <PARAMETER NAME="USE_FLAT_LISTING" FIELD="CHECK" NUM_ROW="107"
+            REQUIRED="true" GROUP="URI_GROUP"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND ((OPERATION == 'listBlobs')  OR (OPERATION == 'getBlobBlockList') OR (OPERATION == 'commitBlobBlockList'))">
+            <DEFAULT>true</DEFAULT>
+        </PARAMETER>
+		
+		<PARAMETER NAME="SYNCHRONOUS" FIELD="CHECK" NUM_ROW="108"
+            REQUIRED="true" GROUP="URI_GROUP">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
 
-		<PARAMETER NAME="MESSAGE_HEADERS" FIELD="TABLE" NUM_ROW="120" NB_LINES="7" GROUP="MESSAGE_GROUP" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+		
+		
+		<!--
+        <PARAMETER NAME="EXCEPTION_HANDLER" FIELD="CHECK" NUM_ROW="105"
+            REQUIRED="true" GROUP="URI_GROUP"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY == '0')">
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>		
+		-->
+		
+        <PARAMETER NAME="STREAM_READ_SIZE" FIELD="TEXT" NUM_ROW="110"
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'getBlob')">
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+		
+        <PARAMETER NAME="STREAM_WRITE_SIZE" FIELD="TEXT" NUM_ROW="115"
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND ((OPERATION == 'uploadBlobBlocks')  OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'createAppendBlob') OR (OPERATION == 'updateAppendBlob')
+				OR (OPERATION == 'createPageBlob') OR (OPERATION == 'updatePageBlob') OR (OPERATION == 'resizePageBlob') OR (OPERATION == 'clearPageBlob'))" >
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>		
+		
+		<PARAMETER NAME="BLOB_PREFIX" FIELD="TEXT" NUM_ROW="120"
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')" >
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+		
+
+		 
+
+		<PARAMETER NAME="BLOB_METADATA" FIELD="TABLE" NUM_ROW="180" NB_LINES="7" GROUP="URI_GROUP" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+			<ITEMS>
+				<ITEM NAME="BLOB_METADATA_KEY" FIELD="OPENED_LIST"/>
+				<ITEM NAME="BLOB_METADATA_VALUE" />
+			</ITEMS>
+		</PARAMETER>		
+
+		<PARAMETER NAME="MESSAGE_HEADERS" FIELD="TABLE" NUM_ROW="200" NB_LINES="7" GROUP="MESSAGE_GROUP" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
 			<ITEMS>
 				<ITEM NAME="MESSAGE_HEADER" FIELD="OPENED_LIST">
 					<ITEMS DEFAULT="NotDefined">
@@ -103,7 +179,7 @@
 				<ITEM NAME="MESSAGE_HEADER_VALUE" />
 			</ITEMS>
 		</PARAMETER>		
-
+		 
     </PARAMETERS>
 
     <ADVANCED_PARAMETERS>

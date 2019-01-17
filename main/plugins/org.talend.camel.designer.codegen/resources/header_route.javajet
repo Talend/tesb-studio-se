@@ -3704,8 +3704,27 @@ if (isProvider) {
     else if("cAzureStorageBlob".equals(nodeComponentName)){
         String cid = node.getUniqueName();
 %>
-<%  include file="platform:/plugin/org.talend.designer.camel.components.localprovider/components/cAzureStorageBlob/cAzureStorageBlobConnection.javajet" %>
+<%@ include file="platform:/plugin/org.talend.designer.camel.components.localprovider/components/cAzureStorageBlob/cAzureStorageBlobConnection.javajet" %>
 <%
+        List<Map<String, String>> blobMetadataList = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__BLOB_METADATA__");
+        if (blobMetadataList != null && !blobMetadataList.isEmpty()){
+%>
+			java.util.Map<String, String> blobMetadataList = new java.util.HashMap<String, String>();
+<%			
+            for (Map<String, String> map : blobMetadataList) {
+                String argName = map.get("BLOB_METADATA_KEY").trim();
+                String argValue = map.get("BLOB_METADATA_VALUE").trim();
+                if(argName.startsWith("\"") && argName.endsWith("\"") && argName.length() >= 2) {
+                    argName = argName.substring(1, argName.length() - 1);
+                }
+%>
+                blobMetadataList.put("<%=argName%>", <%=argValue%>);
+<%				
+            }
+%>
+		    registry.put("blobMetadata_<%=cid%>", blobMetadataList);
+<%
+	    }
     }// end cAzureStorageBlob
 }
 %>

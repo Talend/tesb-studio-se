@@ -40,7 +40,6 @@ imports="
 	    builder.addParam("blobOffset", blobOffset);
 	}	
 	
-	
 	String closeStreamAfterRead = ElementParameterParser.getValue(node, "__CLOSE_STREAM_AFTER_READ__");
     if ("true".equals(closeStreamAfterRead)) {
         builder.addParam("closeStreamAfterRead", "\"" + closeStreamAfterRead + "\"");
@@ -68,23 +67,10 @@ imports="
         builder.addParam("bridgeErrorHandler", "\"" + bridgeErrorHandler + "\"");
     }
 	
-	/*
 	List<Map<String, String>> blobMetadataList = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__BLOB_METADATA__");
 	if (blobMetadataList != null && !blobMetadataList.isEmpty()){
-	    StringBuilder sb = new StringBuilder();
-		sb.append("new HashMap<String, String>{");
-		for (Map<String, String> map : blobMetadataList) {
-            String argName = map.get("BLOB_METADATA_KEY").trim();
-            String argValue = map.get("BLOB_METADATA_VALUE").trim();
-            if(argName.startsWith("\"") && argName.endsWith("\"") && argName.length() >= 2) {
-                argName = argName.substring(1, argName.length() - 1);
-            }
-			sb.append("\""+argName+"\":"+argValue);
-        }
-	    sb.append("}");
-		builder.addParam("blobMetadata", sb.toString());
+		builder.addParam("blobMetadata", "\"#blobMetadata_" + cid + "\"");
 	}
-	*/
 	
 	String streamReadSize  = ElementParameterParser.getValue(node, "__STREAM_READ_SIZE__");
 	boolean setStreamReadSize = (streamReadSize !=null && !streamReadSize.isEmpty() && streamReadSize !="\"\"" );
@@ -98,7 +84,6 @@ imports="
 	    builder.addParam("streamWriteSize", streamWriteSize );
 	}		
 	
-	
 	String useFlatListing = ElementParameterParser.getValue(node, "__USE_FLAT_LISTING__");
     if ("true".equals(useFlatListing)) {
         builder.addParam("useFlatListing", "\"" + useFlatListing + "\"");
@@ -108,7 +93,6 @@ imports="
     if ("true".equals(synchronous)) {
         builder.addParam("synchronous", "\"" + synchronous + "\"");
     }
-	
 	
 	String blobPrefix  = ElementParameterParser.getValue(node, "__BLOB_PREFIX__");
 	boolean setBlobPrefix = (blobPrefix !=null && !blobPrefix.isEmpty() && blobPrefix !="\"\"");
@@ -125,10 +109,6 @@ imports="
         }
         builder.addParam(argName, argValue);
     }
-
-    String useMessageHeadersUserDefined = ElementParameterParser.getValue(node, "__USE_MESSAGE_HEADERS_USER_DEFINED__");
-
-    List<Map<String, String>> userDefinedHeaders = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__MESSAGE_HEADERS_USER_DEFINED__");
 
     List<Map<String, String>> messageHeaders = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__MESSAGE_HEADERS__");
 

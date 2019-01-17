@@ -100,8 +100,7 @@
         </PARAMETER>
 		
         <PARAMETER NAME="CLOSE_STREAM_AFTER_READ" FIELD="CHECK" NUM_ROW="90"
-            REQUIRED="true" GROUP="URI_GROUP"
-            SHOW_IF="(#LINK@CONNECTOR.IN.ANY == '0') AND (OPERATION == 'getBlob')">
+            REQUIRED="true" GROUP="URI_GROUP" >
             <DEFAULT>true</DEFAULT>
         </PARAMETER>
 		
@@ -140,11 +139,17 @@
             REQUIRED="true" GROUP="URI_GROUP"
             SHOW_IF="(#LINK@CONNECTOR.IN.ANY == '0')">
             <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+
+        <PARAMETER NAME="EXCHANGE_PATTERN" FIELD="CHECK" NUM_ROW="106"
+            REQUIRED="true" GROUP="URI_GROUP"
+            SHOW_IF="(#LINK@CONNECTOR.IN.ANY == '0')">
+            <DEFAULT>false</DEFAULT>
         </PARAMETER>		
 		-->
 		
         <PARAMETER NAME="STREAM_READ_SIZE" FIELD="TEXT" NUM_ROW="110"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'getBlob')">
+            REQUIRED="true" GROUP="URI_GROUP">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
 		
@@ -158,9 +163,6 @@
             REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')" >
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
-		
-
-		 
 
 		<PARAMETER NAME="BLOB_METADATA" FIELD="TABLE" NUM_ROW="180" NB_LINES="7" GROUP="URI_GROUP" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
 			<ITEMS>
@@ -172,14 +174,13 @@
 		<PARAMETER NAME="MESSAGE_HEADERS" FIELD="TABLE" NUM_ROW="200" NB_LINES="7" GROUP="MESSAGE_GROUP" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
 			<ITEMS>
 				<ITEM NAME="MESSAGE_HEADER" FIELD="OPENED_LIST">
-					<ITEMS DEFAULT="NotDefined">
-						<ITEM NAME="NotDefined" FIELD="TEXT" VALUE="NotDefined"/>
+					<ITEMS DEFAULT="CamelFileName">
+						<ITEM NAME="CamelFileName" FIELD="TEXT" VALUE="CamelFileName"/>
 					</ITEMS>
 				</ITEM>
 				<ITEM NAME="MESSAGE_HEADER_VALUE" />
 			</ITEMS>
-		</PARAMETER>		
-		 
+		</PARAMETER>
     </PARAMETERS>
 
     <ADVANCED_PARAMETERS>

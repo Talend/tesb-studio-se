@@ -176,9 +176,12 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
 
         // http://jira.talendforge.org/browse/TESB-6437
         // https://jira.talendforge.org/browse/TESB-7893
-        for (IPath path : RouteResourceUtil.synchronizeRouteResource(processItem)) {
-            osgiResource.addResource(path.removeLastSegments(1).makeRelativeTo(srcPath).toString(), path.toFile().toURI()
-                    .toURL());
+        Collection<IPath> routeResource = RouteResourceUtil.synchronizeRouteResource(processItem);
+        if (routeResource != null) {
+            for (IPath path : RouteResourceUtil.synchronizeRouteResource(processItem)) {
+                osgiResource.addResource(path.removeLastSegments(1).makeRelativeTo(srcPath).toString(),
+                        path.toFile().toURI().toURL());
+            }
         }
     }
 

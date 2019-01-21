@@ -1,78 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
-      id="org.talend.repository.services.feature"
-      label="Services-feature"
-      version="7.2.1.qualifier">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
-   </description>
-
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
-   </copyright>
-
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
-   </license>
-
-   <includes
-         id="org.talend.esb.tooling.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.wst.ws_ui.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.wst.common.fproj"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.wst.server_core.feature"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.talend.designer.publish.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.talend.repository.services"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.talend.repository.services.nl"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.xsd.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.wst.internet.monitor.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.wst.internet.monitor.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
+<feature id="org.talend.repository.services.feature" label="Services-feature" version="7.2.1.qualifier"> 
+  <description url="http://www.example.com/description">[Enter Feature Description here.]</description>  
+  <copyright url="http://www.example.com/copyright">[Enter Copyright Description here.]</copyright>  
+  <license url="http://www.example.com/license">[Enter License Description here.]</license>  
+  <requires>
+    <import feature="org.eclipse.wst.common.fproj" version="0.0.0" match="greaterOrEqual"/>
+    <import feature="org.eclipse.wst.server_core.feature" version="0.0.0" match="greaterOrEqual"/>
+    <import feature="org.eclipse.wst.ws_ui.feature" version="0.0.0" match="greaterOrEqual"/>
+    <import feature="org.talend.esb.tooling.feature" version="0.0.0" match="greaterOrEqual"/>
+    <import plugin="org.eclipse.wst.internet.monitor.core" version="0.0.0" match="greaterOrEqual"/>
+    <import plugin="org.eclipse.wst.internet.monitor.ui" version="0.0.0" match="greaterOrEqual"/>
+    <import plugin="org.eclipse.xsd.edit" version="0.0.0" match="greaterOrEqual"/>
+  </requires>
+  <plugin id="org.talend.designer.publish.core" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+  <plugin id="org.talend.repository.services" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+  <plugin id="org.talend.repository.services.nl" download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
 </feature>

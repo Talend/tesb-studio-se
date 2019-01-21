@@ -21,13 +21,18 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.util.BidiUtils;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
@@ -40,7 +45,9 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.internal.wizards.datatransfer.DataTransferMessages;
 import org.talend.camel.core.model.camelProperties.CamelProcessItem;
 import org.talend.camel.designer.i18n.Messages;
 import org.talend.camel.designer.ui.wizards.actions.JavaCamelJobScriptsExportWSAction;
@@ -49,20 +56,28 @@ import org.talend.commons.ui.runtime.exception.MessageBoxExceptionHandler;
 import org.talend.commons.utils.io.FilesUtils;
 import org.talend.core.GlobalServiceRegister;
 import org.talend.core.PluginChecker;
+import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.repository.constants.FileConstants;
 import org.talend.core.runtime.process.IBuildJobHandler;
 import org.talend.core.runtime.process.TalendProcessArgumentConstant;
 import org.talend.core.runtime.repository.build.IBuildResourceParametes;
 import org.talend.core.service.IESBMicroService;
+import org.talend.designer.maven.tools.AggregatorPomsHelper;
+import org.talend.designer.maven.utils.PomIdsHelper;
+import org.talend.designer.maven.utils.PomUtil;
 import org.talend.designer.runprocess.IProcessor;
 import org.talend.designer.runprocess.ProcessorUtilities;
+import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.ui.wizards.exportjob.ExportTreeViewer;
 import org.talend.repository.ui.wizards.exportjob.JavaJobScriptsExportWSWizardPage;
+import org.talend.repository.ui.wizards.exportjob.JavaJobScriptsExportWSWizardPage.JobExportType;
+import org.talend.repository.ui.wizards.exportjob.JavaJobScriptsExportWizardPage;
 import org.talend.repository.ui.wizards.exportjob.JobScriptsExportWizardPage;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.BuildJobFactory;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager.ExportChoice;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManagerFactory;
+import org.talend.repository.ui.wizards.exportjob.util.ExportJobUtil;
 
 /**
  * DOC x class global comment. Detailled comment <br/>
@@ -74,6 +89,9 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
     private static final String EXPORTTYPE_SPRING_BOOT = Messages
             .getString("JavaCamelJobScriptsExportWSWizardPage.ExportSpringBoot");//$NON-NLS-1$
+
+    private static final String EXPORTTYPE_SPRING_BOOT_DOCKER_IMAGE = Messages
+            .getString("JavaCamelJobScriptsExportWSWizardPage.ExportSpringBootDockerImage");//$NON-NLS-1$
 
     // dialog store id constants
     private static final String STORE_DESTINATION_NAMES_ID = "JavaJobScriptsExportWizardPage.STORE_DESTINATION_NAMES_ID"; //$NON-NLS-1$
@@ -90,9 +108,19 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
     protected Composite optionsGroupComposite;
 
+    protected Composite optionsDockerGroupComposite;
+
+    protected GridData optionsGroupCompositeLayout;
+
     protected Composite destinationNameFieldComposite;
 
     protected Composite destinationNameFieldInnerComposite;
+
+    private Label destinationLabel;
+
+    private Combo destinationNameField;
+
+    private Button destinationBrowseButton;
 
     public JavaCamelJobScriptsExportWSWizardPage(IStructuredSelection selection) {
         super("JavaCamelJobScriptsExportWSWizardPage", selection);
@@ -106,6 +134,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         optionsGroup.setLayout(layout);
         optionsGroup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL));
         optionsGroup.setText(Messages.getString("JavaJobScriptsExportWSWizardPage.BuildType")); //$NON-NLS-1$
+        optionsGroup.setFont(parent.getFont());
 
         optionsGroup.setLayout(new GridLayout(2, false));
 
@@ -118,6 +147,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         exportTypeCombo.add(EXPORTTYPE_KAR);
         if (PluginChecker.isTIS()) {
             exportTypeCombo.add(EXPORTTYPE_SPRING_BOOT);
+            exportTypeCombo.add(EXPORTTYPE_SPRING_BOOT_DOCKER_IMAGE);
         }
         // exportTypeCombo.setEnabled(false); // only can export kar file
         exportTypeCombo.setText(EXPORTTYPE_KAR);
@@ -134,11 +164,47 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                 Widget source = e.widget;
                 if (source instanceof Combo) {
                     String destination = ((Combo) source).getText();
-                    boolean isMS = destination.equals(EXPORTTYPE_SPRING_BOOT);
+                    boolean isMS = destination.equals(EXPORTTYPE_SPRING_BOOT)
+                            || destination.equals(EXPORTTYPE_SPRING_BOOT_DOCKER_IMAGE);
 
                     if (isMS) {
+
                         contextButton.setEnabled(true);
-                        exportAsZipButton.setEnabled(true);
+
+                        if (destination.equals(EXPORTTYPE_SPRING_BOOT)) {
+
+                            updateDestinationGroup(false);
+
+                            optionsDockerGroupComposite.dispose();
+
+                            addBSButton.setVisible(true);
+                            addBSButton.setEnabled(true);
+                            exportAsZipButton.setVisible(true);
+                            exportAsZipButton.setEnabled(true);
+
+                            addBSButton.setParent(optionsGroupComposite.getParent());
+                            exportAsZipButton.setParent(optionsGroupComposite.getParent());
+
+                            parent.layout();
+
+                        } else {
+
+                            updateDestinationGroup(true);
+
+                            addBSButton.setVisible(false);
+                            addBSButton.setEnabled(false);
+                            exportAsZipButton.setVisible(false);
+                            exportAsZipButton.setEnabled(false);
+
+                            createDockerOptions(parent);
+                            restoreWidgetValuesForImage();
+
+                            addBSButton.setParent(optionsDockerGroupComposite.getParent());
+                            exportAsZipButton.setParent(optionsDockerGroupComposite.getParent());
+
+                            parent.layout();
+                        }
+
                     } else {
                         if(contextButton != null)contextButton.setEnabled(false);
                         if(exportAsZipButton != null)exportAsZipButton.setEnabled(false);
@@ -163,13 +229,251 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
             }
         });
+    }
 
+    protected void updateDestinationGroup(boolean isImage) {
+        destinationLabel.setEnabled(!isImage);
+        destinationBrowseButton.setEnabled(!isImage);
+        destinationNameField.setEnabled(!isImage);
+    }
+
+    private Button localRadio, remoteRadio;
+
+    private Text hostText, imageText, tagText;
+
+    private Label hostLabel, imageLabel, tagLabel;
+
+    private void createDockerOptions(Composite parent) {
+
+        optionsDockerGroupComposite = new Composite(parent, SWT.NONE);
+        GridDataFactory.fillDefaults().grab(true, false).applyTo(optionsDockerGroupComposite);
+
+        GridLayout gdlOptionsGroupComposite = new GridLayout();
+        gdlOptionsGroupComposite.marginHeight = 0;
+        gdlOptionsGroupComposite.marginWidth = 0;
+        optionsDockerGroupComposite.setLayout(gdlOptionsGroupComposite);
+
+        Group optionsGroup = new Group(optionsDockerGroupComposite, SWT.NONE);
+        GridDataFactory.fillDefaults().grab(true, false).applyTo(optionsGroup);
+
+        optionsGroup
+                .setText(org.talend.repository.i18n.Messages.getString("JavaJobScriptsExportWSWizardPage.DOCKER.optionGroup")); //$NON-NLS-1$
+        optionsGroup.setFont(optionsDockerGroupComposite.getFont());
+        optionsGroup.setLayout(new GridLayout());
+
+        Composite dockeOptionsComposite = new Composite(optionsGroup, SWT.NONE);
+        GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(dockeOptionsComposite);
+        GridLayout dockerOptionsLayout = new GridLayout(3, false);
+        dockerOptionsLayout.marginHeight = 0;
+        dockerOptionsLayout.marginWidth = 0;
+        dockeOptionsComposite.setLayout(dockerOptionsLayout);
+
+        hostLabel = new Label(dockeOptionsComposite, SWT.NONE);
+        hostLabel.setText(org.talend.repository.i18n.Messages.getString("JavaJobScriptsExportWSWizardPage.DOCKER.dockerHost")); //$NON-NLS-1$
+        Composite hostComposite = new Composite(dockeOptionsComposite, SWT.NONE);
+        hostComposite.setLayout(new GridLayout(2, false));
+
+        localRadio = new Button(hostComposite, SWT.RADIO);
+        localRadio.setText(org.talend.repository.i18n.Messages.getString("JavaJobScriptsExportWSWizardPage.DOCKER.localHost")); //$NON-NLS-1$
+        remoteRadio = new Button(hostComposite, SWT.RADIO);
+        remoteRadio.setText(org.talend.repository.i18n.Messages.getString("JavaJobScriptsExportWSWizardPage.DOCKER.remoteHost")); //$NON-NLS-1$
+        hostText = new Text(dockeOptionsComposite, SWT.BORDER);
+        GridData hostData = new GridData(GridData.FILL_HORIZONTAL);
+        hostText.setLayoutData(hostData);
+
+        imageLabel = new Label(dockeOptionsComposite, SWT.NONE);
+        imageLabel.setText(org.talend.repository.i18n.Messages.getString("JavaJobScriptsExportWSWizardPage.DOCKER.imageLabel")); //$NON-NLS-1$
+        imageText = new Text(dockeOptionsComposite, SWT.BORDER);
+        // imageText.setText("${talend.project.name.lowercase}/${talend.job.folder}%a"); //$NON-NLS-1$
+        GridDataFactory.fillDefaults().span(2, 1).grab(true, false).applyTo(imageText);
+
+        tagLabel = new Label(dockeOptionsComposite, SWT.NONE);
+        tagLabel.setText(org.talend.repository.i18n.Messages.getString("JavaJobScriptsExportWSWizardPage.DOCKER.tagLabel")); //$NON-NLS-1$
+        tagText = new Text(dockeOptionsComposite, SWT.BORDER);
+        // tagText.setText("${talend.job.version}"); //$NON-NLS-1$
+        GridDataFactory.fillDefaults().span(2, 1).grab(true, false).applyTo(tagText);
+
+        updateOptionBySelection();
+
+        // Label additionalLabel = new Label(dockeOptionsComposite, SWT.NONE);
+        // additionalLabel.setText("Additional properties");
+        // Text additionalText = new Text(dockeOptionsComposite, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
+        // GridData data = new GridData(GridData.FILL_HORIZONTAL);
+        // data.heightHint = 60;
+        // additionalText.setLayoutData(data);
+
+        addDockerOptionsListener();
+
+    }
+
+    private String getDefaultImageName(ProcessItem procesItem) {
+        IFile pomFile = null;
+
+        if ("ROUTE_MICROSERVICE".equals(
+                getProcessItem().getProperty().getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE))) {
+            pomFile = AggregatorPomsHelper.getItemPomFolder(procesItem.getProperty()).getFile("pom-microservice.xml");
+        } else {
+            pomFile = AggregatorPomsHelper.getItemPomFolder(procesItem.getProperty()).getFile("pom-bundle.xml");
+        }
+
+        String projectName = PomUtil.getPomProperty(pomFile, "talend.project.name.lowercase"); //$NON-NLS-1$
+        String jobFolderPath = PomUtil.getPomProperty(pomFile, "talend.job.folder"); //$NON-NLS-1$
+        String jobName = PomUtil.getPomProperty(pomFile, "talend.job.name").toLowerCase(); //$NON-NLS-1$
+        return projectName + "/" + jobFolderPath + jobName; //$NON-NLS-1$
+    }
+
+    private String getDefaultImageNamePattern() {
+        return "${talend.project.name.lowercase}/${talend.job.folder}%a"; //$NON-NLS-1$
+    }
+
+    private String getDefaultImageTag(ProcessItem procesItem) {
+        return PomIdsHelper.getJobVersion(procesItem.getProperty());
+    }
+
+    private String getDefaultImageTagPattern() {
+        return "${talend.docker.tag}"; //$NON-NLS-1$
+    }
+
+    @Override
+    protected void updateOptionBySelection() {
+        RepositoryNode[] selectedNodes = treeViewer.getCheckNodes();
+        if (selectedNodes.length > 1) {
+            imageText.setText(getDefaultImageNamePattern());
+            imageText.setEnabled(false);
+            tagText.setText(getDefaultImageTagPattern());
+            tagText.setEnabled(false);
+        } else if (selectedNodes.length == 1) {
+            ProcessItem selectedProcessItem = ExportJobUtil.getProcessItem(Arrays.asList(selectedNodes));
+            imageText.setText(getDefaultImageName(selectedProcessItem));
+            imageText.setEnabled(true);
+            tagText.setText(getDefaultImageTag(selectedProcessItem));
+            tagText.setEnabled(true);
+        }
+    }
+
+    private void addDockerOptionsListener() {
+        ModifyListener optionListener = new ModifyListener() {
+
+            @Override
+            public void modifyText(ModifyEvent e) {
+                if (remoteRadio.getSelection() && !isOptionValid(hostText, hostLabel.getText())) {
+                    return;
+                }
+                if (!isOptionValid(imageText, imageLabel.getText())) {
+                    return;
+                }
+                if (!isOptionValid(tagText, tagLabel.getText())) {
+                    return;
+                }
+            }
+        };
+
+        hostText.addModifyListener(optionListener);
+        imageText.addModifyListener(optionListener);
+        tagText.addModifyListener(optionListener);
+
+        remoteRadio.addSelectionListener(new SelectionAdapter() {
+
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                hostText.setEnabled(remoteRadio.getSelection());
+                if (remoteRadio.getSelection() && !isOptionValid(hostText, hostLabel.getText())) {
+                    return;
+                }
+                if (!isOptionValid(imageText, imageLabel.getText())) {
+                    return;
+                }
+                if (!isOptionValid(tagText, tagLabel.getText())) {
+                    return;
+                }
+            }
+
+        });
+    }
+
+    private boolean isOptionValid(Text text, String label) {
+        boolean isValid = false;
+        if (StringUtils.isBlank(text.getText())) {
+            setErrorMessage(
+                    org.talend.repository.i18n.Messages.getString("JavaJobScriptsExportWSWizardPage.DOCKER.errorMsg", label)); //$NON-NLS-1$
+            setPageComplete(false);
+            isValid = false;
+        } else {
+            setErrorMessage(null);
+            setPageComplete(true);
+            isValid = true;
+        }
+        return isValid;
+    }
+
+    private void restoreWidgetValuesForImage() {
+
+        IDialogSettings settings = getDialogSettings();
+
+        String remoteHost = settings.get(JavaJobScriptsExportWizardPage.STORE_DOCKER_REMOTE_HOST);
+        if (StringUtils.isNotBlank(remoteHost)) {
+            hostText.setText(remoteHost);
+        }
+        boolean isRemote = settings.getBoolean(JavaJobScriptsExportWizardPage.STORE_DOCKER_IS_REMOTE_HOST);
+        localRadio.setSelection(!isRemote);
+        remoteRadio.setSelection(isRemote);
+        hostText.setEnabled(isRemote);
     }
 
     @Override
     public void createOptions(final Composite optionsGroup, Font font) {
+        optionsGroupComposite = optionsGroup;
         createOptionsForKar(optionsGroup, font);
+        // createOptionForDockerImage(optionsGroup, font);
+
+        if ("ROUTE_MICROSERVICE".equals(
+                getProcessItem().getProperty().getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE))) {
+            createDockerOptions(optionsGroup);
+            restoreWidgetValuesForImage();
+        }
+
         restoreWidgetValuesForKar();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.eclipse.ui.internal.wizards.datatransfer.WizardFileSystemResourceExportPage1#createDestinationGroup(org.
+     * eclipse.swt.widgets.Composite)
+     */
+    @Override
+    protected void createDestinationGroup(Composite parent) {
+        Font font = parent.getFont();
+        // destination specification group
+        Composite destinationSelectionGroup = new Composite(parent, SWT.NONE);
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 3;
+        destinationSelectionGroup.setLayout(layout);
+        destinationSelectionGroup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL));
+        destinationSelectionGroup.setFont(font);
+
+        destinationLabel = new Label(destinationSelectionGroup, SWT.NONE);
+        destinationLabel.setText(getDestinationLabel());
+        destinationLabel.setFont(font);
+
+        // destination name entry field
+        destinationNameField = new Combo(destinationSelectionGroup, SWT.SINGLE | SWT.BORDER);
+        destinationNameField.addListener(SWT.Modify, this);
+        destinationNameField.addListener(SWT.Selection, this);
+        GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+        data.widthHint = SIZING_TEXT_FIELD_WIDTH;
+        destinationNameField.setLayoutData(data);
+        destinationNameField.setFont(font);
+        BidiUtils.applyBidiProcessing(destinationNameField, "file"); //$NON-NLS-1$
+
+        // destination browse button
+        destinationBrowseButton = new Button(destinationSelectionGroup, SWT.PUSH);
+        destinationBrowseButton.setText(DataTransferMessages.DataTransfer_browse);
+        destinationBrowseButton.addListener(SWT.Selection, this);
+        destinationBrowseButton.setFont(font);
+        setButtonLayoutData(destinationBrowseButton);
+
+        new Label(parent, SWT.NONE); // vertical spacer
     }
 
     /*
@@ -187,7 +491,16 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
             exportTypeCombo.select(1);
             exportTypeCombo.notifyListeners(SWT.Selection, null);
-            exportTypeCombo.setEnabled(false);
+            //exportTypeCombo.setEnabled(false);
+
+            for (int i = 0; i < exportTypeCombo.getItems().length; i++) {
+                if (exportTypeCombo.getItems()[i].equals(EXPORTTYPE_SPRING_BOOT_DOCKER_IMAGE)
+                        || exportTypeCombo.getItems()[i].equals(EXPORTTYPE_SPRING_BOOT)) {
+                    continue;
+                } else {
+                    exportTypeCombo.remove(i);
+                }
+            }
 
         } else {
             exportTypeCombo.select(0);
@@ -295,6 +608,11 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
     public void handleEvent(Event e) {
         super.handleEvent(e);
         Widget source = e.widget;
+
+        if (source == destinationBrowseButton) {
+            handleDestinationBrowseButtonPressed();
+        }
+
         if (source instanceof Combo) {
             String destination = ((Combo) source).getText();
             if (getDialogSettings() != null) {
@@ -380,6 +698,32 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                 exportTypeCombo.notifyListeners(SWT.Selection, null);
             }
         });
+
+        optionsGroupCompositeLayout = (GridData) optionsGroup.getParent().getLayoutData();
+    }
+
+    @Override
+    protected void setDestinationValue(String value) {
+        destinationNameField.setText(value);
+    }
+
+    @Override
+    protected String getDestinationValue() {
+        return destinationNameField.getText().trim();
+    }
+
+    @Override
+    protected void giveFocusToDestination() {
+        destinationNameField.setFocus();
+    }
+
+    @Override
+    protected boolean ensureTargetIsValid() {
+        if (JobExportType.getTypeFromString(exportTypeCombo.getText()) == JobExportType.IMAGE
+                || JobExportType.getTypeFromString(exportTypeCombo.getText()) == JobExportType.MSESB_IMAGE) {
+            return true;
+        }
+        return super.ensureTargetIsValid();
     }
 
     private void restoreWidgetValuesForKar() {
@@ -448,6 +792,8 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
     @Override
     public boolean finish() {
 
+        IProgressMonitor monitor = new NullProgressMonitor();
+
         String version = getSelectedJobVersion();
         String destinationKar = getDestinationValue();
         JavaCamelJobScriptsExportWSAction action = null;
@@ -464,7 +810,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
             exportChoiceMap.put(ExportChoice.needAssembly, Boolean.TRUE);
         }
 
-        if (new File(destinationKar).exists()) {
+        if (new File(destinationKar).exists() && !exportTypeCombo.getText().equals(EXPORTTYPE_SPRING_BOOT_DOCKER_IMAGE)) {
             boolean yes = MessageDialog.openQuestion(getShell(),
                     Messages.getString("JavaCamelJobScriptsExportWSWizardPage.OverwriteKarTitle"),
                     Messages.getString("JavaCamelJobScriptsExportWSWizardPage.OverwriteKarMessage"));
@@ -480,10 +826,15 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         
         IBuildJobHandler buildJobHandler = null;
 
-        if (exportTypeCombo.getText().equals(EXPORTTYPE_SPRING_BOOT)) {
+        if (exportTypeCombo.getText().equals(EXPORTTYPE_SPRING_BOOT)
+                || exportTypeCombo.getText().equals(EXPORTTYPE_SPRING_BOOT_DOCKER_IMAGE)) {
 
             try {
                 if (microService != null) {
+
+                    if (exportTypeCombo.getText().equals(EXPORTTYPE_SPRING_BOOT_DOCKER_IMAGE)) {
+                        exportChoiceMap = getExportChoiceMapForImage();
+                    }
 
                     buildJobHandler = microService.createBuildJobHandler(getProcessItem(), version, destinationKar,
                             exportChoiceMap);
@@ -493,7 +844,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                     prepareParams.put(IBuildResourceParametes.OPTION_ITEMS_DEPENDENCIES, true);
 
                     try {
-                        buildJobHandler.prepare(new NullProgressMonitor(), prepareParams);
+                        buildJobHandler.prepare(monitor, prepareParams);
                     } catch (Exception e) {
                         MessageBoxExceptionHandler.process(e.getCause() == null ? e : e.getCause(), getShell());
                         return false;
@@ -510,7 +861,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
             try {
                 getContainer().run(false, true, actionMS);
-                buildJobHandler.build(new NullProgressMonitor());
+                buildJobHandler.build(monitor);
             } catch (Exception e) {
                 MessageBoxExceptionHandler.process(e.getCause() == null ? e : e.getCause(), getShell());
                 return false;
@@ -539,7 +890,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                 prepareParams.put(IBuildResourceParametes.OPTION_ITEMS_DEPENDENCIES, true);
 
                 try {
-                    buildJobHandler.prepare(new NullProgressMonitor(), prepareParams);
+                    buildJobHandler.prepare(monitor, prepareParams);
                 } catch (Exception e) {
                     MessageBoxExceptionHandler.process(e.getCause() == null ? e : e.getCause(), getShell());
                     return false;
@@ -553,7 +904,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
             try {
                 getContainer().run(false, true, action);
 
-                buildJobHandler.build(new NullProgressMonitor());
+                buildJobHandler.build(monitor);
             } catch (Exception e) {
                 MessageBoxExceptionHandler.process(e.getCause(), getShell());
                 return false;
@@ -590,6 +941,64 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
             directoryNames = addToHistory(directoryNames, getDestinationValue());
             settings.put(STORE_DESTINATION_NAMES_ID, directoryNames);
         }
+    }
+
+    private Map<ExportChoice, Object> getExportChoiceMapForImage() {
+        Map<ExportChoice, Object> exportChoiceMap = new EnumMap<ExportChoice, Object>(ExportChoice.class);
+        exportChoiceMap.put(ExportChoice.buildImage, Boolean.TRUE);
+        exportChoiceMap.put(ExportChoice.needLauncher, Boolean.TRUE);
+        exportChoiceMap.put(ExportChoice.launcherName, JobScriptsManager.UNIX_ENVIRONMENT);
+//        exportChoiceMap.put(ExportChoice.needSystemRoutine, Boolean.TRUE);
+//        exportChoiceMap.put(ExportChoice.needUserRoutine, Boolean.TRUE);
+//        exportChoiceMap.put(ExportChoice.needTalendLibraries, Boolean.TRUE);
+//        // TDQ-15391: when have tDqReportRun, must always export items.
+//        if (EmfModelUtils.getComponentByName(getProcessItem(), "tDqReportRun") != null) { //$NON-NLS-1$
+//            exportChoiceMap.put(ExportChoice.needJobItem, Boolean.TRUE);
+//        } else {
+//            exportChoiceMap.put(ExportChoice.needJobItem, Boolean.FALSE);
+//        }
+//        // TDQ-15391~
+//        exportChoiceMap.put(ExportChoice.needSourceCode, Boolean.FALSE);
+//        exportChoiceMap.put(ExportChoice.needDependencies, Boolean.TRUE);
+//        exportChoiceMap.put(ExportChoice.needJobScript, Boolean.FALSE);
+//        exportChoiceMap.put(ExportChoice.needAssembly, Boolean.FALSE);
+        exportChoiceMap.put(ExportChoice.needContext, Boolean.TRUE);
+//        exportChoiceMap.put(ExportChoice.contextName, getContextName());
+
+        if (remoteRadio.getSelection()) {
+            String host = hostText.getText();
+            if (!StringUtils.isBlank(host)) {
+                exportChoiceMap.put(ExportChoice.dockerHost, host);
+            }
+        }
+        String imageName = imageText.getText();
+        if (!StringUtils.isBlank(imageName)) {
+            exportChoiceMap.put(ExportChoice.imageName, imageName);
+        }
+        String imageTag = tagText.getText();
+        if (!StringUtils.isBlank(imageTag)) {
+            exportChoiceMap.put(ExportChoice.imageTag, imageTag);
+        }
+
+//        if (applyToChildrenButton != null) {
+//            exportChoiceMap.put(ExportChoice.applyToChildren, applyToChildrenButton.getSelection());
+//        }
+//        if (setParametersValueButton2 != null) {
+//            exportChoiceMap.put(ExportChoice.needParameterValues, setParametersValueButton2.getSelection());
+//            if (setParametersValueButton2.getSelection()) {
+//                exportChoiceMap.put(ExportChoice.parameterValuesList, manager.getContextEditableResultValuesList());
+//            }
+//        }
+
+//        exportChoiceMap.put(ExportChoice.binaries, Boolean.TRUE);
+//        exportChoiceMap.put(ExportChoice.executeTests, Boolean.FALSE);
+//        exportChoiceMap.put(ExportChoice.includeTestSource, Boolean.FALSE);
+//        exportChoiceMap.put(ExportChoice.includeLibs, Boolean.TRUE);
+//
+//        exportChoiceMap.put(ExportChoice.needLog4jLevel, isNeedLog4jLevel());
+//        exportChoiceMap.put(ExportChoice.log4jLevel, getLog4jLevel());
+
+        return exportChoiceMap;
     }
 
     // @Override

@@ -13,8 +13,18 @@
 package org.talend.designer.esb.runcontainer.process;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.ui.PlatformUI;
+import org.talend.camel.designer.ui.wizards.actions.JavaCamelJobScriptsExportWSAction;
+import org.talend.commons.exception.ExceptionHandler;
+import org.talend.core.model.components.ComponentCategory;
 import org.talend.core.model.process.IProcess;
 import org.talend.core.model.properties.Property;
+import org.talend.core.model.repository.IRepositoryObject;
+import org.talend.core.model.repository.RepositoryObject;
+import org.talend.core.repository.seeker.RepositorySeekerManager;
+import org.talend.core.runtime.process.TalendProcessOptionConstants;
 import org.talend.designer.esb.runcontainer.i18n.RunContainerMessages;
 import org.talend.designer.esb.runcontainer.server.RuntimeServerController;
 import org.talend.designer.esb.runcontainer.ui.progress.CheckingBundlesProgress;
@@ -27,6 +37,8 @@ public class RunContainerProcessor extends MavenJavaProcessor {
 
     public RunContainerProcessor(IProcess process, Property property, boolean filenameFromLabel) {
         super(process, property, filenameFromLabel);
+        this.windowsClasspath = "";
+        this.unixClasspath = "";
     }
 
     @Override
@@ -59,5 +71,28 @@ public class RunContainerProcessor extends MavenJavaProcessor {
     @Override
     public String getProcessorType() {
         return "runtimeProcessor";
+    }
+    
+    @Override
+    public void generatePom(int option) {
+        super.generatePom(option);
+        
+        if (option == TalendProcessOptionConstants.GENERATE_IS_MAINJOB
+                && ComponentCategory.CATEGORY_4_CAMEL.getName().equals(getProcess().getComponentsType())) {
+            try {
+                IRepositoryObject repositoryObject = new RepositoryObject(getProperty());
+
+                // Fix TESB-22660: Avoide to operate repo viewer before it open
+                if (PlatformUI.isWorkbenchRunning()) {
+                    RepositorySeekerManager.getInstance().searchRepoViewNode(getProperty().getId(), false);
+                }
+
+                IRunnableWithProgress action = new JavaCamelJobScriptsExportWSAction(repositoryObject, getProperty().getVersion(),
+                        "", false);
+                action.run(new NullProgressMonitor());
+            } catch (Exception e) {
+                ExceptionHandler.process(e);
+            }
+        }
     }
 }

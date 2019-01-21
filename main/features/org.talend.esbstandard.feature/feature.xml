@@ -1,42 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
-      id="org.talend.esbstandard.feature"
-      label="ESB standard edition Feature"
-      version="7.2.1.qualifier"
-      provider-name=".Talend SA.">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
-   </description>
-
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
-   </copyright>
-
-   <license url="license.txt">
-      [Enter License Description here.]
-   </license>
-
-   <url>
-      <update label="ESB Talend update site for stables" url="http://www.talend.com/tisteam/updatesite/stable/"/>
-   </url>
-
-   <includes
-         id="org.talend.tos.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.talend.camel.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.talend.repository.services.feature"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.talend.designer.publish.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
+<feature id="org.talend.esbstandard.feature" label="ESB standard edition Feature" version="7.2.1.qualifier" provider-name=".Talend SA."> 
+  <description url="http://www.example.com/description">[Enter Feature Description here.]</description>  
+  <copyright url="http://www.example.com/copyright">[Enter Copyright Description here.]</copyright>  
+  <license url="license.txt">[Enter License Description here.]</license>  
+  <url> 
+    <update label="ESB Talend update site for stables" url="http://www.talend.com/tisteam/updatesite/stable/"/> 
+  </url>  
+  <requires>
+    <import feature="org.talend.camel.feature" version="0.0.0" match="greaterOrEqual"/>
+    <import feature="org.talend.repository.services.feature" version="0.0.0" match="greaterOrEqual"/>
+    <import feature="org.talend.tos.feature" version="0.0.0" match="greaterOrEqual"/>
+  </requires>
+  <plugin id="org.talend.designer.publish.core" download-size="0" install-size="0" version="0.0.0"/>
 </feature>

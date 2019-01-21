@@ -129,6 +129,8 @@
                         <ITEM NAME="MESSAGERETENTIONPERIOD" VALUE="messageRetentionPeriod" />
                         <ITEM NAME="RECEIVEMESSAGEWAITTIMESECONDS"
                             VALUE="receiveMessageWaitTimeSeconds" />
+                        <ITEM NAME="MESSAGEGROUPIDSTRATEGY" VALUE="messageGroupIdStrategy" />
+                        <ITEM NAME="MESSAGEDEDUPLICATIONIDSTRATEGY" VALUE="messageDeduplicationIdStrategy" />
                     </ITEMS>
                 </ITEM>
                 <ITEM NAME="VALUE" />

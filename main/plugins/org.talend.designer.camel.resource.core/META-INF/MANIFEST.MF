@@ -10,4 +10,3 @@ Require-Bundle: org.talend.core,
 Bundle-ActivationPolicy: lazy
 Export-Package: org.talend.designer.camel.resource.core.model,
  org.talend.designer.camel.resource.core.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7

@@ -1,31 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
-      id="org.talend.camel.feature"
-      label="Camel_feature"
-      version="7.2.1.qualifier">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
-   </description>
-
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
-   </copyright>
-
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
-   </license>
-
-   <includes
-         id="org.talend.camel.core.feature"
-         version="0.0.0"
-         search-location="self"/>
-
-
-   <plugin
-         id="org.talend.esb.help"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
+<feature id="org.talend.camel.feature" label="Camel_feature" version="7.2.1.qualifier"> 
+  <description url="http://www.example.com/description">[Enter Feature Description here.]</description>  
+  <copyright url="http://www.example.com/copyright">[Enter Copyright Description here.]</copyright>  
+  <license url="http://www.example.com/license">[Enter License Description here.]</license>  
+  <requires>
+    <import feature="org.talend.camel.core.feature" version="0.0.0" match="greaterOrEqual"/>
+  </requires>
+  <plugin id="org.talend.esb.help" download-size="0" install-size="0" version="0.0.0"/>
 </feature>

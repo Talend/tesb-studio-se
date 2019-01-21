@@ -18,22 +18,18 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.talend.camel.designer.ui.wizards.actions.JavaCamelJobScriptsExportWSAction;
 import org.talend.commons.exception.PersistenceException;
 import org.talend.core.model.components.ComponentCategory;
 import org.talend.core.model.process.IContext;
 import org.talend.core.model.process.IProcess;
 import org.talend.core.model.process.ProcessUtils;
-import org.talend.core.model.properties.Item;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.model.repository.IRepositoryViewObject;
@@ -44,7 +40,6 @@ import org.talend.core.runtime.repository.build.AbstractBuildProvider;
 import org.talend.core.runtime.repository.build.BuildExportManager;
 import org.talend.core.runtime.repository.build.IBuildJobParameters;
 import org.talend.core.runtime.repository.build.IBuildParametes;
-import org.talend.designer.esb.runcontainer.export.JobJavaScriptOSGIForESBRuntimeManager;
 import org.talend.designer.esb.runcontainer.logs.FelixLogsModel;
 import org.talend.designer.esb.runcontainer.logs.RuntimeLogHTTPAdapter;
 import org.talend.designer.esb.runcontainer.logs.RuntimeLogHTTPMonitor;
@@ -54,10 +49,9 @@ import org.talend.designer.runprocess.ui.ProcessManager;
 import org.talend.repository.model.IRepositoryNode.ENodeType;
 import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.services.model.services.ServiceItem;
-import org.talend.repository.ui.wizards.exportjob.action.JobExportAction;
-import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager;
+import org.talend.repository.ui.wizards.exportjob.JavaJobScriptsExportWSWizardPage.JobExportType;
+import org.talend.repository.ui.wizards.exportjob.scriptsmanager.BuildJobManager;
 import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManager.ExportChoice;
-import org.talend.repository.ui.wizards.exportjob.scriptsmanager.JobScriptsManagerFactory;
 import org.talend.repository.utils.EmfModelUtils;
 
 public class RunESBRuntimeProcess extends Process {
@@ -80,10 +74,6 @@ public class RunESBRuntimeProcess extends Process {
 
     private IProcess process;
 
-    private int statisticsPort;
-
-    private int tracePort;
-
     private IProgressMonitor monitor;
 
     private ArtifactDeployManager artifactManager;
@@ -95,8 +85,6 @@ public class RunESBRuntimeProcess extends Process {
 
     public RunESBRuntimeProcess(IProcess process, int statisticsPort, int tracePort, IProgressMonitor monitor) {
         this.process = process;
-        this.statisticsPort = statisticsPort;
-        this.tracePort = tracePort;
         this.monitor = monitor;
 
         stdInputStream = new PipedInputStream();
@@ -238,102 +226,75 @@ public class RunESBRuntimeProcess extends Process {
             String configID = node.getObject().getLabel();
 
             monitor.setTaskName("Deploy artifact into Runtime server");
-            if (ComponentCategory.CATEGORY_4_DI.getName().equals(process.getComponentsType())) {
-                // publish service
-                if (EmfModelUtils.getComponentByName(processItem, "tESBProviderRequest") != null) {
-                    List<Item> items = new ArrayList<Item>(1);
-                    items.add(processItem);
-                    Collection<IRepositoryViewObject> allDependencies =
-                            ProcessUtils.getProcessDependencies(ERepositoryObjectType.METADATA, items, false);
-                    // check service
-                    if (!allDependencies.isEmpty()) {
-                        for (IRepositoryViewObject object : allDependencies) {
-                            if (object.getProperty().getItem() != null
-                                    && object.getProperty().getItem() instanceof ServiceItem) {
-                                ServiceItem serviceItem = (ServiceItem) object.getProperty().getItem();
-
-                                Map<ExportChoice, Object> exportChoiceMap =
-                                        new EnumMap<ExportChoice, Object>(ExportChoice.class);
-
-                                exportChoiceMap.put(ExportChoice.needLauncher, true);
-                                exportChoiceMap.put(ExportChoice.needSystemRoutine, true);
-                                exportChoiceMap.put(ExportChoice.needUserRoutine, true);
-                                exportChoiceMap.put(ExportChoice.needTalendLibraries, true);
-                                exportChoiceMap.put(ExportChoice.needJobItem, true);
-                                exportChoiceMap.put(ExportChoice.needJobScript, true);
-                                exportChoiceMap.put(ExportChoice.doNotCompileCode, false);
-                                exportChoiceMap.put(ExportChoice.needDependencies, false);
-                                exportChoiceMap.put(ExportChoice.addStatistics, false);
-                                exportChoiceMap.put(ExportChoice.addTracs, false);
-                                exportChoiceMap.put(ExportChoice.needAntScript, false);
-                                exportChoiceMap.put(ExportChoice.needMavenScript, false);
-                                exportChoiceMap.put(ExportChoice.applyToChildren, false);
-                                exportChoiceMap.put(ExportChoice.needContext, true);
-                                exportChoiceMap.put(ExportChoice.binaries, true);
-                                exportChoiceMap.put(ExportChoice.needSourceCode, false);
-                                exportChoiceMap.put(ExportChoice.executeTests, false);
-                                exportChoiceMap.put(ExportChoice.includeTestSource, false);
-                                exportChoiceMap.put(ExportChoice.includeLibs, true);
-                                exportChoiceMap.put(ExportChoice.needLog4jLevel, false);
-                                exportChoiceMap.put(ExportChoice.needAssembly, true);
-
-                                Map<String, Object> parameters = new HashMap<String, Object>();
-                                parameters.put(IBuildParametes.ITEM, serviceItem);
-                                parameters.put(IBuildParametes.VERSION, serviceItem.getProperty().getVersion());
-                                parameters.put(IBuildJobParameters.CONTEXT_GROUP, IContext.DEFAULT);
-                                parameters.put(IBuildJobParameters.CHOICE_OPTION, exportChoiceMap);
-
-                                AbstractBuildProvider buildProvider =
-                                        BuildExportManager.getInstance().getBuildProvider("Service", parameters);
-
-                                IBuildJobHandler buildServiceHandler =
-                                        (IBuildJobHandler) buildProvider.createBuildExportHandler(parameters);
-                                buildServiceHandler.prepare(monitor, parameters);
-                                buildServiceHandler.build(monitor);
-                                applyContextConfiguration(configID);
-                                kars = JMXUtil
-                                        .installKar(buildServiceHandler.getJobTargetFile().getLocation().toFile());
-
-                            }
-                        }
-                    }
-                } else {
-                    // publish job
-                    target = File.createTempFile("job", FileConstants.JAR_FILE_SUFFIX, null);
-                    JobScriptsManager jobScriptsManager = new JobJavaScriptOSGIForESBRuntimeManager(
-                            JobScriptsManagerFactory.getDefaultExportChoiceMap(),
-                            processItem.getProcess().getDefaultContext(), JobScriptsManager.LAUNCHER_ALL,
-                            statisticsPort, tracePort);
-                    // generate
-                    jobScriptsManager.setDestinationPath(target.getAbsolutePath());
-                    JobExportAction jobAction = new JobExportAction(Collections.singletonList(node),
-                            node.getObject().getProperty().getVersion(), node.getObject().getProperty().getVersion(),
-                            jobScriptsManager, System.getProperty("java.io.tmpdir"));
-
-                    jobAction.run(monitor);
-                    if (jobAction.isBuildSuccessful()) {
-                        applyContextConfiguration(configID);
-                        bundles = JMXUtil.installBundle(target);
-                        // writeLog(processMessageManager, new ProcessMessage(MsgType.STD_OUT,
-                        // "Install bundle, return value: "
-                        // + Arrays.toString(bundles) + ".\n"));
+            
+            ServiceItem serviceItem = null;
+            JobExportType exportType = ComponentCategory.CATEGORY_4_DI.getName().equals(process.getComponentsType())
+                    ? JobExportType.OSGI
+                    : JobExportType.ROUTE;
+            
+            // check for service
+            if (exportType == JobExportType.OSGI
+                    && EmfModelUtils.getComponentByName(processItem, "tESBProviderRequest") != null) {
+                Collection<IRepositoryViewObject> allDependencies = ProcessUtils
+                        .getProcessDependencies(ERepositoryObjectType.METADATA, Arrays.asList(processItem), false);
+                // get service
+                for (IRepositoryViewObject object : allDependencies) {
+                    if (object.getProperty().getItem() != null && object.getProperty().getItem() instanceof ServiceItem) {
+                        serviceItem = (ServiceItem) object.getProperty().getItem();
+                        exportType = JobExportType.SERVICE;
+                        break;
                     }
                 }
-            } else if (ComponentCategory.CATEGORY_4_CAMEL.getName().equals(process.getComponentsType())) {
-                // publish route
-                target = File.createTempFile("route", FileConstants.KAR_FILE_SUFFIX, null);
-                JavaCamelJobScriptsExportWSAction camelAction = new JavaCamelJobScriptsExportWSAction(node,
-                        process.getVersion(), target.getAbsolutePath(), true, statisticsPort, tracePort);
-                camelAction.setBuildProject(true);
-                camelAction.run(monitor);
-                applyContextConfiguration(configID);
+            }
+            Map<ExportChoice, Object> exportChoiceMap =
+                    new EnumMap<ExportChoice, Object>(ExportChoice.class);
+
+            exportChoiceMap.put(ExportChoice.needSystemRoutine, true);
+            exportChoiceMap.put(ExportChoice.needUserRoutine, true);
+            exportChoiceMap.put(ExportChoice.needTalendLibraries, true);
+            exportChoiceMap.put(ExportChoice.needJobItem, false);
+            exportChoiceMap.put(ExportChoice.needJobScript, true);
+            exportChoiceMap.put(ExportChoice.doNotCompileCode, false);
+            exportChoiceMap.put(ExportChoice.needDependencies, false);
+            exportChoiceMap.put(ExportChoice.addStatistics, true);
+            exportChoiceMap.put(ExportChoice.addTracs, true);
+            exportChoiceMap.put(ExportChoice.needAntScript, false);
+            exportChoiceMap.put(ExportChoice.needMavenScript, false);
+            exportChoiceMap.put(ExportChoice.applyToChildren, false);
+            exportChoiceMap.put(ExportChoice.needContext, true);
+            exportChoiceMap.put(ExportChoice.binaries, true);
+            exportChoiceMap.put(ExportChoice.needSourceCode, false);
+            exportChoiceMap.put(ExportChoice.executeTests, false);
+            exportChoiceMap.put(ExportChoice.includeTestSource, false);
+            exportChoiceMap.put(ExportChoice.includeLibs, true);
+            exportChoiceMap.put(ExportChoice.needLog4jLevel, false);
+            
+            applyContextConfiguration(configID);
+            if (JobExportType.SERVICE == exportType) {
+                Map<String, Object> parameters = new HashMap<String, Object>();
+                parameters.put(IBuildParametes.ITEM, serviceItem);
+                parameters.put(IBuildParametes.VERSION, serviceItem.getProperty().getVersion());
+                parameters.put(IBuildJobParameters.CONTEXT_GROUP, IContext.DEFAULT);
+                parameters.put(IBuildJobParameters.CHOICE_OPTION, exportChoiceMap);
+
+                AbstractBuildProvider buildProvider = BuildExportManager.getInstance().getBuildProvider("Service", parameters);
+
+                IBuildJobHandler buildServiceHandler = (IBuildJobHandler) buildProvider.createBuildExportHandler(parameters);
+                buildServiceHandler.prepare(monitor, parameters);
+                buildServiceHandler.build(monitor);
+                target = buildServiceHandler.getJobTargetFile().getLocation().toFile();
+            }else{
+                target = exportType == JobExportType.ROUTE ? File.createTempFile("buildJob", FileConstants.KAR_FILE_SUFFIX, null) : File.createTempFile("buildJob", FileConstants.JAR_FILE_SUFFIX, null);
+                BuildJobManager.getInstance().buildJob(target.getAbsolutePath(), processItem, process.getVersion(),
+                        processItem.getProcess().getDefaultContext(), exportChoiceMap, exportType, monitor);
+            }
+            
+            if(JobExportType.SERVICE == exportType || JobExportType.ROUTE == exportType) {
                 kars = JMXUtil.installKar(target);
-                // writeLog(processMessageManager,
-                // new ProcessMessage(MsgType.STD_OUT, "Install kar, return value: " + Arrays.toString(kars) + ".\n"));
+            }else if (exportType == JobExportType.OSGI) {
+                bundles = JMXUtil.installBundle(target);
             }
-            if (target != null && target.exists()) {
-                target.delete();
-            }
+            target.delete();
         }
 
         public void unDeploy() throws Exception {

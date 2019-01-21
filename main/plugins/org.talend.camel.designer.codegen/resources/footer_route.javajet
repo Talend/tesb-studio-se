@@ -236,7 +236,9 @@
 
             for(int i=0;i<args.length;i++){
                 String[] kv = args[i].split("=");
-                argsMap.put(kv[0], kv[1]);
+                if(kv.length > 1) {
+                	argsMap.put(kv[0], kv[1]);
+                }
             }
 
             if (argsMap.get("--spring.config.location") != null) {

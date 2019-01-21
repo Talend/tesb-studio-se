@@ -1,4 +1,3 @@
-package org.talend.camel.designer.build;
 // ============================================================================
 //
 // Copyright (C) 2006-2018 Talend Inc. - www.talend.com
@@ -11,7 +10,7 @@ package org.talend.camel.designer.build;
 // 9 rue Pages 92150 Suresnes, France
 //
 // ============================================================================
-
+package org.talend.camel.designer.build;
 
 import java.util.Collections;
 import java.util.Map;
@@ -31,22 +30,12 @@ import org.talend.designer.runprocess.ProcessorUtilities;
  * DOC yyan class global comment. Detailled comment <br/>
  */
 public class RouteletOSGiBundleBuildProvider extends RouteOSGiBundleBuildProvider {
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.runtime.repository.build.RepositoryObjectTypeBuildProvider#getObjectType()
-     */
+
     @Override
     protected ERepositoryObjectType getObjectType() {
-        // TODO Auto-generated method stub
         return ERepositoryObjectType.PROCESS_ROUTELET;
     }
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.talend.core.runtime.repository.build.AbstractBuildProvider#createPomCreator(java.util.Map)
-     */
     @Override
     public IMavenPomCreator createPomCreator(Map<String, Object> parameters) {
         if (parameters == null || parameters.isEmpty()) {

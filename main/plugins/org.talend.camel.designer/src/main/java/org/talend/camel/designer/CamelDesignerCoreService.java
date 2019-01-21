@@ -12,6 +12,10 @@
 // ============================================================================
 package org.talend.camel.designer;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
 import org.dom4j.Element;
 import org.dom4j.Namespace;
 import org.dom4j.QName;
@@ -29,7 +33,9 @@ import org.talend.core.model.properties.Item;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.designer.camel.dependencies.core.DependenciesResolver;
+import org.talend.designer.camel.dependencies.core.model.BundleClasspath;
 import org.talend.designer.camel.dependencies.core.model.ManifestItem;
+import org.talend.designer.camel.dependencies.core.util.DependenciesCoreUtil;
 import org.talend.designer.camel.resource.core.model.ResourceDependencyModel;
 import org.talend.designer.camel.resource.core.util.RouteResourceUtil;
 import org.talend.designer.core.ICamelDesignerCoreService;
@@ -167,6 +173,25 @@ public class CamelDesignerCoreService implements ICamelDesignerCoreService {
     @Override
     public FileItem newRouteDocumentationItem() {
         return CamelPropertiesFactory.eINSTANCE.createRouteDocumentItem();
+    }
+
+    @Override
+    public Collection<String> getUnselectDependenciesBundle(ProcessItem processItem) {
+        Collection<String> unSelectedBundles = new ArrayList();
+
+        DependenciesResolver resolver = new DependenciesResolver(processItem);
+
+        Map<?, ?> additionProperties = processItem.getProperty().getAdditionalProperties().map();
+        Collection<BundleClasspath> userBundleClasspaths = DependenciesCoreUtil.getStoredBundleClasspaths(additionProperties);
+        Collection<BundleClasspath> bundleClasspaths = resolver.getBundleClasspaths();
+        for (BundleClasspath bc : bundleClasspaths) {
+
+            if (!userBundleClasspaths.contains(bc)) {
+                unSelectedBundles.add(bc.getName());
+            }
+        }
+
+        return unSelectedBundles;
     }
 
 }

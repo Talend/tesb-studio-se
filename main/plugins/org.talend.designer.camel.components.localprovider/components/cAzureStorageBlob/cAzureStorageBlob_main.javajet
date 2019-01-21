@@ -34,6 +34,12 @@ imports="
 	    builder.addParam("operation", "\"" + operation + "\"");
 	}
 	
+	String blobName  = ElementParameterParser.getValue(node, "__BLOB_NAME__");
+	boolean setBlobName = (blobName !=null && !blobName.isEmpty() && blobName !="\"\"");
+	if (setBlobName){
+	    builder.addParam("blobName", blobName);
+	}
+	
 	String blobOffset  = ElementParameterParser.getValue(node, "__BLOB_OFFSET__");
 	boolean setBlobOffset = (blobOffset !=null && !blobOffset.isEmpty() && blobOffset !="\"\"");
 	if (setBlobOffset){

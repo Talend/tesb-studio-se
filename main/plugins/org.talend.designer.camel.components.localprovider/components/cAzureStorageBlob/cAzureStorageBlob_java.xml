@@ -63,7 +63,6 @@
                 <ITEM NAME="getBlob" VALUE="getBlob" />
                 <ITEM NAME="deleteBlob" VALUE="deleteBlob" />
 				<ITEM NAME="listBlobs" VALUE="listBlobs" />
-                <ITEM NAME="updateBlockBlob" VALUE="updateBlockBlob" SHOW_IF="(BLOB_TYPE == 'BLOCK_BLOB')"  />
 				<ITEM NAME="uploadBlobBlocks" VALUE="uploadBlobBlocks" SHOW_IF="(BLOB_TYPE == 'BLOCK_BLOB')"  />
 				<ITEM NAME="commitBlobBlockList" VALUE="commitBlobBlockList" SHOW_IF="(BLOB_TYPE == 'BLOCK_BLOB')"  />
 				<ITEM NAME="getBlobBlockList" VALUE="getBlobBlockList" SHOW_IF="(BLOB_TYPE == 'BLOCK_BLOB')"  />
@@ -74,6 +73,7 @@
 				<ITEM NAME="resizePageBlob" VALUE="resizePageBlob" SHOW_IF="(BLOB_TYPE == 'PAGE_BLOB')"  />
 				<ITEM NAME="clearPageBlob" VALUE="clearPageBlob" SHOW_IF="(BLOB_TYPE == 'PAGE_BLOB')"  />
 				<ITEM NAME="getPageBlobRanges" VALUE="getPageBlobRanges" SHOW_IF="(BLOB_TYPE == 'PAGE_BLOB')"  />
+				<ITEM NAME="updateBlockBlob" VALUE="updateBlockBlob" SHOW_IF="(BLOB_TYPE == 'BLOCK_BLOB')"  />								
             </ITEMS>
         </PARAMETER>
         <PARAMETER NAME="BLOB_NAME" FIELD="TEXT" NUM_ROW="50"

@@ -51,9 +51,9 @@
         <PARAMETER NAME="BLOB_TYPE" FIELD="CLOSED_LIST"
             RAW="true" NUM_ROW="40" REQUIRED="true" GROUP="URI_GROUP">
             <ITEMS DEFAULT="BlockBlob">
-                <ITEM NAME="BlockBlob" VALUE="BLOCK_BLOB" />
-				<ITEM NAME="PageBlob" VALUE="PAGE_BLOB"/>
-                <ITEM NAME="AppendBlob" VALUE="APPEND_BLOB" />
+                <ITEM NAME="BlockBlob" VALUE="blockblob" />
+				<ITEM NAME="PageBlob" VALUE="pageblob"/>
+                <ITEM NAME="AppendBlob" VALUE="appendblob" />
             </ITEMS>
         </PARAMETER>
 
@@ -63,17 +63,17 @@
                 <ITEM NAME="getBlob" VALUE="getBlob" />
                 <ITEM NAME="deleteBlob" VALUE="deleteBlob" />
 				<ITEM NAME="listBlobs" VALUE="listBlobs" />
-				<ITEM NAME="uploadBlobBlocks" VALUE="uploadBlobBlocks" SHOW_IF="(BLOB_TYPE == 'BLOCK_BLOB')"  />
-				<ITEM NAME="commitBlobBlockList" VALUE="commitBlobBlockList" SHOW_IF="(BLOB_TYPE == 'BLOCK_BLOB')"  />
-				<ITEM NAME="getBlobBlockList" VALUE="getBlobBlockList" SHOW_IF="(BLOB_TYPE == 'BLOCK_BLOB')"  />
-				<ITEM NAME="createAppendBlob" VALUE="createAppendBlob" SHOW_IF="(BLOB_TYPE == 'APPEND_BLOB')"  />
-				<ITEM NAME="updateAppendBlob" VALUE="updateAppendBlob" SHOW_IF="(BLOB_TYPE == 'APPEND_BLOB')"  />
-				<ITEM NAME="createPageBlob" VALUE="createPageBlob" SHOW_IF="(BLOB_TYPE == 'PAGE_BLOB')"  />
-				<ITEM NAME="updatePageBlob" VALUE="updatePageBlob" SHOW_IF="(BLOB_TYPE == 'PAGE_BLOB')"  />
-				<ITEM NAME="resizePageBlob" VALUE="resizePageBlob" SHOW_IF="(BLOB_TYPE == 'PAGE_BLOB')"  />
-				<ITEM NAME="clearPageBlob" VALUE="clearPageBlob" SHOW_IF="(BLOB_TYPE == 'PAGE_BLOB')"  />
-				<ITEM NAME="getPageBlobRanges" VALUE="getPageBlobRanges" SHOW_IF="(BLOB_TYPE == 'PAGE_BLOB')"  />
-				<ITEM NAME="updateBlockBlob" VALUE="updateBlockBlob" SHOW_IF="(BLOB_TYPE == 'BLOCK_BLOB')"  />								
+				<ITEM NAME="uploadBlobBlocks" VALUE="uploadBlobBlocks" SHOW_IF="(BLOB_TYPE == 'blockblob')"  />
+				<ITEM NAME="commitBlobBlockList" VALUE="commitBlobBlockList" SHOW_IF="(BLOB_TYPE == 'blockblob')"  />
+				<ITEM NAME="getBlobBlockList" VALUE="getBlobBlockList" SHOW_IF="(BLOB_TYPE == 'blockblob')"  />
+				<ITEM NAME="createAppendBlob" VALUE="createAppendBlob" SHOW_IF="(BLOB_TYPE == 'appendblob')"  />
+				<ITEM NAME="createPageBlob" VALUE="createPageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob')"  />
+				<ITEM NAME="resizePageBlob" VALUE="resizePageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob')"  />
+				<ITEM NAME="clearPageBlob" VALUE="clearPageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob')"  />
+				<ITEM NAME="getPageBlobRanges" VALUE="getPageBlobRanges" SHOW_IF="(BLOB_TYPE == 'pageblob')"  />
+				<ITEM NAME="updatePageBlob" VALUE="updatePageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob')"  />
+				<ITEM NAME="updateAppendBlob" VALUE="updateAppendBlob" SHOW_IF="(BLOB_TYPE == 'appendblob')"  />
+				<ITEM NAME="updateBlockBlob" VALUE="updateBlockBlob" SHOW_IF="(BLOB_TYPE == 'blockblob')"  />								
             </ITEMS>
         </PARAMETER>
         <PARAMETER NAME="BLOB_NAME" FIELD="TEXT" NUM_ROW="50"
@@ -83,13 +83,13 @@
         </PARAMETER>
 
         <PARAMETER NAME="BLOB_OFFSET" FIELD="TEXT" NUM_ROW="60"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'deleteBlob') OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'createAppendBlob') OR (OPERATION == 'updateAppendBlob')
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'deleteBlob') OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'uploadBlobBlocks') OR (BLOB_TYPE == 'AppendBlob')
 				OR (OPERATION == 'createPageBlob') OR (OPERATION == 'updatePageBlob') OR (OPERATION == 'resizePageBlob') OR (OPERATION == 'clearPageBlob') OR (OPERATION == 'getPageBlobRanges')">
             <DEFAULT>"0"</DEFAULT>
         </PARAMETER>
 		
         <PARAMETER NAME="DATA_LENGTH" FIELD="TEXT" NUM_ROW="70"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'deleteBlob') OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'createAppendBlob') OR (OPERATION == 'updateAppendBlob')
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'deleteBlob') OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'uploadBlobBlocks') OR (BLOB_TYPE == 'AppendBlob')  
 				OR (OPERATION == 'createPageBlob') OR (OPERATION == 'updatePageBlob') OR (OPERATION == 'resizePageBlob') OR (OPERATION == 'clearPageBlob') OR (OPERATION == 'getPageBlobRanges')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
@@ -163,8 +163,76 @@
             REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')" >
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
+		
+		<!-- ACCESS CONDITIONS -->
+		
+		<PARAMETER NAME="SET_ACCESS_CONDITIONS" FIELD="CHECK" NUM_ROW="150"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')" >
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+		
+		<PARAMETER NAME="IF_APPEND_POSITION_EQUAL_CONDITION" FIELD="TEXT" NUM_ROW="151"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>	
+		
+		<PARAMETER NAME="IF_MATCH_CONDITION" FIELD="TEXT" NUM_ROW="152"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>
+		
+		<PARAMETER NAME="IF_NONE_MATCH_CONDITION" FIELD="TEXT" NUM_ROW="153"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>		
+		
+		<PARAMETER NAME="IF_MODIFIED_SINCE_CONDITION" FIELD="TEXT" NUM_ROW="154"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>		
+		
+		<PARAMETER NAME="IF_NOT_MODIFIED_SINCE_CONDITION" FIELD="TEXT" NUM_ROW="155"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>
 
-		<PARAMETER NAME="BLOB_METADATA" FIELD="TABLE" NUM_ROW="180" NB_LINES="7" GROUP="URI_GROUP" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+		<PARAMETER NAME="IF_SEQUENCE_NUMBER_LESS_THAN_OR_EQUAL_CONDITION" FIELD="TEXT" NUM_ROW="156"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>
+		
+		<PARAMETER NAME="IF_SEQUENCE_NUMBER_LESS_THAN_CONDITION" FIELD="TEXT" NUM_ROW="157"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>
+
+        <PARAMETER NAME="IF_SEQUENCE_NUMBER_EQUAL_CONDITION" FIELD="TEXT" NUM_ROW="158"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>
+		
+        <PARAMETER NAME="LEASE_CONDITION" FIELD="TEXT" NUM_ROW="159"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>
+
+        <PARAMETER NAME="IF_EXISTS_CONDITION" FIELD="TEXT" NUM_ROW="160"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>
+		
+        <PARAMETER NAME="IF_NOT_EXISTS_CONDITION" FIELD="TEXT" NUM_ROW="161"
+            REQUIRED="false" GROUP="ACCESS_CONDITIONS_GROUP" SHOW_IF="(SET_ACCESS_CONDITIONS == 'true')" >
+            <DEFAULT></DEFAULT>
+        </PARAMETER>
+
+
+		<PARAMETER NAME="SET_BLOB_METADATA" FIELD="CHECK" NUM_ROW="180"
+            REQUIRED="false" GROUP="BLOB_METADATA_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')" >
+            <DEFAULT>false</DEFAULT>
+        </PARAMETER>
+		
+		<PARAMETER NAME="BLOB_METADATA" FIELD="TABLE" NUM_ROW="181" NB_LINES="7" GROUP="BLOB_METADATA_GROUP" REQUIRED="false" SHOW_IF="((#LINK@CONNECTOR.IN.ANY &gt; '0') AND (SET_BLOB_METADATA == 'true' ))">
 			<ITEMS>
 				<ITEM NAME="BLOB_METADATA_KEY" FIELD="OPENED_LIST"/>
 				<ITEM NAME="BLOB_METADATA_VALUE" />

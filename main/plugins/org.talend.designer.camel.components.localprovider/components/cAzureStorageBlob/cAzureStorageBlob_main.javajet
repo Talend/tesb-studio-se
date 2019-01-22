@@ -5,6 +5,7 @@ imports="
     org.talend.core.model.process.IConnection
     org.talend.core.model.process.IElementParameter
     org.talend.designer.codegen.config.CodeGeneratorArgument
+    org.talend.designer.codegen.config.NodeParamsHelper    
     org.talend.designer.codegen.config.CamelEndpointBuilder
     java.util.List
     java.util.Map
@@ -16,6 +17,7 @@ imports="
     CodeGeneratorArgument codeGenArgument = (CodeGeneratorArgument) argument;
     INode node = (INode) codeGenArgument.getArgument();
     String cid = node.getUniqueName();
+    NodeParamsHelper paramsHelper = new NodeParamsHelper(node);
 
     CamelEndpointBuilder builder = CamelEndpointBuilder.getBuilder();
 
@@ -39,6 +41,8 @@ imports="
 	if (setBlobName){
 	    builder.addParam("blobName", blobName);
 	}
+	
+	builder.addParam("blobType", "\"#blobType_" + cid + "\"");
 	
 	String blobOffset  = ElementParameterParser.getValue(node, "__BLOB_OFFSET__");
 	boolean setBlobOffset = (blobOffset !=null && !blobOffset.isEmpty() && blobOffset !="\"\"");
@@ -142,6 +146,75 @@ imports="
     <%
         if(conns.size()>0) {
     %>
+            .process(new org.apache.camel.Processor() {
+                public void process(org.apache.camel.Exchange exchange) throws Exception {
+                    org.apache.camel.Message inMessage = exchange.getIn();
+                <%                    
+                String setAccessConditions = ElementParameterParser.getValue(node, "__SET_ACCESS_CONDITIONS__");
+                if ("true".equals(setAccessConditions)) {
+                %>              
+                   com.microsoft.azure.storage.AccessCondition ac = 
+                        com.microsoft.azure.storage.AccessCondition.generateEmptyCondition();
+                <%
+                   String ifMatchETag  = paramsHelper.getVisibleStringParam("__IF_MATCH_CONDITION__");
+                   boolean setIfMatchETag = (ifMatchETag !=null && !ifMatchETag.isEmpty() && ifMatchETag !="\"\"" );
+                   
+                   String ifNoneMatchETag  = paramsHelper.getVisibleStringParam("__IF_NONE_MATCH_CONDITION__");
+                   boolean setIfNoneMatch = (ifNoneMatchETag !=null && !ifNoneMatchETag.isEmpty() && ifNoneMatchETag !="\"\"" );
+
+                   String ifModifiedSinceDate  = paramsHelper.getVisibleStringParam("__IF_MODIFIED_SINCE_CONDITION__");
+                   boolean setIfModifiedSinceDate = (ifModifiedSinceDate !=null && !ifModifiedSinceDate.isEmpty() && ifModifiedSinceDate !="\"\"" );
+
+                   String ifUnmodifiedSinceDate  = paramsHelper.getVisibleStringParam("__IF_NOT_MODIFIED_SINCE_CONDITION__");
+                   boolean setIfUnmodifiedSinceDate = (ifUnmodifiedSinceDate !=null && !ifUnmodifiedSinceDate.isEmpty() && ifUnmodifiedSinceDate !="\"\"" );
+
+                   String leaseID  = paramsHelper.getVisibleStringParam("__LEASE_CONDITION__");
+                   boolean setLeaseID = (leaseID !=null && !leaseID.isEmpty() && leaseID !="\"\"" );
+                   
+                   String ifSequenceNumberLessThanOrEqual  = paramsHelper.getVisibleStringParam("__IF_SEQUENCE_NUMBER_LESS_THAN_OR_EQUAL_CONDITION__");
+                   boolean setIfSequenceNumberLessThanOrEqual = (ifSequenceNumberLessThanOrEqual !=null && !ifSequenceNumberLessThanOrEqual.isEmpty() && ifSequenceNumberLessThanOrEqual !="\"\"" );                   
+
+                   String ifSequenceNumberLessThan  = paramsHelper.getVisibleStringParam("__IF_SEQUENCE_NUMBER_LESS_THAN_CONDITION__");
+                   boolean setIfSequenceNumberLessThan = (ifSequenceNumberLessThan !=null && !ifSequenceNumberLessThan.isEmpty() && ifSequenceNumberLessThan !="\"\"" );                   
+
+                   String ifSequenceNumberEqual  = paramsHelper.getVisibleStringParam("__IF_SEQUENCE_NUMBER_EQUAL_CONDITION__");
+                   boolean setIfSequenceNumberEqual = (ifSequenceNumberEqual !=null && !ifSequenceNumberEqual.isEmpty() && ifSequenceNumberEqual !="\"\"" );                   
+
+                   String ifAppendPositionEqual  = paramsHelper.getVisibleStringParam("__IF_APPEND_POSITION_EQUAL_CONDITION__");
+                   boolean setIfAppendPositionEqual = (ifAppendPositionEqual !=null && !ifAppendPositionEqual.isEmpty() && ifAppendPositionEqual !="\"\"" );                   
+
+                 %>
+                    <%if (setIfAppendPositionEqual) { %>
+                    ac.setIfAppendPositionEqual(Long.valueOf(<%=ifAppendPositionEqual%>));
+                    <%}%>
+                    <%if (setIfMatchETag) { %>
+                    ac.setIfMatch(<%=ifMatchETag%>);
+                    <%}%>
+                    <%if (setIfNoneMatch) { %>
+                    ac.setIfNoneMatch(<%=ifNoneMatchETag%>);
+                    <%}%>
+                    <%if (setIfModifiedSinceDate) { %>
+                    ac.setIfModifiedSinceDate((new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z")).parse(<%=ifModifiedSinceDate%>));
+                    <%}%>
+                    <%if (setIfUnmodifiedSinceDate) { %>
+                    ac.setIfUnmodifiedSinceDate((new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z")).parse(<%=ifUnmodifiedSinceDate%>));
+                    <%}%>
+                    <%if (setLeaseID) { %>
+                    ac.setLeaseID(<%=leaseID%>);
+                    <%}%>
+                    <%if (setIfSequenceNumberLessThanOrEqual) { %>
+                    ac.setIfSequenceNumberLessThanOrEqual(Long.valueOf(<%=ifSequenceNumberLessThanOrEqual%>));
+                    <%}%>
+                    <%if (setIfSequenceNumberLessThan) { %>
+                    ac.setIfSequenceNumberLessThan(Long.valueOf(<%=ifSequenceNumberLessThan%>));
+                    <%}%>                     
+                    <%if (setIfSequenceNumberEqual) { %>
+                    ac.setIfSequenceNumberEqual(Long.valueOf(<%=ifSequenceNumberEqual%>));
+                    <%}%> 
+                    inMessage.setHeader("BlobAccessCondition", ac);
+                <%}%>
+                }
+            })    
             .to(<%=uri%>)
     <%
         } else {

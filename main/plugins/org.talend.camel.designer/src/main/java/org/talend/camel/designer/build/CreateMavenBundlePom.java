@@ -308,10 +308,6 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         }
     }
 
-    @Override
-    protected void updateDependencySet(IFile assemblyFile) {
-        // nothing to do.
-    }
     /**
      * enable depoly feature.xml in nexus in feature pom, skip when publish to cloud.
      */

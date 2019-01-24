@@ -9,11 +9,23 @@
         log.info("<%=cid%> - Creating new connection.");
     <%
     }
-	String passwordFieldName = "__STORAGE_ACCESS_KEY__";
     %>
 	
-	<%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>
-    com.microsoft.azure.storage.StorageCredentialsAccountAndKey credentials_<%=cid%> = new com.microsoft.azure.storage.StorageCredentialsAccountAndKey(<%=storageAccountName%>,decryptedPassword_<%=cid%>);
+	<%
+	boolean useSAS = ("true").equals(ElementParameterParser.getValue(node.getProcess(), "__USE_SAS__"));
+    if (useSAS) {
+	   String passwordFieldName = "__SAS_KEY__";
+    %>	   
+       <%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>	   
+       com.microsoft.azure.storage.StorageCredentialsSharedAccessSignature credentials_<%=cid%> = new com.microsoft.azure.storage.StorageCredentialsSharedAccessSignature(decryptedPassword_<%=cid%>);	
+    <%
+    } else {
+	   String passwordFieldName = "__STORAGE_ACCESS_KEY__";
+	%>
+       <%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>	
+       com.microsoft.azure.storage.StorageCredentialsAccountAndKey credentials_<%=cid%> = new com.microsoft.azure.storage.StorageCredentialsAccountAndKey(<%=storageAccountName%>,decryptedPassword_<%=cid%>);
+	<%}%>
+    
 	
     registry.put("credentials_<%=cid%>", credentials_<%=cid%>);
 

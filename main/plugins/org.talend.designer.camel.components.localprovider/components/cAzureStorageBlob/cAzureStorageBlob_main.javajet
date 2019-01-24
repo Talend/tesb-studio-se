@@ -120,7 +120,12 @@ imports="
         builder.addParam(argName, argValue);
     }
 
-    List<Map<String, String>> messageHeaders = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__MESSAGE_HEADERS__");
+	
+	String setCustomMessageHeaders = ElementParameterParser.getValue(node, "__SET_CUSTOM_MESSAGE_HEADERS__");
+	List<Map<String, String>> messageHeaders = new java.util.ArrayList<Map<String, String>>();
+    if ("true".equals(setCustomMessageHeaders)) {
+        messageHeaders = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__MESSAGE_HEADERS__");
+    }
 
     String uri = builder.build();
    

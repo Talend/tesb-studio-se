@@ -38,20 +38,21 @@
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
 		
-        <PARAMETER NAME="USE_SAS" FIELD="CHECK" NUM_ROW="2"
+
+	    <PARAMETER NAME="STORAGE_ACCOUNT_NAME" FIELD="TEXT" NUM_ROW="2"
+            REQUIRED="true" GROUP="STORAGE_CONNECTION_GROUP" >
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+		
+        <PARAMETER NAME="USE_SAS" FIELD="CHECK" NUM_ROW="3"
             REQUIRED="true" GROUP="STORAGE_CONNECTION_GROUP" SHOW_IF="(PUBLIC_FOR_READ == 'false')" >
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
 
-        <PARAMETER NAME="SAS_KEY" FIELD="PASSWORD" NUM_ROW="3" 
+        <PARAMETER NAME="SAS_KEY" FIELD="PASSWORD" NUM_ROW="4" 
             REQUIRED="true" GROUP="STORAGE_CONNECTION_GROUP" SHOW_IF="(USE_SAS == 'true') AND (PUBLIC_FOR_READ == 'false')" >
             <DEFAULT>""</DEFAULT>
         </PARAMETER>		
-	
-	    <PARAMETER NAME="STORAGE_ACCOUNT_NAME" FIELD="TEXT" NUM_ROW="10"
-            REQUIRED="true" GROUP="STORAGE_CONNECTION_GROUP" SHOW_IF="(USE_SAS == 'false') AND (PUBLIC_FOR_READ == 'false')" >
-            <DEFAULT>""</DEFAULT>
-        </PARAMETER>
 		
         <PARAMETER NAME="STORAGE_ACCESS_KEY" FIELD="PASSWORD" NUM_ROW="20" 
             REQUIRED="true" GROUP="STORAGE_CONNECTION_GROUP" SHOW_IF="(USE_SAS == 'false') AND (PUBLIC_FOR_READ == 'false')" >
@@ -78,19 +79,19 @@
             RAW="true" NUM_ROW="60" REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
             <ITEMS DEFAULT="listBlobs">
                 <ITEM NAME="getBlob" VALUE="getBlob" />
-                <ITEM NAME="deleteBlob" VALUE="deleteBlob" />
+                <ITEM NAME="deleteBlob" VALUE="deleteBlob" SHOW_IF="(PUBLIC_FOR_READ == 'false')" />
 				<ITEM NAME="listBlobs" VALUE="listBlobs" />
-				<ITEM NAME="uploadBlobBlocks" VALUE="uploadBlobBlocks" SHOW_IF="(BLOB_TYPE == 'blockblob')"  />
-				<ITEM NAME="commitBlobBlockList" VALUE="commitBlobBlockList" SHOW_IF="(BLOB_TYPE == 'blockblob')"  />
+				<ITEM NAME="uploadBlobBlocks" VALUE="uploadBlobBlocks" SHOW_IF="(BLOB_TYPE == 'blockblob') AND (PUBLIC_FOR_READ == 'false')"  />
+				<ITEM NAME="commitBlobBlockList" VALUE="commitBlobBlockList" SHOW_IF="(BLOB_TYPE == 'blockblob') AND (PUBLIC_FOR_READ == 'false')"  />
 				<ITEM NAME="getBlobBlockList" VALUE="getBlobBlockList" SHOW_IF="(BLOB_TYPE == 'blockblob')"  />
-				<ITEM NAME="createAppendBlob" VALUE="createAppendBlob" SHOW_IF="(BLOB_TYPE == 'appendblob')"  />
-				<ITEM NAME="createPageBlob" VALUE="createPageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob')"  />
-				<ITEM NAME="resizePageBlob" VALUE="resizePageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob')"  />
-				<ITEM NAME="clearPageBlob" VALUE="clearPageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob')"  />
+				<ITEM NAME="createAppendBlob" VALUE="createAppendBlob" SHOW_IF="(BLOB_TYPE == 'appendblob') AND (PUBLIC_FOR_READ == 'false')"  />
+				<ITEM NAME="createPageBlob" VALUE="createPageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob') AND (PUBLIC_FOR_READ == 'false')"  />
+				<ITEM NAME="resizePageBlob" VALUE="resizePageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob') AND (PUBLIC_FOR_READ == 'false')"  />
+				<ITEM NAME="clearPageBlob" VALUE="clearPageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob') AND (PUBLIC_FOR_READ == 'false')"  />
 				<ITEM NAME="getPageBlobRanges" VALUE="getPageBlobRanges" SHOW_IF="(BLOB_TYPE == 'pageblob')"  />
-				<ITEM NAME="updatePageBlob" VALUE="updatePageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob')"  />
-				<ITEM NAME="updateAppendBlob" VALUE="updateAppendBlob" SHOW_IF="(BLOB_TYPE == 'appendblob')"  />
-				<ITEM NAME="updateBlockBlob" VALUE="updateBlockBlob" SHOW_IF="(BLOB_TYPE == 'blockblob')"  />								
+				<ITEM NAME="updatePageBlob" VALUE="updatePageBlob" SHOW_IF="(BLOB_TYPE == 'pageblob') AND (PUBLIC_FOR_READ == 'false')"  />
+				<ITEM NAME="updateAppendBlob" VALUE="updateAppendBlob" SHOW_IF="(BLOB_TYPE == 'appendblob') AND (PUBLIC_FOR_READ == 'false')"  />
+				<ITEM NAME="updateBlockBlob" VALUE="updateBlockBlob" SHOW_IF="(BLOB_TYPE == 'blockblob') AND (PUBLIC_FOR_READ == 'false')"  />								
             </ITEMS>
         </PARAMETER>
         <PARAMETER NAME="BLOB_NAME" FIELD="TEXT" NUM_ROW="60"
@@ -105,12 +106,12 @@
         </PARAMETER>		
 
         <PARAMETER NAME="BLOB_OFFSET" FIELD="TEXT" NUM_ROW="70"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION =='getBlob') ">
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION =='getBlob') OR (OPERATION == 'clearPageBlob') OR (OPERATION == 'updatePageBlob') ">
             <DEFAULT>"0"</DEFAULT>
         </PARAMETER>
 		
         <PARAMETER NAME="DATA_LENGTH" FIELD="TEXT" NUM_ROW="80"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION =='getBlob') ">
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION =='getBlob') OR (OPERATION == 'clearPageBlob')  OR (OPERATION == 'updatePageBlob') ">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
 		
@@ -155,7 +156,7 @@
         </PARAMETER>
 
         <PARAMETER NAME="PAGE_BLOB_SIZE" FIELD="TEXT" NUM_ROW="155"
-            REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="((OPERATION == 'clearPageBlob') OR (OPERATION == 'createPageBlob') OR (OPERATION == 'resizePageBlob'))">
+            REQUIRED="false" GROUP="URI_GROUP" SHOW_IF="((OPERATION == 'createPageBlob') OR (OPERATION == 'resizePageBlob'))">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
 		
@@ -276,14 +277,17 @@
             <DEFAULT></DEFAULT>
         </PARAMETER>		
 		
-        <!-- Metadata -->		
+        <!-- Metadata -->
+        <!--		
 		<PARAMETER NAME="SET_BLOB_METADATA" FIELD="CHECK" NUM_ROW="410"
             REQUIRED="false" GROUP="BLOB_METADATA_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND ((OPERATION == 'uploadBlobBlocks')  OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'uploadBlobBlocks') 
 			    OR (OPERATION == 'updateAppendBlob'))" >
             <DEFAULT>false</DEFAULT>
         </PARAMETER>
+		-->
 		
-		<PARAMETER NAME="BLOB_METADATA" FIELD="TABLE" NUM_ROW="420" NB_LINES="7" GROUP="BLOB_METADATA_GROUP" REQUIRED="false" SHOW_IF="((#LINK@CONNECTOR.IN.ANY &gt; '0') AND (SET_BLOB_METADATA == 'true' ))">
+		<PARAMETER NAME="BLOB_METADATA" FIELD="TABLE" NUM_ROW="420" NB_LINES="7" GROUP="BLOB_METADATA_GROUP" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0') AND ((OPERATION == 'uploadBlobBlocks')  OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'uploadBlobBlocks') 
+			    OR (OPERATION == 'updateAppendBlob'))">
 			<ITEMS>
 				<ITEM NAME="BLOB_METADATA_KEY" FIELD="OPENED_LIST"/>
 				<ITEM NAME="BLOB_METADATA_VALUE" />
@@ -336,6 +340,29 @@
             REQUIRED="false" GROUP="OPERATION_CONTEXT_GROUP" SHOW_IF="(SET_OPERATION_CONTEXT == 'true')" >
             <DEFAULT>false</DEFAULT>
 		 </PARAMETER>
+		 
+		<PARAMETER NAME="USE_PROXY" FIELD="CHECK" NUM_ROW="410"
+            REQUIRED="false" GROUP="OPERATION_CONTEXT_GROUP" SHOW_IF="(SET_OPERATION_CONTEXT == 'true')" >
+            <DEFAULT>false</DEFAULT>
+		 </PARAMETER>
+
+        <PARAMETER NAME="PROXY_TYPE" FIELD="CLOSED_LIST"
+            RAW="true" NUM_ROW="420" REQUIRED="true" GROUP="OPERATION_CONTEXT_GROUP" SHOW_IF="(USE_PROXY == 'true')">
+            <ITEMS DEFAULT="DIRECT">
+                <ITEM NAME="DIRECT" VALUE="DIRECT" />
+                <ITEM NAME="HTTP" VALUE="HTTP" />
+				<ITEM NAME="SOCKS" VALUE="SOCKS" />
+            </ITEMS>
+        </PARAMETER>
+		
+		<PARAMETER NAME="PROXY_HOST" FIELD="TEXT" NUM_ROW="420"
+            REQUIRED="true" GROUP="OPERATION_CONTEXT_GROUP" SHOW_IF="(USE_PROXY == 'true')" >
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>
+		<PARAMETER NAME="PROXY_PORT" FIELD="TEXT" NUM_ROW="420"
+            REQUIRED="true" GROUP="OPERATION_CONTEXT_GROUP" SHOW_IF="(USE_PROXY == 'true')" >
+            <DEFAULT>""</DEFAULT>
+        </PARAMETER>		
 		
 <!--		
 		<PARAMETER NAME="SET_CUSTOM_USER_HEADERS" FIELD="CHECK" NUM_ROW="500"

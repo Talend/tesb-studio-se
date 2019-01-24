@@ -302,6 +302,11 @@ imports="
 					
 				    <%
 				    String enableLogging  = ElementParameterParser.getValue(node, "__ENABLE_LOGGING__");
+					
+					String useProxy  = ElementParameterParser.getValue(node, "__USE_PROXY__");
+					String proxyType  = ElementParameterParser.getValue(node, "__PROXY_TYPE__");
+					String proxyHost  = ElementParameterParser.getValue(node, "__PROXY_HOST__");
+					String proxyPort  = ElementParameterParser.getValue(node, "__PROXY_PORT__");
 				
 				    String clientTimeInMs  = ElementParameterParser.getValue(node, "__CLIENT_TIME_IN_MS__");
 				    boolean setClientTimeInMs = (clientTimeInMs !=null && !clientTimeInMs.isEmpty() && clientTimeInMs !="\"\"" );
@@ -318,6 +323,12 @@ imports="
                     %> 
 				    oc.setClientTimeInMs(Long.valueOf(<%=clientTimeInMs%>));
 				    <%}%>
+					
+				    <%				
+				    if ("true".equals(useProxy)) {
+                    %> 
+				    oc.setProxy(new java.net.Proxy(java.net.Proxy.Type.<%=proxyType%>, new java.net.InetSocketAddress(<%=proxyHost%>, Integer.valueOf(<%=proxyPort%>))));
+				    <%}%>					
 					
                     inMessage.setHeader("BlobOperationContext", oc);	
 					

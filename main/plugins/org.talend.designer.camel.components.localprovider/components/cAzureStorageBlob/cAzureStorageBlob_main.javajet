@@ -150,6 +150,13 @@ imports="
                 public void process(org.apache.camel.Exchange exchange) throws Exception {
                     org.apache.camel.Message inMessage = exchange.getIn();
                 <%                    
+                String pageBlobSize = ElementParameterParser.getValue(node, "__PAGE_BLOB_SIZE__");
+				boolean setPageBlobSize = (pageBlobSize !=null && !pageBlobSize.isEmpty() && pageBlobSize !="\"\"" );
+                if (setPageBlobSize) {
+                %>
+				inMessage.setHeader("pageBlobSize", Long.valueOf(<%=pageBlobSize%>));
+				<%}%>	
+                <%                    
                 String setAccessConditions = ElementParameterParser.getValue(node, "__SET_ACCESS_CONDITIONS__");
                 if ("true".equals(setAccessConditions)) {
                 %>              
@@ -212,7 +219,101 @@ imports="
                     ac.setIfSequenceNumberEqual(Long.valueOf(<%=ifSequenceNumberEqual%>));
                     <%}%> 
                     inMessage.setHeader("BlobAccessCondition", ac);
+                <%}%>					
+                <%                    
+                String setRequestOptions = ElementParameterParser.getValue(node, "__SET_REQUEST_OPTIONS__");
+                if ("true".equals(setRequestOptions)) {
+                %>
+
+                    com.microsoft.azure.storage.blob.BlobRequestOptions ro = 
+                        new com.microsoft.azure.storage.blob.BlobRequestOptions();
+					
+				    <%
+					String setAbsorbConditionalErrorsOnRetry = ElementParameterParser.getValue(node, "__ABSORB_CONDITIONAL_ERRORS_ON_RETRY__");
+                    String concurrentRequestCount  = paramsHelper.getVisibleStringParam("__CONCURRENT_REQUEST_COUNT__");
+                    boolean setConcurrentRequestCount = (concurrentRequestCount !=null && !concurrentRequestCount.isEmpty() && concurrentRequestCount !="\"\"" );                   
+				
+				    String useTransactionalContentMD5  =  ElementParameterParser.getValue(node, "__USE_TRANSACTIONAL_CONTENT_MD5__");
+				    String storeBlobContentMD5  = ElementParameterParser.getValue(node, "__STORE_BLOB_CONTENT_MD5__");
+				    String disableContentMD5Validation  = ElementParameterParser.getValue(node, "__DISABLE_CONTENT_MD5_VALIDATION__");
+				
+				    String singleBlobPutTresholdInBytes  = ElementParameterParser.getValue(node, "__SINGLE_BLOB_PUT_TRESHOLD_IN_BYTES__");
+				    boolean setSingleBlobPutTresholdInBytes = (singleBlobPutTresholdInBytes !=null && !singleBlobPutTresholdInBytes.isEmpty() && singleBlobPutTresholdInBytes !="\"\"" );
+				    %>
+					
+				    <%				
+				    if ("true".equals(setAbsorbConditionalErrorsOnRetry)) {
+                    %> 
+				    ro.setAbsorbConditionalErrorsOnRetry(true);
+				    <%}%>					
+					
+				    <%				
+				    if (setConcurrentRequestCount) {
+                    %> 
+				    ro.setConcurrentRequestCount(Integer.valueOf(<%=concurrentRequestCount%>));
+				    <%}%>
+					
+				    <%
+				    if ("true".equals(useTransactionalContentMD5)) {
+                    %> 
+				    ro.setUseTransactionalContentMD5(true);
+				    <%}%>
+					
+				    <%
+				    if ("true".equals(storeBlobContentMD5)) {
+                    %> 
+				    ro.setStoreBlobContentMD5(true);
+				    <%}%>
+					
+				    <%
+				    if ("true".equals(disableContentMD5Validation)) {
+                    %> 
+				    ro.setDisableContentMD5Validation(true);
+				    <%}%>
+					
+				    <%
+				    if (setSingleBlobPutTresholdInBytes) {
+                    %> 
+				    ro.setSingleBlobPutThresholdInBytes(Integer.valueOf(<%=singleBlobPutTresholdInBytes%>));
+				    <%}%>
+					
+                    inMessage.setHeader("BlobRequestOptions", ro);	
+					
                 <%}%>
+				
+                <%                    
+                String setOperationContext = ElementParameterParser.getValue(node, "__SET_OPERATION_CONTEXT__");
+                if ("true".equals(setOperationContext)) {
+                %>
+
+                    com.microsoft.azure.storage.OperationContext oc = 
+                        new com.microsoft.azure.storage.OperationContext();
+					
+				    <%
+				    String enableLogging  = ElementParameterParser.getValue(node, "__ENABLE_LOGGING__");
+				
+				    String clientTimeInMs  = ElementParameterParser.getValue(node, "__CLIENT_TIME_IN_MS__");
+				    boolean setClientTimeInMs = (clientTimeInMs !=null && !clientTimeInMs.isEmpty() && clientTimeInMs !="\"\"" );
+				    %>
+					
+				    <%				
+				    if ("true".equals(enableLogging)) {
+                    %> 
+				    oc.setLoggingEnabled(true);
+				    <%}%>					
+					
+				    <%
+				    if (setClientTimeInMs) {
+                    %> 
+				    oc.setClientTimeInMs(Long.valueOf(<%=clientTimeInMs%>));
+				    <%}%>
+					
+                    inMessage.setHeader("BlobOperationContext", oc);	
+					
+                <%}%>				
+				
+				
+				
                 }
             })    
             .to(<%=uri%>)

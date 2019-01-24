@@ -150,7 +150,7 @@ imports="
                 public void process(org.apache.camel.Exchange exchange) throws Exception {
                     org.apache.camel.Message inMessage = exchange.getIn();
                 <%                    
-                String pageBlobSize = ElementParameterParser.getValue(node, "__PAGE_BLOB_SIZE__");
+                String pageBlobSize = paramsHelper.getVisibleStringParam("__PAGE_BLOB_SIZE__");
 				boolean setPageBlobSize = (pageBlobSize !=null && !pageBlobSize.isEmpty() && pageBlobSize !="\"\"" );
                 if (setPageBlobSize) {
                 %>

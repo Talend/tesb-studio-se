@@ -23,12 +23,18 @@ imports="
 
 	String accountName = ElementParameterParser.getValue(node, "__STORAGE_ACCOUNT_NAME__");
     String containerName = ElementParameterParser.getValue(node, "__STORAGE_CONTAINER_NAME__");
+    String publicForRead = ElementParameterParser.getValue(node, "__PUBLIC_FOR_READ__");
+	 if ("true".equals(publicForRead)){
+	    builder.addParam("publicForRead", "\"" + publicForRead + "\"");
+	 }
 
     builder.setComponent("azure-blob");
     builder.useDoubleSlash(false);
     builder.setName(accountName.concat("+\"/\"+").concat(containerName));
 
-    builder.addParam("credentials", "\"#credentials_" + cid + "\"");
+	if ("false".equals(publicForRead)){
+	   builder.addParam("credentials", "\"#credentials_" + cid + "\"");
+	}
 	
 	String operation = ElementParameterParser.getValue(node, "__OPERATION__");
 	boolean setOperation = (operation !=null && !operation.isEmpty());

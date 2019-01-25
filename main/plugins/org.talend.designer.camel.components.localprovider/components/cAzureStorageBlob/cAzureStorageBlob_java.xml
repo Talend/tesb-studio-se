@@ -69,15 +69,15 @@
         <PARAMETER NAME="BLOB_TYPE" FIELD="CLOSED_LIST"
             RAW="true" NUM_ROW="50" REQUIRED="true" GROUP="URI_GROUP">
             <ITEMS DEFAULT="BlockBlob">
+                <ITEM NAME="AppendBlob" VALUE="appendblob" />
                 <ITEM NAME="BlockBlob" VALUE="blockblob" />
 				<ITEM NAME="PageBlob" VALUE="pageblob"/>
-                <ITEM NAME="AppendBlob" VALUE="appendblob" />
             </ITEMS>
         </PARAMETER>
 
         <PARAMETER NAME="OPERATION" FIELD="CLOSED_LIST"
             RAW="true" NUM_ROW="60" REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
-            <ITEMS DEFAULT="listBlobs">
+            <ITEMS DEFAULT="getBlob">
                 <ITEM NAME="getBlob" VALUE="getBlob" />
                 <ITEM NAME="deleteBlob" VALUE="deleteBlob" SHOW_IF="(PUBLIC_FOR_READ == 'false')" />
 				<ITEM NAME="listBlobs" VALUE="listBlobs" />
@@ -106,22 +106,22 @@
         </PARAMETER>		
 
         <PARAMETER NAME="BLOB_OFFSET" FIELD="TEXT" NUM_ROW="70"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION =='getBlob') OR (OPERATION == 'clearPageBlob') OR (OPERATION == 'updatePageBlob') ">
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION =='getBlob') OR (OPERATION == 'clearPageBlob') OR (OPERATION == 'updatePageBlob') OR (#LINK@CONNECTOR.IN.ANY == '0')">
             <DEFAULT>"0"</DEFAULT>
         </PARAMETER>
 		
         <PARAMETER NAME="DATA_LENGTH" FIELD="TEXT" NUM_ROW="80"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION =='getBlob') OR (OPERATION == 'clearPageBlob')  OR (OPERATION == 'updatePageBlob') ">
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION =='getBlob') OR (OPERATION == 'clearPageBlob')  OR (OPERATION == 'updatePageBlob') OR (#LINK@CONNECTOR.IN.ANY == '0')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
 		
 		<PARAMETER NAME="FILE_DIR" FIELD="TEXT" NUM_ROW="90"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'getBlob')">
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'getBlob') OR (#LINK@CONNECTOR.IN.ANY == '0')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
 		
         <PARAMETER NAME="STREAM_READ_SIZE" FIELD="TEXT" NUM_ROW="100"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="((OPERATION == 'getBlob') OR (OPERATION == 'getPageBlobRanges'))">
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="((OPERATION == 'getBlob') OR (OPERATION == 'getPageBlobRanges') OR (#LINK@CONNECTOR.IN.ANY == '0'))">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>
 		
@@ -132,7 +132,7 @@
         </PARAMETER>			
 		
         <PARAMETER NAME="CLOSE_STREAM_AFTER_READ" FIELD="CHECK" NUM_ROW="120"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION =='getBlob') ">
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION =='getBlob') OR (#LINK@CONNECTOR.IN.ANY == '0')">
             <DEFAULT>true</DEFAULT>
         </PARAMETER>
 		

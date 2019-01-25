@@ -15,5 +15,6 @@ Require-Bundle: org.eclipse.ui,
  org.talend.core,
  org.talend.commons.ui,
  org.talend.core.runtime
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Eclipse-BundleShape: dir
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

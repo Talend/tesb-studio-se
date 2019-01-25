@@ -18,3 +18,4 @@ Export-Package: org.talend.camel.core.model.camelProperties,
  org.talend.camel.core.model.camelProperties.impl,
  org.talend.camel.core.model.camelProperties.util,
  org.talend.camel.model
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

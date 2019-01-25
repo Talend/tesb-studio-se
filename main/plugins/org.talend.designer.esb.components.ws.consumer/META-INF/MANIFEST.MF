@@ -24,3 +24,4 @@ Import-Package: org.talend.designer.core.model.components,
  org.talend.utils.wsdl
 Export-Package: org.talend.designer.esb.webservice
 Eclipse-BundleShape: dir
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

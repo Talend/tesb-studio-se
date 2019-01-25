@@ -12,8 +12,8 @@
     <import plugin="org.apache.log4j" version="0.0.0" match="greaterOrEqual"/>
     <import plugin="org.apache.xml.resolver" version="0.0.0" match="greaterOrEqual"/>
   </requires>
-  <plugin id="org.talend.designer.esb.components.rs.consumer" download-size="0" install-size="0" version="0.0.0" unpack="true"/>
-  <plugin id="org.talend.designer.esb.components.ws.consumer" download-size="0" install-size="0" version="0.0.0" unpack="true"/>
-  <plugin id="org.talend.designer.esb.routines" download-size="0" install-size="0" version="0.0.0" unpack="true"/>
-  <plugin id="org.talend.libraries.esb" download-size="0" install-size="0" version="0.0.0" unpack="true"/>
+  <plugin id="org.talend.designer.esb.components.rs.consumer" download-size="0" install-size="0" version="0.0.0"/>
+  <plugin id="org.talend.designer.esb.components.ws.consumer" download-size="0" install-size="0" version="0.0.0"/>
+  <plugin id="org.talend.designer.esb.routines" download-size="0" install-size="0" version="0.0.0"/>
+  <plugin id="org.talend.libraries.esb" download-size="0" install-size="0" version="0.0.0"/>
 </feature>

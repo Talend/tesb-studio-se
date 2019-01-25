@@ -7,3 +7,4 @@ Fragment-Host: org.talend.designer.esb.runcontainer
 Require-Bundle: org.talend.model,
  org.talend.designer.core,
  org.talend.testutils
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

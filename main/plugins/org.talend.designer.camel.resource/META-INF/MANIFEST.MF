@@ -24,3 +24,4 @@ Require-Bundle: org.talend.commons.ui,
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.commons.io
 Bundle-Vendor: .Talend SA.
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

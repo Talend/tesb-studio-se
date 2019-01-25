@@ -13,3 +13,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.talend.designer.core,
  org.talend.core.runtime
 Eclipse-BundleShape: dir
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

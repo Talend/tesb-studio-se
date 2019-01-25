@@ -267,16 +267,15 @@ public class ESBProvider_<%=cid%> implements javax.xml.ws.Provider<javax.xml.tra
 	public javax.xml.transform.Source invoke(javax.xml.transform.Source request) {
 
 		try {
-			java.io.ByteArrayOutputStream os = new java.io.ByteArrayOutputStream();
-			org.apache.cxf.staxutils.StaxUtils.copy(request, os);
-			org.dom4j.Document requestDoc = new org.dom4j.io.SAXReader()
-					.read(new java.io.ByteArrayInputStream(os.toByteArray()));
-
-			java.util.Map<String, Object> esbRequest = new java.util.HashMap<String, Object>();
-			esbRequest.put(ESBProviderCallback.HEADERS_SOAP, context.getMessageContext().get(org.apache.cxf.headers.Header.HEADER_LIST));
-			esbRequest.put(ESBProviderCallback.HEADERS_HTTP, context.getMessageContext().get(javax.xml.ws.handler.MessageContext.HTTP_REQUEST_HEADERS));
-			esbRequest.put(ESBProviderCallback.REQUEST, requestDoc);
-
+            java.util.Map<String, Object> esbRequest = new java.util.HashMap<String, Object>();
+            esbRequest.put(ESBProviderCallback.HEADERS_SOAP, context.getMessageContext().get(org.apache.cxf.headers.Header.HEADER_LIST));
+            esbRequest.put(ESBProviderCallback.HEADERS_HTTP, context.getMessageContext().get(javax.xml.ws.handler.MessageContext.HTTP_REQUEST_HEADERS));
+            if(request != null) {
+                java.io.ByteArrayOutputStream os = new java.io.ByteArrayOutputStream();
+                org.apache.cxf.staxutils.StaxUtils.copy(request, os);
+                org.dom4j.Document requestDoc = new org.dom4j.io.SAXReader().read(new java.io.ByteArrayInputStream(os.toByteArray()));
+                esbRequest.put(ESBProviderCallback.REQUEST, requestDoc);
+            }
 			QueuedExchangeContextImpl<java.util.Map, org.dom4j.Document> messageExchange = messageHandler.invoke(esbRequest, <%=!isOneWay%>);
 
 <% if (isOneWay) { %>

@@ -95,7 +95,7 @@
             </ITEMS>
         </PARAMETER>
         <PARAMETER NAME="BLOB_NAME" FIELD="TEXT" NUM_ROW="60"
-            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'getBlob') OR (OPERATION == 'deleteBlob') OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'createAppendBlob') OR (OPERATION == 'updateAppendBlob')
+            REQUIRED="true" GROUP="URI_GROUP" SHOW_IF="(OPERATION == 'getBlob') OR (OPERATION == 'deleteBlob') OR (OPERATION == 'updateBlockBlob') OR (OPERATION == 'commitBlobBlockList') OR (OPERATION == 'uploadBlobBlocks') OR (OPERATION == 'createAppendBlob') OR (OPERATION == 'updateAppendBlob')
 				OR (OPERATION == 'createPageBlob') OR (OPERATION == 'updatePageBlob') OR (OPERATION == 'resizePageBlob') OR (OPERATION == 'clearPageBlob') OR (OPERATION == 'getPageBlobRanges')">
             <DEFAULT>""</DEFAULT>
         </PARAMETER>

@@ -50,8 +50,4 @@ public class CreateRouteletMavenBundlePom extends CreateMavenBundlePom {
         }
     }
 
-    @Override
-    protected void updateDependencySet(IFile assemblyFile) {
-        // nothing to do.
-    }
 }

@@ -308,10 +308,6 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         }
     }
 
-    @Override
-    protected void updateDependencySet(IFile assemblyFile) {
-        // nothing to do.
-    }
     /**
      * enable depoly feature.xml in nexus in feature pom, skip when publish to cloud.
      */
@@ -543,7 +539,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         Xpp3Dom configuration = new Xpp3Dom("configuration");
 
         Xpp3Dom groupId = new Xpp3Dom("groupId");
-        groupId.setValue(PomIdsHelper.getJobGroupId(job.getProcessItem().getProperty()));
+        groupId.setValue(bundleModel.getGroupId());//PomIdsHelper.getJobGroupId(job.getProcessItem().getProperty()));
 
         Xpp3Dom artifactId = new Xpp3Dom("artifactId");
         artifactId.setValue(bundleModel.getArtifactId() + "_" + job.getJobName());
@@ -568,9 +564,21 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 targetDir = new Path(targetDir.getDevice()  ,targetDir.toString().replaceAll("/\\d+/", "/"));
                 relativeTargetDir = targetDir.makeRelativeTo(currentProjectRootDir).toString();
             }
+            Property property = null;
+            String buildType = null;
+            if (!job.isJoblet()) {
+                property = job.getProcessItem().getProperty();
+            } else {
+                property = job.getJobletProperty();
+            }
+            if (property != null) {
+                buildType = (String) property.getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
+            }
+
+            String pathToJar = relativeTargetDir + Path.SEPARATOR + job.getJobName()
+                    + ("OSGI".equals(buildType) ? "-bundle-" : "-")
+                    + PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()) + ".jar";
             
-            String pathToJar = relativeTargetDir + Path.SEPARATOR + job.getJobName() + "-bundle-"
-                            + PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()) + ".jar";
             
             file.setValue(pathToJar);
             addFile = true;

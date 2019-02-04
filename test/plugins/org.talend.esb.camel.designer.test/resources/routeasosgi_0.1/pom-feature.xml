@@ -4,20 +4,20 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.example.test_nologin.route</groupId>
-    <artifactId>DemoRESTRouteAsOSGI-Kar</artifactId>
+    <artifactId>RouteAsOSGI-Kar</artifactId>
     <version>0.1.0</version>
     <relativePath>/</relativePath>
   </parent>
   <groupId>org.example.test_nologin.route</groupId>
-  <artifactId>DemoRESTRouteAsOSGI-feature</artifactId>
+  <artifactId>RouteAsOSGI-feature</artifactId>
   <version>0.1.0</version>
   <packaging>pom</packaging>
-  <name>TEST_NOLOGIN DemoRESTRouteAsOSGI-0.1.0 (0.1,Routes) Feature</name>
+  <name>TEST_NOLOGIN RouteAsOSGI-0.1.0 (0.1,Routes) Feature</name>
   <properties>
     <item.name>@ItemName@</item.name>
     <bundle.config.export.service>@BundleConfigExportService@</bundle.config.export.service>
     <bundle.config.bundle.classpath>@BundleConfigBundleClasspath@</bundle.config.bundle.classpath>
-    <talend.job.name>DemoRESTRouteAsOSGI</talend.job.name>
+    <talend.job.name>RouteAsOSGI</talend.job.name>
     <current.test.resources.dir>${basedir}/src/test/resources</current.test.resources.dir>
     <current.resources.dir>${basedir}/src/main/ext-resources</current.resources.dir>
     <talend.project.name>TEST_NOLOGIN</talend.project.name>
@@ -34,14 +34,14 @@
     <talend.routine.groupid>org.example.test_nologin.code</talend.routine.groupid>
     <talend.job.folder></talend.job.folder>
     <bundle.config.import.package>@BundleConfigImportPackage@</bundle.config.import.package>
-    <talend.job.id>demorestrouteasosgi_Item_ID</talend.job.id>
+    <talend.job.id>routeasosgi_Item_ID</talend.job.id>
     <talend.project.name.lowercase>test_nologin</talend.project.name.lowercase>
-    <talend.job.finalName>demorestrouteasosgi_0_1</talend.job.finalName>
+    <talend.job.finalName>routeasosgi_0_1</talend.job.finalName>
     <lib.path>${resources.path}/lib</lib.path>
     <project.distribution-management.repository.id>${project.distributionManagement.repository.id}</project.distribution-management.repository.id>
     <talend.job.version>0.1</talend.job.version>
     <project.distribution-management.repository.url>${project.distributionManagement.repository.url}</project.distribution-management.repository.url>
-    <talend.job.path>test_nologin/demorestrouteasosgi_0_1</talend.job.path>
+    <talend.job.path>test_nologin/routeasosgi_0_1</talend.job.path>
     <talend.job.context>Test</talend.job.context>
     <talend.job.stat>true</talend.job.stat>
     <talend.pigudf.groupid>org.example.test_nologin.pigudf</talend.pigudf.groupid>
@@ -65,7 +65,7 @@
               <goal>create-kar</goal>
             </goals>
             <configuration>
-              <finalName>demorestrouteasosgi_0_1</finalName>
+              <finalName>routeasosgi_0_1</finalName>
               <resourcesDir>${project.build.directory}/bin</resourcesDir>
               <featuresFile>${basedir}/src/main/bundle-resources/feature.xml</featuresFile>
             </configuration>
@@ -111,7 +111,7 @@
                 <configuration>
                   <file>${basedir}/src/main/bundle-resources/feature.xml</file>
                   <groupId>org.example.test_nologin.route</groupId>
-                  <artifactId>DemoRESTRouteAsOSGI-feature</artifactId>
+                  <artifactId>RouteAsOSGI-feature</artifactId>
                   <version>0.1.0</version>
                   <classifier>features</classifier>
                   <packaging>xml</packaging>

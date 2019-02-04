@@ -148,7 +148,7 @@ public class CreateRouteAsOSGIPomTest {
 
     @Test
     public void demoRESTRouteAsOSGI() throws Exception {
-        String testCaseName = "DemoRESTRouteAsOSGI"; //$NON-NLS-1$
+        String testCaseName = "RouteAsOSGI"; //$NON-NLS-1$
         initializeAndCompare(testCaseName);
     }
 

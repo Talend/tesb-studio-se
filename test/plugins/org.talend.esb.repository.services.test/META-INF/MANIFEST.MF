@@ -8,3 +8,4 @@ Require-Bundle: org.talend.testutils,
  org.talend.model,
  org.talend.designer.core,
  org.talend.core.repository
+Import-Package: org.apache.commons.io

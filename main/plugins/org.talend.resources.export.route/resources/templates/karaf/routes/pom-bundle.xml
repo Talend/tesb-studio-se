@@ -66,7 +66,7 @@
                                     </descriptors>
                                     <tarLongFileMode>gnu</tarLongFileMode>
                                     <appendAssemblyId>false</appendAssemblyId>
-                                    <finalName>${talend.job.name}-bundle-${project.version}</finalName>
+                                    <finalName>${talend.job.name}-${project.version}</finalName>
                                     <archive>
                                         <manifestFile>${current.bundle.resources.dir}/META-INF/MANIFEST.MF</manifestFile>
                                     </archive>

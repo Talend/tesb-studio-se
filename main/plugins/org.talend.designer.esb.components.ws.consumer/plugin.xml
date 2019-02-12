@@ -207,6 +207,18 @@
             uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-spring-expression}"
             bundleID="" />
 
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="${tesb-spring-web}"
+            id="spring-web"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-spring-web}"
+            bundleID="" />
+            
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="${tesb-spring-webmvc}"
+            id="spring-webmvc"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-spring-webmvc}"
+            bundleID="" />
+
         <libraryNeededGroup
                 description="spring-context"
                 id="spring-context"
@@ -216,6 +228,8 @@
             <library id="spring-beans" />
             <library id="spring-core" />
             <library id="spring-expression" />
+            <library id="spring-web" />
+            <library id="spring-webmvc" />
             <library id="aopalliance" />
             <library id="commons-logging" />
         </libraryNeededGroup>

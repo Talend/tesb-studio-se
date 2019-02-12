@@ -21,6 +21,7 @@ import org.talend.commons.exception.ExceptionHandler;
 import org.talend.core.model.components.ComponentCategory;
 import org.talend.core.model.process.IProcess;
 import org.talend.core.model.properties.Property;
+import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.model.repository.IRepositoryObject;
 import org.talend.core.model.repository.RepositoryObject;
 import org.talend.core.repository.seeker.RepositorySeekerManager;
@@ -71,6 +72,11 @@ public class RunContainerProcessor extends MavenJavaProcessor {
     @Override
     public String getProcessorType() {
         return "runtimeProcessor";
+    }
+    
+    @Override
+    protected boolean packagingAndAssembly() {
+        return ERepositoryObjectType.PROCESS_ROUTE.equals(ERepositoryObjectType.getType(getProperty())) ? true : false;
     }
     
     @Override

@@ -12,7 +12,7 @@
   <packaging>eclipse-plugin</packaging>
 
     <properties>
-        <camel.version>2.21.2</camel.version>
+        <camel.version>2.23.1</camel.version>
         <activemq.version>5.15.8</activemq.version>
         <!-- camel-groovy -->
         <groovy.version>2.4.6</groovy.version>
@@ -40,7 +40,10 @@
         <!-- camel-mail -->
         <mail.version>1.4.7</mail.version>
         <!-- camel-aws -->
-        <aws-java-sdk-version>1.11.186</aws-java-sdk-version>
+        <aws-java-sdk-version>1.11.269</aws-java-sdk-version>
+        <!-- camel-azure -->
+        <azure-storage-version>7.0.0</azure-storage-version>        
+        <azure-keyvault-core-version>1.0.0</azure-keyvault-core-version>
         <!-- camel-hawtdb -->
         <hawtdb-version>1.6</hawtdb-version>
         <!-- camel-kafka -->
@@ -118,7 +121,6 @@
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-cxf</artifactId>
             <version>${camel.version}</version>
-            <classifier>TESB</classifier>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.cxf</groupId>
@@ -284,6 +286,11 @@
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
+            <artifactId>camel-azure</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
             <artifactId>camel-aws</artifactId>
             <version>${camel.version}</version>
             <exclusions>
@@ -292,6 +299,16 @@
 				      <artifactId>jackson-annotations</artifactId>
             		</exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-keyvault-core</artifactId>
+            <version>${azure-keyvault-core-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-storage</artifactId>
+            <version>${azure-storage-version}</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
@@ -338,6 +355,11 @@
             <artifactId>aws-java-sdk-ses</artifactId>
             <version>${aws-java-sdk-version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-mq</artifactId>
+            <version>${aws-java-sdk-version}</version>
+        </dependency>        
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>

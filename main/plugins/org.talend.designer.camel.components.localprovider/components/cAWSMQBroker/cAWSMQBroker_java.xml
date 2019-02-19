@@ -1,0 +1,99 @@
+<COMPONENT>
+
+	<HEADER PLATEFORM="ALL" SERIAL="" VERSION="0.102" STATUS="ALPHA"
+		COMPATIBILITY="ALL" AUTHOR="Talend" RELEASE_DATE="20180110A"
+		STARTABLE="true">
+		<SIGNATURE />
+	</HEADER>
+
+	<FAMILIES>
+		<FAMILY>AWS</FAMILY>
+		<FAMILY>Connectivity/Messaging</FAMILY>
+	</FAMILIES>
+
+	<DOCUMENTATION>
+		<URL />
+	</DOCUMENTATION>
+
+	<CONNECTORS>
+		<CONNECTOR CTYPE="ROUTE" MIN_INPUT="0" MAX_INPUT="1"
+			MAX_OUTPUT="1" MIN_OUTPUT="0" />
+		<CONNECTOR CTYPE="ROUTE_WHEN" MAX_INPUT="1" MAX_OUTPUT="0" />
+		<CONNECTOR CTYPE="ROUTE_OTHER" MAX_INPUT="1" MAX_OUTPUT="0" />
+		<CONNECTOR CTYPE="ROUTE_TRY" MAX_INPUT="1" MAX_OUTPUT="0" />
+		<CONNECTOR CTYPE="ROUTE_CATCH" MAX_INPUT="1" MAX_OUTPUT="0" />
+		<CONNECTOR CTYPE="ROUTE_FINALLY" MAX_INPUT="1" MAX_OUTPUT="0" />
+		<CONNECTOR CTYPE="ROUTE_ENDBLOCK" MAX_INPUT="1" MAX_OUTPUT="0" />
+	</CONNECTORS>
+
+	<PARAMETERS>
+
+	    <PARAMETER NAME="AWS_CONNECTION_CLIENT" FIELD="ROUTE_COMPONENT_TYPE" FILTER="cAWSConnection" NUM_ROW="1"/>
+		        
+		<PARAMETER NAME="MESSAGE_HEADERS" FIELD="TABLE" NUM_ROW="120" NB_LINES="7" GROUP="MESSAGE_GROUP" REQUIRED="false" SHOW_IF="(#LINK@CONNECTOR.IN.ANY &gt; '0')">
+			<ITEMS>
+				<ITEM NAME="MESSAGE_HEADER" FIELD="OPENED_LIST">
+					<ITEMS DEFAULT="CamelAwsMQOperation">
+						<ITEM NAME="CamelAwsMQBrokerDeploymentMode" FIELD="TEXT" VALUE="CamelAwsMQBrokerDeploymentMode"/>
+						<ITEM NAME="CamelAwsMQBrokerEngine" FIELD="TEXT" VALUE="CamelAwsMQBrokerEngine"/>
+						<ITEM NAME="CamelAwsMQBrokerEngineVersion" FIELD="TEXT" VALUE="CamelAwsMQBrokerEngineVersion"/>
+						<ITEM NAME="CamelAwsMQBrokerId" FIELD="TEXT" VALUE="CamelAwsMQBrokerId" />
+						<ITEM NAME="CamelAwsMQBrokerInstanceType" FIELD="TEXT" VALUE="CamelAwsMQBrokerInstanceType"/>
+						<ITEM NAME="CamelAwsMQBrokerName" FIELD="TEXT" VALUE="CamelAwsMQBrokerName" />
+						<ITEM NAME="CamelAwsMQBrokerUserName" FIELD="TEXT" VALUE="CamelAwsMQBrokerUserName" />
+						<ITEM NAME="CamelAwsMQBrokerUserPassword" FIELD="TEXT" VALUE="CamelAwsMQBrokerUserPassword" />
+						<ITEM NAME="CamelAwsMQBrokerUserGroups" FIELD="TEXT" VALUE="CamelAwsMQBrokerUserGroups" />						
+						<ITEM NAME="CamelAwsMQBrokerUserConsoleAccess" FIELD="TEXT" VALUE="CamelAwsMQBrokerUserConsoleAccess" />
+						<ITEM NAME="CamelAwsMQOperation" FIELD="TEXT" VALUE="CamelAwsMQOperation" />
+						<ITEM NAME="CamelAwsMQMaxResults" FIELD="TEXT" VALUE="CamelAwsMQMaxResults"/>
+						<ITEM NAME="CamelAwsMQBrokerPubliclyAccessible" FIELD="TEXT" VALUE="CamelAwsMQBrokerPubliclyAccessible"/>
+					</ITEMS>
+				</ITEM>
+				<ITEM NAME="MESSAGE_HEADER_VALUE" />
+			</ITEMS>
+		</PARAMETER>
+
+    </PARAMETERS>
+
+	<ADVANCED_PARAMETERS>
+		<PARAMETER NAME="URI_OPTIONS" FIELD="TABLE" NUM_ROW="7"
+			NB_LINES="5">
+			<ITEMS>
+				<ITEM NAME="NAME" FIELD="TEXT">
+				</ITEM>
+				<ITEM NAME="VALUE" />
+			</ITEMS>
+		</PARAMETER>
+	</ADVANCED_PARAMETERS>
+
+	<CODEGENERATION>
+        <IMPORTS>
+            <IMPORT MODULE_GROUP="camel-core" REQUIRED="true" />
+            <IMPORT MODULE_GROUP="camel-spring" REQUIRED="true" />
+			<IMPORT MODULE_GROUP="camel-aws-mq" REQUIRED="true" />
+            <IMPORT MODULE_GROUP="aws-jackson" REQUIRED="true" />
+            
+            <IMPORT NAME="httpcore-4.4.6.jar" MODULE="httpcore-4.4.6.jar"
+                MVN="mvn:org.talend.libraries/httpcore-4.4.6/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.apache.http/lib/httpcore-4.4.6.jar"
+                REQUIRED="true" />
+            <IMPORT NAME="httpclient-4.5.3.jar" MODULE="httpclient-4.5.3.jar"
+                MVN="mvn:org.talend.libraries/httpclient-4.5.3/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.apache.http/lib/httpclient-4.5.3.jar"
+                REQUIRED="true" />
+            <IMPORT NAME="joda-time-2.8.1.jar" MODULE="joda-time-2.8.1.jar"
+                MVN="mvn:joda-time/joda-time/2.8.1"
+                REQUIRED="true" />
+            <IMPORT NAME="commons-logging-1.1.3.jar" MODULE="commons-logging-1.1.3.jar"
+                MVN="mvn:commons-logging/commons-logging/1.1.3"
+                UrlPath="platform:/plugin/org.talend.libraries.apache.common/lib/commons-logging-1.1.3.jar"
+                REQUIRED="true" />
+            <IMPORT NAME="commons-codec-1.6.jar" MODULE="commons-codec-1.6.jar"
+                MVN="mvn:org.talend.libraries/commons-codec-1.6/6.0.0"
+                UrlPath="platform:/plugin/org.talend.libraries.apache.common/lib/commons-codec-1.6.jar"
+                REQUIRED="true" />
+        </IMPORTS>
+	</CODEGENERATION>
+
+	<RETURNS />
+</COMPONENT>

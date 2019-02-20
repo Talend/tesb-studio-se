@@ -26,7 +26,7 @@
     <provided.lib.path>${current.bundle.resources.dir}/provided-lib</provided.lib.path>
     <current.int-resources.dir>${basedir}/src/main/resources</current.int-resources.dir>
     <talend.job.applyContextToChildren>false</talend.job.applyContextToChildren>
-    <talend.product.version>7.2.1</talend.product.version>
+    <talend.product.version>7.2.1.UT</talend.product.version>
     <output.resources.dir>${talend.job.name}/src/main/resources</output.resources.dir>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <current.bundle.resources.dir>${basedir}/src/main/bundle-resources</current.bundle.resources.dir>
@@ -47,8 +47,8 @@
     <talend.job.framework></talend.job.framework>
     <talend.job.jvmargs>-Xms256M -Xmx1024M -Dfile.encoding=UTF-8 </talend.job.jvmargs>
     <talend.job.type>Standard</talend.job.type>
-    <resources.path>${basedir}/src/main/resources</resources.path>
     <item.project.name>@ItemProjectName@</item.project.name>
+    <resources.path>${basedir}/src/main/resources</resources.path>
     <cloud.publisher.skip>true</cloud.publisher.skip>
   </properties>
   <dependencies>

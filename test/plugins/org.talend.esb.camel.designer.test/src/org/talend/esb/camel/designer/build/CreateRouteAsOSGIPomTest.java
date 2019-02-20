@@ -15,6 +15,7 @@ package org.talend.esb.camel.designer.build;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.osgi.framework.Bundle;
@@ -36,7 +38,9 @@ import org.talend.camel.core.model.camelProperties.CamelPropertiesFactory;
 import org.talend.camel.designer.build.CreateMavenBundlePom;
 import org.talend.camel.designer.runprocess.maven.BundleJavaProcessor;
 import org.talend.camel.designer.ui.editor.RouteProcess;
+import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.exception.PersistenceException;
+import org.talend.commons.utils.VersionUtils;
 import org.talend.commons.utils.workbench.resources.ResourceUtils;
 import org.talend.core.model.context.JobContext;
 import org.talend.core.model.context.JobContextManager;
@@ -49,6 +53,7 @@ import org.talend.core.runtime.repository.build.IMavenPomCreator;
 import org.talend.designer.core.model.utils.emf.talendfile.ProcessType;
 import org.talend.designer.core.model.utils.emf.talendfile.TalendFileFactory;
 import org.talend.designer.maven.model.TalendMavenConstants;
+import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.runprocess.IProcessor;
 import org.talend.repository.ProjectManager;
 
@@ -58,11 +63,24 @@ public class CreateRouteAsOSGIPomTest {
 
     private static final String TEST_ITEM_VERSION = "0.1"; //$NON-NLS-1$
 
+    private static String productVersion;
+
     @BeforeClass
-    public static void checkProjectName() {
+    public static void initAndCheckProject() {
         Project project = ProjectManager.getInstance().getCurrentProject();
         assertTrue("Test project name changed. Should be 'TEST_NOLOGIN': " + project.getLabel(),
                 "TEST_NOLOGIN".equals(project.getLabel()));
+        productVersion = VersionUtils.getDisplayVersion();
+        VersionUtils.clearCache();
+        PomIdsHelper.resetPreferencesManagers();
+        System.setProperty(VersionUtils.STUDIO_VERSION_PROP, productVersion + ".UT");
+    }
+
+    @AfterClass
+    public static void resetToDefault() {
+        VersionUtils.clearCache();
+        PomIdsHelper.resetPreferencesManagers();
+        System.setProperty(VersionUtils.STUDIO_VERSION_PROP, productVersion);
     }
 
     private IProcessor getProcessor(String name) {
@@ -127,14 +145,19 @@ public class CreateRouteAsOSGIPomTest {
         compareGeneratedFileWithReference(codeProject, string, File.separator + TalendMavenConstants.POM_FILE_NAME);
     }
 
-    private void initializeAndCompare(String testCaseName)
-            throws PersistenceException, Exception, IOException, CoreException {
+    private void initializeAndCompare(String testCaseName) throws PersistenceException, IOException, CoreException {
         IProcessor processor = getProcessor(testCaseName);
         Project project = ProjectManager.getInstance().getCurrentProject();
         IProject fsProject = ResourceUtils.getProject(project);
         IPath path = getPomPathForTest(testCaseName);
         IMavenPomCreator pomCreator = createPomCreator(processor, fsProject.getFile(path));
-        pomCreator.create(new NullProgressMonitor());
+        try {
+            pomCreator.create(new NullProgressMonitor());
+        } catch (Exception e) {
+            e.printStackTrace();
+            ExceptionHandler.process(e);
+            fail(e.getMessage());
+        }
         compareGeneratedFilesWithReference(processor.getCodeProject(),
                 testCaseName.toLowerCase() + UNDERSCORE + TEST_ITEM_VERSION);
     }
@@ -147,7 +170,7 @@ public class CreateRouteAsOSGIPomTest {
     // ---- TEST CASES BELOW
 
     @Test
-    public void demoRESTRouteAsOSGI() throws Exception {
+    public void demoRESTRouteAsOSGI() throws PersistenceException, IOException, CoreException {
         String testCaseName = "RouteAsOSGI"; //$NON-NLS-1$
         initializeAndCompare(testCaseName);
     }

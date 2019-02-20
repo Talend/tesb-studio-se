@@ -48,8 +48,8 @@
     <talend.job.framework></talend.job.framework>
     <talend.job.jvmargs>-Xms256M -Xmx1024M -Dfile.encoding=UTF-8 </talend.job.jvmargs>
     <talend.job.type>Standard</talend.job.type>
-    <resources.path>${basedir}/src/main/resources</resources.path>
     <item.project.name>@ItemProjectName@</item.project.name>
+    <resources.path>${basedir}/src/main/resources</resources.path>
     <cloud.publisher.skip>false</cloud.publisher.skip>
   </properties>
   <build>

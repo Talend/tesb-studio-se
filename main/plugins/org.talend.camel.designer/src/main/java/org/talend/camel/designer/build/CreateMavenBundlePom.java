@@ -539,7 +539,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         Xpp3Dom configuration = new Xpp3Dom("configuration");
 
         Xpp3Dom groupId = new Xpp3Dom("groupId");
-        groupId.setValue(bundleModel.getGroupId());//PomIdsHelper.getJobGroupId(job.getProcessItem().getProperty()));
+        groupId.setValue(PomIdsHelper.getJobGroupId(job.getProcessItem().getProperty())); // bundleModel.getGroupId()
 
         Xpp3Dom artifactId = new Xpp3Dom("artifactId");
         artifactId.setValue(bundleModel.getArtifactId() + "_" + job.getJobName());
@@ -576,7 +576,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
             }
 
             String pathToJar = relativeTargetDir + Path.SEPARATOR + job.getJobName()
-                    + ("OSGI".equals(buildType) ? "-bundle-" : "-")
+                    + ("OSGI".equals(buildType) || isRoutesSubjob() ? "-bundle-" : "-")
                     + PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()) + ".jar";
             
             
@@ -627,6 +627,22 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
             }
         }
         return false;
+    }
+
+    /**
+     * Checks if pom-file currently created is
+     * for job used in cTalendJob component.
+     * @return
+     */
+    private boolean isRoutesSubjob() {
+        Property property = getJobProcessor().getProperty();
+        Object buildType = property.getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
+        Object type = ERepositoryObjectType.getType(property);
+        if(buildType != null && buildType.equals("ROUTE") && type.equals(ERepositoryObjectType.PROCESS)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static IProcessor getProcessor(JobInfo jobInfo) {

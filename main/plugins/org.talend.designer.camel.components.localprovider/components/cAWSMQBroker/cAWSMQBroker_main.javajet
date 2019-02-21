@@ -1,0 +1,137 @@
+<%@ jet 
+imports="
+    org.talend.core.model.process.INode 
+    org.talend.core.model.process.ElementParameterParser 
+    org.talend.core.model.process.IConnection
+    org.talend.core.model.process.IElementParameter
+    org.talend.designer.codegen.config.CodeGeneratorArgument
+    org.talend.designer.codegen.config.CamelEndpointBuilder
+    java.util.List
+    java.util.Map
+    java.io.UnsupportedEncodingException
+    java.net.URLEncoder
+" 
+%>
+<%
+    CodeGeneratorArgument codeGenArgument = (CodeGeneratorArgument) argument;
+    INode node = (INode) codeGenArgument.getArgument();
+   	String cid = node.getUniqueName();
+
+	CamelEndpointBuilder builder = CamelEndpointBuilder.getBuilder();
+	
+	builder.setComponent("aws-mq");
+	builder.useDoubleSlash(false);
+	builder.setName("\""+cid + "\"");
+
+	String amazonMQClient = ElementParameterParser.getValue(node, "__AWS_CONNECTION_CLIENT__");
+	builder.addParam("amazonMqClient", "\"#cAWSMQBroker_" +amazonMQClient+"\"");
+	
+	List<Map<String, String>> tableValues = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__URI_OPTIONS__");
+	for (Map<String, String> map : tableValues) {
+       String argName = map.get("NAME").trim();
+       String argValue = map.get("VALUE").trim();
+       if(argName.startsWith("\"") && argName.endsWith("\"") && argName.length() >= 2) {
+           argName = argName.substring(1, argName.length() - 1);
+       }
+       builder.addParam(argName, argValue);
+	}
+
+	List<Map<String, String>> messageHeaders = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__MESSAGE_HEADERS__");
+	
+	String uri = builder.build();
+	
+	List< ? extends IConnection> conns = node.getIncomingConnections();	
+	
+	if(conns.size() > 0){
+	    StringBuilder sb1 = new StringBuilder();
+	    String userName = null;
+	    String userPassword = null;
+	    String userGroups = null;
+	    String userConsoleAccess = null;
+	    for (Map<String, String> map : messageHeaders) {
+	        String header = map.get("MESSAGE_HEADER");
+	        String value = map.get("MESSAGE_HEADER_VALUE");
+	        
+           if(map.get("MESSAGE_HEADER").equals("CamelAwsMQBrokerUserName")){
+               userName=value;
+               continue;
+           }
+           
+           if(map.get("MESSAGE_HEADER").equals("CamelAwsMQBrokerUserPassword")){
+               userPassword=value;
+               continue;
+           }
+           
+           if(map.get("MESSAGE_HEADER").equals("CamelAwsMQBrokerUserGroups")){
+               userGroups=value;
+               continue;
+           }
+
+           if(map.get("MESSAGE_HEADER").equals("CamelAwsMQBrokerUserConsoleAccess")){
+               userConsoleAccess=value;
+               continue;
+           } 
+            
+	        sb1.append(".setHeader(\"");
+	        sb1.append(header);
+	        sb1.append("\",");
+	        sb1.append("constant(");
+	        sb1.append(value);
+	        sb1.append("))");
+	    }
+	    
+%>
+          .process(new org.apache.camel.Processor() {
+                public void process(org.apache.camel.Exchange exchange) throws Exception {
+                    org.apache.camel.Message inMessage = exchange.getIn();
+                    java.util.List<com.amazonaws.services.mq.model.User> users = 
+                        new java.util.ArrayList<com.amazonaws.services.mq.model.User>();
+                    com.amazonaws.services.mq.model.User user = new com.amazonaws.services.mq.model.User();
+                    <%if (userName != null && !userName.isEmpty()){%>
+                    user.setUsername(<%=userName%>);         
+                    <%} else {%>
+                    Object userName = inMessage.getHeader("CamelAwsMQBrokerUserName");
+                    if (userName != null && userName instanceof String) {
+                        user.setUsername((String)userName);   
+                    }
+                    <%}%>               
+                    <%if (userPassword != null && !userPassword.isEmpty()){%>
+                    user.setPassword(<%=userPassword%>);          
+                    <%} else {%>
+                    Object userPassword = inMessage.getHeader("CamelAwsMQBrokerUserPassword");
+                    if (userPassword != null  && userPassword instanceof String) {
+                        user.setPassword((String)userPassword);   
+                    }
+                    <%}%>                      
+                    <%if (userGroups != null && !userGroups.isEmpty()){%>
+                    user.setGroups(java.util.Arrays.asList(<%=userGroups%>.split(",")));           
+                    <%} else {%>
+                    Object userGroups = inMessage.getHeader("CamelAwsMQBrokerUserGroups");
+                    if (userGroups != null && userGroups instanceof String) {
+                        user.setGroups(java.util.Arrays.asList(((String)userGroups).split(","))); 
+                    }
+                    <%}%>   
+                    <%if (userConsoleAccess != null && !userConsoleAccess.isEmpty()){%>
+                    user.setConsoleAccess(Boolean.valueOf(<%=userConsoleAccess%>));    
+                    <%} else {%>
+                    Object userConsoleAccess = inMessage.getHeader("CamelAwsMQBrokerUserConsoleAccess");
+                    if (userConsoleAccess != null) {
+                    	   if (userConsoleAccess instanceof Boolean) {
+                    	      user.setConsoleAccess((Boolean)userConsoleAccess);
+                    	   } else {
+                    	      user.setConsoleAccess(Boolean.parseBoolean(userConsoleAccess.toString()));
+                    	   }
+                    }
+                    <%}%>
+                    users.add(user);
+                    Object h = inMessage.getHeader("CamelAwsMQBrokerUsers");
+						  if (h !=null && h instanceof java.util.Collection) {
+						      users.addAll((java.util.Collection<com.amazonaws.services.mq.model.User>)h);
+						  }                    
+                    inMessage.setHeader("CamelAwsMQBrokerUsers", users);
+                }
+            })
+         
+	<%=sb1.toString()%>.to(<%=uri%>)
+
+<% } %>

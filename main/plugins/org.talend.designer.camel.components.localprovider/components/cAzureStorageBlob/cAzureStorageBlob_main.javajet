@@ -1,0 +1,349 @@
+<%@ jet 
+imports="
+    org.talend.core.model.process.INode 
+    org.talend.core.model.process.ElementParameterParser 
+    org.talend.core.model.process.IConnection
+    org.talend.core.model.process.IElementParameter
+    org.talend.designer.codegen.config.CodeGeneratorArgument
+    org.talend.designer.codegen.config.NodeParamsHelper    
+    org.talend.designer.codegen.config.CamelEndpointBuilder
+    java.util.List
+    java.util.Map
+    java.io.UnsupportedEncodingException
+    java.net.URLEncoder
+" 
+%>
+<%
+    CodeGeneratorArgument codeGenArgument = (CodeGeneratorArgument) argument;
+    INode node = (INode) codeGenArgument.getArgument();
+    String cid = node.getUniqueName();
+    NodeParamsHelper paramsHelper = new NodeParamsHelper(node);
+
+    CamelEndpointBuilder builder = CamelEndpointBuilder.getBuilder();
+
+	String accountName = ElementParameterParser.getValue(node, "__STORAGE_ACCOUNT_NAME__");
+    String containerName = ElementParameterParser.getValue(node, "__STORAGE_CONTAINER_NAME__");
+    String publicForRead = ElementParameterParser.getValue(node, "__PUBLIC_FOR_READ__");
+	 if ("true".equals(publicForRead)){
+	    builder.addParam("publicForRead", "\"" + publicForRead + "\"");
+	 }
+
+    builder.setComponent("azure-blob");
+    builder.useDoubleSlash(false);
+    builder.setName(accountName.concat("+\"/\"+").concat(containerName));
+
+	if ("false".equals(publicForRead)){
+	   builder.addParam("credentials", "\"#credentials_" + cid + "\"");
+	}
+	
+	String operation = ElementParameterParser.getValue(node, "__OPERATION__");
+	boolean setOperation = (operation !=null && !operation.isEmpty());
+	if (setOperation){
+	    builder.addParam("operation", "\"" + operation + "\"");
+	}
+	
+	String blobName  = ElementParameterParser.getValue(node, "__BLOB_NAME__");
+	boolean setBlobName = (blobName !=null && !blobName.isEmpty() && blobName !="\"\"");
+	if (setBlobName){
+	    builder.addParam("blobName", blobName);
+	}
+	
+	builder.addParam("blobType", "\"#blobType_" + cid + "\"");
+	
+	String blobOffset  = ElementParameterParser.getValue(node, "__BLOB_OFFSET__");
+	boolean setBlobOffset = (blobOffset !=null && !blobOffset.isEmpty() && blobOffset !="\"\"");
+	if (setBlobOffset){
+	    builder.addParam("blobOffset", blobOffset);
+	}	
+	
+	String closeStreamAfterRead = ElementParameterParser.getValue(node, "__CLOSE_STREAM_AFTER_READ__");
+    if ("true".equals(closeStreamAfterRead)) {
+        builder.addParam("closeStreamAfterRead", "\"" + closeStreamAfterRead + "\"");
+    }
+	
+	String closeStreamAfterWrite = ElementParameterParser.getValue(node, "__CLOSE_STREAM_AFTER_WRITE__");
+    if ("true".equals(closeStreamAfterWrite)) {
+        builder.addParam("closeStreamAfterWrite", "\"" + closeStreamAfterWrite + "\"");
+    }
+
+	String dataLength  = ElementParameterParser.getValue(node, "__DATA_LENGTH__");
+	boolean setDataLength = (dataLength !=null && !dataLength.isEmpty() && dataLength !="\"\"");
+	if (setDataLength){
+	    builder.addParam("dataLength", dataLength);
+	}		
+	
+	String fileDir  = ElementParameterParser.getValue(node, "__FILE_DIR__");
+	boolean setFileDir = (fileDir !=null && !fileDir.isEmpty() && fileDir !="\"\"");
+	if (setFileDir){
+	    builder.addParam("fileDir", fileDir);
+	}	
+
+	String bridgeErrorHandler = ElementParameterParser.getValue(node, "__BRIDGE_ERROR_HANDLER__");
+    if ("true".equals(bridgeErrorHandler)) {
+        builder.addParam("bridgeErrorHandler", "\"" + bridgeErrorHandler + "\"");
+    }
+	
+	List<Map<String, String>> blobMetadataList = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__BLOB_METADATA__");
+	if (blobMetadataList != null && !blobMetadataList.isEmpty()){
+		builder.addParam("blobMetadata", "\"#blobMetadata_" + cid + "\"");
+	}
+	
+	String streamReadSize  = ElementParameterParser.getValue(node, "__STREAM_READ_SIZE__");
+	boolean setStreamReadSize = (streamReadSize !=null && !streamReadSize.isEmpty() && streamReadSize !="\"\"" );
+	if (setStreamReadSize){
+	    builder.addParam("streamReadSize", streamReadSize );
+	}		
+	
+	String streamWriteSize  = ElementParameterParser.getValue(node, "__STREAM_WRITE_SIZE__");
+	boolean setStreamWriteSize = (streamWriteSize !=null && !streamWriteSize.isEmpty() && streamWriteSize !="\"\"" );
+	if (setStreamWriteSize){
+	    builder.addParam("streamWriteSize", streamWriteSize );
+	}		
+	
+	String useFlatListing = ElementParameterParser.getValue(node, "__USE_FLAT_LISTING__");
+    if ("true".equals(useFlatListing)) {
+        builder.addParam("useFlatListing", "\"" + useFlatListing + "\"");
+    }
+	
+	String synchronous = ElementParameterParser.getValue(node, "__SYNCHRONOUS__");
+    if ("true".equals(synchronous)) {
+        builder.addParam("synchronous", "\"" + synchronous + "\"");
+    }
+	
+	String blobPrefix  = ElementParameterParser.getValue(node, "__BLOB_PREFIX__");
+	boolean setBlobPrefix = (blobPrefix !=null && !blobPrefix.isEmpty() && blobPrefix !="\"\"");
+	if (setBlobPrefix){
+	    builder.addParam("blobPrefix", blobPrefix );
+	}	
+	
+    List<Map<String, String>> tableValues = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__URI_OPTIONS__");
+    for (Map<String, String> map : tableValues) {
+        String argName = map.get("NAME").trim();
+        String argValue = map.get("VALUE").trim();
+        if(argName.startsWith("\"") && argName.endsWith("\"") && argName.length() >= 2) {
+            argName = argName.substring(1, argName.length() - 1);
+        }
+        builder.addParam(argName, argValue);
+    }
+
+	
+	String setCustomMessageHeaders = ElementParameterParser.getValue(node, "__SET_CUSTOM_MESSAGE_HEADERS__");
+	List<Map<String, String>> messageHeaders = new java.util.ArrayList<Map<String, String>>();
+    if ("true".equals(setCustomMessageHeaders)) {
+        messageHeaders = (List<Map<String, String>>) ElementParameterParser.getObjectValue(node, "__MESSAGE_HEADERS__");
+    }
+
+    String uri = builder.build();
+   
+    List< ? extends IConnection> conns = node.getIncomingConnections();
+
+    if (conns.size() > 0 && messageHeaders.size() > 0) {
+        StringBuilder sb1 = new StringBuilder();
+        for (Map<String, String> map : messageHeaders) {
+            String header = map.get("MESSAGE_HEADER");
+            String value = map.get("MESSAGE_HEADER_VALUE");
+
+            sb1.append(".setHeader(\"");
+            sb1.append(header);
+            sb1.append("\",");
+            sb1.append("constant(");
+            sb1.append(value);
+            sb1.append("))");
+        }
+%>
+    <%=sb1.toString()%>.to(<%=uri%>)
+
+<% } else { %>
+    <%
+        if(conns.size()>0) {
+    %>
+            .process(new org.apache.camel.Processor() {
+                public void process(org.apache.camel.Exchange exchange) throws Exception {
+                    org.apache.camel.Message inMessage = exchange.getIn();
+                <%                    
+                String pageBlobSize = paramsHelper.getVisibleStringParam("__PAGE_BLOB_SIZE__");
+				boolean setPageBlobSize = (pageBlobSize !=null && !pageBlobSize.isEmpty() && pageBlobSize !="\"\"" );
+                if (setPageBlobSize) {
+                %>
+				inMessage.setHeader("pageBlobSize", Long.valueOf(<%=pageBlobSize%>));
+				<%}%>	
+                <%                    
+                String setAccessConditions = ElementParameterParser.getValue(node, "__SET_ACCESS_CONDITIONS__");
+                if ("true".equals(setAccessConditions)) {
+                %>              
+                   com.microsoft.azure.storage.AccessCondition ac = 
+                        com.microsoft.azure.storage.AccessCondition.generateEmptyCondition();
+                <%
+                   String ifMatchETag  = paramsHelper.getVisibleStringParam("__IF_MATCH_CONDITION__");
+                   boolean setIfMatchETag = (ifMatchETag !=null && !ifMatchETag.isEmpty() && ifMatchETag !="\"\"" );
+                   
+                   String ifNoneMatchETag  = paramsHelper.getVisibleStringParam("__IF_NONE_MATCH_CONDITION__");
+                   boolean setIfNoneMatch = (ifNoneMatchETag !=null && !ifNoneMatchETag.isEmpty() && ifNoneMatchETag !="\"\"" );
+
+                   String ifModifiedSinceDate  = paramsHelper.getVisibleStringParam("__IF_MODIFIED_SINCE_CONDITION__");
+                   boolean setIfModifiedSinceDate = (ifModifiedSinceDate !=null && !ifModifiedSinceDate.isEmpty() && ifModifiedSinceDate !="\"\"" );
+
+                   String ifUnmodifiedSinceDate  = paramsHelper.getVisibleStringParam("__IF_NOT_MODIFIED_SINCE_CONDITION__");
+                   boolean setIfUnmodifiedSinceDate = (ifUnmodifiedSinceDate !=null && !ifUnmodifiedSinceDate.isEmpty() && ifUnmodifiedSinceDate !="\"\"" );
+
+                   String leaseID  = paramsHelper.getVisibleStringParam("__LEASE_CONDITION__");
+                   boolean setLeaseID = (leaseID !=null && !leaseID.isEmpty() && leaseID !="\"\"" );
+                   
+                   String ifSequenceNumberLessThanOrEqual  = paramsHelper.getVisibleStringParam("__IF_SEQUENCE_NUMBER_LESS_THAN_OR_EQUAL_CONDITION__");
+                   boolean setIfSequenceNumberLessThanOrEqual = (ifSequenceNumberLessThanOrEqual !=null && !ifSequenceNumberLessThanOrEqual.isEmpty() && ifSequenceNumberLessThanOrEqual !="\"\"" );                   
+
+                   String ifSequenceNumberLessThan  = paramsHelper.getVisibleStringParam("__IF_SEQUENCE_NUMBER_LESS_THAN_CONDITION__");
+                   boolean setIfSequenceNumberLessThan = (ifSequenceNumberLessThan !=null && !ifSequenceNumberLessThan.isEmpty() && ifSequenceNumberLessThan !="\"\"" );                   
+
+                   String ifSequenceNumberEqual  = paramsHelper.getVisibleStringParam("__IF_SEQUENCE_NUMBER_EQUAL_CONDITION__");
+                   boolean setIfSequenceNumberEqual = (ifSequenceNumberEqual !=null && !ifSequenceNumberEqual.isEmpty() && ifSequenceNumberEqual !="\"\"" );                   
+
+                   String ifAppendPositionEqual  = paramsHelper.getVisibleStringParam("__IF_APPEND_POSITION_EQUAL_CONDITION__");
+                   boolean setIfAppendPositionEqual = (ifAppendPositionEqual !=null && !ifAppendPositionEqual.isEmpty() && ifAppendPositionEqual !="\"\"" );                   
+
+                 %>
+                    <%if (setIfAppendPositionEqual) { %>
+                    ac.setIfAppendPositionEqual(Long.valueOf(<%=ifAppendPositionEqual%>));
+                    <%}%>
+                    <%if (setIfMatchETag) { %>
+                    ac.setIfMatch(<%=ifMatchETag%>);
+                    <%}%>
+                    <%if (setIfNoneMatch) { %>
+                    ac.setIfNoneMatch(<%=ifNoneMatchETag%>);
+                    <%}%>
+                    <%if (setIfModifiedSinceDate) { %>
+                    ac.setIfModifiedSinceDate((new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z")).parse(<%=ifModifiedSinceDate%>));
+                    <%}%>
+                    <%if (setIfUnmodifiedSinceDate) { %>
+                    ac.setIfUnmodifiedSinceDate((new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS Z")).parse(<%=ifUnmodifiedSinceDate%>));
+                    <%}%>
+                    <%if (setLeaseID) { %>
+                    ac.setLeaseID(<%=leaseID%>);
+                    <%}%>
+                    <%if (setIfSequenceNumberLessThanOrEqual) { %>
+                    ac.setIfSequenceNumberLessThanOrEqual(Long.valueOf(<%=ifSequenceNumberLessThanOrEqual%>));
+                    <%}%>
+                    <%if (setIfSequenceNumberLessThan) { %>
+                    ac.setIfSequenceNumberLessThan(Long.valueOf(<%=ifSequenceNumberLessThan%>));
+                    <%}%>                     
+                    <%if (setIfSequenceNumberEqual) { %>
+                    ac.setIfSequenceNumberEqual(Long.valueOf(<%=ifSequenceNumberEqual%>));
+                    <%}%> 
+                    inMessage.setHeader("BlobAccessCondition", ac);
+                <%}%>					
+                <%                    
+                String setRequestOptions = ElementParameterParser.getValue(node, "__SET_REQUEST_OPTIONS__");
+                if ("true".equals(setRequestOptions)) {
+                %>
+
+                    com.microsoft.azure.storage.blob.BlobRequestOptions ro = 
+                        new com.microsoft.azure.storage.blob.BlobRequestOptions();
+					
+				    <%
+					String setAbsorbConditionalErrorsOnRetry = ElementParameterParser.getValue(node, "__ABSORB_CONDITIONAL_ERRORS_ON_RETRY__");
+                    String concurrentRequestCount  = paramsHelper.getVisibleStringParam("__CONCURRENT_REQUEST_COUNT__");
+                    boolean setConcurrentRequestCount = (concurrentRequestCount !=null && !concurrentRequestCount.isEmpty() && concurrentRequestCount !="\"\"" );                   
+				
+				    String useTransactionalContentMD5  =  ElementParameterParser.getValue(node, "__USE_TRANSACTIONAL_CONTENT_MD5__");
+				    String storeBlobContentMD5  = ElementParameterParser.getValue(node, "__STORE_BLOB_CONTENT_MD5__");
+				    String disableContentMD5Validation  = ElementParameterParser.getValue(node, "__DISABLE_CONTENT_MD5_VALIDATION__");
+				
+				    String singleBlobPutTresholdInBytes  = ElementParameterParser.getValue(node, "__SINGLE_BLOB_PUT_TRESHOLD_IN_BYTES__");
+				    boolean setSingleBlobPutTresholdInBytes = (singleBlobPutTresholdInBytes !=null && !singleBlobPutTresholdInBytes.isEmpty() && singleBlobPutTresholdInBytes !="\"\"" );
+				    %>
+					
+				    <%				
+				    if ("true".equals(setAbsorbConditionalErrorsOnRetry)) {
+                    %> 
+				    ro.setAbsorbConditionalErrorsOnRetry(true);
+				    <%}%>					
+					
+				    <%				
+				    if (setConcurrentRequestCount) {
+                    %> 
+				    ro.setConcurrentRequestCount(Integer.valueOf(<%=concurrentRequestCount%>));
+				    <%}%>
+					
+				    <%
+				    if ("true".equals(useTransactionalContentMD5)) {
+                    %> 
+				    ro.setUseTransactionalContentMD5(true);
+				    <%}%>
+					
+				    <%
+				    if ("true".equals(storeBlobContentMD5)) {
+                    %> 
+				    ro.setStoreBlobContentMD5(true);
+				    <%}%>
+					
+				    <%
+				    if ("true".equals(disableContentMD5Validation)) {
+                    %> 
+				    ro.setDisableContentMD5Validation(true);
+				    <%}%>
+					
+				    <%
+				    if (setSingleBlobPutTresholdInBytes) {
+                    %> 
+				    ro.setSingleBlobPutThresholdInBytes(Integer.valueOf(<%=singleBlobPutTresholdInBytes%>));
+				    <%}%>
+					
+                    inMessage.setHeader("BlobRequestOptions", ro);	
+					
+                <%}%>
+				
+                <%                    
+                String setOperationContext = ElementParameterParser.getValue(node, "__SET_OPERATION_CONTEXT__");
+                if ("true".equals(setOperationContext)) {
+                %>
+
+                    com.microsoft.azure.storage.OperationContext oc = 
+                        new com.microsoft.azure.storage.OperationContext();
+					
+				    <%
+				    String enableLogging  = ElementParameterParser.getValue(node, "__ENABLE_LOGGING__");
+					
+					String useProxy  = ElementParameterParser.getValue(node, "__USE_PROXY__");
+					String proxyType  = ElementParameterParser.getValue(node, "__PROXY_TYPE__");
+					String proxyHost  = ElementParameterParser.getValue(node, "__PROXY_HOST__");
+					String proxyPort  = ElementParameterParser.getValue(node, "__PROXY_PORT__");
+				
+				    String clientTimeInMs  = ElementParameterParser.getValue(node, "__CLIENT_TIME_IN_MS__");
+				    boolean setClientTimeInMs = (clientTimeInMs !=null && !clientTimeInMs.isEmpty() && clientTimeInMs !="\"\"" );
+				    %>
+					
+				    <%				
+				    if ("true".equals(enableLogging)) {
+                    %> 
+				    oc.setLoggingEnabled(true);
+				    <%}%>					
+					
+				    <%
+				    if (setClientTimeInMs) {
+                    %> 
+				    oc.setClientTimeInMs(Long.valueOf(<%=clientTimeInMs%>));
+				    <%}%>
+					
+				    <%				
+				    if ("true".equals(useProxy)) {
+                    %> 
+				    oc.setProxy(new java.net.Proxy(java.net.Proxy.Type.<%=proxyType%>, new java.net.InetSocketAddress(<%=proxyHost%>, Integer.valueOf(<%=proxyPort%>))));
+				    <%}%>					
+					
+                    inMessage.setHeader("BlobOperationContext", oc);	
+					
+                <%}%>				
+				
+				
+				
+                }
+            })    
+            .to(<%=uri%>)
+    <%
+        } else {
+    %>
+            from(<%=uri%>)
+    <%
+        }
+    %>
+<%}%>

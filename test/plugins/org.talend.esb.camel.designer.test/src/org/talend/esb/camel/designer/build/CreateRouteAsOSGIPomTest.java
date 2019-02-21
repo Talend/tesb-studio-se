@@ -41,6 +41,7 @@ import org.talend.camel.designer.ui.editor.RouteProcess;
 import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.exception.PersistenceException;
 import org.talend.commons.utils.VersionUtils;
+
 import org.talend.commons.utils.workbench.resources.ResourceUtils;
 import org.talend.core.model.context.JobContext;
 import org.talend.core.model.context.JobContextManager;
@@ -53,7 +54,9 @@ import org.talend.core.runtime.repository.build.IMavenPomCreator;
 import org.talend.designer.core.model.utils.emf.talendfile.ProcessType;
 import org.talend.designer.core.model.utils.emf.talendfile.TalendFileFactory;
 import org.talend.designer.maven.model.TalendMavenConstants;
+
 import org.talend.designer.maven.utils.PomIdsHelper;
+
 import org.talend.designer.runprocess.IProcessor;
 import org.talend.repository.ProjectManager;
 
@@ -62,6 +65,7 @@ public class CreateRouteAsOSGIPomTest {
     private static final String UNDERSCORE = "_"; //$NON-NLS-1$
 
     private static final String TEST_ITEM_VERSION = "0.1"; //$NON-NLS-1$
+
 
     private static String productVersion;
 

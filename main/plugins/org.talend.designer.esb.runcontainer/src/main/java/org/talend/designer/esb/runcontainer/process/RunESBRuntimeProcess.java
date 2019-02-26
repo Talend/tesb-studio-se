@@ -256,8 +256,8 @@ public class RunESBRuntimeProcess extends Process {
             exportChoiceMap.put(ExportChoice.needJobScript, true);
             exportChoiceMap.put(ExportChoice.doNotCompileCode, false);
             exportChoiceMap.put(ExportChoice.needDependencies, false);
-            exportChoiceMap.put(ExportChoice.addStatistics, true);
-            exportChoiceMap.put(ExportChoice.addTracs, true);
+            exportChoiceMap.put(ExportChoice.addStatistics, exportType == JobExportType.ROUTE);
+            exportChoiceMap.put(ExportChoice.addTracs, exportType == JobExportType.ROUTE);
             exportChoiceMap.put(ExportChoice.needAntScript, false);
             exportChoiceMap.put(ExportChoice.needMavenScript, false);
             exportChoiceMap.put(ExportChoice.applyToChildren, false);
@@ -277,7 +277,7 @@ public class RunESBRuntimeProcess extends Process {
                 parameters.put(IBuildJobParameters.CONTEXT_GROUP, IContext.DEFAULT);
                 parameters.put(IBuildJobParameters.CHOICE_OPTION, exportChoiceMap);
 
-                AbstractBuildProvider buildProvider = BuildExportManager.getInstance().getBuildProvider("Service", parameters);
+                AbstractBuildProvider buildProvider = BuildExportManager.getInstance().getBuildProvider("SERVICE", parameters);
 
                 IBuildJobHandler buildServiceHandler = (IBuildJobHandler) buildProvider.createBuildExportHandler(parameters);
                 buildServiceHandler.prepare(monitor, parameters);

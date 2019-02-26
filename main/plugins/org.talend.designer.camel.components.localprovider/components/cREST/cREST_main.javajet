@@ -43,40 +43,41 @@ imports="
 
 <%
     String endpointUrlRT = ElementParameterParser.getValue(node, "__URL__");
-
     String endpointUrlStudio = endpointUrlRT;
+	
+	String defaultUri = (String) System.getProperties().get("restServiceDefaultUri");
 
     if(isProvider) {
 
         if (endpointUrlRT != null && !endpointUrlRT.trim().isEmpty() && !endpointUrlRT.contains("://")) {
+		
             if (endpointUrlRT.startsWith("\"/services")) {
                 endpointUrlRT = endpointUrlRT.replaceFirst("/services","");
             }
-            if (!endpointUrlRT.startsWith("/")) {
-                if(!endpointUrlRT.startsWith("context.")){
-                    endpointUrlRT = endpointUrlRT;
-                }
-            }
+			
         }
-        String defaultUri = (String) System.getProperties().get("restServiceDefaultUri");
+        
         if (defaultUri != null && defaultUri.endsWith("/")) {
-            defaultUri = defaultUri.substring(0, defaultUri.length()-1);
+            defaultUri = defaultUri.substring(0, defaultUri.length() - 1);
         }
+		
         if (null == defaultUri || defaultUri.trim().isEmpty() || !defaultUri.contains("://")) {
             defaultUri = "http://127.0.0.1:8090";
         }
+		
         String defaultEndpointUrl = "\""+defaultUri+"\"";
 
         if (null == endpointUrlStudio || endpointUrlStudio.trim().isEmpty()) {
+		
             endpointUrlStudio = defaultEndpointUrl;
-        } else if (!endpointUrlStudio.contains("://")) { // relative
-            if (endpointUrlStudio.startsWith("/")) {
-                endpointUrlStudio = endpointUrlStudio.substring(1);
+			
+        } else if (!endpointUrlStudio.contains("://")) { // relative or context variable
+		
+            if (!endpointUrlStudio.contains("context.") && !endpointUrlStudio.startsWith("/")) {
+                endpointUrlStudio = "/" + endpointUrlStudio;
             }
 
-            if(!endpointUrlStudio.startsWith("context.")){
-            	endpointUrlStudio = defaultEndpointUrl + "+" + endpointUrlStudio;
-            }
+           	endpointUrlStudio = defaultEndpointUrl + "+" + endpointUrlStudio;
         }
 
         boolean isTestContainer = ProcessUtils.isTestContainer(process);
@@ -158,6 +159,7 @@ imports="
     String responseClass = "javax.ws.rs.core.Response.class";
     if (node.getIncomingConnections().isEmpty()) {
 %>
+
         from(inOSGi || inMS ?<%=uriRT%>:<%=uriStudio%>)
         .process(new org.apache.camel.Processor() {
                 public void process(org.apache.camel.Exchange exchange) throws Exception {

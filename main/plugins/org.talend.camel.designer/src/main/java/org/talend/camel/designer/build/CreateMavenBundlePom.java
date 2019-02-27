@@ -40,7 +40,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.talend.camel.core.model.camelProperties.RouteletProcessItem;
 import org.talend.camel.designer.ui.editor.RouteProcess;
 import org.talend.commons.exception.ExceptionHandler;
 import org.talend.core.CorePlugin;
@@ -53,7 +52,6 @@ import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.Property;
 import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.runtime.maven.MavenConstants;
-import org.talend.core.runtime.process.LastGenerationInfo;
 import org.talend.core.runtime.process.TalendProcessArgumentConstant;
 import org.talend.core.runtime.projectsetting.IProjectSettingPreferenceConstants;
 import org.talend.core.runtime.projectsetting.IProjectSettingTemplateConstants;
@@ -272,18 +270,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 if(property != null) {
                     buildType = (String) property.getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
                 }
-
-                JobInfo mainJobInfo = LastGenerationInfo.getInstance().getLastMainJob();
-
-                boolean needOSGIProcessor = true;
-
-                if (mainJobInfo != null && mainJobInfo.getJobId().equals(property.getId())) {
-                    needOSGIProcessor = false;
-                }
-
-                Dependency d = PomUtil.createDependency(groupId,
-                        ("OSGI".equals(buildType) || needOSGIProcessor) && isJob(jobInfo) ? artifactId + "-bundle" : artifactId,
-                        version, type);
+                Dependency d = PomUtil.createDependency(groupId, "OSGI".equals(buildType) && isJob(jobInfo) ? artifactId + "-bundle" : artifactId, version, type);
                 dependencies.add(d);
             }
         }
@@ -588,17 +575,8 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 buildType = (String) property.getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
             }
 
-            JobInfo mainJobInfo = LastGenerationInfo.getInstance().getLastMainJob();
-
-            boolean needOSGIProcessor = true;
-
-            if ((mainJobInfo != null && mainJobInfo.getJobId().equals(property.getId()))
-                    || property.getItem() instanceof RouteletProcessItem) {
-                needOSGIProcessor = false;
-            }
-
             String pathToJar = relativeTargetDir + Path.SEPARATOR + job.getJobName()
-                    + (("OSGI".equals(buildType) || needOSGIProcessor) || isRoutesSubjob() ? "-bundle-" : "-")
+                    + ("OSGI".equals(buildType) || isRoutesSubjob() ? "-bundle-" : "-")
                     + PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()) + ".jar";
             
             

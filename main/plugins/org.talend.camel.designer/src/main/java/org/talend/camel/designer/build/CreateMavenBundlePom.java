@@ -118,26 +118,29 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         if (containsTdmCamelDependency && tdmDIDependency != null) {
             bundleModel.getDependencies().remove(tdmDIDependency);
         }
-            
+
         IContainer parent = curPomFile.getParent();
 
         Model pom = new Model();
 
-        boolean route = "CAMEL".equals(getJobProcessor().getProcess().getComponentsType())
-                && ERepositoryObjectType.getType(getJobProcessor().getProperty()).equals(ERepositoryObjectType.PROCESS_ROUTE);
-        
+        boolean route = "CAMEL".equals(getJobProcessor().getProcess().getComponentsType()) && ERepositoryObjectType
+                .getType(getJobProcessor().getProperty())
+                .equals(ERepositoryObjectType.PROCESS_ROUTE);
+
         Parent parentPom = new Parent();
         parentPom.setGroupId(bundleModel.getGroupId());
         parentPom.setArtifactId(bundleModel.getArtifactId() + "-Kar");
         parentPom.setVersion(bundleModel.getVersion());
         parentPom.setRelativePath("/");
-        
+
         if (route) {
 
             RouteProcess routeProcess = (RouteProcess) getJobProcessor().getProcess();
 
             boolean publishAsSnapshot = BooleanUtils
-                    .toBoolean((String) routeProcess.getAdditionalProperties().get(MavenConstants.NAME_PUBLISH_AS_SNAPSHOT));
+                    .toBoolean((String) routeProcess
+                            .getAdditionalProperties()
+                            .get(MavenConstants.NAME_PUBLISH_AS_SNAPSHOT));
 
             File featurePom = new File(parent.getLocation().toOSString() + File.separator + "pom-feature.xml");
 
@@ -152,11 +155,10 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
 
             featureModel.setVersion(bundleModel.getVersion());
             featureModel.setPackaging("pom");
-            
+
             featureModel.setProperties(bundleModel.getProperties());
             featureModel.addProperty("cloud.publisher.skip", "false");
             Build featureModelBuild = new Build();
-
 
             Set<JobInfo> subjobs = getJobProcessor().getBuildChildrenJobs();
             if (subjobs != null && !subjobs.isEmpty()) {
@@ -167,9 +169,11 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                     }
                 }
             }
-            featureModelBuild.addPlugin(addFeaturesMavenPlugin(bundleModel.getProperties().getProperty("talend.job.finalName")));
+            featureModelBuild
+                    .addPlugin(addFeaturesMavenPlugin(bundleModel.getProperties().getProperty("talend.job.finalName")));
 
-            // featureModelBuild.addPlugin(addDeployFeatureMavenPlugin(featureModel.getArtifactId(), featureModel.getVersion(), publishAsSnapshot));
+            // featureModelBuild.addPlugin(addDeployFeatureMavenPlugin(featureModel.getArtifactId(),
+            // featureModel.getVersion(), publishAsSnapshot));
             featureModelBuild.addPlugin(addSkipDeployFeatureMavenPlugin());
             featureModelBuild.addPlugin(addSkipMavenCleanPlugin());
             featureModel.setBuild(featureModelBuild);
@@ -204,7 +208,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         bundleModel.setName(bundleModel.getName() + " Bundle");
 
         updateBundleMainfest(bundleModel);
-        
+
         PomUtil.savePom(monitor, bundleModel, pomBundle);
 
         PomUtil.savePom(monitor, pom, curPomFile);
@@ -213,7 +217,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
 
         afterCreate(monitor);
     }
-    
+
     protected void updateBundleMainfest(Model bundleModel) {
         // do nothing for route
     }
@@ -267,32 +271,41 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                     version = PomIdsHelper.getJobletVersion(property);
                     type = MavenConstants.PACKAGING_POM;
                 }
-                if(property != null) {
-                    buildType = (String) property.getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
+                if (property != null) {
+                    buildType = (String) property
+                            .getAdditionalProperties()
+                            .get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
                 }
-                Dependency d = PomUtil.createDependency(groupId, "OSGI".equals(buildType) && isJob(jobInfo) ? artifactId + "-bundle" : artifactId, version, type);
+                Dependency d = PomUtil
+                        .createDependency(groupId,
+                                "OSGI".equals(buildType) && isJob(jobInfo) ? artifactId + "-bundle" : artifactId,
+                                version, type);
                 dependencies.add(d);
             }
         }
     }
 
-    protected void generateAssemblyFile(IProgressMonitor monitor, final Set<JobInfo> clonedChildrenJobInfors) throws Exception {
+    @Override
+    protected void generateAssemblyFile(IProgressMonitor monitor, final Set<JobInfo> clonedChildrenJobInfors)
+            throws Exception {
         IFile assemblyFile = this.getAssemblyFile();
         if (assemblyFile != null) {
             // read template from project setting
             try {
-                File templateFile = PomUtil.getTemplateFile(getObjectTypeFolder(), getItemRelativePath(),
-                        TalendMavenConstants.ASSEMBLY_FILE_NAME);
+                File templateFile = PomUtil
+                        .getTemplateFile(getObjectTypeFolder(), getItemRelativePath(),
+                                TalendMavenConstants.ASSEMBLY_FILE_NAME);
                 if (!FilesUtils.allInSameFolder(templateFile, TalendMavenConstants.POM_FILE_NAME)) {
                     templateFile = null; // force to set null, in order to use the template from other places.
                 }
 
                 final Map<String, Object> templateParameters = PomUtil.getTemplateParameters(getJobProcessor());
-                String content = MavenTemplateManager.getTemplateContent(templateFile,
-                        IProjectSettingPreferenceConstants.TEMPLATE_ROUTE_ASSEMBLY, JOB_TEMPLATE_BUNDLE,
-                        IProjectSettingTemplateConstants.PATH_OSGI_BUNDLE + '/'
-                                + IProjectSettingTemplateConstants.ASSEMBLY_ROUTE_TEMPLATE_FILE_NAME,
-                        templateParameters);
+                String content = MavenTemplateManager
+                        .getTemplateContent(templateFile, IProjectSettingPreferenceConstants.TEMPLATE_ROUTE_ASSEMBLY,
+                                JOB_TEMPLATE_BUNDLE,
+                                IProjectSettingTemplateConstants.PATH_OSGI_BUNDLE + '/'
+                                        + IProjectSettingTemplateConstants.ASSEMBLY_ROUTE_TEMPLATE_FILE_NAME,
+                                templateParameters);
                 if (content != null) {
                     ByteArrayInputStream source = new ByteArrayInputStream(content.getBytes());
                     if (assemblyFile.exists()) {
@@ -320,8 +333,9 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         deployFeatureActivation.setProperty(activationProperty2);
         deployFeatureProfile.setActivation(deployFeatureActivation);
         Build deployFeatureBuild = new Build();
-        deployFeatureBuild.addPlugin(
-                addDeployFeatureMavenPlugin(featureModel.getArtifactId(), featureModel.getVersion(), publishAsSnapshot));
+        deployFeatureBuild
+                .addPlugin(addDeployFeatureMavenPlugin(featureModel.getArtifactId(), featureModel.getVersion(),
+                        publishAsSnapshot));
         deployFeatureProfile.setBuild(deployFeatureBuild);
         return deployFeatureProfile;
     }
@@ -341,7 +355,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         deployCloudProfile.getBuild().addPlugin(addSkipDeployFeatureMavenPlugin());
         return deployCloudProfile;
     }
-    
+
     private Plugin addFeaturesMavenPlugin(String finalNameValue) {
         Plugin plugin = new Plugin();
 
@@ -405,12 +419,14 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         packaging.setValue("xml");
 
         Xpp3Dom repositoryId = new Xpp3Dom("repositoryId");
-        repositoryId.setValue(publishAsSnapshot ? "${project.distributionManagement.snapshotRepository.id}"
-                : "${project.distributionManagement.repository.id}");
+        repositoryId
+                .setValue(publishAsSnapshot ? "${project.distributionManagement.snapshotRepository.id}"
+                        : "${project.distributionManagement.repository.id}");
 
         Xpp3Dom url = new Xpp3Dom("url");
-        url.setValue(publishAsSnapshot ? "${project.distributionManagement.snapshotRepository.url}"
-                : "${project.distributionManagement.repository.url}");
+        url
+                .setValue(publishAsSnapshot ? "${project.distributionManagement.snapshotRepository.url}"
+                        : "${project.distributionManagement.repository.url}");
 
         configuration.addChild(file);
         configuration.addChild(groupId);
@@ -429,7 +445,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         pluginExecution.setConfiguration(configuration);
 
         pluginExecutions.add(pluginExecution);
-        
+
         // deploy features to nexus server
         Set<JobInfo> subjobs = getJobProcessor().getBuildChildrenJobs();
         if (subjobs != null && !subjobs.isEmpty()) {
@@ -439,11 +455,14 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                     Xpp3Dom subjobFile = new Xpp3Dom("file");
                     boolean addFile = false;
                     if (getJobProcessor() != null && getProcessor(subjob) != null) {
-                        IPath currentProjectRootDir = getTalendJobJavaProject(getJobProcessor()).getProject().getLocation();
+                        IPath currentProjectRootDir =
+                                getTalendJobJavaProject(getJobProcessor()).getProject().getLocation();
                         IPath targetDir = getTalendJobJavaProject(getProcessor(subjob)).getTargetFolder().getLocation();
                         String relativeTargetDir = targetDir.makeRelativeTo(currentProjectRootDir).toString();
 
-                        if (!ProjectManager.getInstance().isInCurrentMainProject(subjob.getProcessItem().getProperty())) {
+                        if (!ProjectManager
+                                .getInstance()
+                                .isInCurrentMainProject(subjob.getProcessItem().getProperty())) {
                             // this job/routelet is from a reference project
                             currentProjectRootDir = new Path(currentProjectRootDir.getDevice(),
                                     currentProjectRootDir.toString().replaceAll("/\\d+/", "/"));
@@ -459,10 +478,11 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                             property = subjob.getJobletProperty();
                         }
                         if (property != null) {
-                            buildType = (String) property.getAdditionalProperties()
+                            buildType = (String) property
+                                    .getAdditionalProperties()
                                     .get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
                         }
-                        
+
                         String pathToJar = "OSGI".equals(buildType)
                                 ? relativeTargetDir + Path.SEPARATOR + subjob.getJobName() + "-bundle-"
                                         + PomIdsHelper.getJobVersion(subjob.getProcessItem().getProperty()) + ".jar"
@@ -473,7 +493,8 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                     }
                     if (addFile) {
                         PluginExecution pluginDeployExecution = new PluginExecution();
-                        pluginDeployExecution.setId("deploy-" + bundleModel.getArtifactId() + "_" + subjob.getJobName());
+                        pluginDeployExecution
+                                .setId("deploy-" + bundleModel.getArtifactId() + "_" + subjob.getJobName());
                         pluginDeployExecution.setPhase("deploy");
                         pluginDeployExecution.addGoal("deploy-file");
 
@@ -502,9 +523,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 }
             }
         }
-        
-        
-        
+
         plugin.setExecutions(pluginExecutions);
 
         return plugin;
@@ -557,11 +576,12 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
             IPath currentProjectRootDir = getTalendJobJavaProject(getJobProcessor()).getProject().getLocation();
             IPath targetDir = getTalendJobJavaProject(getProcessor(job)).getTargetFolder().getLocation();
             String relativeTargetDir = targetDir.makeRelativeTo(currentProjectRootDir).toString();
-            
-            if(!ProjectManager.getInstance().isInCurrentMainProject(job.getProcessItem().getProperty())) {
+
+            if (!ProjectManager.getInstance().isInCurrentMainProject(job.getProcessItem().getProperty())) {
                 // this job/routelet is from a reference project
-                currentProjectRootDir = new Path(currentProjectRootDir.getDevice()  ,currentProjectRootDir.toString().replaceAll("/\\d+/", "/"));
-                targetDir = new Path(targetDir.getDevice()  ,targetDir.toString().replaceAll("/\\d+/", "/"));
+                currentProjectRootDir = new Path(currentProjectRootDir.getDevice(),
+                        currentProjectRootDir.toString().replaceAll("/\\d+/", "/"));
+                targetDir = new Path(targetDir.getDevice(), targetDir.toString().replaceAll("/\\d+/", "/"));
                 relativeTargetDir = targetDir.makeRelativeTo(currentProjectRootDir).toString();
             }
             Property property = null;
@@ -572,14 +592,16 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 property = job.getJobletProperty();
             }
             if (property != null) {
-                buildType = (String) property.getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
+                buildType =
+                        (String) property.getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
             }
 
-            String pathToJar = relativeTargetDir + Path.SEPARATOR + job.getJobName()
-                    + ("OSGI".equals(buildType) || isRoutesSubjob() ? "-bundle-" : "-")
-                    + PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()) + ".jar";
-            
-            
+            String pathToJar = ("OSGI".equals(buildType) || isRoutesSubjob())
+                    ? relativeTargetDir + Path.SEPARATOR + job.getJobName() + "-bundle-"
+                            + PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()) + ".jar"
+                    : relativeTargetDir + Path.SEPARATOR + job.getJobName().toLowerCase() + "_"
+                            + PomIdsHelper.getJobVersion(job).replaceAll("\\.", "_") + ".jar";
+
             file.setValue(pathToJar);
             addFile = true;
         }
@@ -632,13 +654,14 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
     /**
      * Checks if pom-file currently created is
      * for job used in cTalendJob component.
+     *
      * @return
      */
     private boolean isRoutesSubjob() {
         Property property = getJobProcessor().getProperty();
         Object buildType = property.getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE);
         Object type = ERepositoryObjectType.getType(property);
-        if(buildType != null && buildType.equals("ROUTE") && type.equals(ERepositoryObjectType.PROCESS)) {
+        if (buildType != null && buildType.equals("ROUTE") && type.equals(ERepositoryObjectType.PROCESS)) {
             return true;
         } else {
             return false;
@@ -689,10 +712,12 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         }
 
         IRunProcessService service = CorePlugin.getDefault().getRunProcessService();
-        IProcessor processor = service.createCodeProcessor(process, curProperty,
-                ((RepositoryContext) CorePlugin.getContext().getProperty(Context.REPOSITORY_CONTEXT_KEY)).getProject()
-                        .getLanguage(),
-                true);
+        IProcessor processor = service
+                .createCodeProcessor(process, curProperty,
+                        ((RepositoryContext) CorePlugin.getContext().getProperty(Context.REPOSITORY_CONTEXT_KEY))
+                                .getProject()
+                                .getLanguage(),
+                        true);
 
         jobInfo.setProcessor(processor);
 
@@ -701,7 +726,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
 
     /**
      * Skip clean control-bundle file in target folde, in case of using mvn clean + package goal
-     * 
+     *
      * @return plugin
      */
     private Plugin addSkipMavenCleanPlugin() {
@@ -719,24 +744,25 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
 
         return plugin;
     }
-    
+
     @Override
     protected InputStream getTemplateStream() throws IOException {
-        File templateFile = PomUtil.getTemplateFile(getObjectTypeFolder(), getItemRelativePath(),
-                TalendMavenConstants.POM_FILE_NAME);
+        File templateFile = PomUtil
+                .getTemplateFile(getObjectTypeFolder(), getItemRelativePath(), TalendMavenConstants.POM_FILE_NAME);
         if (!FilesUtils.allInSameFolder(templateFile, TalendMavenConstants.ASSEMBLY_FILE_NAME)) {
             templateFile = null; // force to set null, in order to use the template from other places.
         }
         try {
             final Map<String, Object> templateParameters = PomUtil.getTemplateParameters(getJobProcessor());
-            return MavenTemplateManager.getTemplateStream(templateFile,
-                    IProjectSettingPreferenceConstants.TEMPLATE_ROUTES_KARAF_BUNDLE, "org.talend.resources.export.route",
-                    getBundleTemplatePath(), templateParameters);
+            return MavenTemplateManager
+                    .getTemplateStream(templateFile, IProjectSettingPreferenceConstants.TEMPLATE_ROUTES_KARAF_BUNDLE,
+                            "org.talend.resources.export.route", getBundleTemplatePath(), templateParameters);
         } catch (Exception e) {
             throw new IOException(e);
         }
     }
-    
+
+    @Override
     protected String getBundleTemplatePath() {
         return PATH_ROUTES + IProjectSettingTemplateConstants.MAVEN_KARAF_BUILD_BUNDLE_FILE_NAME;
     }

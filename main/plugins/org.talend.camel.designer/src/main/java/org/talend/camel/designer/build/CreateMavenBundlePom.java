@@ -559,7 +559,8 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
 
         Xpp3Dom version = new Xpp3Dom("version");
         // TESB-24336 Use route same version in routelet
-        version.setValue(PomIdsHelper.getJobVersion(getJobProcessor().getProperty()));
+        // version.setValue(PomIdsHelper.getJobVersion(getJobProcessor().getProperty()));
+        version.setValue(PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()));
 
         Xpp3Dom packaging = new Xpp3Dom("packaging");
         packaging.setValue("jar");

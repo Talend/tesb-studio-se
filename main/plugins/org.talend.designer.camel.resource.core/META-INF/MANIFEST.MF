@@ -3,10 +3,14 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Core
 Bundle-SymbolicName: org.talend.designer.camel.resource.core;singleton:=true
 Bundle-Version: 7.2.1.qualifier
+Bundle-Vendor: .Talend SA.
 Require-Bundle: org.talend.core,
  org.talend.designer.core,
  org.talend.camel.model,
- org.talend.core.repository
+ org.talend.core.repository,
+ org.talend.commons.runtime,
+ org.talend.core.runtime
 Bundle-ActivationPolicy: lazy
 Export-Package: org.talend.designer.camel.resource.core.model,
  org.talend.designer.camel.resource.core.util
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

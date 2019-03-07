@@ -3,6 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Core
 Bundle-SymbolicName: org.talend.designer.camel.dependencies.core;singleton:=true
 Bundle-Version: 7.2.1.qualifier
+Bundle-Vendor: .Talend SA.
 Require-Bundle: org.eclipse.core.runtime,
  org.talend.core.runtime,
  org.talend.model
@@ -15,3 +16,4 @@ Import-Package: org.eclipse.emf.common.util,
  org.talend.core.repository.model,
  org.talend.designer.core.model.components,
  org.talend.designer.core.model.utils.emf.talendfile
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

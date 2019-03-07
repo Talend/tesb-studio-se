@@ -29,7 +29,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -41,6 +40,7 @@ import org.talend.camel.core.model.camelProperties.RouteletProcessItem;
 import org.talend.commons.exception.BusinessException;
 import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.exception.PersistenceException;
+import org.talend.commons.ui.gmf.util.DisplayUtils;
 import org.talend.core.CorePlugin;
 import org.talend.core.GlobalServiceRegister;
 import org.talend.core.IESBService;
@@ -222,7 +222,7 @@ public class ESBService implements IESBService {
     //
     // if (newOpe.getReferenceJobId() != null) {
     // changeOtherJobSchemaValue(factory, newOpe, serConn);
-    // MessageDialog.openWarning(new Shell(), "warning",
+    // MessageDialog.openWarning(DisplayUtils.getDefaultShell(false), "warning",
     // "This other job which based on the Operation will be unset!");
     // }
     //
@@ -422,7 +422,7 @@ public class ESBService implements IESBService {
 
                 if (operation.getReferenceJobId() != null && !operation.getReferenceJobId().equals(jobID)) {
                     changeOtherJobSchemaValue(factory, operation, /* serConn, */selectNode);
-                    MessageDialog.openWarning(new Shell(), Messages.ESBService_DisconnectWarningTitle,
+                    MessageDialog.openWarning(DisplayUtils.getDefaultShell(false), Messages.ESBService_DisconnectWarningTitle,
                             Messages.ESBService_DisconnectWarningMsg);
                 }
 

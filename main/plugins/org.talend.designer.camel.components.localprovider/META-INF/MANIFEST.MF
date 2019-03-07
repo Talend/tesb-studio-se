@@ -20,3 +20,4 @@ Bundle-Vendor: .Talend SA.
 Bundle-ActivationPolicy: lazy
 Import-Package: org.talend.designer.esb.webservice
 Eclipse-BundleShape: dir
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

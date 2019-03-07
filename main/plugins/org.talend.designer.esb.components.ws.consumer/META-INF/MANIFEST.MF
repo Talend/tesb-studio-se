@@ -17,9 +17,11 @@ Require-Bundle: org.eclipse.core.runtime,
  javax.wsdl;bundle-version="1.6.2",
  org.talend.core.ui,
  org.talend.commons.ui,
- org.talend.components.api
+ org.talend.components.api,
+ org.talend.core.runtime
 Import-Package: org.talend.designer.core.model.components,
  org.talend.repository.services.action;resolution:=optional,
  org.talend.utils.wsdl
 Export-Package: org.talend.designer.esb.webservice
 Eclipse-BundleShape: dir
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

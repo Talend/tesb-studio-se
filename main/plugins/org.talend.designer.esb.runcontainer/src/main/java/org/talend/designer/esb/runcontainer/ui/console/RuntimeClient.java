@@ -43,6 +43,7 @@ import org.apache.sshd.client.future.ConnectFuture;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.common.RuntimeSshException;
 import org.apache.sshd.common.channel.PtyMode;
+import org.apache.sshd.common.util.io.NoCloseInputStream;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 import org.jline.terminal.Attributes;
 import org.jline.terminal.Attributes.ControlChar;
@@ -55,7 +56,7 @@ import org.jline.terminal.TerminalBuilder;
 import org.slf4j.impl.SimpleLogger;
 import org.talend.designer.esb.runcontainer.util.RuntimeConsoleUtil;
 
-import com.sun.xml.internal.ws.util.NoCloseInputStream;
+
 
 public class RuntimeClient {
 

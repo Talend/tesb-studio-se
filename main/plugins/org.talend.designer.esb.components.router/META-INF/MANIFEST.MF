@@ -3,9 +3,12 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Router
 Bundle-SymbolicName: org.talend.designer.esb.components.router;singleton:=true
 Bundle-Version: 7.2.1.qualifier
+Bundle-Vendor: .Talend SA.
 Bundle-Activator: org.talend.designer.esb.components.router.Activator
 Require-Bundle: org.eclipse.core.runtime,
- org.talend.core;bundle-version="2.2.0"
+ org.talend.core,
+ org.apache.log4j
 Bundle-ActivationPolicy: lazy
 Import-Package: org.talend.designer.codegen.additionaljet
 Eclipse-BundleShape: dir
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

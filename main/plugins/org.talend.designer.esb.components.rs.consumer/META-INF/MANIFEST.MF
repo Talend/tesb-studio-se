@@ -7,9 +7,10 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-Activator: org.talend.designer.esb.components.rs.consumer.Activator
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.core.runtime
- ,org.eclipse.ui
- ,org.eclipse.ui.workbench
- ,org.talend.core
- ,org.talend.designer.codegen
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.ui.workbench,
+ org.talend.core,
+ org.talend.designer.codegen
 Eclipse-BundleShape: dir
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

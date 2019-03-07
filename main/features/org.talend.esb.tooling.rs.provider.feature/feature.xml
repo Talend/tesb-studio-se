@@ -7,5 +7,5 @@
   <requires>
     <import feature="org.talend.esb.tooling.ws.provider.feature" version="0.0.0" match="greaterOrEqual"/>
   </requires>
-  <plugin id="org.talend.designer.esb.components.rs.provider" download-size="0" install-size="0" version="0.0.0" unpack="true"/>
+  <plugin id="org.talend.designer.esb.components.rs.provider" download-size="0" install-size="0" version="0.0.0"/>
 </feature>

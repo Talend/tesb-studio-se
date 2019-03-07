@@ -15,6 +15,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.talend.model,
  org.talend.designer.codegen,
  org.talend.designer.core,
- org.talend.core.ui
+ org.talend.core.ui,
+ org.talend.commons.runtime,
+ org.talend.core.runtime
 Import-Package: org.eclipse.gef.commands
 Eclipse-BundleShape: dir
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -18,7 +18,10 @@ Require-Bundle: org.talend.commons.ui,
  org.talend.designer.core,
  org.talend.repository.items.importexport,
  org.talend.core.ui,
- org.talend.repository.resource
+ org.talend.repository.resource,
+ org.talend.commons.runtime,
+ org.talend.core.runtime
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.commons.io
 Bundle-Vendor: .Talend SA.
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

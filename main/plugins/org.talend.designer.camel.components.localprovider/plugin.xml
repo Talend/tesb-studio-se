@@ -522,7 +522,7 @@
                  id="junit.jar">
            </library>
            <library
-                 id="org.hamcrest.core_1.3.0.v201303031735.jar">
+                 id="org.hamcrest.core_1.3.0.v20180420-1519.jar">
            </library>                                       
         </libraryNeededGroup>
         <libraryNeeded

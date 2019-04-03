@@ -320,6 +320,11 @@
             uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-cxf-rt-rs-client}"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="${tesb-cxf-rt-features-logging}"
+            id="cxf-rt-features-logging"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-cxf-rt-features-logging}"
+            bundleID="" />
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
             name="${tesb-cxf-rt-frontend-jaxrs}"
             id="cxf-rt-frontend-jaxrs"
             uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-cxf-rt-frontend-jaxrs}"
@@ -358,6 +363,7 @@
             <library id="cxf-rt-rs-client" />
             <library id="cxf-rt-transports-http" />
             <library id="cxf-rt-frontend-jaxrs" />
+            <library id="cxf-rt-features-logging" />
             <library id="javax.ws.rs-api" />
             <library id="javax.annotation-api" />
             <!-- its not a part of feature but used together -->

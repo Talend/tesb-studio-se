@@ -339,6 +339,11 @@
 	                 mapping="CHECK_NEXUS_BUTTON"
 	                 name="cConfig Check Option">
 	        </generator>
+         <generator
+               class="org.talend.camel.designer.generator.LanguageComboGenerator"
+               mapping="LANGUAGE_CLOSED_LIST"
+               name="Language Closed List">
+         </generator>
         </extension>
         
         <extension

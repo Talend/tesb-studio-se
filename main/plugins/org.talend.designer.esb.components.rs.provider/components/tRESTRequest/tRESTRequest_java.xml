@@ -258,7 +258,11 @@
             <IMPORT MODULE="snakeyaml-${snakeyaml.version}.jar" MVN="mvn:org.talend.libraries/snakeyaml/${snakeyaml.version}" NAME="snakeyaml-${snakeyaml.version}"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/snakeyaml-${snakeyaml.version}.jar"
                 REQUIRED="true"/>
-                
+
+            <IMPORT MODULE="jakarta.xml.bind-api-2.3.2.jar" MVN="mvn:org.talend.libraries/jakarta.xml.bind-api/2.3.2" NAME="jakarta.xml.bind-api-2.3.2"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.bind-api-2.3.2.jar"
+                REQUIRED="true"/>
+
             <IMPORT MODULE_GROUP="security-common" REQUIRED="true" />
 			
 			<IMPORT MODULE_GROUP="spring-context"  REQUIRED="true" />

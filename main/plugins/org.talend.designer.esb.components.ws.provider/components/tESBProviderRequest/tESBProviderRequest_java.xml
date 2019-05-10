@@ -124,6 +124,23 @@
 			<TEMPLATE_PARAM SOURCE="self.MAX_PARALLEL_REQUESTS" TARGET="Loop.MAX_PARALLEL_REQUESTS" />
 			<TEMPLATE_PARAM SOURCE="self.REQUEST_PROCESSING_TIMEOUT" TARGET="Loop.REQUEST_PROCESSING_TIMEOUT" /> 			
 		</TEMPLATES>
+		<IMPORTS>
+            <IMPORT MODULE="jaxws-api-2.3.0.jar" MVN="mvn:org.talend.libraries/jaxws-api/2.3.0" NAME="jaxws-api-2.3.0"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jaxws-api-2.3.0.jar"
+                REQUIRED="true"/>
+            <IMPORT MODULE="javax.jws-api-1.1.jar" MVN="mvn:org.talend.libraries/javax.jws-api/1.1" NAME="javax.jws-api-1.1"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/javax.jws-api-1.1.jar"
+                REQUIRED="true"/>
+            <IMPORT MODULE="jakarta.xml.bind-api-2.3.2.jar" MVN="mvn:org.talend.libraries/jakarta.xml.bind-api/2.3.2" NAME="jakarta.xml.bind-api-2.3.2"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.bind-api-2.3.2.jar"
+                REQUIRED="true"/>
+            <IMPORT MODULE="javax.xml.soap-api-1.4.0.jar" MVN="mvn:org.talend.libraries/javax.xml.soap-api/1.4.0" NAME="javax.xml.soap-api-1.4.0"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/javax.xml.soap-api-1.4.0.jar"
+                REQUIRED="true"/>
+            <IMPORT MODULE="javax.activation-api-1.2.0.jar" MVN="mvn:org.talend.libraries/javax.activation-api/1.2.0" NAME="javax.activation-api-1.2.0"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/javax.activation-api-1.2.0.jar"
+                REQUIRED="true"/>
+		</IMPORTS>
 	</CODEGENERATION>
 
 	<RETURNS>

@@ -257,7 +257,6 @@ if (inputConn != null) {
                     passwordFieldName = "__SSL_TRUSTSERVER_PASSWORD__"; %>
                     {
                         <%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>
-                        System.setProperty("java.protocol.handler.pkgs", "com.sun.net.ssl.internal.www.protocol");
                         System.setProperty("javax.net.ssl.trustStore", <%=paramsHelper.getStringParam("__SSL_TRUSTSERVER_TRUSTSTORE__")%>);
                         System.setProperty("javax.net.ssl.trustStorePassword", decryptedPassword_<%=cid%>);
                     }

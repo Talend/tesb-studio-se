@@ -468,12 +468,5 @@
         <artifactId>validation-api</artifactId>
         <version>${validation-api.version}</version>
     </dependency>
-    
-    <!--  Java 11 Removed API  -->
-    <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.3.1</version>
-    </dependency>
   </dependencies>
 </project>

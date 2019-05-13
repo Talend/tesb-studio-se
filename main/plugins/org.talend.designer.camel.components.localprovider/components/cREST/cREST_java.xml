@@ -322,12 +322,12 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/snakeyaml-1.23.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="javax.xml.soap-api-1.4.0.jar" MVN="mvn:org.talend.libraries/javax.xml.soap-api/1.4.0" NAME="javax.xml.soap-api-1.4.0"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/javax.xml.soap-api-1.4.0.jar"
+            <IMPORT MODULE="jakarta.xml.soap-api-1.4.1.jar" MVN="mvn:org.talend.libraries/jakarta.xml.soap-api/1.4.1" NAME="jakarta.xml.soap-api-1.4.1"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.soap-api-1.4.1.jar"
                 REQUIRED="true"/>
 
-            <IMPORT MODULE="jaxws-api-2.3.0.jar" MVN="mvn:org.talend.libraries/jaxws-api/2.3.0" NAME="jaxws-api-2.3.0"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jaxws-api-2.3.0.jar"
+            <IMPORT MODULE="jakarta.xml.ws-api-2.3.2.jar" MVN="mvn:org.talend.libraries/jakarta.xml.ws-api/2.3.2" NAME="jakarta.xml.ws-api-2.3.2"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.ws-api-2.3.2.jar"
                 REQUIRED="true"/>
 
             <IMPORT MODULE="jakarta.xml.bind-api-2.3.2.jar" MVN="mvn:org.talend.libraries/jakarta.xml.bind-api/2.3.2" NAME="jakarta.xml.bind-api-2.3.2"

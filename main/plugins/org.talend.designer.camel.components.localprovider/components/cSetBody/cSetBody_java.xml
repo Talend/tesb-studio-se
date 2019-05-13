@@ -75,8 +75,8 @@
                     MODULE="camel-script-${camel.version}.jar" MVN="${mvn-camel-script}"
                     UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
                     REQUIRED_IF="LANGUAGES == 'JAVASCRIPT'" />
-            <IMPORT MODULE="javax.xml.soap-api-1.4.0.jar" MVN="mvn:org.talend.libraries/javax.xml.soap-api/1.4.0" NAME="javax.xml.soap-api-1.4.0"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/javax.xml.soap-api-1.4.0.jar"
+            <IMPORT MODULE="jakarta.xml.soap-api-1.4.1.jar" MVN="mvn:org.talend.libraries/jakarta.xml.soap-api/1.4.1" NAME="jakarta.xml.soap-api-1.4.1"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.soap-api-1.4.1.jar"
                 REQUIRED="true"/>
 		</IMPORTS>
 	</CODEGENERATION>

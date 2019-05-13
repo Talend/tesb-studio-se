@@ -122,23 +122,23 @@
 			<TEMPLATE_PARAM SOURCE="self.LOG_MESSAGES" TARGET="Loop.LOG_MESSAGES" />
 			<TEMPLATE_PARAM SOURCE="self.EXCHANGE_TIMEOUT" TARGET="Loop.EXCHANGE_TIMEOUT" />
 			<TEMPLATE_PARAM SOURCE="self.MAX_PARALLEL_REQUESTS" TARGET="Loop.MAX_PARALLEL_REQUESTS" />
-			<TEMPLATE_PARAM SOURCE="self.REQUEST_PROCESSING_TIMEOUT" TARGET="Loop.REQUEST_PROCESSING_TIMEOUT" /> 			
+			<TEMPLATE_PARAM SOURCE="self.REQUEST_PROCESSING_TIMEOUT" TARGET="Loop.REQUEST_PROCESSING_TIMEOUT" />
 		</TEMPLATES>
 		<IMPORTS>
-            <IMPORT MODULE="jaxws-api-2.3.0.jar" MVN="mvn:org.talend.libraries/jaxws-api/2.3.0" NAME="jaxws-api-2.3.0"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jaxws-api-2.3.0.jar"
+            <IMPORT MODULE="jakarta.xml.ws-api-2.3.2.jar" MVN="mvn:org.talend.libraries/jakarta.xml.ws-api/2.3.2" NAME="jakarta.xml.ws-api-2.3.2"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.ws-api-2.3.2.jar"
                 REQUIRED="true"/>
-            <IMPORT MODULE="javax.jws-api-1.1.jar" MVN="mvn:org.talend.libraries/javax.jws-api/1.1" NAME="javax.jws-api-1.1"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/javax.jws-api-1.1.jar"
+            <IMPORT MODULE="geronimo-ws-metadata_2.0_spec-1.1.3.jar" MVN="mvn:org.talend.libraries/geronimo-ws-metadata_2.0_spec/1.1.3" NAME="geronimo-ws-metadata_2.0_spec-1.1.3"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/geronimo-ws-metadata_2.0_spec-1.1.3.jar"
                 REQUIRED="true"/>
             <IMPORT MODULE="jakarta.xml.bind-api-2.3.2.jar" MVN="mvn:org.talend.libraries/jakarta.xml.bind-api/2.3.2" NAME="jakarta.xml.bind-api-2.3.2"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.bind-api-2.3.2.jar"
                 REQUIRED="true"/>
-            <IMPORT MODULE="javax.xml.soap-api-1.4.0.jar" MVN="mvn:org.talend.libraries/javax.xml.soap-api/1.4.0" NAME="javax.xml.soap-api-1.4.0"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/javax.xml.soap-api-1.4.0.jar"
+            <IMPORT MODULE="jakarta.xml.soap-api-1.4.1.jar" MVN="mvn:org.talend.libraries/jakarta.xml.soap-api/1.4.1" NAME="jakarta.xml.soap-api-1.4.1"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.soap-api-1.4.1.jar"
                 REQUIRED="true"/>
-            <IMPORT MODULE="javax.activation-api-1.2.0.jar" MVN="mvn:org.talend.libraries/javax.activation-api/1.2.0" NAME="javax.activation-api-1.2.0"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/javax.activation-api-1.2.0.jar"
+            <IMPORT MODULE="jakarta.activation-api-1.2.1.jar" MVN="mvn:org.talend.libraries/jakarta.activation/1.2.1" NAME="jakarta.activation-1.2.1"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.activation-1.2.1.jar"
                 REQUIRED="true"/>
 		</IMPORTS>
 	</CODEGENERATION>

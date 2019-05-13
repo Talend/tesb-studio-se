@@ -57,6 +57,11 @@
             id="xmlschema-core"
             uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-xmlschema-core}"
             bundleID="" />
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="jakarta.xml.bind-api-2.3.2"
+            id="jakarta.xml.bind-api"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.bind-api-2.3.2.jar"
+            bundleID="" />
 
         <libraryNeededGroup
                 description="cxf-core"
@@ -66,6 +71,7 @@
             <library id="woodstox-core-asl" />
             <library id="stax2-api" />
             <library id="xmlschema-core" />
+            <library id="jakarta.xml.bind-api" />
         </libraryNeededGroup>
 
         <libraryNeeded context="plugin:org.talend.libraries.esb"

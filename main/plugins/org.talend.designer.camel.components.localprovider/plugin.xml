@@ -62,24 +62,18 @@
             id="camel-core"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-core}"
             bundleID="" />
-        <!--libraryNeeded context="plugin:org.talend.libraries.esb"
-            name="${tesb-jaxb-impl}"
-            id="jaxb-impl"
-            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-jaxb-impl}"
-            bundleID="" />
         <libraryNeeded context="plugin:org.talend.libraries.esb"
-            name="${tesb-jaxb-core}"
-            id="jaxb-core"
-            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-jaxb-core}"
-            bundleID="" /-->
+            name="jakarta.xml.soap-api-1.4.1"
+            id="jakarta.xml.soap-api"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.soap-api-1.4.1.jar"
+            bundleID="" />
 
         <libraryNeededGroup
                 description="camel-core"
                 id="camel-core"
                 name="camel-core">
             <library id="camel-core" />
-            <!-- TODO: library id="jaxb-impl" />
-            <library id="jaxb-core" /-->
+            <library id="jakarta.xml.soap-api" />
             <group id="slf4j" />
         </libraryNeededGroup>
 
@@ -98,16 +92,11 @@
             id="spring-tx"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-spring-tx}"
             bundleID="" />
-        <!--libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="${tesb-spring-osgi-core}"
-            id="spring-osgi-core"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-spring-osgi-core}"
-            bundleID="" /-->
-        <!--libraryNeeded context="plugin:org.eclipse.osgi"
-            name="org.eclipse.osgi_3.10.1.v20140909-1633.jar"
-            id="org.eclipse.osgi"
-            uripath="platform:/base/plugins/org.eclipse.osgi_3.10.1.v20140909-1633.jar"
-            bundleID="" /-->
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="geronimo-ws-metadata_2.0_spec-1.1.3"
+            id="geronimo-ws-metadata"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/geronimo-ws-metadata_2.0_spec-1.1.3.jar"
+            bundleID="" />
 
         <libraryNeededGroup
                 description="camel-spring"
@@ -119,6 +108,7 @@
             <library id="spring-tx" />
             <library id="spring-osgi-core" />
             <library id="org.eclipse.osgi" />
+            <library id="geronimo-ws-metadata"/>
         </libraryNeededGroup>
 
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"

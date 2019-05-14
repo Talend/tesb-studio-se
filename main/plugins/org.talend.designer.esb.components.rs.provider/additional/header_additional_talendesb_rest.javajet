@@ -27,6 +27,8 @@
 		org.talend.core.model.metadata.types.JavaTypesManager
 		org.talend.core.model.metadata.types.JavaType
 
+		org.talend.core.model.utils.NodeUtil
+		
 		java.io.UnsupportedEncodingException
 		java.net.URLEncoder
 	"
@@ -563,7 +565,20 @@ public static class RestServiceProviderImpl4TalendJob {
 	}
 
 	private javax.ws.rs.core.Response processRequest(java.util.Map<String, Object> request) {
+
+		<%
+		if(codeGenArgument.getIsRunInMultiThread() || NodeUtil.containsMultiThreadComponent(process)){
+		%>
+		final java.util.Map<String, Object> globalMap = java.util.Collections.synchronizedMap(new java.util.HashMap<String, Object>());
+		<%
+		} else {
+		%>
 		final java.util.Map<String, Object> globalMap = new java.util.HashMap<String, Object>();
+		<%
+		}
+		%>
+
+
 		try {
 			globalMap.put("restRequest", request);
 
@@ -611,7 +626,20 @@ public static class RestServiceProviderImpl4TalendJob {
 
 		javax.ws.rs.core.StreamingOutput streamingOutput = new javax.ws.rs.core.StreamingOutput() {
 			public void write(java.io.OutputStream output) {
+
+				<%
+				if(codeGenArgument.getIsRunInMultiThread() || NodeUtil.containsMultiThreadComponent(process)){
+				%>
+				final java.util.Map<String, Object> globalMap = java.util.Collections.synchronizedMap(new java.util.HashMap<String, Object>());
+				<%
+				} else {
+				%>
 				final java.util.Map<String, Object> globalMap = new java.util.HashMap<String, Object>();
+				<%
+				}
+				%>
+
+
 				try {
 					globalMap.put("restResponseStream", output);
 

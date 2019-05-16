@@ -111,7 +111,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                 boolean addRes = true;
                 // TESB-21485: Exclude DEFAULT beans model
                 for (ModuleNeeded need : defaultModulesNeededForBeans) {
-                    if (libUrl.getFile().contains(need.getId())) {
+                    if (need.getId() != null && libUrl.getFile().contains(need.getId())) {
                         addRes = false;
                         break;
                     }

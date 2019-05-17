@@ -125,6 +125,7 @@
 			<TEMPLATE_PARAM SOURCE="self.REQUEST_PROCESSING_TIMEOUT" TARGET="Loop.REQUEST_PROCESSING_TIMEOUT" />
 		</TEMPLATES>
 		<IMPORTS>
+            <IMPORT MODULE_GROUP="esb-java-11-group" REQUIRED="true" />
             <IMPORT MODULE="jakarta.xml.ws-api-2.3.2.jar" MVN="mvn:org.talend.libraries/jakarta.xml.ws-api/2.3.2" NAME="jakarta.xml.ws-api-2.3.2"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.ws-api-2.3.2.jar"
                 REQUIRED="true"/>

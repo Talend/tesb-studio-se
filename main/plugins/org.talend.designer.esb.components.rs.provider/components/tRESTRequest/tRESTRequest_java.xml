@@ -185,7 +185,8 @@
         <IMPORTS>
         
         	<IMPORT MODULE_GROUP="camel-core" REQUIRED_IF="(SERVICE_LOCATOR == 'true')" />
-        
+            <IMPORT MODULE_GROUP="esb-java-11-group" REQUIRED="true" />
+            
             <IMPORT MODULE="swagger-annotations-${swagger.version}.jar" MVN="mvn:org.talend.libraries/swagger-annotations/6.0.0" NAME="swagger-annotations-${swagger.version}"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/swagger-annotations-${swagger.version}.jar"
                 REQUIRED="true"/>

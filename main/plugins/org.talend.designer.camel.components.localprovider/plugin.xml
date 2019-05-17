@@ -1060,6 +1060,11 @@
             id="txw2-2.3.2"
             uripath="platform:/plugin/org.talend.libraries.esb/lib/txw2-2.3.2.jar"
             bundleID="" />
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="jakarta.jws-api-1.1.1.jar"
+            id="jakarta.jws-api-1.1.1"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.jws-api-1.1.1.jar"
+            bundleID="" />
         <!-- Java 11 missing jars end-->
   </extension>
 </plugin>

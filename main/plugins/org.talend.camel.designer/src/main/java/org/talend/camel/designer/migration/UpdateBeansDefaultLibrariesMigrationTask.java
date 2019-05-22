@@ -49,22 +49,11 @@ public class UpdateBeansDefaultLibrariesMigrationTask extends AbstractItemMigrat
 
     private static final String CAMEL_CXF_PREFIX = "camel-cxf-";
 
-    private static String camelVersionSubString = "";
-
-    private static String camelVersion = "";
-
     private static final String camelPrefix = "camel-core-";
 
-    static {
-        IComponent component = ComponentsFactoryProvider.getInstance().get("cTimer", "CAMEL");
-        for (ModuleNeeded mn : component.getModulesNeeded()) {
-            if (mn.getModuleName().startsWith(camelPrefix)) {
-                camelVersionSubString = mn.getModuleName().substring(camelPrefix.length());
-                camelVersion = camelVersionSubString.substring(0, camelVersionSubString.lastIndexOf(".jar"));
-                break;
-            }
-        }
-    }
+    private static String camelVersionSubString;
+
+    private static String camelVersion;
 
     @Override
     public List<ERepositoryObjectType> getTypes() {
@@ -82,6 +71,16 @@ public class UpdateBeansDefaultLibrariesMigrationTask extends AbstractItemMigrat
     @Override
     public ExecutionResult execute(Item item) {
         if (item instanceof BeanItem) {
+            if (camelVersion == null) {
+                IComponent component = ComponentsFactoryProvider.getInstance().get("cTimer", "CAMEL");
+                for (ModuleNeeded mn : component.getModulesNeeded()) {
+                    if (mn.getModuleName().startsWith(camelPrefix)) {
+                        camelVersionSubString = mn.getModuleName().substring(camelPrefix.length());
+                        camelVersion = camelVersionSubString.substring(0, camelVersionSubString.lastIndexOf(".jar"));
+                        break;
+                    }
+                }
+            }
             BeanItem beanItem = (BeanItem) item;
             addModulesNeededForBeans(beanItem);
             try {

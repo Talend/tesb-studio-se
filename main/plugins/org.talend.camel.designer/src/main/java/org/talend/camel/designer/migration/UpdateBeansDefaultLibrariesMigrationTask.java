@@ -38,6 +38,7 @@ import org.talend.core.model.properties.Item;
 import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.core.ui.component.ComponentsFactoryProvider;
+import org.talend.designer.core.model.utils.emf.component.ComponentFactory;
 import org.talend.designer.core.model.utils.emf.component.IMPORTType;
 import org.talend.librariesmanager.model.ModulesNeededProvider;
 
@@ -96,6 +97,7 @@ public class UpdateBeansDefaultLibrariesMigrationTask extends AbstractItemMigrat
     }
 
     private void addModulesNeededForBeans(BeanItem beanItem) {
+        List<ModuleNeeded> modulesNeededForBeans = ModulesNeededProvider.getModulesNeededForBeans();
         EList imports = beanItem.getImports();
 
         for (Object imp : imports) {
@@ -110,7 +112,7 @@ public class UpdateBeansDefaultLibrariesMigrationTask extends AbstractItemMigrat
                 }
             }
 
-            for (ModuleNeeded defaultNeed : ModulesNeededProvider.getModulesNeededForBeans()) {
+            for (ModuleNeeded defaultNeed : modulesNeededForBeans) {
                 String moduleName = defaultNeed.getId();
 
                 if (imp instanceof IMPORTType) {
@@ -127,5 +129,29 @@ public class UpdateBeansDefaultLibrariesMigrationTask extends AbstractItemMigrat
                 }
             }
         }
+
+        List<IMPORTType> missingModels = new ArrayList<IMPORTType>();
+        for (ModuleNeeded model : modulesNeededForBeans) {
+            boolean found = false;
+            for (Object imp : imports) {
+                if (imp instanceof IMPORTType) {
+                    IMPORTType importType = (IMPORTType) imp;
+                    if (importType.getMODULE().equals(model.getModuleName())) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                IMPORTType importType = ComponentFactory.eINSTANCE.createIMPORTType();
+                importType.setMODULE(model.getModuleName());
+                importType.setMESSAGE(model.getInformationMsg());
+                importType.setREQUIRED(model.isRequired());
+                importType.setMVN(model.getMavenUri());
+                missingModels.add(importType);
+            }
+        }
+        imports.addAll(missingModels);
+
     }
 }

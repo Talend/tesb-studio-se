@@ -366,19 +366,19 @@
 
             <IMPORT MODULE_GROUP="esb-java-11-group" REQUIRED="true" />
             
-            <IMPORT MODULE="jakarta.xml.ws-api-2.3.2.jar" MVN="mvn:org.talend.libraries/jakarta.xml.ws-api/2.3.2" NAME="jakarta.xml.ws-api-2.3.2"
+            <IMPORT MODULE="jakarta.xml.ws-api-2.3.2.jar" MVN="mvn:org.talend.libraries/jakarta.xml.ws-api-2.3.2/6.0.0" NAME="jakarta.xml.ws-api-2.3.2"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.xml.ws-api-2.3.2.jar"
                 REQUIRED="true"/>
 
-            <IMPORT MODULE="jakarta.annotation-api-1.3.4.jar" MVN="mvn:org.talend.libraries/jakarta.annotation-api/1.3.4" NAME="jakarta.annotation-api-1.3.4"
+            <IMPORT MODULE="jakarta.annotation-api-1.3.4.jar" MVN="mvn:org.talend.libraries/jakarta.annotation-api-1.3.4/6.0.0" NAME="jakarta.annotation-api-1.3.4"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.annotation-api-1.3.4.jar"
                 REQUIRED="true"/>
 
-            <IMPORT MODULE="jakarta.activation-api-1.2.1.jar" MVN="mvn:org.talend.libraries/jakarta.activation-api/1.2.1" NAME="jakarta.activation-api-1.2.1"
+            <IMPORT MODULE="jakarta.activation-api-1.2.1.jar" MVN="mvn:org.talend.libraries/jakarta.activation-api-1.2.1/6.0.0" NAME="jakarta.activation-api-1.2.1"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.activation-api-1.2.1.jar"
                 REQUIRED="true"/>
 
-            <IMPORT MODULE="jakarta.activation-1.2.1.jar" MVN="mvn:org.talend.libraries/jakarta.activation/1.2.1" NAME="jakarta.activation-1.2.1"
+            <IMPORT MODULE="jakarta.activation-1.2.1.jar" MVN="mvn:org.talend.libraries/jakarta.activation-1.2.1/6.0.0" NAME="jakarta.activation-1.2.1"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jakarta.activation-1.2.1.jar"
                 REQUIRED="true"/>
                 

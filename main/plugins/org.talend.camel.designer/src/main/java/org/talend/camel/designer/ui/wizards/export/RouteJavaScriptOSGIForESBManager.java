@@ -40,10 +40,6 @@ import org.dom4j.io.SAXReader;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
 import org.talend.camel.core.model.camelProperties.CamelProcessItem;
 import org.talend.core.GlobalServiceRegister;
 import org.talend.core.model.general.ModuleNeeded;
@@ -74,18 +70,29 @@ import aQute.bnd.osgi.Analyzer;
 public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIForESBManager {
 
     private static final String CONVERT_SPRING_IMPORT_PROPERTY = "org.talend.esb.route.spring.import.convert"; //$NON-NLS-1$
+
     private static final String CONVERT_CAMEL_CONTEXT_PROPERTY = "org.talend.esb.route.spring.camel.convert"; //$NON-NLS-1$
+
     private static final String TEMPLATE_BLUEPRINT_ROUTE = "/resources/blueprint-template.xml"; //$NON-NLS-1$
+
     private static final String IMPORT_RESOURCE_PREFIX = ".." + File.separator + ".." + File.separator; //$NON-NLS-1$
+
     private static final String BLUEPRINT_NSURI = "http://www.osgi.org/xmlns/blueprint/v1.0.0"; //$NON-NLS-1$
+
     private static final String CAMEL_SPRING_NSURI = "http://camel.apache.org/schema/spring"; //$NON-NLS-1$
+
     private static final String CAMEL_BLUEPRINT_NSURI = "http://camel.apache.org/schema/blueprint"; //$NON-NLS-1$
+
     private static final boolean CONVERT_SPRING_IMPORT = isNotNegated(CONVERT_SPRING_IMPORT_PROPERTY);
+
     private static final boolean CONVERT_CAMEL_CONTEXT = isNotNegated(CONVERT_CAMEL_CONTEXT_PROPERTY);
+
     private static final boolean CONVERT_CAMEL_CONTEXT_ALL = isAll(CONVERT_CAMEL_CONTEXT_PROPERTY);
 
     private final Collection<String> routelets;
+
     private List<ModuleNeeded> defaultModulesNeededForBeans;
+
     private Set<String> modulesProvidedByFeatures;
 
     /*
@@ -96,7 +103,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
     private Map<String, String> subjobImportPackages = null;
 
     public RouteJavaScriptOSGIForESBManager(Map<ExportChoice, Object> exportChoiceMap, String contextName,
-        Collection<String> routelets, Set<String> modulesProvidedByFeatures) {
+            Collection<String> routelets, Set<String> modulesProvidedByFeatures) {
         super(exportChoiceMap, contextName, null, IProcessor.NO_STATISTICS, IProcessor.NO_TRACES);
         this.routelets = routelets;
         this.defaultModulesNeededForBeans = ModulesNeededProvider.getModulesNeededForBeans();
@@ -107,8 +114,8 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
     protected ExportFileResource getCompiledLibExportFileResource(ExportFileResource[] processes) {
         ExportFileResource libResource = new ExportFileResource(null, LIBRARY_FOLDER_NAME);
         List<URL> talendLibraries = getExternalLibraries(true, processes, getCompiledModuleNames());
-        if(defaultModulesNeededForBeans == null) {
-            defaultModulesNeededForBeans = ModulesNeededProvider.getModulesNeededForBeans();    
+        if (defaultModulesNeededForBeans == null) {
+            defaultModulesNeededForBeans = ModulesNeededProvider.getModulesNeededForBeans();
         }
         if (talendLibraries != null) {
             for (URL libUrl : talendLibraries) {
@@ -132,6 +139,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
 
     /**
      * DOC yyan RouteJavaScriptOSGIForESBManager constructor comment.
+     *
      * @param exportChoice
      * @param context
      * @param routelets2
@@ -153,7 +161,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
         return getPackageName(processItem) + PACKAGE_SEPARATOR + processItem.getProperty().getLabel();
     }
 
-
+    @Override
     protected Collection<String> getRoutinesPaths() {
         final Collection<String> include = new ArrayList<String>();
         include.add(USER_BEANS_PATH);
@@ -166,9 +174,9 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
     protected void addResources(ExportFileResource osgiResource, ProcessItem processItem) throws Exception {
         IFolder srcFolder = null;
         if (GlobalServiceRegister.getDefault().isServiceRegistered(IRunProcessService.class)) {
-            IRunProcessService processService = (IRunProcessService) GlobalServiceRegister.getDefault().getService(
-                    IRunProcessService.class);
-            ITalendProcessJavaProject talendProcessJavaProject = processService.getTalendJobJavaProject(processItem.getProperty());
+            IRunProcessService processService = GlobalServiceRegister.getDefault().getService(IRunProcessService.class);
+            ITalendProcessJavaProject talendProcessJavaProject =
+                    processService.getTalendJobJavaProject(processItem.getProperty());
             if (talendProcessJavaProject != null) {
                 srcFolder = talendProcessJavaProject.getExternalResourcesFolder();
             }
@@ -183,20 +191,23 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
         Collection<IPath> routeResource = RouteResourceUtil.synchronizeRouteResource(processItem);
         if (routeResource != null) {
             for (IPath path : RouteResourceUtil.synchronizeRouteResource(processItem)) {
-                osgiResource.addResource(path.removeLastSegments(1).makeRelativeTo(srcPath).toString(),
-                        path.toFile().toURI().toURL());
+                osgiResource
+                        .addResource(path.removeLastSegments(1).makeRelativeTo(srcPath).toString(),
+                                path.toFile().toURI().toURL());
             }
         }
     }
 
     @Override
-    protected void generateConfig(ExportFileResource osgiResource, ProcessItem processItem, IProcess process) throws IOException {
+    protected void generateConfig(ExportFileResource osgiResource, ProcessItem processItem, IProcess process)
+            throws IOException {
         final File targetFile = new File(getTmpFolder() + PATH_SEPARATOR + "blueprint.xml"); //$NON-NLS-1$
 
         Map<String, Object> collectRouteInfo = collectRouteInfo(processItem, process);
 
-        TemplateProcessor.processTemplate("ROUTE_BLUEPRINT_CONFIG", //$NON-NLS-1$
-                collectRouteInfo, targetFile, getClass().getResourceAsStream(TEMPLATE_BLUEPRINT_ROUTE));
+        TemplateProcessor
+                .processTemplate("ROUTE_BLUEPRINT_CONFIG", //$NON-NLS-1$
+                        collectRouteInfo, targetFile, getClass().getResourceAsStream(TEMPLATE_BLUEPRINT_ROUTE));
 
         osgiResource.addResource(FileConstants.BLUEPRINT_FOLDER_NAME, targetFile.toURI().toURL());
 
@@ -208,8 +219,8 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
         if (springContent != null && springContent.length() > 0) {
             String springTargetFilePath = collectRouteInfo.get("name").toString().toLowerCase() + ".xml"; //$NON-NLS-1$
             InputStream springContentInputStream = new ByteArrayInputStream(springContent.getBytes());
-            handleSpringXml(springTargetFilePath, processItem, springContentInputStream, osgiResource,
-                    true, CONVERT_SPRING_IMPORT);
+            handleSpringXml(springTargetFilePath, processItem, springContentInputStream, osgiResource, true,
+                    CONVERT_SPRING_IMPORT);
         }
     }
 
@@ -222,50 +233,30 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
     protected void addOsgiDependencies(Analyzer analyzer, ExportFileResource libResource, ProcessItem processItem)
             throws IOException {
 
-        // Add subjob import packages to be handled by dependencies resolver
-	if (subjobImportPackages != null && subjobImportPackages.containsKey(processItem.getProperty().getId())) {
-	    processItem.getProperty().getAdditionalProperties().put("Import-Package",
-		    subjobImportPackages.get(processItem.getProperty().getId()));
-	    subjobImportPackages.remove(processItem.getProperty().getId());
-
-	    // Save route editor for TESB-25036
-	    // TODO Change to use temp variables to save import packages, instead of using additional property
-	    // @see org.talend.camel.designer.ui.wizards.actions.JavaCamelJobScriptsExportWSAction.addJobPackageToOsgiImport(ProcessItem
-	    // process, Set<String> jobPackageNames)
-	    IWorkbench workbench = PlatformUI.getWorkbench();
-	    if (workbench != null && workbench.getActiveWorkbenchWindow() != null
-		    && workbench.getActiveWorkbenchWindow().getActivePage() != null) {
-		IEditorReference[] editorReferences = workbench.getActiveWorkbenchWindow().getActivePage()
-			.getEditorReferences();
-		for (IEditorReference editor : editorReferences) {
-		    if (editor.isDirty() && processItem.getProperty().getLabel().equals(editor.getName())) {
-			editor.getEditor(false).doSave(new NullProgressMonitor());
-			break;
-		    }
-		}
-	    }
-	}
-
         final DependenciesResolver resolver = new DependenciesResolver(processItem);
-        //exportPackage.append(getPackageName(processItem));
-        // Add Route Resource Export packages
-        // http://jira.talendforge.org/browse/TESB-6227
 
         // add manifest items
         analyzer.setProperty(Analyzer.REQUIRE_BUNDLE, resolver.getManifestRequireBundle(MANIFEST_ITEM_SEPARATOR));
-        analyzer.setProperty(Analyzer.IMPORT_PACKAGE,
-            resolver.getManifestImportPackage(MANIFEST_ITEM_SEPARATOR) + ",*;resolution:=optional"); //$NON-NLS-1$
+        // Add subjob import packages
+        StringBuilder manifestImportPackage =
+                new StringBuilder(subjobImportPackages.get(processItem.getProperty().getId()));
+        manifestImportPackage
+                .append(",")
+                .append(resolver.getManifestImportPackage(MANIFEST_ITEM_SEPARATOR))
+                .append(",*;resolution:=optional"); //$NON-NLS-1$
+
+        analyzer.setProperty(Analyzer.IMPORT_PACKAGE, manifestImportPackage.toString());
         analyzer.setProperty(Analyzer.EXPORT_PACKAGE, resolver.getManifestExportPackage(MANIFEST_ITEM_SEPARATOR));
 
         if (GlobalServiceRegister.getDefault().isServiceRegistered(IRunProcessService.class)) {
-            IRunProcessService processService = (IRunProcessService) GlobalServiceRegister.getDefault().getService(
-                    IRunProcessService.class);
+            IRunProcessService processService = GlobalServiceRegister.getDefault().getService(IRunProcessService.class);
             ITalendProcessJavaProject talendProcessJavaProject = processService.getTalendProcessJavaProject();
             if (talendProcessJavaProject != null) {
                 final IPath libPath = talendProcessJavaProject.getLibFolder().getLocation();
                 // process external libs
                 final List<URL> list = new ArrayList<URL>();
-                for (String s : resolver.getManifestBundleClasspath(MANIFEST_ITEM_SEPARATOR)
+                for (String s : resolver
+                        .getManifestBundleClasspath(MANIFEST_ITEM_SEPARATOR)
                         .split(Character.toString(MANIFEST_ITEM_SEPARATOR))) {
                     if (!s.isEmpty()) {
                         list.add(libPath.append(s).toFile().toURI().toURL());
@@ -282,32 +273,32 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
     }
 
     private boolean isProvidedByFeature(ModuleNeeded module) {
-    	if (modulesProvidedByFeatures == null) {
-    		return false;
-    	}
-    	String id = module.getId();
-    	if (id == null) {
-    		// bean dependency module etc.
-    		return false;
-    	}
-    	return modulesProvidedByFeatures.contains(id);
+        if (modulesProvidedByFeatures == null) {
+            return false;
+        }
+        String id = module.getId();
+        if (id == null) {
+            // bean dependency module etc.
+            return false;
+        }
+        return modulesProvidedByFeatures.contains(id);
     }
 
     private boolean isOsgiExcluded(ModuleNeeded module) {
-    	Object value = module.getExtraAttributes().get("IS_OSGI_EXCLUDED");
-    	if (value == null) {
-    		return false;
-    	}
-    	if (value instanceof Boolean) {
-    		return ((Boolean) value).booleanValue();
-    	}
-    	if (value instanceof String) {
-    		return Boolean.parseBoolean((String) value);
-    	}
-    	return false;
+        Object value = module.getExtraAttributes().get("IS_OSGI_EXCLUDED");
+        if (value == null) {
+            return false;
+        }
+        if (value instanceof Boolean) {
+            return ((Boolean) value).booleanValue();
+        }
+        if (value instanceof String) {
+            return Boolean.parseBoolean((String) value);
+        }
+        return false;
     }
 
-    private void handleSpringXml(String  targetFilePath, ProcessItem processItem, InputStream springInput,
+    private void handleSpringXml(String targetFilePath, ProcessItem processItem, InputStream springInput,
             ExportFileResource osgiResource, boolean convertToBP, boolean convertImports) {
 
         File targetFile = new File(getTmpFolder() + PATH_SEPARATOR + targetFilePath);
@@ -346,8 +337,8 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                     if (matches(path, resourceModel)) {
                         IFile resourceFile = RouteResourceUtil.getSourceFile(resourceModel.getItem());
                         String cpUrl = adaptedClassPathUrl(resourceModel, convertImports);
-                        handleSpringXml(cpUrl, processItem, resourceFile.getContents(), osgiResource,
-                                convertImports, convertImports);
+                        handleSpringXml(cpUrl, processItem, resourceFile.getContents(), osgiResource, convertImports,
+                                convertImports);
                         resource.setValue(IMPORT_RESOURCE_PREFIX + cpUrl);
                     }
                 }
@@ -361,7 +352,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                     moveNamespace(root, CAMEL_SPRING_NSURI, CAMEL_BLUEPRINT_NSURI);
                 } else {
                     Namespace blueprintCamelNsp = Namespace.get("camel", CAMEL_BLUEPRINT_NSURI);
-                    moveNamespace(root,springCamelNsp, blueprintCamelNsp);
+                    moveNamespace(root, springCamelNsp, blueprintCamelNsp);
                     if (springCamelNsp.equals(root.getNamespaceForPrefix("camel"))) {
                         root.remove(springCamelNsp);
                         root.add(blueprintCamelNsp);
@@ -379,7 +370,8 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
 
             InputStream inputStream = new ByteArrayInputStream(root.asXML().getBytes());
             FilesUtils.copyFile(inputStream, targetFile);
-            osgiResource.addResource(adaptedResourceFolderName(targetFilePath, convertToBP), targetFile.toURI().toURL());
+            osgiResource
+                    .addResource(adaptedResourceFolderName(targetFilePath, convertToBP), targetFile.toURI().toURL());
         } catch (Exception e) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Custom Spring to OSGi conversion failed. ", e);
         } finally {
@@ -403,7 +395,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
             idName += suffix;
         }
         routeInfo.put("className", className); //$NON-NLS-1$
-        routeInfo.put("idName", idName); //$NON-NLS-2$
+        routeInfo.put("idName", idName); // $NON-NLS-2$
 
         boolean useSAM = false;
         boolean useSL = false;
@@ -439,7 +431,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                 }
 
                 // security is disable in case CXF_MESSAGE or RAW dataFormat
-                if (!"CXF_MESSAGE".equals(format) && !"RAW".equals(format)) { //$NON-NLS-1$  //$NON-NLS-2$
+                if (!"CXF_MESSAGE".equals(format) && !"RAW".equals(format)) { //$NON-NLS-1$ //$NON-NLS-2$
                     if (isEEVersion && EmfModelUtils.computeCheckElementValue("ENABLE_REGISTRY", node)) { //$NON-NLS-1$
                         nodeUseRegistry = true;
                         // https://jira.talendforge.org/browse/TESB-10725
@@ -450,7 +442,8 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                             hasCXFUsernameToken = true;
                         } else if ("SAML".equals(securityType)) { //$NON-NLS-1$
                             nodeUseSaml = true;
-                            nodeUseAuthz = isEEVersion && EmfModelUtils.computeCheckElementValue("USE_AUTHORIZATION", node);
+                            nodeUseAuthz =
+                                    isEEVersion && EmfModelUtils.computeCheckElementValue("USE_AUTHORIZATION", node);
                         }
                     }
                 }
@@ -509,7 +502,7 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
             return FileConstants.BLUEPRINT_FOLDER_NAME;
         }
         int ndx = filePath.lastIndexOf('/');
-        return ndx < 0 ? "" : filePath.substring(0,ndx);
+        return ndx < 0 ? "" : filePath.substring(0, ndx);
     }
 
     private static void formatSchemaLocation(Element root, boolean addBlueprint, boolean addCamel) {
@@ -581,29 +574,29 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
     }
 
     /*
-    private static boolean isAffirmative(String systemProperty) {
-        String option = System.getProperty(systemProperty);
-        if (option == null || option.length() == 0) {
-            return false;
-        }
-        if ("true".equalsIgnoreCase(option)) {
-            return true;
-        }
-        if ("1".equalsIgnoreCase(option)) {
-            return true;
-        }
-        if ("on".equalsIgnoreCase(option)) {
-            return true;
-        }
-        if ("yes".equalsIgnoreCase(option)) {
-            return true;
-        }
-        if ("y".equalsIgnoreCase(option)) {
-            return true;
-        }
-        return false;
-    }
-    */
+     * private static boolean isAffirmative(String systemProperty) {
+     * String option = System.getProperty(systemProperty);
+     * if (option == null || option.length() == 0) {
+     * return false;
+     * }
+     * if ("true".equalsIgnoreCase(option)) {
+     * return true;
+     * }
+     * if ("1".equalsIgnoreCase(option)) {
+     * return true;
+     * }
+     * if ("on".equalsIgnoreCase(option)) {
+     * return true;
+     * }
+     * if ("yes".equalsIgnoreCase(option)) {
+     * return true;
+     * }
+     * if ("y".equalsIgnoreCase(option)) {
+     * return true;
+     * }
+     * return false;
+     * }
+     */
 
     private static boolean isNotNegated(String systemProperty) {
         String option = System.getProperty(systemProperty);

@@ -237,11 +237,13 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
 
         // add manifest items
         analyzer.setProperty(Analyzer.REQUIRE_BUNDLE, resolver.getManifestRequireBundle(MANIFEST_ITEM_SEPARATOR));
-        // Add subjob import packages
-        StringBuilder manifestImportPackage =
-                new StringBuilder(subjobImportPackages.get(processItem.getProperty().getId()));
+        StringBuilder manifestImportPackage = new StringBuilder();
+        if (subjobImportPackages != null && subjobImportPackages.containsKey(processItem.getProperty().getId())) {
+            // Add subjob import packages
+            manifestImportPackage.append(subjobImportPackages.get(processItem.getProperty().getId()));
+            manifestImportPackage.append(MANIFEST_ITEM_SEPARATOR);
+        }
         manifestImportPackage
-                .append(",")
                 .append(resolver.getManifestImportPackage(MANIFEST_ITEM_SEPARATOR))
                 .append(",*;resolution:=optional"); //$NON-NLS-1$
 

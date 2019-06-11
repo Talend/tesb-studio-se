@@ -260,27 +260,15 @@
             <library id="jetty-all" />
         </libraryNeededGroup>
 
-        <!--libraryNeeded context="plugin:org.talend.libraries.esb"
-            name="${tesb-httpclient}"
-            id="httpclient"
-            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-httpclient}"
-            bundleID="" />
-        <libraryNeeded context="plugin:org.talend.libraries.esb"
-            name="${tesb-httpcore}"
-            id="httpcore"
-            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-httpcore}"
-            bundleID="" /-->
-        <!-- ${tesb-httpclient} -->
         <libraryNeeded context="plugin:org.apache.httpcomponents.httpclient"
-            name="org.apache.httpcomponents.httpclient-4.2.6.jar"
+            name="org.apache.httpcomponents.httpclient_4.5.5.jar"
             id="httpclient"
-            uripath="platform:/base/plugins/org.apache.httpcomponents.httpclient_4.2.6.v201311072007.jar"
+            uripath="platform:/base/plugins/org.apache.httpcomponents.httpclient_4.5.5.v20180409-1525.jar"
             bundleID="" />
-        <!-- ${tesb-httpcore} -->
         <libraryNeeded context="plugin:org.apache.httpcomponents.httpcore"
-            name="org.apache.httpcomponents.httpcore-4.2.5.jar"
+            name="org.apache.httpcomponents.httpcore_4.4.9.jar"
             id="httpcore"
-            uripath="platform:/base/plugins/org.apache.httpcomponents.httpcore_4.2.5.v201311072007.jar"
+            uripath="platform:/base/plugins/org.apache.httpcomponents.httpcore_4.4.9.v20180409-1525.jar"
             bundleID="" />
 
         <libraryNeededGroup

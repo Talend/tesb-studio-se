@@ -277,7 +277,7 @@
                 name="httpclient">
             <library id="httpclient" />
             <library id="httpcore" />
-            <library id="commons-codec" />
+            <library id="commons-codec-1.6" />
             <library id="commons-logging" />
         </libraryNeededGroup>
 
@@ -423,10 +423,9 @@
             id="xmlsec"
             uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-xmlsec}"
             bundleID="" />
-        <!-- ${tesb-commons-codec} -->
         <libraryNeeded context="plugin:org.apache.commons.codec"
             name="org.apache.commons.codec_1.6.0.v201305230611.jar"
-            id="commons-codec"
+            id="commons-codec-1.6"
             uripath="platform:/base/plugins/org.apache.commons.codec_1.6.0.v201305230611.jar"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.libraries.esb"
@@ -573,7 +572,7 @@
             <library id="cxf-rt-security" />
             <library id="wss4j-ws-security-common" />
             <library id="xmlsec" />
-            <library id="commons-codec" />
+            <library id="commons-codec-1.6" />
             <library id="opensaml-saml-impl" />
             <library id="opensaml-profile-api" />
             <library id="opensaml-core" />

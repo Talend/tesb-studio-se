@@ -131,7 +131,7 @@ if (inputConn != null) {
     final javax.xml.namespace.QName portName_<%=cid%> = new javax.xml.namespace.QName("<%=portNS%>", "<%=portName%>");
 
 	 final List<java.util.Map<String, String>> customHttpHeaders_<%=cid%> = new java.util.ArrayList<java.util.Map<String, String>>();
-	 final HttpHeadersFeature httpHeadersFeature = new HttpHeadersFeature(customHttpHeaders_<%=cid%>);
+	 final HttpHeadersFeature httpHeadersFeature_<%=cid%> = new HttpHeadersFeature(customHttpHeaders_<%=cid%>);
 	
     try {
         routines.system.Document requestTalendDoc_<%=cid%> = <%=inputConn.getName()%>.payload;
@@ -311,13 +311,13 @@ if (inputConn != null) {
                 if (!soapHeaders_<%=cid%>.isEmpty()) {
                     genericConsumer_<%=cid%>.setSoapHeaders(soapHeaders_<%=cid%>);
                 }
-					 esbFeatures_<%=cid%>.add(httpHeadersFeature);
+					 esbFeatures_<%=cid%>.add(httpHeadersFeature_<%=cid%>);
                 responseDoc_<%=cid%> = genericConsumer_<%=cid%>.invoke(requestTalendDoc_<%=cid%>.getDocument());
                 <% if (useBusinessCorrelation || useSR) { %>
                     globalMap.put("<%=cid%>_CORRELATION_ID", genericConsumer_<%=cid%>.getCorrelationID());
                 <% } %>
-                globalMap.put("<%=cid%>_HTTP_HEADERS", httpHeadersFeature.getResponseHeaders());
-                globalMap.put("<%=cid%>_HTTP_RESPONSE_CODE", httpHeadersFeature.getResponseCode());
+                globalMap.put("<%=cid%>_HTTP_HEADERS", httpHeadersFeature_<%=cid%>.getResponseHeaders());
+                globalMap.put("<%=cid%>_HTTP_RESPONSE_CODE", httpHeadersFeature_<%=cid%>.getResponseCode());
             } else {
                 ESBConsumer consumer_<%=cid%> = registry.createConsumer(
                     new ESBEndpointInfo() {
@@ -387,7 +387,7 @@ if (inputConn != null) {
                             if (!soapHeaders_<%=cid%>.isEmpty()) {
                                 put("soapHeaders", soapHeaders_<%=cid%>);
                             }
-							put("httpHeadersFeature", httpHeadersFeature);
+							put("httpHeadersFeature", httpHeadersFeature_<%=cid%>);
                             <% if (authPropagateUP || authPropagateCertificate) { %>
                                 put("securityToken", securityToken_<%=cid%>);
                             <% }
@@ -439,8 +439,8 @@ if (inputConn != null) {
                         throw new RuntimeException("Incompatible consumer response: " + consumerResponse_<%=cid%>.getClass().getName());
                     }
                     
-                    globalMap.put("<%=cid%>_HTTP_HEADERS", httpHeadersFeature.getResponseHeaders());
-               	    globalMap.put("<%=cid%>_HTTP_RESPONSE_CODE", httpHeadersFeature.getResponseCode());
+                    globalMap.put("<%=cid%>_HTTP_HEADERS", httpHeadersFeature_<%=cid%>.getResponseHeaders());
+               	    globalMap.put("<%=cid%>_HTTP_RESPONSE_CODE", httpHeadersFeature_<%=cid%>.getResponseCode());
                 }
             }
             <% if (null != connResponse) {
@@ -490,9 +490,9 @@ if (inputConn != null) {
         <% } %>
     }
     
-    if(httpHeadersFeature!=null){
-    	 globalMap.put("<%=cid%>_HTTP_HEADERS", httpHeadersFeature.getResponseHeaders());
-       globalMap.put("<%=cid%>_HTTP_RESPONSE_CODE",  httpHeadersFeature.getResponseCode());
+    if(httpHeadersFeature_<%=cid%>!=null){
+    	 globalMap.put("<%=cid%>_HTTP_HEADERS", httpHeadersFeature_<%=cid%>.getResponseHeaders());
+       globalMap.put("<%=cid%>_HTTP_RESPONSE_CODE",  httpHeadersFeature_<%=cid%>.getResponseCode());
     }
 
 <% } %>

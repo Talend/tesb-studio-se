@@ -108,7 +108,7 @@
 #foreach ($routelet in $routelets)
     <reference id="${routelet}" interface="org.apache.camel.RoutesBuilder" filter="(id=${routelet})" />
 #end
-    <camelContext id="${idName}" xmlns="http://camel.apache.org/schema/blueprint">
+    <camelContext id="${idName}" useBlueprintPropertyResolver="false" xmlns="http://camel.apache.org/schema/blueprint">
         <routeBuilder ref="route" />
 #foreach ($routelet in $routelets)
         <routeBuilder ref="${routelet}" />

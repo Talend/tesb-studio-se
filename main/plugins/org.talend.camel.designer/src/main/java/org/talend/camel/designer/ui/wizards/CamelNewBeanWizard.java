@@ -29,6 +29,7 @@ import org.talend.commons.exception.PersistenceException;
 import org.talend.commons.ui.runtime.exception.RuntimeExceptionHandler;
 import org.talend.commons.utils.VersionUtils;
 import org.talend.core.CorePlugin;
+import org.talend.core.GlobalServiceRegister;
 import org.talend.core.context.Context;
 import org.talend.core.context.RepositoryContext;
 import org.talend.core.model.general.ILibrariesService;
@@ -36,9 +37,11 @@ import org.talend.core.model.general.ModuleNeeded;
 import org.talend.core.model.properties.ByteArray;
 import org.talend.core.model.properties.PropertiesFactory;
 import org.talend.core.model.properties.Property;
+import org.talend.core.model.properties.RoutineItem;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.designer.core.model.utils.emf.component.ComponentFactory;
 import org.talend.designer.core.model.utils.emf.component.IMPORTType;
+import org.talend.designer.runprocess.IRunProcessService;
 import org.talend.librariesmanager.model.ModulesNeededProvider;
 import org.talend.repository.model.IProxyRepositoryFactory;
 
@@ -100,7 +103,14 @@ public class CamelNewBeanWizard extends Wizard {
         addDefaultModulesForBeans();
     }
 
-    private void addDefaultModulesForBeans() {
+    private void refreshLibrariesListForTheBean() {
+		GlobalServiceRegister globalServiceRegister = GlobalServiceRegister.getDefault();
+        IRunProcessService runProcessService = globalServiceRegister.getService(IRunProcessService.class);
+		
+        runProcessService.updateLibraries((RoutineItem) beanItem.getProperty().getItem());
+	}
+
+	private void addDefaultModulesForBeans() {
         List<ModuleNeeded> importNeedsList = ModulesNeededProvider.getModulesNeededForBeans();
 
         for (ModuleNeeded model : importNeedsList) {
@@ -141,8 +151,13 @@ public class CamelNewBeanWizard extends Wizard {
             MessageDialog.openError(getShell(), Messages.getString("NewBeanWizard.failureTitle"), ""); //$NON-NLS-1$ //$NON-NLS-2$
             ExceptionHandler.process(e);
         }
+        
+        if (beanItem != null) {
+        	refreshLibrariesListForTheBean();
+        	return true;
+        }
 
-        return beanItem != null;
+        return false;
     }
 
     /**

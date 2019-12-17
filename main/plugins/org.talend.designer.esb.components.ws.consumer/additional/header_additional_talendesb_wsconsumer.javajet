@@ -382,7 +382,8 @@ if (actAsConsumer) {
 			private List<java.util.Map<String, String>> headers = null;
 
 			public HttpHeadersOutInterceptor() {
-				super(org.apache.cxf.phase.Phase.POST_PROTOCOL);
+				super(org.apache.cxf.phase.Phase.MARSHAL);
+				super.addBefore(org.apache.cxf.wsdl.interceptors.BareOutInterceptor.class.getName());
 			}
 
 			public void setHeaders(List<java.util.Map<String, String>> headers) {

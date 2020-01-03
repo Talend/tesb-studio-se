@@ -200,12 +200,12 @@
 					</mapping>
 					<mapping>
 						<from>
-							<name>([^:]+):([^:]+):jar</name>
-							<value>.*[\\/]([\d]+\.[\d]+[^\\/]*).*</value>
+							<name>mvn-dom4j</name>
+                            <value>${mvn-dom4j}</value>
 						</from>
 						<to>
-							<name>mvn-$2</name>
-							<value>mvn:$1/$2/$3</value>
+							<name>mvn-dom4j</name>
+                            <value>${mvn-dom4j}</value>
 						</to>
 					</mapping>
 					<mapping>

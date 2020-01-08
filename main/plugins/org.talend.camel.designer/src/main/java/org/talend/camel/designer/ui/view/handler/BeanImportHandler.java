@@ -12,6 +12,10 @@
 // ============================================================================
 package org.talend.camel.designer.ui.view.handler;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
@@ -19,6 +23,7 @@ import org.talend.camel.core.model.camelProperties.BeanItem;
 import org.talend.core.model.components.IComponent;
 import org.talend.core.model.general.ModuleNeeded;
 import org.talend.core.ui.component.ComponentsFactoryProvider;
+import org.talend.designer.core.model.utils.emf.component.ComponentFactory;
 import org.talend.designer.core.model.utils.emf.component.IMPORTType;
 import org.talend.librariesmanager.model.ModulesNeededProvider;
 import org.talend.repository.items.importexport.handlers.imports.ImportRepTypeHandler;
@@ -73,7 +78,24 @@ public class BeanImportHandler extends ImportRepTypeHandler {
         super.beforeCreatingItem(importItem);
         if (importItem != null && importItem.getItem() != null && importItem.getItem() instanceof BeanItem) {
 
-            EList imports = ((BeanItem) importItem.getItem()).getImports();
+            EList<IMPORTType> imports = ((BeanItem) importItem.getItem()).getImports();
+            
+            //add default modules to the list of modules that are being imported from external project
+            List<ModuleNeeded> modulesNeededForBeans = ModulesNeededProvider.getModulesNeededForBeans();
+
+            Set<String> importedModulesForBeansNames = (Set<String>) imports.stream().map(x -> ((IMPORTType)x).getMODULE())
+            		.collect(Collectors.toSet());
+            
+            for (ModuleNeeded model : modulesNeededForBeans) {
+            	if (!importedModulesForBeansNames.contains(model.getModuleName())) {
+	                IMPORTType importType = ComponentFactory.eINSTANCE.createIMPORTType();
+	                importType.setMODULE(model.getModuleName());
+	                importType.setMESSAGE(model.getInformationMsg());
+	                importType.setREQUIRED(model.isRequired());
+	                importType.setMVN(model.getMavenUri());
+	                imports.add(importType);
+            	}
+            }
 
             String camelCxfPrefix = "camel-cxf-";
 

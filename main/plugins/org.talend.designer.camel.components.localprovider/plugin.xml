@@ -523,8 +523,17 @@
            </library>
            <library
                  id="org.hamcrest.core_1.3.0.v20180420-1519.jar">
-           </library>                                       
+           </library>
+           <library
+                 id="hamcrest-all">
+           </library>
         </libraryNeededGroup>
+        <libraryNeeded
+                context="plugin:org.talend.designer.camel.components.localprovider"
+                id="hamcrest-all"
+                name="${tesb-hamcrest-all}"
+                uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-hamcrest-all}">
+        </libraryNeeded>
         <libraryNeeded
               context="plugin:org.talend.designer.camel.components.localprovider"
               id="camel-test-spring"

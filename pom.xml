@@ -68,6 +68,16 @@
 			<enabled>true</enabled>
 		</releases>
 	</repository>
+	<repository>
+		<id>thirdparty-releases</id>
+		<url>https://artifacts-zl.talend.com/nexus/content/repositories/thirdparty-releases/</url>
+		<snapshots>
+			<enabled>false</enabled>
+		</snapshots>
+		<releases>
+			<enabled>true</enabled>
+		</releases>
+	</repository>
 	<!--repository>
 		<id>apache-snapshots</id>
 		<url>https://artifacts-oss.talend.com/nexus/content/repositories/apache-snapshots/</url>

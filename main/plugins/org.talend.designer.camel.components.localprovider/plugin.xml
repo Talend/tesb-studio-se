@@ -83,6 +83,11 @@
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-spring}"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
+            name="camel-spring-boot-3.0.0.jar"
+            id="camel-spring-boot"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-spring-boot-3.0.0.jar"
+            bundleID="" />    
+        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
             name="${tesb-camel-blueprint}"
             id="camel-blueprint"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-blueprint}"

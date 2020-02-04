@@ -3368,17 +3368,16 @@ if (isProvider) {
             String passwordFieldName = "__PASSWORD__";
 %>            
             // add handlers for main MIME types
-		    javax.activation.MailcapCommandMap mc_<%=cid%> = ( javax.activation.MailcapCommandMap)javax.activation.CommandMap.getDefaultCommandMap();
-		    mc_<%=cid%>.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
-		    mc_<%=cid%>.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
-		    mc_<%=cid%>.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
-		    mc_<%=cid%>.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
-		    mc_<%=cid%>.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
-		    javax.activation.CommandMap.setDefaultCommandMap(mc_<%=cid%>);
-		    // add com.sun.mail.handlers to job imports
-		    com.sun.mail.handlers.text_plain text_plain_h_<%=cid%> = null;
+            javax.activation.MailcapCommandMap mc_<%=cid%> = ( javax.activation.MailcapCommandMap)javax.activation.CommandMap.getDefaultCommandMap();
+            mc_<%=cid%>.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html");
+            mc_<%=cid%>.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
+            mc_<%=cid%>.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
+            mc_<%=cid%>.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
+            mc_<%=cid%>.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
+            javax.activation.CommandMap.setDefaultCommandMap(mc_<%=cid%>);
+            // add com.sun.mail.handlers to job imports
+            com.sun.mail.handlers.text_plain text_plain_h_<%=cid%> = null;
             
-
             <%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>
 
 <%  }else if("cAggregate".equals(nodeComponentName)){

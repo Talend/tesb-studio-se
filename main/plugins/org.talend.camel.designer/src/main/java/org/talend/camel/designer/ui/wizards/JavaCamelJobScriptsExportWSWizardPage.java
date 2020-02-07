@@ -669,7 +669,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
         exportAsZipButton = new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
         exportAsZipButton.setText("Export as ZIP"); //$NON-NLS-1$
-        exportAsZipButton.setSelection(exportAsZip);
+        exportAsZipButton.setSelection(false);
         exportAsZipButton.setFont(getFont());
         exportAsZipButton.addSelectionListener(new SelectionAdapter() {
 

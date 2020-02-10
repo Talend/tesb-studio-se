@@ -822,7 +822,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
             if (!yes) {
                 return false;
             }
-        } else {
+        } else if (!exportTypeCombo.getText().equals(EXPORTTYPE_KAR)) {
             exportChoiceMap.put(ExportChoice.needAssembly, Boolean.FALSE);
         }
 

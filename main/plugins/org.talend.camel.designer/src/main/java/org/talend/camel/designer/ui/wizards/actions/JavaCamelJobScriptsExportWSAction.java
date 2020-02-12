@@ -121,6 +121,7 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
      * Value - Import-package string
      */
     private Map<String, String> subjobImportPackages = new HashMap<>();
+    private Set<String> allSubJobsImportPackages = new HashSet<String>();
 
     private IBuildJobHandler buildJobHandler = null;
 
@@ -314,7 +315,10 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
                 exportAllReferenceJobs(routeName, routeProcess);
                 final Set<String> routelets = new HashSet<>();
                 exportAllReferenceRoutelets(routeName, routeProcess, routelets);
-
+                
+                // Add all child from Routelets jobs to OSGi import of main Job
+                addJobPackageToOsgiImport(routeProcess, allSubJobsImportPackages);
+                
                 exportRouteBundle(routeObject, routeFile, version, null, null, bundleVersion, null, routelets, null);
             }
 
@@ -622,6 +626,7 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
                         new BundleModel(routeletModelGroupId, routeletBundleName, routeletModelVersion, routeletFile);
 
                 if (featuresModel.addBundle(routeletModel)) {
+                	exportAllReferenceJobs(routeName, routeletProcess);
                     exportRouteBundle(referencedRouteletNode, routeletFile, routeletVersion, routeletBundleName,
                             routeletBundleSymbolicName, bundleVersion, idSuffix, null,
                             EmfModelUtils
@@ -629,7 +634,6 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
                                             + EParameterName.PROCESS_TYPE_CONTEXT.getName(), node)
                                     .getValue());
                     CamelFeatureUtil.addFeatureAndBundles(routeletProcess, featuresModel);
-                    exportAllReferenceJobs(routeName, routeletProcess);
                     exportAllReferenceRoutelets(routeName, routeletProcess, routelets);
                 }
             }
@@ -696,19 +700,12 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
         final String IMPORT_PACKAGE_KEY = "Import-Package";
         if (process.getProperty().getAdditionalProperties().containsKey(IMPORT_PACKAGE_KEY)) {
             Object o = process.getProperty().getAdditionalProperties().get(IMPORT_PACKAGE_KEY);
-            if (o == null) {
-                subjobImportPackages.put(process.getProperty().getId(), packages);
-            } else if (o instanceof String) {
-                String s = (String)o;
-                if (s.isEmpty()) {
-                    subjobImportPackages.put(process.getProperty().getId(), packages);
-                } else {
-                    subjobImportPackages.put(process.getProperty().getId(), s + "," + packages);
-                }
+            if (o != null && !o.toString().isEmpty()) {
+            	packages = o.toString() + "," + packages;
             }
-        } else {
-            subjobImportPackages.put(process.getProperty().getId(), packages);
-        }
+        } 
+        subjobImportPackages.put(process.getProperty().getId(), packages);
+        allSubJobsImportPackages.add(packages);
     }
 
 

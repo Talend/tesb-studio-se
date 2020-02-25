@@ -69,20 +69,29 @@ if (null != column) {
 } %>
 
 		java.util.Map<String, String> restProviderResponseHeaders_<%=cid%> = new java.util.TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+		java.lang.StringBuilder restProviderResponseHeader_cookies_<%=cid%> = new java.lang.StringBuilder();
+		final String setCookieHeader = "Set-Cookie";
 <%
 List<Map<String, String>> headers = (List<Map<String,String>>) ElementParameterParser.getObjectValue(node,"__RESPONSE_HEADERS__");
 for (Map<String, String> header : headers) { %>
-		restProviderResponseHeaders_<%=cid%>.put(<%=header.get("NAME") %>, <%=header.get("VALUE") %>);
+		if (<%=header.get("NAME") %>.equalsIgnoreCase(setCookieHeader)) {
+			restProviderResponseHeader_cookies_<%=cid%>.append(<%=header.get("VALUE") %>);
+			restProviderResponseHeader_cookies_<%=cid%>.append(";");
+		} else {
+			restProviderResponseHeaders_<%=cid%>.put(<%=header.get("NAME") %>, <%=header.get("VALUE") %>);
+		}
 <% } %>
+
+		restProviderResponseHeaders_<%=cid%>.put(setCookieHeader, restProviderResponseHeader_cookies_<%=cid%>.toString());
 
         java.util.Map<String, Object> restRequest_<%=cid%> = (java.util.Map<String, Object>) globalMap.get("restRequest");
         org.apache.cxf.jaxrs.ext.MessageContext messageContext_<%=cid%> = (org.apache.cxf.jaxrs.ext.MessageContext) restRequest_<%=cid%>.get("MESSAGE_CONTEXT");
-        
+
         <%
         String jsonArrayKeys = ElementParameterParser.getValue(node,"__JSON_ARRAY_KEYS__");
-        
+
         String REP = ElementParameterParser.getValue(node,"__REST_ENDPOINT__");
-        
+
         if(jsonArrayKeys!=null && !jsonArrayKeys.trim().isEmpty()){ %>
             messageContext_<%=cid%>.put("json.array.keys",java.util.Arrays.asList(<%=jsonArrayKeys%>.split(" ")));
         <% } %>
@@ -94,7 +103,7 @@ for (Map<String, String> header : headers) { %>
 			restResponse_<%=cid%>.put("HEADERS", restProviderResponseHeaders_<%=cid%>);
 			restResponse_<%=cid%>.put("drop.json.root.element", Boolean.valueOf(<%=ElementParameterParser.getValue(node,"__UNWRAP_JSON_RESPONSE__")%>));
 			globalMap.put("restResponse", restResponse_<%=cid%>);
-			
+
 		} else {
 
 			javax.ws.rs.core.MediaType responseMediaType_<%=cid%> = null;
@@ -118,11 +127,11 @@ for (Map<String, String> header : headers) { %>
 				messageContext_<%=cid%>.put(org.apache.cxf.message.Message.PROTOCOL_HEADERS, headersMultivaluedMap_<%=cid%>);
 
 				String responseContentType_<%=cid%> = null;
-				
+
 				if (currentMessage != null && currentMessage.getExchange() != null) {
 					responseContentType_<%=cid%> = (String) currentMessage.getExchange().get(org.apache.cxf.message.Message.CONTENT_TYPE);
 				}
-					
+
 				if (null == responseContentType_<%=cid%>) {
 					// this should not be needed, just in case. set it to the first value in the sorted list returned from HttpHeaders
 					responseMediaType_<%=cid%> = messageContext_<%=cid%>.getHttpHeaders().getAcceptableMediaTypes().get(0);

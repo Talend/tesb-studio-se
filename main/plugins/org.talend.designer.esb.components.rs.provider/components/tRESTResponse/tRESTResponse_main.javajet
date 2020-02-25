@@ -69,23 +69,32 @@ if (null != column) {
 } %>
 
 		java.util.Map<String, String> restProviderResponseHeaders_<%=cid%> = new java.util.TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+		java.lang.StringBuilder restProviderResponseHeader_cookies_<%=cid%> = new java.lang.StringBuilder();
+		final String setCookieHeader = "Set-Cookie";
 <%
 List<Map<String, String>> headers = (List<Map<String,String>>) ElementParameterParser.getObjectValue(node,"__RESPONSE_HEADERS__");
 for (Map<String, String> header : headers) { %>
-		restProviderResponseHeaders_<%=cid%>.put(<%=header.get("NAME") %>, <%=header.get("VALUE") %>);
+		if (<%=header.get("NAME") %>.equalsIgnoreCase(setCookieHeader)) {
+			restProviderResponseHeader_cookies_<%=cid%>.append(<%=header.get("VALUE") %>);
+			restProviderResponseHeader_cookies_<%=cid%>.append(";");
+		} else {
+			restProviderResponseHeaders_<%=cid%>.put(<%=header.get("NAME") %>, <%=header.get("VALUE") %>);
+		}
 <% } %>
 
-        java.util.Map<String, Object> restRequest_<%=cid%> = (java.util.Map<String, Object>) globalMap.get("restRequest");
-        org.apache.cxf.jaxrs.ext.MessageContext messageContext_<%=cid%> = (org.apache.cxf.jaxrs.ext.MessageContext) restRequest_<%=cid%>.get("MESSAGE_CONTEXT");
-        
-        <%
-        String jsonArrayKeys = ElementParameterParser.getValue(node,"__JSON_ARRAY_KEYS__");
-        
-        String REP = ElementParameterParser.getValue(node,"__REST_ENDPOINT__");
-        
-        if(jsonArrayKeys!=null && !jsonArrayKeys.trim().isEmpty()){ %>
-            messageContext_<%=cid%>.put("json.array.keys",java.util.Arrays.asList(<%=jsonArrayKeys%>.split(" ")));
-        <% } %>
+		restProviderResponseHeaders_<%=cid%>.put(setCookieHeader, restProviderResponseHeader_cookies_<%=cid%>.toString());
+
+		java.util.Map<String, Object> restRequest_<%=cid%> = (java.util.Map<String, Object>) globalMap.get("restRequest");
+		org.apache.cxf.jaxrs.ext.MessageContext messageContext_<%=cid%> = (org.apache.cxf.jaxrs.ext.MessageContext) restRequest_<%=cid%>.get("MESSAGE_CONTEXT");
+
+		<%
+		String jsonArrayKeys = ElementParameterParser.getValue(node,"__JSON_ARRAY_KEYS__");
+
+		String REP = ElementParameterParser.getValue(node,"__REST_ENDPOINT__");
+
+		if(jsonArrayKeys!=null && !jsonArrayKeys.trim().isEmpty()){ %>
+			messageContext_<%=cid%>.put("json.array.keys",java.util.Arrays.asList(<%=jsonArrayKeys%>.split(" ")));
+		<% } %>
 
 		if (null == outputStream_<%=cid%>) {
 			java.util.Map<String, Object> restResponse_<%=cid%> = new java.util.HashMap<String, Object>();
@@ -161,9 +170,9 @@ for (Map<String, String> header : headers) { %>
 				javax.ws.rs.ext.MessageBodyWriter messageBodyWriter_<%=cid%> = messageBodyProviders_<%=cid%>.getMessageBodyWriter(
 						responseBodyClass_<%=cid%>, responseBodyClass_<%=cid%>, null, responseMediaType_<%=cid%>);
 
-                if (messageBodyWriter_<%=cid%> instanceof StreamingDOM4JProvider) {
-                    ((StreamingDOM4JProvider)messageBodyWriter_<%=cid%>).setGlobalMap(globalMap);
-                }
+				if (messageBodyWriter_<%=cid%> instanceof StreamingDOM4JProvider) {
+					((StreamingDOM4JProvider)messageBodyWriter_<%=cid%>).setGlobalMap(globalMap);
+				}
 
 				messageBodyWriter_<%=cid%>.writeTo(restProviderResponse_<%=cid%>, responseBodyClass_<%=cid%>, responseBodyClass_<%=cid%>,
 						new java.lang.annotation.Annotation[] {}, responseMediaType_<%=cid%>, null, outputStream_<%=cid%>);

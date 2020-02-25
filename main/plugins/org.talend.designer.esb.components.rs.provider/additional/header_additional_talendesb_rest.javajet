@@ -523,6 +523,7 @@ public static class RestServiceProviderImpl4TalendJob {
 
 	@javax.ws.rs.core.Context
 	private org.apache.cxf.jaxrs.ext.MessageContext messageContext;
+	private final String setCookieHeader = "Set-Cookie";
 
 	private final <%=process.getName()%> job;
 
@@ -604,7 +605,27 @@ public static class RestServiceProviderImpl4TalendJob {
 			javax.ws.rs.core.Response.ResponseBuilder responseBuilder = javax.ws.rs.core.Response.status(status).entity(responseBody);
 			if (headers != null) {
 				for (java.util.Map.Entry<String, String> header : headers.entrySet()) {
-					responseBuilder.header(header.getKey(), header.getValue());
+					if (header.getKey().equalsIgnoreCase(setCookieHeader)) {
+						String cookies = header.getValue().trim();
+						String cookiesList[] = cookies.split(";");
+
+						for (String cookie : cookiesList) {
+							String cookieTokens[] = cookie.trim().split("=");
+
+							if (cookieTokens.length == 2) {
+
+								String cookieName = cookieTokens[0].trim();
+								String cookieValue = cookieTokens[1].trim();
+
+								if (cookieName.length() > 0 && cookieValue.length() > 0) {
+									javax.ws.rs.core.NewCookie newCookie = new javax.ws.rs.core.NewCookie(cookieName, cookieValue);
+									responseBuilder.cookie(newCookie);
+								}
+							}
+						}
+					} else {
+						responseBuilder.header(header.getKey(), header.getValue());
+					}
 				}
 			}
 
@@ -1032,9 +1053,9 @@ if (null != conns && !conns.isEmpty()) {
 		}
 %>
 <% if ("PATCH".equals(httpVerb)) {%>
-    @org.apache.cxf.jaxrs.ext.<%=httpVerb%>()
+	@org.apache.cxf.jaxrs.ext.<%=httpVerb%>()
 <%} else {%>
-    @javax.ws.rs.<%=httpVerb%>()
+	@javax.ws.rs.<%=httpVerb%>()
 <%}%>
 
 <% if (null != uriPattern) { %>
@@ -1071,13 +1092,13 @@ if (exposeSwagger) {
 	String opName = "Operation " + connName;
 	String notes = "";
 	if (producesContentTypes != null) {
-	    notes += "Produces: " + producesContentTypes + " ";
+		notes += "Produces: " + producesContentTypes + " ";
 	}
 	if (consumesContentTypes != null) {
-	    notes += "Consumes: " + consumesContentTypes;
+		notes += "Consumes: " + consumesContentTypes;
 	}
 	notes = notes.replaceAll("\"", "");
-    %>
+	%>
 
 	  @io.swagger.annotations.ApiOperation(
 		value = "<%=opName%>",
@@ -1445,8 +1466,8 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 			RestServiceProviderImpl4TalendJob provider = new RestServiceProviderImpl4TalendJob(job);
 			
 			if(sf.getProperties() == null){
-        		sf.setProperties(new java.util.HashMap<String, Object>());
-        	}
+				sf.setProperties(new java.util.HashMap<String, Object>());
+			}
 
 			java.util.List<Object> providers = (java.util.List<Object>)sf.getProviders();
 			providers.add(new ExceptionMapper4TalendJobRestService(provider));
@@ -1496,11 +1517,11 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 				org.talend.esb.servicelocator.cxf.LocatorFeature slFeature = null;
 		
 				if(!inOSGi){
-			    	org.springframework.context.support.ClassPathXmlApplicationContext context_ = new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/locator/beans.xml" });
-			    	slFeature = (org.talend.esb.servicelocator.cxf.LocatorFeature) context_.getBean(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
-		        }else{  
+					org.springframework.context.support.ClassPathXmlApplicationContext context_ = new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/locator/beans.xml" });
+					slFeature = (org.talend.esb.servicelocator.cxf.LocatorFeature) context_.getBean(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
+				}else{
 					slFeature = routines.system.BundleUtils.getService(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
-		        }
+				}
 
 				<% List<Map<String, String>> customProperties = (List<Map<String,String>>)
 						ElementParameterParser.getObjectValue(node, "__SERVICE_LOCATOR_CUSTOM_PROPERTIES__"); %>
@@ -1509,8 +1530,8 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 					<% for (int k = 0; k < customProperties.size(); k++) { %>
 						slCustomProps_<%=cid%>.put(<%=customProperties.get(k).get("PROP_NAME")%>, <%=customProperties.get(k).get("PROP_VALUE")%>);
 					<% } %>
-            	
-            		sf.getProperties().put(org.talend.esb.servicelocator.cxf.LocatorFeature.LOCATOR_PROPERTIES,slCustomProps_<%=cid%>);
+
+					sf.getProperties().put(org.talend.esb.servicelocator.cxf.LocatorFeature.LOCATOR_PROPERTIES,slCustomProps_<%=cid%>);
 				<% } %>
 
 				features.add(slFeature);
@@ -1520,10 +1541,10 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 				org.talend.esb.sam.agent.feature.EventFeature samEventFeature_<%=cid%> = null;
 				
 				if(!inOSGi){
-			    	samEventFeature_<%=cid%> = (org.talend.esb.sam.agent.feature.EventFeature) new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/agent-context.xml" }).getBean(org.talend.esb.sam.agent.feature.EventFeature.class);
-		        }else{  
+					samEventFeature_<%=cid%> = (org.talend.esb.sam.agent.feature.EventFeature) new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/agent-context.xml" }).getBean(org.talend.esb.sam.agent.feature.EventFeature.class);
+				}else{
 					samEventFeature_<%=cid%> = routines.system.BundleUtils.getService(org.talend.esb.sam.agent.feature.EventFeature.class);
-		        }
+				}
 
 				<% List<Map<String, String>> samCustomProperties = (List<Map<String,String>>)
 						ElementParameterParser.getObjectValue(node, "__SERVICE_ACTIVITY_MONITOR_CUSTOM_PROPERTIES__"); %>
@@ -1547,28 +1568,28 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 				features.add(new org.apache.cxf.feature.LoggingFeature());
 			<% } %>
 
-            <% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__EXPOSE_SWAGGER_SPEC__")) && !"RESOURCECLASS".equals(ElementParameterParser.getValue(node, "__SERVICE_TYPE__"))) {
-                String swaggerDescription = "";
-                if (Boolean.valueOf(ElementParameterParser.getValue(node,"__INCLUDE_DOC_INTO_SWAGGER_SPEC__"))) {
-                    swaggerDescription = ElementParameterParser.getValue(node,"__COMMENT__").replace("\"", "\\\"");
-                    if (swaggerDescription.contains("\r\n")) {
-                        swaggerDescription = swaggerDescription.replace("\r\n", "\\n\" + \n\"");
-                    } else {
-                        swaggerDescription = swaggerDescription.replace("\n", "\\n\" + \n\"");
-                    }
-                }
-            %>
-                org.apache.cxf.jaxrs.swagger.Swagger2Feature swaggerFeature =
-                        new org.apache.cxf.jaxrs.swagger.Swagger2Feature();
+			<% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__EXPOSE_SWAGGER_SPEC__")) && !"RESOURCECLASS".equals(ElementParameterParser.getValue(node, "__SERVICE_TYPE__"))) {
+				String swaggerDescription = "";
+				if (Boolean.valueOf(ElementParameterParser.getValue(node,"__INCLUDE_DOC_INTO_SWAGGER_SPEC__"))) {
+					swaggerDescription = ElementParameterParser.getValue(node,"__COMMENT__").replace("\"", "\\\"");
+					if (swaggerDescription.contains("\r\n")) {
+						swaggerDescription = swaggerDescription.replace("\r\n", "\\n\" + \n\"");
+					} else {
+						swaggerDescription = swaggerDescription.replace("\n", "\\n\" + \n\"");
+					}
+				}
+			%>
+				org.apache.cxf.jaxrs.swagger.Swagger2Feature swaggerFeature =
+						new org.apache.cxf.jaxrs.swagger.Swagger2Feature();
 
-                swaggerFeature.setScan(false);
-                swaggerFeature.setBasePath(<%=ElementParameterParser.getValue(node, "__REST_ENDPOINT__")%>);
-                swaggerFeature.setTitle("<%=process.getName()%>" + " REST Application");
-                swaggerFeature.setDescription("<%=swaggerDescription%>");
-                swaggerFeature.setContact(null);
-                swaggerFeature.setLicense(null);
-                swaggerFeature.setLicenseUrl(null);
-                features.add(swaggerFeature);
+				swaggerFeature.setScan(false);
+				swaggerFeature.setBasePath(<%=ElementParameterParser.getValue(node, "__REST_ENDPOINT__")%>);
+				swaggerFeature.setTitle("<%=process.getName()%>" + " REST Application");
+				swaggerFeature.setDescription("<%=swaggerDescription%>");
+				swaggerFeature.setContact(null);
+				swaggerFeature.setLicense(null);
+				swaggerFeature.setLicenseUrl(null);
+				features.add(swaggerFeature);
 			<% } %>
 
 			sf.setFeatures(features);

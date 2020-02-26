@@ -69,11 +69,22 @@ if (null != column) {
 } %>
 
 		java.util.Map<String, String> restProviderResponseHeaders_<%=cid%> = new java.util.TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+		java.lang.StringBuilder restProviderResponseHeader_cookies_<%=cid%> = new java.lang.StringBuilder();
+		final String setCookieHeader = "Set-Cookie";
 <%
 List<Map<String, String>> headers = (List<Map<String,String>>) ElementParameterParser.getObjectValue(node,"__RESPONSE_HEADERS__");
 for (Map<String, String> header : headers) { %>
-		restProviderResponseHeaders_<%=cid%>.put(<%=header.get("NAME") %>, <%=header.get("VALUE") %>);
+			if (<%=header.get("NAME") %>.equalsIgnoreCase(setCookieHeader)) {
+				restProviderResponseHeader_cookies_<%=cid%>.append(<%=header.get("VALUE") %>);
+				restProviderResponseHeader_cookies_<%=cid%>.append(";");
+			} else {
+				restProviderResponseHeaders_<%=cid%>.put(<%=header.get("NAME") %>, <%=header.get("VALUE") %>);
+			}
 <% } %>
+
+		if (restProviderResponseHeader_cookies_<%=cid%>.length() > 0) {
+			restProviderResponseHeaders_<%=cid%>.put(setCookieHeader, restProviderResponseHeader_cookies_<%=cid%>.toString());
+		}
 
         java.util.Map<String, Object> restRequest_<%=cid%> = (java.util.Map<String, Object>) globalMap.get("restRequest");
         org.apache.cxf.jaxrs.ext.MessageContext messageContext_<%=cid%> = (org.apache.cxf.jaxrs.ext.MessageContext) restRequest_<%=cid%>.get("MESSAGE_CONTEXT");

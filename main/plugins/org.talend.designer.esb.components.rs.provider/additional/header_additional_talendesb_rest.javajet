@@ -503,6 +503,7 @@ public static class RestServiceProviderImpl4TalendJob {
 
 	@javax.ws.rs.core.Context
 	private org.apache.cxf.jaxrs.ext.MessageContext messageContext;
+	private final String setCookieHeader = "Set-Cookie";
 
 	private final <%=process.getName()%> job;
 
@@ -574,7 +575,27 @@ public static class RestServiceProviderImpl4TalendJob {
 			javax.ws.rs.core.Response.ResponseBuilder responseBuilder = javax.ws.rs.core.Response.status(status).entity(responseBody);
 			if (headers != null) {
 				for (java.util.Map.Entry<String, String> header : headers.entrySet()) {
-					responseBuilder.header(header.getKey(), header.getValue());
+					if (header.getKey().equalsIgnoreCase(setCookieHeader)) {
+						String cookies = header.getValue().trim();
+						String cookiesList[] = cookies.split(";");
+
+                        for (String cookie : cookiesList) {
+							String cookieTokens[] = cookie.trim().split("=");
+
+                            if (cookieTokens.length == 2) {
+
+								String cookieName = cookieTokens[0].trim();
+								String cookieValue = cookieTokens[1].trim();
+
+								if (cookieName.length() > 0 && cookieValue.length() > 0) {
+									javax.ws.rs.core.NewCookie newCookie = new javax.ws.rs.core.NewCookie(cookieName, cookieValue);
+									responseBuilder.cookie(newCookie);
+								}
+							}
+						}
+					} else {
+						responseBuilder.header(header.getKey(), header.getValue());
+                    }
 				}
 			}
 

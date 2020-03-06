@@ -35,7 +35,6 @@ imports="
 	} else {
 		exp = getExpression(language, expression, cid, useNamespaces, "");
 	}
-	exp = exp.replaceAll("\\bjsonpath\\b", "jsonpathWriteAsString");
 
 	List< ? extends IConnection> conns = node.getIncomingConnections();
 	if(conns.size()>0) {
@@ -49,6 +48,7 @@ imports="
 			//fill postorder expression
 			%>).<%=exp%><%
 		}
+		if("jsonpath".equals(language)){ %>.marshal().json(JsonLibrary.Jackson)<%			}
 		if(useStrategy){			%>.aggregationStrategyRef(<%=aggregationStrategy%>)<%	}
 		if(arallelProcessing){		%>.parallelProcessing()<%								}
 		if(stopOnException){		%>.stopOnException()<%									}

@@ -5,6 +5,7 @@ imports="
     org.talend.core.model.process.IConnection
     org.talend.designer.codegen.config.CodeGeneratorArgument
     java.util.List
+    org.apache.camel.model.dataformat.JsonLibrary
 " 
 %>
 <%

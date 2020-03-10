@@ -101,10 +101,6 @@
                     MODULE="camel-script-${camel.version}.jar" MVN="${mvn-camel-script}"
                     UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
                     REQUIRED_IF="LANGUAGES == 'javascript'" />
-			<IMPORT MODULE="camel-jackson-alldep-${camel.version}.jar" MVN="mvn:org.talend.libraries/camel-jackson-alldep-${camel.version}/6.0.0"  NAME="talend-camel-jackson"
-				UrlPath="platform:/plugin/org.talend.libraries.camel.alldeps/lib/camel-jackson-alldep-${camel.version}.jar"
-				REQUIRED_IF="LANGUAGES == 'jsonpath'" />   
-			<IMPORT MODULE_GROUP="camel-jackson" REQUIRED_IF="LANGUAGES == 'jsonpath'" />	                 
         </IMPORTS>
 	</CODEGENERATION>
 

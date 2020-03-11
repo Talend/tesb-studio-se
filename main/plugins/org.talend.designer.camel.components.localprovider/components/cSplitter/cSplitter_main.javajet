@@ -48,12 +48,12 @@ imports="
 			//fill postorder expression
 			%>).<%=exp%><%
 		}
-        if("jsonpath".equals(language)){ %>.marshal().json(org.apache.camel.model.dataformat.JsonLibrary.Jackson)<% }
 		if(useStrategy){			%>.aggregationStrategyRef(<%=aggregationStrategy%>)<%	}
 		if(arallelProcessing){		%>.parallelProcessing()<%								}
 		if(stopOnException){		%>.stopOnException()<%									}
 		if(streaming){				%>.streaming()<%										}
 		if(shareUnitOfWork){		%>.shareUnitOfWork()<%									}
 		if(hasTimeout){				%>.timeout(<%=timeout%>)<%								}
+		if("jsonpath".equals(language)){ %>.marshal().json(org.apache.camel.model.dataformat.JsonLibrary.Jackson)<% }
 	}
 %>

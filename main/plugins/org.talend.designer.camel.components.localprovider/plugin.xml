@@ -242,6 +242,21 @@
             <library id="camel-groovy" />
         </libraryNeededGroup>
 
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="camel-jackson"
+              name="camel-jackson-${camel.version}.jar"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-jackson-${camel.version}.jar">
+        </libraryNeeded>
+        <libraryNeededGroup
+                description="camel-jackson"
+                id="camel-jackson"
+                name="camel-jackson">
+            <library
+                id="camel-jackson">
+            </library>
+        </libraryNeededGroup>
+
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
             name="${tesb-camel-http}"
             id="camel-http"

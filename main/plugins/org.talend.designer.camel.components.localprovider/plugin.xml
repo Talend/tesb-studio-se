@@ -245,8 +245,8 @@
         <libraryNeeded
               context="plugin:org.talend.designer.camel.components.localprovider"
               id="camel-jackson"
-              name="camel-jackson-${camel.version}.jar"
-              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-jackson-${camel.version}.jar">
+              name="${tesb-camel-jackson}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-jackson}">
         </libraryNeeded>
         <libraryNeeded
               context="plugin:org.talend.designer.camel.components.localprovider"
@@ -266,6 +266,12 @@
               name="${tesb-jackson-databind}"
               uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-databind}">
         </libraryNeeded>
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="jackson-annotations"
+              name="${tesb-jackson-annotations}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-annotations}">
+        </libraryNeeded>        
         <libraryNeededGroup
                 description="camel-jackson"
                 id="camel-jackson"
@@ -281,6 +287,9 @@
             </library>
             <library
                 id="jackson-databind">
+            </library>
+            <library
+                id="jackson-annotations">
             </library>
         </libraryNeededGroup>
 

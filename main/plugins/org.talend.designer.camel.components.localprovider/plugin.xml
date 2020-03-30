@@ -1097,21 +1097,6 @@
               uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-camel-talendjob}">
         </libraryNeeded>
 
-        <libraryNeeded
-              context="plugin:org.talend.designer.camel.components.localprovider"
-              id="joda-time"
-              name="${tesb-joda-time}"
-              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-joda-time}">
-        </libraryNeeded>
-		<libraryNeededGroup
-                description="joda-time"
-                id="joda-time"
-                name="joda-time">
-            <library
-                id="joda-time">
-            </library>
-        </libraryNeededGroup>
-
 		<!-- Java 11 missing jars begin-->
         <libraryNeededGroup
               description="esb-java-11-group"

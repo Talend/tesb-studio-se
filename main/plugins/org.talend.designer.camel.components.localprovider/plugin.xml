@@ -1096,7 +1096,6 @@
               name="${tesb-camel-talendjob}"
               uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-camel-talendjob}">
         </libraryNeeded>
-
 		<!-- Java 11 missing jars begin-->
         <libraryNeededGroup
               description="esb-java-11-group"

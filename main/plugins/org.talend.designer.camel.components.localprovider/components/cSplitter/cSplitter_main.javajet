@@ -26,6 +26,7 @@ imports="
 	boolean stopOnException="true".equals(ElementParameterParser.getValue(node, "__STOP_ON_EXCEPTION__"));
 	boolean streaming="true".equals(ElementParameterParser.getValue(node, "__STREAMING__"));
 	boolean shareUnitOfWork="true".equals(ElementParameterParser.getValue(node, "__SHARE_UNIT_OF_WORK__"));
+	boolean returnString="true".equals(ElementParameterParser.getValue(node, "__RETURN_STRING__"));
 	
 	String timeout=ElementParameterParser.getValue(node, "__TIMEOUT__");
 	boolean hasTimeout=(timeout!=null&&timeout.matches("\\s*\\d+\\s*"));
@@ -54,5 +55,6 @@ imports="
 		if(streaming){				%>.streaming()<%										}
 		if(shareUnitOfWork){		%>.shareUnitOfWork()<%									}
 		if(hasTimeout){				%>.timeout(<%=timeout%>)<%								}
+		if("jsonpath".equals(language) && returnString){ %>.marshal().json(org.apache.camel.model.dataformat.JsonLibrary.Jackson)<% }
 	}
 %>

@@ -242,6 +242,57 @@
             <library id="camel-groovy" />
         </libraryNeededGroup>
 
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="camel-jackson"
+              name="${tesb-camel-jackson}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-jackson}">
+        </libraryNeeded>
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="jackson-core"
+              name="${tesb-jackson-core}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-core}">
+        </libraryNeeded>
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="jackson-module-jaxb-annotations"
+              name="${tesb-jackson-module-jaxb-annotations}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-module-jaxb-annotations}">
+        </libraryNeeded>
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="jackson-databind"
+              name="${tesb-jackson-databind}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-databind}">
+        </libraryNeeded>
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
+              id="jackson-annotations"
+              name="${tesb-jackson-annotations}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-annotations}">
+        </libraryNeeded>
+        <libraryNeededGroup
+                description="camel-jackson"
+                id="camel-jackson"
+                name="camel-jackson">
+            <library
+                id="camel-jackson">
+            </library>
+            <library
+                id="jackson-core">
+            </library>
+            <library
+                id="jackson-module-jaxb-annotations">
+            </library>
+            <library
+                id="jackson-databind">
+            </library>
+            <library
+                id="jackson-annotations">
+            </library>
+        </libraryNeededGroup>
+
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
             name="${tesb-camel-http}"
             id="camel-http"
@@ -1025,7 +1076,7 @@
                  id="camel-saxon">
            </library>
            <library
-                 id="org.apache.servicemix.bundles.saxon">
+                 id="Saxon-HE">
            </library>
         </libraryNeededGroup>
         <libraryNeeded

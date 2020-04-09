@@ -193,6 +193,9 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
                         parent.layout();
 
+                    } else {
+                        if(contextButton != null) contextButton.setEnabled(false);
+                        if(exportAsZipButton != null) exportAsZipButton.setEnabled(false);
                     }
 
                     String destinationValue = getDestinationValue();

@@ -216,21 +216,38 @@ public class RouteResourceUtil {
 
         final IFolder routeExternalResourceFolder = talendProcessJavaProject.getExternalResourcesFolder();
 
+        final IFolder routeResourceFolder = talendProcessJavaProject.getResourcesFolder();
+
         final Collection<IPath> result = new ArrayList<IPath>();
         // https://jira.talendforge.org/browse/TESB-7893
         // add spring file
         if (!routelet) {
-            final IFolder metaInf = routeExternalResourceFolder.getFolder("META-INF/spring/");
+            final IFolder metaExtInf = routeExternalResourceFolder.getFolder("META-INF/spring/");
+
+            final IFolder metaInf = routeResourceFolder.getFolder("META-INF/spring/");
             try {
+                prepareFolder(metaExtInf);
                 prepareFolder(metaInf);
+                final IFile springExt = metaExtInf.getFile(item.getProperty().getLabel().toLowerCase() + ".xml");
                 final IFile spring = metaInf.getFile(item.getProperty().getLabel().toLowerCase() + ".xml");
                 final InputStream inputStream = new ByteArrayInputStream(((CamelProcessItem) item).getSpringContent().getBytes());
-                if (spring.exists()) {
-                    spring.setContents(inputStream, 0, null);
+
+                routeExternalResourceFolder.refreshLocal(IResource.DEPTH_INFINITE, null);
+                routeResourceFolder.refreshLocal(IResource.DEPTH_INFINITE, null);
+
+                if (springExt.exists()) {
+                    springExt.setContents(inputStream, 0, null);
                 } else {
-                    spring.create(inputStream, true, null);
+                    springExt.create(inputStream, true, null);
                 }
-                result.add(spring.getLocation());
+                result.add(springExt.getLocation());
+
+                if (spring.exists()) {
+                    spring.setContents(springExt.getContents(), 0, null);
+                } else {
+                    spring.create(springExt.getContents(), true, null);
+                }
+
             } catch (CoreException e) {
                 ExceptionHandler.process(e);
             }

@@ -128,7 +128,8 @@ public class CreateMavenDataServicePom extends CreateMavenJobPom {
         String jobVersion = PomIdsHelper.getJobVersion(getJobProcessor().getProperty());
         String talendJobVersion = getJobProcessor().getProperty().getVersion();
         String JobType = "Services";
-        String displayName = projectName + " " + artifactId + "-" + "${project.version}" + " (" + talendJobVersion + "," + JobType + ")";
+        String displayName = projectName + " " + artifactId + "-" + "${project.version}" + " (" + talendJobVersion + "," + JobType
+                + ")";
         pomModel.setGroupId(groupId);
         pomModel.setArtifactId(artifactId);
         pomModel.setVersion(jobVersion);
@@ -338,14 +339,7 @@ public class CreateMavenDataServicePom extends CreateMavenJobPom {
 
         plugin.setGroupId("org.talend.ci");
         plugin.setArtifactId("osgihelper-maven-plugin");
-        String talendVersion = VersionUtils.getTalendVersion();
-        String productVersion = VersionUtils.getInternalVersion();
-        String revision  = StringUtils.substringAfterLast(productVersion, "-");
-        if (revision.equals("SNAPSHOT") || Pattern.matches("M\\d{1}", revision)) { 
-            talendVersion += "-" + revision; //$NON-NLS-1$
-        }
-
-        plugin.setVersion(talendVersion);
+        plugin.setVersion(VersionUtils.getMojoVersion("osgihelper.version"));
 
         Xpp3Dom configuration = new Xpp3Dom("configuration");
         Xpp3Dom featuresFile = new Xpp3Dom("featuresFile");
@@ -362,8 +356,8 @@ public class CreateMavenDataServicePom extends CreateMavenJobPom {
         plugin.setExecutions(pluginExecutions);
 
         return plugin;
-    } 
-    
+    }
+
     /**
      * Avoid clean control-bundle file in target folde, in case of using mvn clean package, TESB-22296
      *

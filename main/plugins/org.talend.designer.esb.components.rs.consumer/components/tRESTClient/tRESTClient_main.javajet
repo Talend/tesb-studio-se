@@ -249,6 +249,11 @@ try {
 			new org.apache.cxf.jaxrs.provider.json.JSONProvider();
 		jsonProvider_<%=cid%>.setIgnoreNamespaces(true);
 		jsonProvider_<%=cid%>.setAttributesToElements(true);
+	<% if (("POST".equals(method) || "PUT".equals(method) || "PATCH".equals(method)) && "application/json".equals(contentType)) { %>
+		jsonProvider_<%=cid%>.setSerializeAsArray(true);
+		List<String> arrayKeys = new java.util.ArrayList<String>(java.util.Arrays.asList(<%=paramsHelper.getStringParam("__ARRAY_KEYS__")%>.split(" ")));
+		jsonProvider_<%=cid%>.setArrayKeys(arrayKeys);
+	<% } %>
 	<%
 		String wrapJsonResponseProperty = paramsHelper.getStringParam("__WRAP_JSON_RESPONSE__");
 		boolean wrapJsonResponse = wrapJsonResponseProperty == null ? true : Boolean.valueOf(wrapJsonResponseProperty);

@@ -400,14 +400,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
 
         plugin.setGroupId("org.talend.ci");
         plugin.setArtifactId("osgihelper-maven-plugin");
-        String talendVersion = VersionUtils.getTalendVersion();
-        String productVersion = VersionUtils.getInternalVersion();
-        String revision  = StringUtils.substringAfterLast(productVersion, "-");
-        if (revision.equals("SNAPSHOT") || Pattern.matches("M\\d{1}", revision)) { 
-            talendVersion += "-" + revision; //$NON-NLS-1$
-        }
-        
-        plugin.setVersion(talendVersion);
+        plugin.setVersion(VersionUtils.getMojoVersion("osgihelper.version"));
 
         Xpp3Dom configuration = new Xpp3Dom("configuration");
         Xpp3Dom featuresFile = new Xpp3Dom("featuresFile");

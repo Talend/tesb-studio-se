@@ -1103,7 +1103,7 @@
               name="${tesb-joda-time}"
               uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-joda-time}">
         </libraryNeeded>
-		<libraryNeededGroup
+        <libraryNeededGroup
                 description="joda-time"
                 id="joda-time"
                 name="joda-time">

@@ -40,7 +40,7 @@ import org.talend.core.CorePlugin;
 import org.talend.core.model.components.ComponentUtilities;
 import org.talend.core.model.components.EComponentType;
 import org.talend.core.model.components.IComponent;
-import org.talend.core.model.process.IContext;
+import org.talend.core.model.context.ContextUtils;
 import org.talend.core.model.process.IContextManager;
 import org.talend.core.model.process.INode;
 import org.talend.core.model.process.IProcess2;
@@ -252,10 +252,10 @@ public class CamelEditorDropTargetListener extends TalendEditorDropTargetListene
                         JobEditorInput jobInput = (JobEditorInput) editorInput;
                         IProcess2 process = jobInput.getLoadedProcess();
                         IContextManager contextManager = process.getContextManager();
-                        List<IContext> listContext = contextManager.getListContext();
-
+                        Map<String, String> renamedMap = ContextUtils
+                                .getContextParamterRenamedMap(process.getProperty().getItem());
                         Set<String> addedVars = ConnectionContextHelper.checkAndAddContextVariables(contextItem, contextSet,
-                                process.getContextManager(), false);
+                                process.getContextManager(), false, renamedMap);
                         if (addedVars != null && !addedVars.isEmpty()
                                 && !ConnectionContextHelper.isAddContextVar(contextItem, contextManager, contextSet)) {
                             // show

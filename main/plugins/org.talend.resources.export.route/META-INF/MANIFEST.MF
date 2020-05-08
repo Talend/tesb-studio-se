@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Export Route Resources Plugin
 Bundle-SymbolicName: org.talend.resources.export.route;singleton:=true
-Bundle-Version: 7.3.2.qualifier
+Bundle-Version: 7.3.1.qualifier
 Bundle-Localization: plugin
 Bundle-Activator: org.talend.resources.export.ExportRouteResourcesPlugin
 Require-Bundle: org.eclipse.ui,

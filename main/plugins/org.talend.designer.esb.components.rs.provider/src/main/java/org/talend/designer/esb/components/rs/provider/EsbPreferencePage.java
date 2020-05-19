@@ -13,6 +13,7 @@
 package org.talend.designer.esb.components.rs.provider;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
@@ -41,6 +42,10 @@ public class EsbPreferencePage extends FieldEditorPreferencePage implements IWor
                 Messages.EsbPreferencePage_SL_NAMESPACE, getFieldEditorParent());
         defaultServiceNamespace.setEmptyStringAllowed(false);
         addField(defaultServiceNamespace);
+        
+        BooleanFieldEditor ignoreSLStudio = new BooleanFieldEditor(Activator.IGNORE_SL_STUDIO,
+                Messages.EsbPreferencePage_IGNORE_SL_STUDIO, getFieldEditorParent());
+        addField(ignoreSLStudio);
     }
 
     @Override

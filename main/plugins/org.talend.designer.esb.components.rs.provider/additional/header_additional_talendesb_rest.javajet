@@ -28,7 +28,8 @@
 		org.talend.core.model.metadata.types.JavaType
 		
 		org.talend.core.model.utils.NodeUtil
-
+		org.talend.core.model.utils.JavaResourcesHelper
+		org.talend.core.model.process.ProcessUtils
 		java.io.UnsupportedEncodingException
 		java.net.URLEncoder
 	"
@@ -38,7 +39,15 @@
 CodeGeneratorArgument codeGenArgument = (CodeGeneratorArgument) argument;
 Vector v = (Vector) codeGenArgument.getArgument();
 IProcess process = (IProcess) v.get(0);
-
+String jobFolderName = "";
+IProcess baseProcess = ProcessUtils.getTestContainerBaseProcess(process);
+if (baseProcess != null) {
+	jobFolderName = JavaResourcesHelper.getJobFolderName(baseProcess.getName(), baseProcess.getVersion()) + '/';
+}
+jobFolderName = jobFolderName + JavaResourcesHelper.getJobFolderName(process.getName(), process.getVersion());
+String jobClassPackageFolder = codeGenArgument.getCurrentProjectName().toLowerCase() + '/' + jobFolderName;
+boolean isTestContainer=ProcessUtils.isTestContainer(process);
+String className = isTestContainer ? process.getName() + "Test" : process.getName();
 boolean exportTypeSpringBoot = org.talend.designer.runprocess.ProcessorUtilities.isExportJobAsMicroService();
 
 List<? extends INode> httpRequestComponentsList = process.getNodesOfType("tRESTRequest");
@@ -1509,19 +1518,27 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 					new java.util.ArrayList<org.apache.cxf.feature.Feature>() : sf.getFeatures();
 
 			<% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__SERVICE_LOCATOR__"))) { %>
-				
+				<% 
+				boolean ignoreSLStudio = !Boolean.valueOf(System.getProperty("ignoreSLStudio"));
+				if (ignoreSLStudio) { 
+				%>
+				if(inOSGi){
+				<% } %>
 				sf.setServiceName(new javax.xml.namespace.QName(
 						<%=ElementParameterParser.getValue(node,"__SERVICE_NAMESPACE__")%>,
 						<%=ElementParameterParser.getValue(node,"__SERVICE_NAME__")%>));
 						
 				org.talend.esb.servicelocator.cxf.LocatorFeature slFeature = null;
-		
-				if(!inOSGi){
+				<% if (ignoreSLStudio) { %>
+					slFeature = routines.system.BundleUtils.getService(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
+				<% } else { %>
+				if(inOSGi){
+					slFeature = routines.system.BundleUtils.getService(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
+		        }else{
 			    	org.springframework.context.support.ClassPathXmlApplicationContext context_ = new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/locator/beans.xml" });
 			    	slFeature = (org.talend.esb.servicelocator.cxf.LocatorFeature) context_.getBean(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
-		        }else{  
-					slFeature = routines.system.BundleUtils.getService(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
-		        }
+		        }				
+				<% } %>
 
 				<% List<Map<String, String>> customProperties = (List<Map<String,String>>)
 						ElementParameterParser.getObjectValue(node, "__SERVICE_LOCATOR_CUSTOM_PROPERTIES__"); %>
@@ -1535,6 +1552,9 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 				<% } %>
 
 				features.add(slFeature);
+				<% if (ignoreSLStudio) { %>
+				}
+				<% } %>
 			<% } %>
 
 			<% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__SERVICE_ACTIVITY_MONITOR__"))) { %>
@@ -1609,7 +1629,44 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 			// System.out.println("REST service [endpoint: " + endpointUrl + "] unpublished");
 		}
 	}
-}
+}	
 <%
 }
 %>
+	public static class ContextBean {
+		static String evaluate(String context, String contextExpression)
+				throws IOException, javax.script.ScriptException {
+			log.info("Process context expression " + contextExpression);
+			boolean isExpression = contextExpression.contains("+") || contextExpression.contains("(");
+			final String prefix = isExpression ? "\"" : "";
+			java.util.Properties defaultProps = new java.util.Properties();
+			java.io.InputStream inContext = <%=className %>.class.getClassLoader()
+					.getResourceAsStream("<%=jobClassPackageFolder%>/contexts/" + context + ".properties");
+			if (inContext == null) {
+				inContext = <%=className %>.class.getClassLoader()
+						.getResourceAsStream("config/contexts/" + context + ".properties");
+			}
+			defaultProps.load(inContext);
+			inContext.close();
+			java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("context.([\\w]+)");
+			java.util.regex.Matcher matcher = pattern.matcher(contextExpression);
+
+			while (matcher.find()) {
+				contextExpression = contextExpression.replaceAll(matcher.group(0),
+						prefix + defaultProps.getProperty(matcher.group(1)) + prefix);
+			}
+			return isExpression ? evaluateContextExpression(contextExpression) : contextExpression;
+		}
+		
+		public static String evaluateContextExpression(String expression) throws javax.script.ScriptException {
+			javax.script.ScriptEngineManager manager = new javax.script.ScriptEngineManager();
+			javax.script.ScriptEngine engine = manager.getEngineByName("nashorn");
+			// Add some import for Java
+			expression = expression.replaceAll("System.getProperty", "java.lang.System.getProperty");
+			return engine.eval(expression).toString();
+		}
+		
+		public static String getContext(String context, String contextName) throws Exception {
+			return contextName.contains("context.") ? evaluate(context, contextName) : contextName;
+		}
+	}

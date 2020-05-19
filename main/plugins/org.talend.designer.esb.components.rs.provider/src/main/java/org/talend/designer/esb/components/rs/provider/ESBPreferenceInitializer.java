@@ -13,6 +13,7 @@ public class ESBPreferenceInitializer extends AbstractPreferenceInitializer {
         IPreferenceStore store = Activator.getDefault().getPreferenceStore();
         store.setDefault(Activator.REST_URI_PREFERENCE, Activator.REST_URI_DEFAULT);
         store.setDefault(Activator.DEFAULT_SL_NAMESPACE_PREF, Activator.DEFAULT_SL_NAMESPACE_DEFAULT);
+        store.setDefault(Activator.IGNORE_SL_STUDIO, Activator.IGNORE_SL_STUDIO_DEFAULT);
     }
 
 }

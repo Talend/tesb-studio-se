@@ -31,6 +31,10 @@ public class Activator extends AbstractUIPlugin {
 
     public static final String DEFAULT_SL_NAMESPACE_DEFAULT = "http://www.talend.org/rest/"; //$NON-NLS-1$
 
+    public static final String IGNORE_SL_STUDIO = "ignoreSLStudio"; //$NON-NLS-1$
+    
+    public static final boolean IGNORE_SL_STUDIO_DEFAULT = false; //$NON-NLS-1$
+
     // The shared instance
     private static Activator plugin;
 
@@ -59,6 +63,8 @@ public class Activator extends AbstractUIPlugin {
     public void loadCustomProperty() {
         String defaultRestUri = getPreferenceStore().getString(REST_URI_PREFERENCE);
         System.getProperties().put(REST_URI_PREFERENCE, defaultRestUri);
+        String ignoreSLStudio = getPreferenceStore().getString(IGNORE_SL_STUDIO);
+        System.getProperties().put(IGNORE_SL_STUDIO, ignoreSLStudio);
     }
 
 }

@@ -197,6 +197,13 @@ public class SyncNexusButtonController extends ConfigOptionController {
                             }
                         }
 
+                        ILibrariesService librariesService = (ILibrariesService) GlobalServiceRegister.getDefault()
+                                .getService(ILibrariesService.class);
+                           if (librariesService != null) {
+                                librariesService.syncLibraries();
+                                librariesService.checkLibraries();
+                        }
+
                         monitor.subTask("Finished syncing " + jn + " from " + nexusServerBean.getServer());
                         monitor.worked(i);
                     }

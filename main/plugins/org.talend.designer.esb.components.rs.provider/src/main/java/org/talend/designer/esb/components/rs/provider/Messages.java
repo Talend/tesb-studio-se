@@ -21,6 +21,8 @@ public class Messages extends NLS {
     public static String EsbPreferencePage_SL_NAMESPACE;
 
     public static String EsbPreferencePage_DEFAULT_REST_ENDPOINT_URI;
+    
+    public static String EsbPreferencePage_IGNORE_SL_STUDIO;
 
     static {
         // initialize resource bundle

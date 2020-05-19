@@ -435,7 +435,7 @@ public class RouteResourceUtil {
         return classpathFile;
     }
 
-    private static void prepareFolder(IFolder folder) throws CoreException {
+    public static void prepareFolder(IFolder folder) throws CoreException {
         IContainer parent = folder.getParent();
         if (IResource.FOLDER == parent.getType()) {
             prepareFolder((IFolder) parent);

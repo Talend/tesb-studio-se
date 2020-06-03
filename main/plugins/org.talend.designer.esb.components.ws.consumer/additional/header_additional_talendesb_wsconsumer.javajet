@@ -335,6 +335,7 @@ if (actAsConsumer) {
 
             try {
                 javax.xml.parsers.DocumentBuilderFactory factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+                factory.setNamespaceAware(true);
                 Object[] results = client.invoke(operationQName,
                         factory.newDocumentBuilder().parse(new org.xml.sax.InputSource(new java.io.StringReader(doc.asXML()))));
                 correlationID = (String) client.getResponseContext().get("CorrelationID");

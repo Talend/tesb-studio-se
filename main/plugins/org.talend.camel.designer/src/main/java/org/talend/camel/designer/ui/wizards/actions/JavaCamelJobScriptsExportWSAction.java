@@ -512,6 +512,10 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
             jobArtifactVersion =
                     jobArtifactVersion.substring(0, jobArtifactVersion.lastIndexOf(MavenConstants.SNAPSHOT));
         }
+        // TESB-27587
+        if (CommonUIPlugin.isFullyHeadless()) {
+            jobArtifactVersion = getArtifactVersion();
+        }
 
         return jobArtifactVersion;
     }

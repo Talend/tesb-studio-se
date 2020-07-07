@@ -24,7 +24,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.model.Activation;
 import org.apache.maven.model.ActivationProperty;
 import org.apache.maven.model.Build;
@@ -45,6 +44,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.talend.camel.designer.ui.editor.RouteProcess;
 import org.talend.commons.exception.ExceptionHandler;
+import org.talend.commons.utils.MojoType;
 import org.talend.commons.utils.VersionUtils;
 import org.talend.core.CorePlugin;
 import org.talend.core.context.Context;
@@ -398,16 +398,9 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
     private Plugin addOsgiHelperMavenPlugin() {
         Plugin plugin = new Plugin();
 
-        plugin.setGroupId("org.talend.ci");
-        plugin.setArtifactId("osgihelper-maven-plugin");
-        String talendVersion = VersionUtils.getTalendVersion();
-        String productVersion = VersionUtils.getInternalVersion();
-        String revision  = StringUtils.substringAfterLast(productVersion, "-");
-        if (revision.equals("SNAPSHOT") || Pattern.matches("M\\d{1}", revision)) { 
-            talendVersion += "-" + revision; //$NON-NLS-1$
-        }
-        
-        plugin.setVersion(talendVersion);
+        plugin.setGroupId(TalendMavenConstants.DEFAULT_CI_GROUP_ID);
+        plugin.setArtifactId(MojoType.OSGI_HELPER.getArtifactId());
+        plugin.setVersion(VersionUtils.getMojoVersion(MojoType.OSGI_HELPER));
 
         Xpp3Dom configuration = new Xpp3Dom("configuration");
         Xpp3Dom featuresFile = new Xpp3Dom("featuresFile");

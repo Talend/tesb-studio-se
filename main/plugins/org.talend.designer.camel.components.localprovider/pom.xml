@@ -551,11 +551,11 @@
             <artifactId>camel-saxon</artifactId>
             <version>${camel.version}</version>
         </dependency>
-		<dependency>
-		    <groupId>org.apache.servicemix.bundles</groupId>
-		    <artifactId>org.apache.servicemix.bundles.saxon</artifactId>
-		    <version>9.8.0-8_1</version>
-		</dependency>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>9.7.0-21</version>
+        </dependency>
 
         <!-- camel-kafka -->
         <dependency>

@@ -121,7 +121,7 @@ public class KarafJavaScriptForESBWithMavenManager extends JavaScriptForESBWithM
         // feature
         addFeatureFileToExport(list, processes);
 
-        if (type != null && type.toLowerCase().equals("route")) {
+        if (type != null && type.equalsIgnoreCase("route")) {
             RouteJavaScriptOSGIForESBManager mgr =
                     new RouteJavaScriptOSGIForESBManager(exportChoice, contextName, referenceRoutelets, null);
             mgr.setJobVersion(this.selectedJobVersion);

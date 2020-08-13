@@ -80,6 +80,7 @@
             <library id="activemq-spring" />
             <library id="activemq-broker" />
             <library id="activemq-client" />
+            <library id="activemq-camel" />
             <library id="activemq-openwire-legacy" />
             <library id="activemq-pool" />
             <library id="activemq-jms-pool" />
@@ -101,6 +102,12 @@
             name="${tesb-activemq-client}"
             id="activemq-client"
             uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-activemq-client}"
+            bundleID="" />
+
+        <libraryNeeded context="plugin:org.talend.libraries.esb"
+            name="${tesb-activemq-camel}"
+            id="activemq-camel"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-activemq-camel}"
             bundleID="" />
 
         <libraryNeeded context="plugin:org.talend.libraries.esb"

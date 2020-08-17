@@ -283,21 +283,21 @@
           </projecttask>
           <projecttask
                 beforeLogon="false"
-                breaks="5.6.0"
+                breaks="7.3.0"
                 class="org.talend.camel.designer.migration.AddBeansDefaultLibrariesMigrationTask"
                 description="Add Beans default libraries"
-                id="org.talend.camel.designer.migration.AddBeansDefaultLibrariesMigrationTask"
-                name="AddBeansDefaultLibrariesMigrationTask"
-                version="7.0.1">
+                id="org.talend.camel.designer.migration.AddBeansDefaultLibrariesMigrationTask.7.3.1"
+                name="AddBeansDefaultLibrariesMigrationTask 7.3.1"
+                version="7.3.1">
           </projecttask>
           <projecttask
                 beforeLogon="true"
-                breaks="5.6.0"
+                breaks="7.3.0"
                 class="org.talend.camel.designer.migration.UpdateBeansDefaultLibrariesMigrationTask"
                 description="Update Beans default libraries"
-                id="org.talend.camel.designer.migration.UpdateBeansDefaultLibrariesMigrationTask"
-                name="UpdateBeansDefaultLibrariesMigrationTask"
-                version="7.2.1">
+                id="org.talend.camel.designer.migration.UpdateBeansDefaultLibrariesMigrationTask.7.3.1"
+                name="UpdateBeansDefaultLibrariesMigrationTask 7.3.1"
+                version="7.3.1">
           </projecttask>
           <projecttask
                 beforeLogon="false"

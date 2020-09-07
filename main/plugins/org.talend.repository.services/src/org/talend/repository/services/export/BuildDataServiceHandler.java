@@ -335,7 +335,11 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
         }
 
         // src\main\resources\feature\feature.xml
-        FeaturesModel features = new FeaturesModel(getGroupId(), serviceName, serviceVersion);
+        String featureVersion = PomIdsHelper.getJobVersion(serviceItem.getProperty());
+        if (featureVersion == null) {
+        	featureVersion = version;
+        }
+        FeaturesModel features = new FeaturesModel(getGroupId(), serviceName, featureVersion);
         features.setConfigName(serviceName);
         features.setContexts(contextValues);
         ServiceConnection connection = (ServiceConnection) serviceItem.getConnection();
@@ -490,8 +494,8 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
         // org.talend.repository.services.ui.action.ExportServiceWithMavenAction.addJobFilesToExport(IProgressMonitor
         // monitor) throws Exception
         for (IRepositoryViewObject node : nodes) {
-            String artefactName = node.getProperty().getLabel();
-            String version = node.getVersion();
+            // String artefactName = node.getProperty().getLabel();
+            // String version = node.getVersion();
             ProcessItem processItem = (ProcessItem) node.getProperty().getItem();
             IBuildJobHandler buildJobOSGiHandler = BuildJobFactory.createBuildJobHandler(processItem, contextName,
                     processItem.getProperty().getVersion(), exportChoice, JobExportType.OSGI);

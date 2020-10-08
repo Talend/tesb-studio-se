@@ -18,6 +18,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.jar.Attributes;
@@ -34,6 +35,7 @@ import org.talend.core.GlobalServiceRegister;
 import org.talend.core.model.repository.IRepositoryViewObject;
 import org.talend.core.ui.branding.IBrandingService;
 import org.talend.designer.runprocess.IProcessor;
+import org.talend.repository.ProjectManager;
 import org.talend.repository.RepositoryPlugin;
 import org.talend.repository.services.model.services.ServicePort;
 import org.talend.repository.services.ui.ServiceMetadataDialog;
@@ -164,7 +166,7 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
                 endpointInfo, outputFile, getClass().getResourceAsStream(TEMPLATE_BLUEPRINT));
     }
 
-    public Manifest getManifest(String artefactName, String serviceVersion, Map<String, String> additionalInfo) {
+    public Manifest getManifest(String artifactName, String serviceVersion, Map<String, String> additionalInfo) {
         boolean useRegistry = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_SERVICE_REGISTRY));
         boolean logMessages = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.LOG_MESSAGES));
         boolean useSL = Boolean.valueOf(additionalInfo.get(ServiceMetadataDialog.USE_SL));
@@ -176,10 +178,11 @@ public class ServiceExportManager extends JobJavaScriptOSGIForESBManager {
 
         Manifest manifest = new Manifest();
         Attributes a = manifest.getMainAttributes();
+        String projectName = ProjectManager.getInstance().getCurrentProject().getTechnicalLabel().toLowerCase(Locale.US);
         a.put(Attributes.Name.MANIFEST_VERSION, "1.0"); //$NON-NLS-1$
-        a.put(new Attributes.Name("Bundle-Name"), artefactName); //$NON-NLS-1$
-        a.put(new Attributes.Name("Bundle-SymbolicName"), artefactName); //$NON-NLS-1$
-        a.put(new Attributes.Name("Bundle-Version"), serviceVersion); //$NON-NLS-1$
+        a.put(new Attributes.Name("Bundle-Name"), artifactName); //$NON-NLS-1$
+        a.put(new Attributes.Name("Bundle-SymbolicName"), projectName + "." + artifactName); //$NON-NLS-1$ //$NON-NLS-2$
+        a.put(new Attributes.Name("Bundle-Version"), serviceVersion.replace("-SNAPSHOT", ".SNAPSHOT")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         a.put(new Attributes.Name("Bundle-ManifestVersion"), "2"); //$NON-NLS-1$ //$NON-NLS-2$
         IBrandingService brandingService = (IBrandingService) GlobalServiceRegister.getDefault().getService(
                 IBrandingService.class);

@@ -89,9 +89,9 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
 
     private String serviceName;
 
-    private String serviceVersion;
+    // private String serviceVersion;
 
-    private String version;
+    // private String version;
 
     private String contextName;
 
@@ -122,9 +122,9 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
 
         this.serviceItem = serviceItem;
         this.serviceName = serviceItem.getProperty().getLabel();
-        this.serviceVersion = serviceItem.getProperty().getVersion();
+        // this.serviceVersion = serviceItem.getProperty().getVersion();
 
-        this.version = version;
+        // this.version = version;
         this.contextName = contextName;
         if (exportChoiceMap != null) {
             this.exportChoice = exportChoiceMap;
@@ -336,9 +336,6 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
 
         // src\main\resources\feature\feature.xml
         String featureVersion = PomIdsHelper.getJobVersion(serviceItem.getProperty());
-        if (featureVersion == null) {
-        	featureVersion = version;
-        }
         FeaturesModel features = new FeaturesModel(getGroupId(), serviceName, featureVersion);
         features.setConfigName(serviceName);
         features.setContexts(contextValues);
@@ -372,7 +369,7 @@ public class BuildDataServiceHandler implements IBuildJobHandler {
         setFileContent(features.getContent(), feature, monitor);
 
         // resources\META-INF\MANIFEST.MF
-        Manifest manifest = serviceExportManager.getManifest(serviceName, serviceVersion, additionalInfo);
+        Manifest manifest = serviceExportManager.getManifest(artifactName, featureVersion, additionalInfo);
         IFile mf = talendProcessJavaProject.createSubFolder(monitor, talendProcessJavaProject.getResourcesFolder(), "META-INF")
                 .getFile("MANIFEST.MF");
         // talendProcessJavaProject.getResourceSubFolder(monitor, "META-INF").getFile("MANIFEST.MF");

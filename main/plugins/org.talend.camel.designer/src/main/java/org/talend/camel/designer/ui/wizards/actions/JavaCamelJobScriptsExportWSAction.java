@@ -506,7 +506,7 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
 
             if (featuresModel.addBundle(jobModel)) {
                 exportRouteUsedJobBundle(repositoryObject, jobFile, jobVersion, jobBundleName, jobBundleSymbolicName,
-                        jobBundleVersion, getArtifactId(), version, jobContext);
+                        jobArtifactVersion.replace("-", "."), getArtifactId(), version, jobContext);
             }
         }
 

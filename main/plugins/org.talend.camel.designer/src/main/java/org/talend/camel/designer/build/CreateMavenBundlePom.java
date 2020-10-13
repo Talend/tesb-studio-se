@@ -52,6 +52,7 @@ import org.talend.core.context.RepositoryContext;
 import org.talend.core.model.process.IProcess;
 import org.talend.core.model.process.IProcess2;
 import org.talend.core.model.process.JobInfo;
+import org.talend.core.model.process.ProcessUtils;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.Property;
 import org.talend.core.model.repository.ERepositoryObjectType;
@@ -262,9 +263,14 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 String buildType = null;
                 if (!jobInfo.isJoblet()) {
                     property = jobInfo.getProcessItem().getProperty();
-                    groupId = PomIdsHelper.getJobGroupId(property);
+                    if (isJob(jobInfo) && ProcessUtils.isChildRouteProcess(getProcessor(jobInfo).getProcess()))  {
+                        groupId = PomIdsHelper.getJobGroupId(getJobProcessor().getProperty());     
+                        version = PomIdsHelper.getJobVersion(getJobProcessor().getProperty());
+                    }else {
+                        groupId = PomIdsHelper.getJobGroupId(property);     
+                        version = PomIdsHelper.getJobVersion(property);                    	
+                    }
                     artifactId = PomIdsHelper.getJobArtifactId(jobInfo);
-                    version = PomIdsHelper.getJobVersion(property);
                     // try to get the pom version of children job and load from the pom file.
                     String childPomFileName = PomUtil.getPomFileName(jobInfo.getJobName(), jobInfo.getJobVersion());
                     IProject codeProject = getJobProcessor().getCodeProject();

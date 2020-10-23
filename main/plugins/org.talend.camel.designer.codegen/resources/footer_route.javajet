@@ -93,8 +93,13 @@
                 for (INode node : processNodes) {
                     if (node.isActivate()) {
                         for (org.talend.core.model.process.IConnection conn : node.getIncomingConnections()) {
+                            String label = "";
+                            String labelValue = String.valueOf(node.getElementParameter("LABEL").getValue());
+                            if (!"__UNIQUE_NAME__".equals(labelValue)) {
+                                label = '_' + labelValue;
+                            }
 %>
-                targetNodeToConnectionMap.put("<%=className %>_<%=node.getUniqueName()%>", "<%=conn.getUniqueName()%>");
+                targetNodeToConnectionMap.put("<%=className %>_<%=node.getUniqueName()%><%=label%>", "<%=conn.getUniqueName()%>");
 <%
                         }
                     }
@@ -153,10 +158,11 @@
     <%
         if(exportTypeSpringBoot){
     %>
-    
+
         private java.util.Dictionary<String, String> loadHttpConduitProperties(String configName) {
+            java.io.InputStream is = getConfigLocation(configName);
             Properties properties = new Properties();
-            try (java.io.InputStream is = getConfigLocation(configName)) {
+            try {
                 properties.load(is);
             } catch (Exception e) {
                 throw new RuntimeException("Cannot load the properties", e);
@@ -167,15 +173,15 @@
             }
             return dic;
         }
-        
+
         public java.io.InputStream getConfigLocation(String fileName){
-        
+
             java.io.InputStream stream = null;
-            
+
             String configFile = "config/" + fileName;
-            
+
             String configPath = env.getProperty("spring.config.additional-location");
-            
+
             String file = "";
             if (configPath != null) {
                 // get spring.config.additional-location from env
@@ -186,7 +192,7 @@
             }
 
             java.io.File usersfile = new java.io.File(file);
-            
+
             if (usersfile.exists()) {
                 try{
                     stream = new java.io.FileInputStream(file);
@@ -196,7 +202,7 @@
             } else {
                 stream = this.getClass().getClassLoader().getResourceAsStream(configFile);
             }
-            
+
             return stream;
         }
 
@@ -208,7 +214,7 @@
                     argsMap.put(configName, configFileValue);
                 } else {
                     String value = argsMap.get("--spring.config.additional-location") + java.io.File.separator + configValue;
-    
+
                     if(new java.io.File(value).exists()){
                         argsMap.put(configName, "file:" + value);
                     }else{
@@ -242,19 +248,19 @@
 
             if (argsMap.get("--spring.config.additional-location") != null) {
                 System.setProperty("spring.config.additional-location",argsMap.get("--spring.config.additional-location"));
-            }            
+            }
             loadConfig(argsMap,"--spring.banner.location","banner.txt");
-            
+
             if (argsMap.get("--camel.springboot.typeConversion") == null) {
                 argsMap.put("--camel.springboot.typeConversion", "false");
             }
 
             String[] resetArgs = new String[argsMap.size()];
-            
+
             java.util.Set<String> keySet = argsMap.keySet();
 
             int idx = 0;
-            
+
             for(String key:keySet){
                 resetArgs[idx] =  key+"="+argsMap.get(key);
                 idx++;
@@ -274,23 +280,23 @@
         private final ContextProperties context = new ContextProperties();
 
         public static class ContextProperties extends Properties {
-        
+
 		public String getProperty(String key) {
 
 			String rs = null;
 
 			if (arguments != null) {
 				try {
-				
+
 					if(arguments instanceof java.util.HashMap) {
 						rs = (String)((java.util.HashMap)arguments).get(key);
 					}else {
-					
+
 						java.lang.reflect.Method getProperty = arguments.getClass()
 								.getDeclaredMethod("getProperty",
 										new Class[] { String.class });
 						getProperty.setAccessible(true);
-						
+
 						rs = (String) getProperty.invoke(arguments, key);
 					}
 				} catch (Exception e) {
@@ -304,7 +310,7 @@
 
 			return rs;
 		}
-        
+
             public void synchronizeContext() {
                 <% for (IContextParameter ctxParam : params){
                     String cParaName = ctxParam.getName(); %>
@@ -325,7 +331,7 @@
                     }
                 <% } %>
             }
-        
+
     <% } %>
 
 <%
@@ -357,7 +363,7 @@ for (IContextParameter ctxParam : params) {
                 public String getProperty(String key) {
                     return getProperty(key, null);
                 }
-		
+
                 public String getProperty(String key, String defaultValue) {
                     if (key != null && !key.isEmpty()) {
                         try {
@@ -375,14 +381,14 @@ for (IContextParameter ctxParam : params) {
                     }
                     return null;
                 }
-<%	
+<%
 }
 %>
 	}
 
 	private static String contextStr = "<%=codeGenArgument.getContextName() %>";
 
-	
+
 	public void setContextName(String contextName){
 		contextStr = contextName;
 	}
@@ -399,17 +405,17 @@ for (IContextParameter ctxParam : params) {
 
 	private final Properties context_param = new Properties();
 
-    <% 
+    <%
         if(exportTypeSpringBoot){
     %>
-    
+
         public static void main(String... args){
             String[] resetArgs = resetArgs(args);
             org.springframework.context.ApplicationContext applicationContext = new org.springframework.boot.SpringApplication(<%=className%>.class).run(resetArgs);
             org.apache.camel.spring.boot.CamelSpringBootApplicationController applicationController = applicationContext.getBean(org.apache.camel.spring.boot.CamelSpringBootApplicationController.class);
             applicationController.blockMainThread();
         }
-    
+
     <% } else { %>
 
         public static void main(String[] args){
@@ -420,7 +426,7 @@ for (IContextParameter ctxParam : params) {
         }
 
     <% }
- 
+
 if (isTestContainer) {
 
 	List<String> instanceList =  ProcessUtils.getTestInstances(process);
@@ -481,11 +487,11 @@ if (isTestContainer) {
 %>
 				org.apache.camel.component.dataset.FileDataSet fileDataSet_<%=cid%> = new org.apache.camel.component.dataset.FileDataSet(<%=bodyContext%>);
 				mock_<%=cid%>.expectedBodiesReceived(fileDataSet_<%=cid%>.getDefaultBodies());
-<%				
+<%
 			}else if("true".equals(testBodyWithTable)){
 				String bodyContext = ElementParameterParser.getValue(node, "__TEST_BODY_USE_TABLE__");
 				List<Map<String, String>> bodyValues = (List<Map<String,String>>)ElementParameterParser.getObjectValue(node,"__TEST_BODY_USE_TABLE__");
-				String list = "";				
+				String list = "";
 				for(Map<String, String> valuesMap: bodyValues){
 		 			String bodyValue = valuesMap.get("BODY_VALUES");
 		 			list += bodyValue + ",";
@@ -536,7 +542,7 @@ if (isTestContainer) {
 %>
 			// send to endpoint
 			<%=tCode%>
-<%		
+<%
 	        break;
 		}
     }// end of for INPUT
@@ -589,7 +595,7 @@ if (isTestContainer) {
 	}
 
     <%if(exportTypeSpringBoot){%>
-    
+
     <% }else{ %>
             private boolean contextValuesRead = false;
 
@@ -606,11 +612,8 @@ if (isTestContainer) {
                     java.io.InputStream inContext = <%=className %>.class.getClassLoader().getResourceAsStream("<%=JavaResourcesHelper.getJobClassPackageFolder(process) %>/contexts/"+contextName+".properties");
 
                     if (inContext!=null) {
-                        try {
-                            context.load(inContext);
-                        } finally {
-                            inContext.close();
-                        }
+                        context.load(inContext);
+                        inContext.close();
                     }else{
                         //print info and job continue to run, for case: context_param is not empty.
                         System.err.println("Could not find the context " + contextName);
@@ -619,7 +622,7 @@ if (isTestContainer) {
                     if(!context_param.isEmpty()) {
                         context.putAll(context_param);
                     }
-        <% 
+        <%
                     //for bug TDI-22398
                     for (IContextParameter ctxParam :params){ //start for
 
@@ -637,9 +640,6 @@ if (isTestContainer) {
                                     } catch (java.lang.RuntimeException e) {
                                         //do nothing
                                     }
-                                } else {
-                                    context.<%=ctxParam.getName()%> = pwd_<%=ctxParam.getName()%>_value;
-                                    context.put("<%=ctxParam.getName()%>",context.<%=ctxParam.getName()%>);
                                 }
                             }
                     <%

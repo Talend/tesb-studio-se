@@ -404,8 +404,8 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
             String bundleVersion = null;
             if (JobUtils.isJob(repoObject.getProperty())) {
                  IProcess process = CoreRuntimePlugin.getInstance().getDesignerCoreService().getProcessFromItem(repoObject.getProperty().getItem());
-                if (process != null && routeObject!= null && ProcessUtils.isChildRouteProcess(process)) {
-                    bundleVersion = PomIdsHelper.getJobVersion(routeObject.getProperty());
+                if (process != null && ProcessUtils.isChildRouteProcess(process)) {
+                    bundleVersion = PomIdsHelper.getJobVersion(repoObject.getProperty());
                 }
             }
             

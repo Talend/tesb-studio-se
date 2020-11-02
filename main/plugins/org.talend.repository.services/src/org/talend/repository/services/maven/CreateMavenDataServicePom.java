@@ -309,7 +309,7 @@ public class CreateMavenDataServicePom extends CreateMavenJobPom {
 
         plugin.setGroupId("org.apache.karaf.tooling");
         plugin.setArtifactId("karaf-maven-plugin");
-        plugin.setVersion("4.2.4");
+        plugin.setVersion("4.2.10");
 
         Xpp3Dom configuration = new Xpp3Dom("configuration");
 

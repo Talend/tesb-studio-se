@@ -47,6 +47,7 @@ import org.talend.core.CorePlugin;
 import org.talend.core.GlobalServiceRegister;
 import org.talend.core.ILibraryManagerService;
 import org.talend.core.model.general.Project;
+import org.talend.core.model.process.IProcess;
 import org.talend.core.model.process.JobInfo;
 import org.talend.core.model.process.ProcessUtils;
 import org.talend.core.model.properties.ProcessItem;
@@ -67,6 +68,7 @@ import org.talend.core.runtime.repository.build.IBuildResourceParametes;
 import org.talend.designer.core.model.components.EParameterName;
 import org.talend.designer.core.model.utils.emf.talendfile.ElementParameterType;
 import org.talend.designer.core.model.utils.emf.talendfile.NodeType;
+import org.talend.designer.maven.utils.JobUtils;
 import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.maven.utils.PomUtil;
 import org.talend.designer.publish.core.models.BundleModel;
@@ -397,8 +399,21 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
             ITalendProcessJavaProject talendProcessJavaProject =
                     runProcessService.getTalendJobJavaProject(repoObject.getProperty());
 
+            String bundleVersion = null;
+            if (JobUtils.isJob(repoObject.getProperty())) {
+                 IProcess process = CoreRuntimePlugin.getInstance().getDesignerCoreService().getProcessFromItem(repoObject.getProperty().getItem());
+                if (process != null && routeObject!= null && ProcessUtils.isChildRouteProcess(process)) {
+                    bundleVersion = PomIdsHelper.getJobVersion(routeObject.getProperty());
+                }
+            }
+            
             for (Map.Entry<String, File> e1 : m.entrySet()) {
                 String extension = e1.getKey();
+                
+                if (extension!= null && extension.equalsIgnoreCase("jar") && bundleVersion != null) {
+                    extension = "-"+bundleVersion + "." + extension;
+                }
+                
                 File destination = e1.getValue();
 
                 List<File> fileList = new ArrayList<File>();
@@ -491,14 +506,14 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
             } catch (IOException e) {
                 throw new InvocationTargetException(e);
             }
-            String jobArtifactVersion = buildArtifactVersionForReferencedJob(routeProcess, jobId);
-            String jobBundleVersion = bundleVersion;
+            String jobBundleVersion = buildBundleVersionForReferencedJob(routeProcess, jobId);
+            String jobArtifactVersion = jobBundleVersion;
             String jobGroup = (String) routeProcess.getProperty().getAdditionalProperties().get(BUILD_FROM_COMMANDLINE_GROUP);
 
             if(jobGroup == null) {
-            	jobGroup = PomIdsHelper.getJobGroupId(repositoryObject.getProperty());
+            	jobGroup = PomIdsHelper.getJobGroupId(routeProcess.getProperty());
             }
-            BundleModel jobModel = new BundleModel(jobGroup, jobBundleName, jobArtifactVersion, jobFile);
+            BundleModel jobModel = new BundleModel(jobGroup, jobBundleName, jobBundleVersion, jobFile);
 
             if (featuresModel.getBundles().contains(jobModel)) {
                 featuresModel.getBundles().remove(jobModel);
@@ -513,30 +528,8 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
         addJobPackageToOsgiImport(routeProcess, jobPackageNames);
     }
 
-    private String buildArtifactVersionForReferencedJob(ProcessItem routeProcess, String jobId) {
-        boolean isSnapshot = BooleanUtils
-                .toBoolean((String) routeProcess
-                        .getProperty()
-                        .getAdditionalProperties()
-                        .get(MavenConstants.NAME_PUBLISH_AS_SNAPSHOT));
-
-        String jobArtifactVersion = getJobProcessItemVersion(jobId);
-
-        if (jobArtifactVersion == null || jobArtifactVersion.isEmpty()) {
-            return "";
-        }
-
-        if (!jobArtifactVersion.endsWith(MavenConstants.SNAPSHOT) && isSnapshot) {
-            jobArtifactVersion += MavenConstants.SNAPSHOT;
-        }else if (jobArtifactVersion.endsWith(MavenConstants.SNAPSHOT) && !isSnapshot){
-            jobArtifactVersion = jobArtifactVersion.substring(0, jobArtifactVersion.lastIndexOf(MavenConstants.SNAPSHOT));
-        }
-        // TESB-27587
-        if (CommonUIPlugin.isFullyHeadless()) {
-            jobArtifactVersion = getArtifactVersion();
-        }
-
-        return jobArtifactVersion;
+    private String buildBundleVersionForReferencedJob(ProcessItem routeProcess, String jobId) {
+        return getArtifactVersion();
     }
 
     @SuppressWarnings("unchecked")

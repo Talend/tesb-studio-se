@@ -93,8 +93,13 @@
                 for (INode node : processNodes) {
                     if (node.isActivate()) {
                         for (org.talend.core.model.process.IConnection conn : node.getIncomingConnections()) {
+                            String label = "";
+                            String labelValue = String.valueOf(node.getElementParameter("LABEL").getValue());
+                            if (!"__UNIQUE_NAME__".equals(labelValue)) {
+                                label = '_' + labelValue;
+                            }
 %>
-                targetNodeToConnectionMap.put("<%=className %>_<%=node.getUniqueName()%>", "<%=conn.getUniqueName()%>");
+                targetNodeToConnectionMap.put("<%=className %>_<%=node.getUniqueName()%><%=label%>", "<%=conn.getUniqueName()%>");
 <%
                         }
                     }

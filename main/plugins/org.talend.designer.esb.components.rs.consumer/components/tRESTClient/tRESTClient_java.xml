@@ -7,6 +7,7 @@
 			AUTHOR="ITOS"
 			RELEASE_DATE="20050320A"
 			SCHEMA_AUTO_PROPAGATE="true"
+			EXTENSION="org.talend.designer.xmlmap"
 			STARTABLE="true"
 			DATA_AUTO_PROPAGATE="false"
 			HAS_CONDITIONAL_OUTPUTS="true" >

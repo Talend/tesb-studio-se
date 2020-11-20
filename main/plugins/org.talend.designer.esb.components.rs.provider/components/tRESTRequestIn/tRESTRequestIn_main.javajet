@@ -22,7 +22,21 @@ cid = cid.replaceAll("_In", "");
 List<IMetadataTable> metadatas = node.getMetadataList();
 if (null != metadatas && 0 < metadatas.size()) {
 	IMetadataTable metadata = metadatas.get(0);
-	if (null != metadata) { %>
+	if (null != metadata) {
+%>
+
+<%
+List<? extends IConnection> connsOut = node.getOutgoingSortedConnections();
+if (null != connsOut && !connsOut.isEmpty()) {
+	for (IConnection conn : connsOut) {
+		if("tXMLMapOut".equals(conn.getTarget().getComponent().getName())){
+%>
+		thread4RestServiceProviderEndpoint.setValueMap(gen_Doc_response_<%=conn.getTarget().getUniqueName()%>.valueMap);
+<%
+		}
+	}
+}
+%>
 
 		if (requestMessage_<%=cid%>.containsKey("ERROR")) { // wrong request received
 <%

@@ -336,18 +336,6 @@
                  mapping="ROUTE_INPUT_PROCESS_TYPE"
                  name="RouteInput Contained Process Type">
            </generator>
-           
-	        <generator
-	                 class="org.talend.camel.designer.generator.SyncNexusButtonGenerator"
-	                 mapping="SYNC_NEXUS_BUTTON"
-	                 name="cConfig Sync Option">
-	        </generator>           
-           
-	        <generator
-	                 class="org.talend.camel.designer.generator.CheckNexusButtonGenerator"
-	                 mapping="CHECK_NEXUS_BUTTON"
-	                 name="cConfig Check Option">
-	        </generator>
          <generator
                class="org.talend.camel.designer.generator.LanguageComboGenerator"
                mapping="LANGUAGE_CLOSED_LIST"

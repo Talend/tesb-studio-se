@@ -65,6 +65,7 @@ import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.maven.utils.PomUtil;
 import org.talend.designer.runprocess.IProcessor;
 import org.talend.designer.runprocess.ProcessorUtilities;
+import org.talend.designer.runprocess.java.TalendJavaProjectManager;
 import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.ui.wizards.exportjob.ExportTreeViewer;
 import org.talend.repository.ui.wizards.exportjob.JavaJobScriptsExportWSWizardPage;
@@ -313,7 +314,18 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
         String projectName = PomUtil.getPomProperty(pomFile, "talend.project.name.lowercase"); //$NON-NLS-1$
         String jobFolderPath = PomUtil.getPomProperty(pomFile, "talend.job.folder"); //$NON-NLS-1$
-        String jobName = PomUtil.getPomProperty(pomFile, "talend.job.name").toLowerCase(); //$NON-NLS-1$
+        String jobName = PomUtil.getPomProperty(pomFile, "talend.job.name"); //$NON-NLS-1$
+        
+        if (jobName == null) {
+        	TalendJavaProjectManager.generatePom(procesItem);
+        	
+        	jobName = PomUtil.getPomProperty(pomFile, "talend.job.name");
+        	
+            if (jobName != null) {
+            	jobName = jobName.toLowerCase();
+            }
+        }
+        
         return projectName + "/" + jobFolderPath + jobName; //$NON-NLS-1$
     }
 

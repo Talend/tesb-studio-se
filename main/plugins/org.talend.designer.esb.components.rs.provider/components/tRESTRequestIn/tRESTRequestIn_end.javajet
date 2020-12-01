@@ -27,7 +27,18 @@ if (null != metadatas && 0 < metadatas.size()) {
 		List<? extends IConnection> connsOut = node.getOutgoingSortedConnections();
 		if (null != connsOut && !connsOut.isEmpty()) {
 			for (IConnection conn : connsOut) {
-				if("tXMLMapOut".equals(conn.getTarget().getComponent().getName())){
+				boolean isDocument = false;
+				List<? extends IConnection> nodeOutgoings = conn.getTarget().getOutgoingConnections();
+				if(nodeOutgoings.size() > 0){
+					List<? extends IConnection> nextOutgoings = nodeOutgoings.get(0).getTarget().getOutgoingConnections();
+					if(nextOutgoings.size() > 0){
+						List<IMetadataColumn> columns = nextOutgoings.get(0).getMetadataTable().getListColumns();
+						if(columns.size() > 0){
+							isDocument = "id_Document".equals(columns.get(0).getTalendType());
+						}
+					}
+				}
+				if(isDocument && "tXMLMapOut".equals(conn.getTarget().getComponent().getName())){
 %>
 					thread4RestServiceProviderEndpoint.setValueMap(gen_Doc_response_<%=conn.getTarget().getUniqueName()%>.valueMap);
 <%

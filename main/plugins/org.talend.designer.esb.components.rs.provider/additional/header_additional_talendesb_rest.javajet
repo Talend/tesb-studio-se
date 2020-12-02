@@ -551,6 +551,10 @@ public static class RestServiceProviderImpl4TalendJob {
 			requestGlobalMap.put(KEY_DB_DATASOURCES, restDataSources);
 		}
 
+                if (null != job.globalMap.get(KEY_DB_DATASOURCES_RAW)) {
+                        requestGlobalMap.put(KEY_DB_DATASOURCES_RAW, job.globalMap.get(KEY_DB_DATASOURCES_RAW));
+                }
+
 		// pass job shared connections
 		requestGlobalMap.putAll(job.getSharedConnections4REST());
 

@@ -8,16 +8,55 @@ package org.talend.camel.core.model.camelProperties.impl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.talend.camel.core.model.camelProperties.BeanItem;
+import org.talend.camel.core.model.camelProperties.BeansJarItem;
 import org.talend.camel.core.model.camelProperties.CamelProcessItem;
 import org.talend.camel.core.model.camelProperties.CamelPropertiesFactory;
 import org.talend.camel.core.model.camelProperties.CamelPropertiesPackage;
 import org.talend.camel.core.model.camelProperties.RouteDocumentItem;
 import org.talend.camel.core.model.camelProperties.RouteResourceItem;
 import org.talend.camel.core.model.camelProperties.RouteletProcessItem;
+import org.talend.core.model.metadata.builder.connection.ConnectionPackage;
 import org.talend.core.model.properties.PropertiesPackage;
+import org.talend.designer.business.model.business.BusinessPackage;
+import org.talend.designer.core.model.utils.emf.component.ComponentPackage;
+import org.talend.designer.core.model.utils.emf.talendfile.TalendFilePackage;
+import org.talend.designer.joblet.model.JobletPackage;
+import orgomg.cwm.analysis.businessnomenclature.BusinessnomenclaturePackage;
+import orgomg.cwm.analysis.datamining.DataminingPackage;
+import orgomg.cwm.analysis.informationvisualization.InformationvisualizationPackage;
+import orgomg.cwm.analysis.olap.OlapPackage;
+import orgomg.cwm.analysis.transformation.TransformationPackage;
+import orgomg.cwm.foundation.businessinformation.BusinessinformationPackage;
+import orgomg.cwm.foundation.datatypes.DatatypesPackage;
+import orgomg.cwm.foundation.expressions.ExpressionsPackage;
+import orgomg.cwm.foundation.keysindexes.KeysindexesPackage;
+import orgomg.cwm.foundation.softwaredeployment.SoftwaredeploymentPackage;
+import orgomg.cwm.foundation.typemapping.TypemappingPackage;
+import orgomg.cwm.management.warehouseoperation.WarehouseoperationPackage;
+import orgomg.cwm.management.warehouseprocess.WarehouseprocessPackage;
+import orgomg.cwm.objectmodel.behavioral.BehavioralPackage;
+import orgomg.cwm.objectmodel.core.CorePackage;
+import orgomg.cwm.objectmodel.instance.InstancePackage;
+import orgomg.cwm.objectmodel.relationships.RelationshipsPackage;
+import orgomg.cwm.resource.multidimensional.MultidimensionalPackage;
+import orgomg.cwm.resource.record.RecordPackage;
+import orgomg.cwm.resource.relational.RelationalPackage;
+import orgomg.cwm.resource.xml.XmlPackage;
+import orgomg.cwmmip.CwmmipPackage;
+import orgomg.cwmx.analysis.informationreporting.InformationreportingPackage;
+import orgomg.cwmx.analysis.informationset.InformationsetPackage;
+import orgomg.cwmx.foundation.er.ErPackage;
+import orgomg.cwmx.resource.coboldata.CoboldataPackage;
+import orgomg.cwmx.resource.dmsii.DmsiiPackage;
+import orgomg.cwmx.resource.essbase.EssbasePackage;
+import orgomg.cwmx.resource.express.ExpressPackage;
+import orgomg.cwmx.resource.imsdatabase.ImsdatabasePackage;
+import orgomg.mof.model.ModelPackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!-- end-user-doc -->
@@ -30,6 +69,13 @@ public class CamelPropertiesPackageImpl extends EPackageImpl implements CamelPro
      * @generated
      */
     private EClass beanItemEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass beansJarItemEClass = null;
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -97,12 +143,51 @@ public class CamelPropertiesPackageImpl extends EPackageImpl implements CamelPro
         if (isInited) return (CamelPropertiesPackage)EPackage.Registry.INSTANCE.getEPackage(CamelPropertiesPackage.eNS_URI);
 
         // Obtain or create and register package
-        CamelPropertiesPackageImpl theCamelPropertiesPackage = (CamelPropertiesPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof CamelPropertiesPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new CamelPropertiesPackageImpl());
+        Object registeredCamelPropertiesPackage = EPackage.Registry.INSTANCE.get(eNS_URI);
+        CamelPropertiesPackageImpl theCamelPropertiesPackage = registeredCamelPropertiesPackage instanceof CamelPropertiesPackageImpl ? (CamelPropertiesPackageImpl)registeredCamelPropertiesPackage : new CamelPropertiesPackageImpl();
 
         isInited = true;
 
         // Initialize simple dependencies
+        BusinessPackage.eINSTANCE.eClass();
+        ComponentPackage.eINSTANCE.eClass();
+        CorePackage.eINSTANCE.eClass();
+        BehavioralPackage.eINSTANCE.eClass();
+        RelationshipsPackage.eINSTANCE.eClass();
+        InstancePackage.eINSTANCE.eClass();
+        BusinessinformationPackage.eINSTANCE.eClass();
+        DatatypesPackage.eINSTANCE.eClass();
+        ExpressionsPackage.eINSTANCE.eClass();
+        KeysindexesPackage.eINSTANCE.eClass();
+        SoftwaredeploymentPackage.eINSTANCE.eClass();
+        TypemappingPackage.eINSTANCE.eClass();
+        RelationalPackage.eINSTANCE.eClass();
+        RecordPackage.eINSTANCE.eClass();
+        MultidimensionalPackage.eINSTANCE.eClass();
+        XmlPackage.eINSTANCE.eClass();
+        TransformationPackage.eINSTANCE.eClass();
+        OlapPackage.eINSTANCE.eClass();
+        DataminingPackage.eINSTANCE.eClass();
+        InformationvisualizationPackage.eINSTANCE.eClass();
+        BusinessnomenclaturePackage.eINSTANCE.eClass();
+        WarehouseprocessPackage.eINSTANCE.eClass();
+        WarehouseoperationPackage.eINSTANCE.eClass();
+        ErPackage.eINSTANCE.eClass();
+        CoboldataPackage.eINSTANCE.eClass();
+        DmsiiPackage.eINSTANCE.eClass();
+        ImsdatabasePackage.eINSTANCE.eClass();
+        EssbasePackage.eINSTANCE.eClass();
+        ExpressPackage.eINSTANCE.eClass();
+        InformationsetPackage.eINSTANCE.eClass();
+        InformationreportingPackage.eINSTANCE.eClass();
+        CwmmipPackage.eINSTANCE.eClass();
+        ModelPackage.eINSTANCE.eClass();
+        EcorePackage.eINSTANCE.eClass();
+        JobletPackage.eINSTANCE.eClass();
+        ConnectionPackage.eINSTANCE.eClass();
+        NotationPackage.eINSTANCE.eClass();
         PropertiesPackage.eINSTANCE.eClass();
+        TalendFilePackage.eINSTANCE.eClass();
         XMLTypePackage.eINSTANCE.eClass();
 
         // Create package meta-data objects
@@ -114,7 +199,6 @@ public class CamelPropertiesPackageImpl extends EPackageImpl implements CamelPro
         // Mark meta-data to indicate it can't be changed
         theCamelPropertiesPackage.freeze();
 
-  
         // Update the registry and return the package
         EPackage.Registry.INSTANCE.put(CamelPropertiesPackage.eNS_URI, theCamelPropertiesPackage);
         return theCamelPropertiesPackage;
@@ -126,6 +210,15 @@ public class CamelPropertiesPackageImpl extends EPackageImpl implements CamelPro
      */
     public EClass getBeanItem() {
         return beanItemEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getBeansJarItem() {
+        return beansJarItemEClass;
     }
 
     /**
@@ -181,6 +274,8 @@ public class CamelPropertiesPackageImpl extends EPackageImpl implements CamelPro
         // Create classes and their features
         beanItemEClass = createEClass(BEAN_ITEM);
 
+        beansJarItemEClass = createEClass(BEANS_JAR_ITEM);
+
         camelProcessItemEClass = createEClass(CAMEL_PROCESS_ITEM);
         createEAttribute(camelProcessItemEClass, CAMEL_PROCESS_ITEM__SPRING_CONTENT);
         createEAttribute(camelProcessItemEClass, CAMEL_PROCESS_ITEM__EXPORT_MICRO_SERVICE);
@@ -225,6 +320,7 @@ public class CamelPropertiesPackageImpl extends EPackageImpl implements CamelPro
 
         // Add supertypes to classes
         beanItemEClass.getESuperTypes().add(thePropertiesPackage.getRoutineItem());
+        beansJarItemEClass.getESuperTypes().add(thePropertiesPackage.getRoutinesJarItem());
         camelProcessItemEClass.getESuperTypes().add(thePropertiesPackage.getProcessItem());
         routeResourceItemEClass.getESuperTypes().add(thePropertiesPackage.getFileItem());
         routeDocumentItemEClass.getESuperTypes().add(thePropertiesPackage.getDocumentationItem());
@@ -232,6 +328,8 @@ public class CamelPropertiesPackageImpl extends EPackageImpl implements CamelPro
 
         // Initialize classes and features; add operations and parameters
         initEClass(beanItemEClass, BeanItem.class, "BeanItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+        initEClass(beansJarItemEClass, BeansJarItem.class, "BeansJarItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
         initEClass(camelProcessItemEClass, CamelProcessItem.class, "CamelProcessItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getCamelProcessItem_SpringContent(), theXMLTypePackage.getString(), "springContent", "", 0, 1, CamelProcessItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

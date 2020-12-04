@@ -84,7 +84,19 @@
                   isEditAction="false"
                   isPropertiesAction="false"
                   isReadAction="false"
-                  name="Rean Camel Bean">
+                  name="Read Camel Bean">
+            </Action>
+            <Action
+                  class="org.talend.camel.designer.ui.beansjar.CreateCamelBeansJarAction"
+                  id="org.talend.camel.designer.ui.beansjar.createCamelBeansJar"
+                  level="10"
+                  name="Create Camel Beans Jar">
+            </Action>
+            <Action
+                  class="org.talend.camel.designer.ui.bean.AssignBeansToJarAction"
+                  id="org.talend.camel.designer.ui.bean.assignBeansToJar"
+                  level="10"
+                  name="Assign Beans to">
             </Action>
          </extension>
    <extension

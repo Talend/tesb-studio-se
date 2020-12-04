@@ -33,6 +33,15 @@ public interface CamelPropertiesFactory extends EFactory {
     BeanItem createBeanItem();
 
     /**
+     * Returns a new object of class '<em>Beans Jar Item</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Beans Jar Item</em>'.
+     * @generated
+     */
+    BeansJarItem createBeansJarItem();
+
+    /**
      * Returns a new object of class '<em>Camel Process Item</em>'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

@@ -7,11 +7,17 @@
   <genPackages prefix="CamelProperties" basePackage="org.talend.camel.core.model"
       resource="XML" disposableProviderFactory="true" ecorePackage="CamelProperties.ecore#/">
     <genClasses ecoreClass="CamelProperties.ecore#//BeanItem"/>
+    <genClasses ecoreClass="CamelProperties.ecore#//BeansJarItem"/>
     <genClasses ecoreClass="CamelProperties.ecore#//CamelProcessItem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CamelProperties.ecore#//CamelProcessItem/springContent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CamelProperties.ecore#//CamelProcessItem/exportMicroService"/>
     </genClasses>
     <genClasses ecoreClass="CamelProperties.ecore#//RouteResourceItem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CamelProperties.ecore#//RouteResourceItem/bindingExtension"/>
     </genClasses>
+    <genClasses ecoreClass="CamelProperties.ecore#//RouteDocumentItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CamelProperties.ecore#//RouteDocumentItem/bindingExtension"/>
+    </genClasses>
+    <genClasses ecoreClass="CamelProperties.ecore#//RouteletProcessItem"/>
   </genPackages>
 </genmodel:GenModel>

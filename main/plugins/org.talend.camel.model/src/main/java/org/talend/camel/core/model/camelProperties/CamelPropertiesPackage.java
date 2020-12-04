@@ -186,6 +186,88 @@ public interface CamelPropertiesPackage extends EPackage {
     int BEAN_ITEM_FEATURE_COUNT = PropertiesPackage.ROUTINE_ITEM_FEATURE_COUNT + 0;
 
     /**
+     * The meta object id for the '{@link org.talend.camel.core.model.camelProperties.impl.BeansJarItemImpl <em>Beans Jar Item</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.talend.camel.core.model.camelProperties.impl.BeansJarItemImpl
+     * @see org.talend.camel.core.model.camelProperties.impl.CamelPropertiesPackageImpl#getBeansJarItem()
+     * @generated
+     */
+    int BEANS_JAR_ITEM = 1;
+
+    /**
+     * The feature id for the '<em><b>Property</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BEANS_JAR_ITEM__PROPERTY = PropertiesPackage.ROUTINES_JAR_ITEM__PROPERTY;
+
+    /**
+     * The feature id for the '<em><b>State</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BEANS_JAR_ITEM__STATE = PropertiesPackage.ROUTINES_JAR_ITEM__STATE;
+
+    /**
+     * The feature id for the '<em><b>Parent</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BEANS_JAR_ITEM__PARENT = PropertiesPackage.ROUTINES_JAR_ITEM__PARENT;
+
+    /**
+     * The feature id for the '<em><b>Reference Resources</b></em>' reference list.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BEANS_JAR_ITEM__REFERENCE_RESOURCES = PropertiesPackage.ROUTINES_JAR_ITEM__REFERENCE_RESOURCES;
+
+    /**
+     * The feature id for the '<em><b>File Extension</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BEANS_JAR_ITEM__FILE_EXTENSION = PropertiesPackage.ROUTINES_JAR_ITEM__FILE_EXTENSION;
+
+    /**
+     * The feature id for the '<em><b>Need Version</b></em>' attribute.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BEANS_JAR_ITEM__NEED_VERSION = PropertiesPackage.ROUTINES_JAR_ITEM__NEED_VERSION;
+
+    /**
+     * The feature id for the '<em><b>Routines Jar Type</b></em>' reference.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BEANS_JAR_ITEM__ROUTINES_JAR_TYPE = PropertiesPackage.ROUTINES_JAR_ITEM__ROUTINES_JAR_TYPE;
+
+    /**
+     * The number of structural features of the '<em>Beans Jar Item</em>' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     * @ordered
+     */
+    int BEANS_JAR_ITEM_FEATURE_COUNT = PropertiesPackage.ROUTINES_JAR_ITEM_FEATURE_COUNT + 0;
+
+    /**
      * The meta object id for the '{@link org.talend.camel.core.model.camelProperties.impl.CamelProcessItemImpl <em>Camel Process Item</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -193,7 +275,7 @@ public interface CamelPropertiesPackage extends EPackage {
      * @see org.talend.camel.core.model.camelProperties.impl.CamelPropertiesPackageImpl#getCamelProcessItem()
      * @generated
      */
-    int CAMEL_PROCESS_ITEM = 1;
+    int CAMEL_PROCESS_ITEM = 2;
 
     /**
      * The feature id for the '<em><b>Property</b></em>' reference.
@@ -293,7 +375,7 @@ public interface CamelPropertiesPackage extends EPackage {
      * @see org.talend.camel.core.model.camelProperties.impl.CamelPropertiesPackageImpl#getRouteResourceItem()
      * @generated
      */
-    int ROUTE_RESOURCE_ITEM = 2;
+    int ROUTE_RESOURCE_ITEM = 3;
 
     /**
      * The feature id for the '<em><b>Property</b></em>' reference.
@@ -403,7 +485,7 @@ public interface CamelPropertiesPackage extends EPackage {
      * @see org.talend.camel.core.model.camelProperties.impl.CamelPropertiesPackageImpl#getRouteDocumentItem()
      * @generated
      */
-	int ROUTE_DOCUMENT_ITEM = 3;
+	int ROUTE_DOCUMENT_ITEM = 4;
 
 				/**
      * The feature id for the '<em><b>Property</b></em>' reference.
@@ -513,7 +595,7 @@ public interface CamelPropertiesPackage extends EPackage {
      * @see org.talend.camel.core.model.camelProperties.impl.CamelPropertiesPackageImpl#getRouteletProcessItem()
      * @generated
      */
-	int ROUTELET_PROCESS_ITEM = 4;
+	int ROUTELET_PROCESS_ITEM = 5;
 
 				/**
      * The feature id for the '<em><b>Property</b></em>' reference.
@@ -596,6 +678,16 @@ public interface CamelPropertiesPackage extends EPackage {
      * @generated
      */
     EClass getBeanItem();
+
+    /**
+     * Returns the meta object for class '{@link org.talend.camel.core.model.camelProperties.BeansJarItem <em>Beans Jar Item</em>}'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return the meta object for class '<em>Beans Jar Item</em>'.
+     * @see org.talend.camel.core.model.camelProperties.BeansJarItem
+     * @generated
+     */
+    EClass getBeansJarItem();
 
     /**
      * Returns the meta object for class '{@link org.talend.camel.core.model.camelProperties.CamelProcessItem <em>Camel Process Item</em>}'.
@@ -712,6 +804,16 @@ public interface CamelPropertiesPackage extends EPackage {
          * @generated
          */
         EClass BEAN_ITEM = eINSTANCE.getBeanItem();
+
+        /**
+         * The meta object literal for the '{@link org.talend.camel.core.model.camelProperties.impl.BeansJarItemImpl <em>Beans Jar Item</em>}' class.
+         * <!-- begin-user-doc -->
+         * <!-- end-user-doc -->
+         * @see org.talend.camel.core.model.camelProperties.impl.BeansJarItemImpl
+         * @see org.talend.camel.core.model.camelProperties.impl.CamelPropertiesPackageImpl#getBeansJarItem()
+         * @generated
+         */
+        EClass BEANS_JAR_ITEM = eINSTANCE.getBeansJarItem();
 
         /**
          * The meta object literal for the '{@link org.talend.camel.core.model.camelProperties.impl.CamelProcessItemImpl <em>Camel Process Item</em>}' class.

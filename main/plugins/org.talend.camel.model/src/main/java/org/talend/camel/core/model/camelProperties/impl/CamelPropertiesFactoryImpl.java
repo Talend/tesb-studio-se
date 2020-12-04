@@ -65,6 +65,7 @@ public class CamelPropertiesFactoryImpl extends EFactoryImpl implements CamelPro
     public EObject create(EClass eClass) {
         switch (eClass.getClassifierID()) {
             case CamelPropertiesPackage.BEAN_ITEM: return createBeanItem();
+            case CamelPropertiesPackage.BEANS_JAR_ITEM: return createBeansJarItem();
             case CamelPropertiesPackage.CAMEL_PROCESS_ITEM: return createCamelProcessItem();
             case CamelPropertiesPackage.ROUTE_RESOURCE_ITEM: return createRouteResourceItem();
             case CamelPropertiesPackage.ROUTE_DOCUMENT_ITEM: return createRouteDocumentItem();
@@ -82,6 +83,16 @@ public class CamelPropertiesFactoryImpl extends EFactoryImpl implements CamelPro
     public BeanItem createBeanItem() {
         BeanItemImpl beanItem = new BeanItemImpl();
         return beanItem;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public BeansJarItem createBeansJarItem() {
+        BeansJarItemImpl beansJarItem = new BeansJarItemImpl();
+        return beansJarItem;
     }
 
     /**

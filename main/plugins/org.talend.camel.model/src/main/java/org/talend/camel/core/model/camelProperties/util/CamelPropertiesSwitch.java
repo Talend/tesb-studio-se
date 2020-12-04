@@ -21,6 +21,7 @@ import org.talend.core.model.properties.FileItem;
 import org.talend.core.model.properties.Item;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.RoutineItem;
+import org.talend.core.model.properties.RoutinesJarItem;
 
 /**
  * <!-- begin-user-doc --> The <b>Switch</b> for the model's inheritance
@@ -57,7 +58,7 @@ public class CamelPropertiesSwitch<T> extends Switch<T>{
      * Checks whether this is a switch for the given package.
      * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-     * @parameter ePackage the package in question.
+     * @param ePackage the package in question.
      * @return whether this is a switch for the given package.
      * @generated
      */
@@ -86,6 +87,14 @@ public class CamelPropertiesSwitch<T> extends Switch<T>{
                 if (result == null) result = caseRoutineItem(beanItem);
                 if (result == null) result = caseFileItem(beanItem);
                 if (result == null) result = caseItem(beanItem);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case CamelPropertiesPackage.BEANS_JAR_ITEM: {
+                BeansJarItem beansJarItem = (BeansJarItem)theEObject;
+                T result = caseBeansJarItem(beansJarItem);
+                if (result == null) result = caseRoutinesJarItem(beansJarItem);
+                if (result == null) result = caseItem(beansJarItem);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
@@ -138,6 +147,21 @@ public class CamelPropertiesSwitch<T> extends Switch<T>{
      * @generated
      */
     public T caseBeanItem(BeanItem object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Beans Jar Item</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Beans Jar Item</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseBeansJarItem(BeansJarItem object) {
         return null;
     }
 
@@ -243,6 +267,21 @@ public class CamelPropertiesSwitch<T> extends Switch<T>{
      * @generated
      */
     public T caseRoutineItem(RoutineItem object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Routines Jar Item</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Routines Jar Item</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseRoutinesJarItem(RoutinesJarItem object) {
         return null;
     }
 

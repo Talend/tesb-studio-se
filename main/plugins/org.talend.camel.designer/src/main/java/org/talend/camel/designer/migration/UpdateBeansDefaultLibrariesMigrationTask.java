@@ -59,7 +59,7 @@ public class UpdateBeansDefaultLibrariesMigrationTask extends AbstractItemMigrat
     @Override
     public List<ERepositoryObjectType> getTypes() {
         List<ERepositoryObjectType> toReturn = new ArrayList<ERepositoryObjectType>();
-        toReturn.add(ERepositoryObjectType.valueOf("Beans"));
+        toReturn.add(ERepositoryObjectType.BEANS);
         return toReturn;
     }
 

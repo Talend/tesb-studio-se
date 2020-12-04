@@ -75,11 +75,11 @@ public class CamelNewBeanWizard extends Wizard {
         super();
         this.path = path;
 
-        this.property = PropertiesFactory.eINSTANCE.createProperty();
-        this.property
-                .setAuthor(((RepositoryContext) CorePlugin.getContext().getProperty(Context.REPOSITORY_CONTEXT_KEY)).getUser());
-        this.property.setVersion(VersionUtils.DEFAULT_VERSION);
-        this.property.setStatusCode(""); //$NON-NLS-1$
+        property = PropertiesFactory.eINSTANCE.createProperty();
+        property.setAuthor(((RepositoryContext) CorePlugin.getContext().getProperty(Context.REPOSITORY_CONTEXT_KEY)).getUser());
+        property.setVersion(VersionUtils.DEFAULT_VERSION);
+        property.setStatusCode(""); //$NON-NLS-1$
+        addAdditionalProperties(property);
 
         beanItem = CamelPropertiesFactory.eINSTANCE.createBeanItem();
 
@@ -102,6 +102,16 @@ public class CamelNewBeanWizard extends Wizard {
         beanItem.setContent(byteArray);
 
         addDefaultModulesForBeans();
+    }
+
+    protected void addAdditionalProperties(Property property) {
+    }
+
+    protected void createProperty(Property property) {
+        property = PropertiesFactory.eINSTANCE.createProperty();
+        property.setAuthor(((RepositoryContext) CorePlugin.getContext().getProperty(Context.REPOSITORY_CONTEXT_KEY)).getUser());
+        property.setVersion(VersionUtils.DEFAULT_VERSION);
+        property.setStatusCode(""); //$NON-NLS-1$
     }
 
     private void refreshLibrariesListForTheBean() {

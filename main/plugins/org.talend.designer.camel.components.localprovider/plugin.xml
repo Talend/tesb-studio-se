@@ -1140,6 +1140,18 @@
               name="${tesb-lz4}"
               uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-lz4}">
         </libraryNeeded>
+        <libraryNeeded
+                context="plugin:org.talend.designer.camel.components.localprovider"
+                id="plexus-component-annotations"
+                name="${tesb-plexus-component-annotations}"
+                uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-plexus-component-annotations}">
+        </libraryNeeded>
+        <libraryNeeded
+                context="plugin:org.talend.designer.camel.components.localprovider"
+                id="wagon-provider-api"
+                name="${tesb-wagon-provider-api}"
+                uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-wagon-provider-api}">
+        </libraryNeeded>
         <libraryNeededGroup
               description="camel-talendjob-alldep"
               id="camel-talendjob-alldep"
@@ -1159,22 +1171,22 @@
               description="esb-java-11-group"
               id="esb-java-11-group"
               name="esb-java-11-group">
-			<library id="istack-commons-runtime-3.0.8" />
+			<library id="istack-commons-runtime-3.0.10" />
 			<library id="jakarta.xml.bind-api-2.3.2" />
 			<library id="jakarta.xml.soap-api-1.4.1" />
 			<library id="javax.activation-1.2.0" />
 			<library id="javax.annotation-api-1.3" />
 			<library id="jaxb-runtime-2.3.2" />
-			<library id="istack-commons-runtime-3.0.8" />
+			<library id="istack-commons-runtime-3.0.10" />
 			<library id="stax-ex-1.8.1" />
 			<library id="txw2-2.3.2" />
 			<library id="jakarta.jws-api-1.1.1" />
 			<library id="org.apache.servicemix.specs.jaxws-api-2.2-2.9.0" />			
         </libraryNeededGroup>
         <libraryNeeded context="plugin:org.talend.libraries.esb"
-            name="istack-commons-runtime-3.0.8.jar"
-            id="istack-commons-runtime-3.0.8"
-            uripath="platform:/plugin/org.talend.libraries.esb/lib/istack-commons-runtime-3.0.8.jar"
+            name="istack-commons-runtime-3.0.10.jar"
+            id="istack-commons-runtime-3.0.10"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/istack-commons-runtime-3.0.10.jar"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.libraries.esb"
             name="jakarta.xml.bind-api-2.3.2.jar"
@@ -1202,9 +1214,9 @@
             uripath="platform:/plugin/org.talend.libraries.esb/lib/jaxb-runtime-2.3.2.jar"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.libraries.esb"
-            name="istack-commons-runtime-3.0.8.jar"
-            id="istack-commons-runtime-3.0.8"
-            uripath="platform:/plugin/org.talend.libraries.esb/lib/istack-commons-runtime-3.0.8.jar"
+            name="istack-commons-runtime-3.0.10.jar"
+            id="istack-commons-runtime-3.0.10"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/istack-commons-runtime-3.0.10.jar"
             bundleID="" />
         <!-- libraryNeeded context="plugin:org.talend.libraries.esb"
             name="org.apache.servicemix.bundles.saaj-impl-1.5.1_1.jar"

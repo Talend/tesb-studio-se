@@ -1137,8 +1137,8 @@
         <libraryNeeded
               context="plugin:org.talend.designer.camel.components.localprovider"
               id="lz4"
-              name="${tesb-lz4}"
-              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-lz4}">
+              name="${tesb-lz4-java}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-lz4-java}">
         </libraryNeeded>
         <libraryNeeded
                 context="plugin:org.talend.designer.camel.components.localprovider"

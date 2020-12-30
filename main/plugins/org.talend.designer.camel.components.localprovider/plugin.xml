@@ -309,7 +309,7 @@
         <libraryNeeded context="plugin:org.apache.commons.httpclient"
             name="org.apache.commons.httpclient_3.1.0.v201012070820.jar"
             id="commons-httpclient"
-            uripath="platform:/base/plugins/org.apache.commons.httpclient_3.1.0.v201012070820.jar"
+            mvn_uri="mvn:commons-httpclient/commons-httpclient/3.1"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
 			name="${tesb-camel-http-common}"
@@ -1137,8 +1137,8 @@
         <libraryNeeded
               context="plugin:org.talend.designer.camel.components.localprovider"
               id="lz4"
-              name="${tesb-lz4}"
-              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-lz4}">
+              name="${tesb-lz4-java}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-lz4-java}">
         </libraryNeeded>
         <libraryNeededGroup
               description="camel-talendjob-alldep"

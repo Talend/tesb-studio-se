@@ -63,7 +63,7 @@
         <swagger.ui.version>2.2.10</swagger.ui.version>
         <slf4j-api.version>1.7.26</slf4j-api.version>
         <reflections.version>0.9.11</reflections.version>
-        <guava.version>20.0</guava.version>
+        <guava.version>30.0-jre</guava.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <snakeyaml.version>1.26</snakeyaml.version>
         <!-- external deps -->

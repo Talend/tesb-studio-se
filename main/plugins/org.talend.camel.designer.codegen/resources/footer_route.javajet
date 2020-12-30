@@ -95,8 +95,9 @@
                         for (org.talend.core.model.process.IConnection conn : node.getIncomingConnections()) {
                             String label = "";
                             String labelValue = String.valueOf(node.getElementParameter("LABEL").getValue());
-                            if (!"__UNIQUE_NAME__".equals(labelValue)) {
-                                label = '_' + labelValue;
+                            String labelValueEscaped = ProcessUtils.escapeJava(labelValue);
+                            if (!"__UNIQUE_NAME__".equals(labelValueEscaped)) {
+                                label = '_' + labelValueEscaped;
                             }
 %>
                 targetNodeToConnectionMap.put("<%=className %>_<%=node.getUniqueName()%><%=label%>", "<%=conn.getUniqueName()%>");

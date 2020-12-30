@@ -296,8 +296,8 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jackson-dataformat-yaml-2.10.1.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="guava-20.0.jar" MVN="mvn:com.google.guava/guava/20.0" NAME="guava-20.0.jar"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/guava-20.0.jar"
+            <IMPORT MODULE="guava-30.0-jre.jar" MVN="mvn:com.google.guava/guava/30.0-jre" NAME="guava-30.0-jre.jar"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/guava-30.0-jre.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
             <IMPORT MODULE="validation-api-2.0.1.Final.jar" MVN="mvn:org.talend.libraries/validation-api/6.0.0" NAME="validation-api-2.0.1.Final"

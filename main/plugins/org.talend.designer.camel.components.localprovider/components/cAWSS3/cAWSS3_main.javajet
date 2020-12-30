@@ -115,13 +115,26 @@ imports="
         for (Map<String, String> map : messageHeaders) {
             String header = map.get("MESSAGE_HEADER");
             String value = map.get("MESSAGE_HEADER_VALUE");
+			String valueStripped = value.substring(1, value.length() - 1);
 
+			sb1.append(".choice()");
+			sb1.append(".when().simple(\"");
+			sb1.append(valueStripped);
+			sb1.append(" != null\")");
+            sb1.append(".setHeader(\"");
+            sb1.append(header);
+            sb1.append("\",");
+            sb1.append("simple(");
+            sb1.append(value);
+			sb1.append("))");
+
+            sb1.append(".otherwise()");
             sb1.append(".setHeader(\"");
             sb1.append(header);
             sb1.append("\",");
             sb1.append("constant(");
             sb1.append(value);
-            sb1.append("))");
+            sb1.append(")).end()");
         }
 
         if (("true".equals(useMessageHeadersUserDefined)) && (userDefinedHeaders.size()>0)) {

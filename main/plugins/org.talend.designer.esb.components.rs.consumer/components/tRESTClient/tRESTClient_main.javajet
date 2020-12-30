@@ -3,8 +3,6 @@
 		java.util.List
 		java.util.Map
 		java.util.Map.Entry
-		java.util.ArrayList
-		java.util.HashMap
 		org.talend.core.model.process.IConnection
 		org.talend.core.model.process.INode
 		org.talend.core.model.process.ElementParameterParser
@@ -13,21 +11,12 @@
 		org.talend.designer.codegen.config.NodeConnectionsHelper
 		org.talend.designer.codegen.config.NodeParamsHelper
 		org.talend.core.model.process.IProcess
-		org.talend.core.model.process.EConnectionType
-		org.talend.core.model.process.IDataConnection
-		org.talend.designer.xmlmap.XmlMapComponent
-		org.talend.designer.xmlmap.model.emf.xmlmap.XmlMapData
-		org.talend.designer.xmlmap.model.emf.xmlmap.OutputXmlTree
-		org.eclipse.emf.common.util.EList
-		org.talend.designer.xmlmap.model.emf.xmlmap.TreeNode
-		org.talend.designer.xmlmap.model.emf.xmlmap.OutputTreeNode
-		org.talend.designer.xmlmap.util.XmlMapUtil		
 	"
 %>
 <%
 CodeGeneratorArgument codeGenArgument = (CodeGeneratorArgument) argument;
 INode node = (INode) codeGenArgument.getArgument();
-((XmlMapComponent) node).initGenerationManager();
+
 final String MULTIPART_MIXED = "multipart/mixed";
 
 /*INIT PARAMETERS AND INDICATORS.*/
@@ -499,6 +488,7 @@ try {
 			}
 
 			<%=connResponseName%>.statusCode = webClientResponseStatus_<%=cid%>;
+			<%=connResponseName%>.string = "";
 			<% if (!MULTIPART_MIXED.equals(acceptType)) {%>
 				<% if ("GET".equals(method)) {%>
 				{
@@ -510,61 +500,7 @@ try {
 				<%}%>
 				if(responseObj_<%=cid%> != null){
 					if (responseClass_<%=cid%> == String.class) {
-					<%
-						IConnection connMap  = null;
-						IConnection connLoop = null;
-						List<TreeNode> flatNodeList = new ArrayList<TreeNode>();
-						int num = node.getProcess().getGraphicalNodes().size();
-						for(int i = 0 ; i < num ; i++) {
-							List<? extends IConnection> connsIn = connLoop == null ? node.getIncomingConnections(EConnectionType.FLOW_MAIN)
-							: connLoop.getSource().getIncomingConnections();
-							if (null != connsIn && !connsIn.isEmpty()) {
-								for (IConnection conn : connsIn) {
-									if(conn.getTarget() != null && "tXMLMapOut".equals(conn.getTarget().getComponent().getName())){
-										connMap=conn;
-										if(conn.getTarget() instanceof XmlMapComponent){
-											XmlMapComponent xmlMapComponent = (XmlMapComponent)conn.getTarget();
-											xmlMapComponent.initGenerationManager();
-											XmlMapData xmlMapData=(XmlMapData)ElementParameterParser.getObjectValueXMLTree(xmlMapComponent);
-											EList<OutputXmlTree> outTables = xmlMapData.getOutputTrees();
-											for(OutputXmlTree outTable : outTables) {
-												EList<OutputTreeNode> treeNodes = outTable.getNodes();
-												for(OutputTreeNode treeNode : treeNodes) {
-													flatNodeList.addAll(XmlMapUtil.getFlatChildrenList(treeNode));
-												}
-											}
-										}
-										break;
-									}
-									connLoop=conn;
-								}
-							} else {
-								break;
-							}
-							if(connMap != null) {
-								break;
-							}
-						}
-					%>
-							String response = (String) responseObj_<%=cid%>;
-					<%
-					for(TreeNode tn : flatNodeList) {
-						if(tn.getChildren().size() == 0) {
-							if(!convertTypesToStrings) {
-								if("id_String".equals(tn.getType())){
-						%>
-									response = response.replaceAll("\"<%=tn.getName()%>\":([^\",}^{]+)(,|})", "\"<%=tn.getName()%>\":\"$1\"$2");
-						<%
-								}
-							} else {
-						%>
-									response = response.replaceAll("\"<%=tn.getName()%>\":([^\",}^{]+)(,|})", "\"<%=tn.getName()%>\":\"$1\"$2");
-						<%
-							}
-						}
-					}
-					%>
-						<%=connResponseName%>.string = response;
+						<%=connResponseName%>.string = (String) responseObj_<%=cid%>;
 					} else {
 						routines.system.Document responseTalendDoc_<%=cid%> = null;
 						if (null != responseObj_<%=cid%>) {
@@ -584,26 +520,6 @@ try {
 				globalMap.put("<%=cid%>_CORRELATION_ID", webClient_<%=cid%>.getResponse().getHeaders().get("CorrelationID").get(0));
 			}
 			<% } %>
-			
-            <% if (!MULTIPART_MIXED.equals(acceptType) && !"GET".equals(method)) { %>
-            // handle "oneway" for PUT, POST and PATCH with empty response payload
-            if (webClientResponseStatus_<%=cid%> == 202 && responseObj_<%=cid%> == null){
-                    <%=connResponseName%>.string = "";
-                <%
-                boolean needResponse = false;
-                IProcess process = node.getProcess();
-                List<? extends INode> graphicalNodes = process.getGraphicalNodes();
-                    for (INode graphicalNode : graphicalNodes) {
-                        if ("tRESTResponse".equals(graphicalNode.getComponent().getName()) ) {
-                           needResponse=true;
-                        }
-                    }
-                if(!needResponse) {
-                %>
-                    return;
-                <% } %>
-            }
-            <% } %>
 		<% } %>
 
 	} catch (javax.ws.rs.WebApplicationException ex_<%=cid%>) {

@@ -12,13 +12,20 @@ imports="
 	INode node = (INode)codeGenArgument.getArgument();
 	String cid = node.getUniqueName();
 	
-	String timeToWait = ElementParameterParser.getValue(node, "__WAIT__");
 	List< ? extends IConnection> conns = node.getIncomingConnections();
 	if(conns.size()>0) {
+		String timeToWait = ElementParameterParser.getValue(node, "__WAIT__");
 		if(timeToWait!=null && timeToWait.length()>0) {
+			try {
+				int delay = Integer.parseInt(timeToWait);
 %>
-			.delay(<%=Integer.parseInt(timeToWait)%>)
+				.delay(<%=delay%>)
 <%
+			} catch (NumberFormatException e) {
+%>
+				.delay(<%=timeToWait%>)
+<%
+			}
 		}
 	}
 %>

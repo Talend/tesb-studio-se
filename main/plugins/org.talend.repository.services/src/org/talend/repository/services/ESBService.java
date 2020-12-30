@@ -104,31 +104,7 @@ import org.talend.repository.utils.EmfModelUtils;
  */
 public class ESBService implements IESBService {
 
-    // public AbstractMetadataObject getServicesOperation(Connection connection, String operationName) {
-    // List<ServiceOperation> list = new ArrayList<ServiceOperation>();
-    // if (connection instanceof ServiceConnection) {
-    // ServiceConnection serConnection = (ServiceConnection) connection;
-    // EList<ServicePort> serPort = serConnection.getServicePort();
-    // for (ServicePort port : serPort) {
-    // list.addAll(port.getServiceOperation());
-    // }
-    // }
-    // for (ServiceOperation ope : list) {
-    // if (ope.getLabel().equals(operationName)) {
-    // return ope;
-    // }
-    // }
-    // return null;
-    // }
-
-    // public void changeOperationLabel(RepositoryNode newNode, INode node, Connection connection) {
-    // if (!(connection instanceof ServiceConnection)) {
-    // return;
-    // }
-    // ServiceConnection serConn = (ServiceConnection) connection;
-    // changeOldOperationLabel(serConn, node);
-    // changenewOperationLabel(newNode, node, serConn);
-    // }
+    private static final String PROVIDER_REQUEST = "tESBProviderRequest";
 
     private static final String GROUP_ID_ROUTE_SUFFIX = "route";
 
@@ -301,7 +277,7 @@ public class ESBService implements IESBService {
         if (process != null) {
             List<? extends INode> nodelist = process.getGraphicalNodes();
             for (INode node : nodelist) {
-                if (node.getComponent().getName().equals("tESBProviderRequest")) {
+                if (node.getComponent().getName().equals(PROVIDER_REQUEST)) {
                     repositoryChange(selectNode, node, process);
                     break;
                 }
@@ -844,7 +820,7 @@ public class ESBService implements IESBService {
         for (Object o : process.getNode()) {
             if (o instanceof NodeType) {
                 NodeType node = (NodeType) o;
-                if (node.getComponentName().equals("tESBProviderRequest")) {
+                if (node.getComponentName().equals(PROVIDER_REQUEST)) {
                     EList elementParameter = node.getElementParameter();
                     for (Object param : elementParameter) {
                         ElementParameterType paramType = (ElementParameterType) param;
@@ -1131,4 +1107,20 @@ public class ESBService implements IESBService {
         return null != EmfModelUtils.getComponentByName(processItem, "tRESTRequest");
     }
 
-};
+    @Override
+    public boolean isSOAPServiceProvider(Item item) {
+        if (item instanceof ProcessItem) {
+            ProcessType process = ((ProcessItem) item).getProcess();
+            if (process != null) {
+                for (Object node : process.getNode()) {
+                    NodeType nodeType = (NodeType) node;
+                    if (PROVIDER_REQUEST.equals(nodeType.getComponentName())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+}

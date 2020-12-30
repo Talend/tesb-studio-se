@@ -79,13 +79,17 @@ imports="
 
         } else if (!endpointUrlStudio.contains("://")) { // relative or context variable
 
-            if (!endpointUrlStudio.contains("context.") && !endpointUrlStudio.startsWith("\"/")) {
+			// ^(?!.*\\.).*$ not start with xxx.
+			// ^(?!\"\\/).*$ not start with "/xxx"
+
+            if (endpointUrlStudio.matches("^(?!.*\\.).*$") && endpointUrlStudio.matches("^(?!\"\\/).*$")) {
                 endpointUrlStudio = "\"/" + endpointUrlStudio.substring(1);
             }
 
-            if (!endpointUrlStudio.contains("context.")) {
+            if (endpointUrlStudio.matches("^(?!.*\\.).*$")) {
                 endpointUrlStudio = defaultEndpointUrl + "+" + endpointUrlStudio;
             }
+            
             endpointUrlStudio = "getCXFRSEndpointAddress(" + endpointUrlStudio + ")";
         }
 

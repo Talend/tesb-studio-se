@@ -13,6 +13,7 @@
 package org.talend.camel.designer.codegen.partgen;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.talend.camel.designer.codegen.util.NodeUtil;
 import org.talend.core.model.process.INode;
 import org.talend.designer.codegen.exception.CodeGeneratorException;
@@ -22,8 +23,9 @@ public class EndpointIdGenerator implements PartGenerator<INode> {
     private static final String getNodeId(INode node) {
         String label = "";
         String labelValue = String.valueOf(node.getElementParameter("LABEL").getValue());
-        if (!StringUtils.equals("__UNIQUE_NAME__", labelValue)) {
-            label = '_' + labelValue;
+        String labelValueEscaped = StringEscapeUtils.escapeJava(labelValue);
+        if (!StringUtils.equals("__UNIQUE_NAME__", labelValueEscaped)) {
+            label = '_' + labelValueEscaped;
         }
 
         return node.getProcess().getName() + '_' + node.getUniqueName() + label;

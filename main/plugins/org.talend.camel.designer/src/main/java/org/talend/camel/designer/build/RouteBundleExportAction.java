@@ -159,6 +159,10 @@ public class RouteBundleExportAction extends JobExportAction {
                                 FilesUtils.copyFile(file, getTemporaryStoreFile(file, FileConstants.BLUEPRINT_FOLDER_NAME));
                             } else if (FileConstants.SPRING_FOLDER_NAME.equals(relativePath)) {
                                 FilesUtils.copyFile(file, getTemporaryStoreFile(file, FileConstants.SPRING_FOLDER_NAME));
+                            } else if (relativePath.startsWith(FileConstants.TALEND_FOLDER_NAME)) {
+                                FilesUtils.copyFile(file, getTemporaryBundleResource(file, FileConstants.TALEND_FOLDER_NAME));
+                            } else if (relativePath.startsWith(FileConstants.MAVEN_FOLDER_NAME)) {
+                                FilesUtils.copyFile(file, getTemporaryStoreFile(file, relativePath));
                             }
                         }
 
@@ -169,6 +173,21 @@ public class RouteBundleExportAction extends JobExportAction {
             }
 
         }
+    }
+    
+    private File getTemporaryBundleResource(File realFile, String relatedPath) {
+
+        if (nodes != null && nodes.size() > 0) {
+            ITalendProcessJavaProject talendProcessJavaProject = runProcessService
+                    .getTalendJobJavaProject(nodes.get(0).getObject().getProperty());
+            File temporaryFile = new File(talendProcessJavaProject.getBundleResourcesFolder().getLocation().toOSString()
+                    + File.separator
+                    + relatedPath + File.separator + realFile.getName());
+
+            return temporaryFile;
+        }
+
+        return null;
     }
 
 }

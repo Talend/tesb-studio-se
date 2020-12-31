@@ -334,7 +334,9 @@ if (actAsConsumer) {
             }
 
             try {
-                Object[] results = client.invoke(operationQName, new javax.xml.transform.dom.DOMSource(new org.dom4j.io.DOMWriter().write(doc)));
+				javax.xml.parsers.DocumentBuilderFactory factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+                Object[] results = client.invoke(operationQName,
+                        factory.newDocumentBuilder().parse(new org.xml.sax.InputSource(new java.io.StringReader(doc.asXML()))));
                 correlationID = (String) client.getResponseContext().get("CorrelationID");
 				httpResponseHeaders = (java.util.Map<String, java.util.List<?>>) client
 						.getResponseContext().get(org.apache.cxf.message.Message.PROTOCOL_HEADERS);

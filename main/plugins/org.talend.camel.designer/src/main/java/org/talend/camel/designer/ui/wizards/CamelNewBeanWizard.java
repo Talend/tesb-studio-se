@@ -58,7 +58,7 @@ public class CamelNewBeanWizard extends Wizard {
     private CamelNewBeanWizardPage mainPage;
 
     /** Created project. */
-    private BeanItem beanItem;
+    protected BeanItem beanItem;
 
     private Property property;
 

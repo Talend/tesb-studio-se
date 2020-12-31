@@ -93,7 +93,7 @@ public class AssignBeansToJarAction extends AbstractBeanAction {
                 BeanItem sourceItem = (BeanItem) node.getObject().getProperty().getItem();
                 List backupImports = new ArrayList<>(sourceItem.getImports());
                 sourceItem.getImports().clear();
-                RoutinesUtil.setInnerCodes(sourceItem.getProperty(), true);
+                RoutinesUtil.setInnerCodes(sourceItem.getProperty(), ERepositoryObjectType.BEANSJAR);
                 BeansJarItem beansJarItem = (BeansJarItem) targetBeansJarNode.getObject().getProperty().getItem();
                 beansJarItem.getRoutinesJarType().getImports().addAll(backupImports);
                 try {
@@ -103,7 +103,7 @@ public class AssignBeansToJarAction extends AbstractBeanAction {
 
                     // reset
                     sourceItem.getImports().addAll(backupImports);
-                    RoutinesUtil.setInnerCodes(sourceItem.getProperty(), false);
+                    RoutinesUtil.setInnerCodes(sourceItem.getProperty(), null);
 
                     ProxyRepositoryFactory.getInstance().deleteObjectPhysical(node.getObject());
                 } catch (Exception e) {

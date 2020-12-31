@@ -144,7 +144,7 @@ public class CreateCamelBean extends AbstractBeanAction implements IIntroAction 
         }
         CamelNewBeanWizard beanWizard;
         if (ERepositoryObjectType.BEANSJAR == node.getParent().getContentType()) {
-            beanWizard = new CamelNewInnerBeanWizard(path);
+            beanWizard = new CamelNewInnerBeanWizard(node, path);
         } else {
             beanWizard = new CamelNewBeanWizard(path);
         }

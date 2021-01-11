@@ -606,6 +606,13 @@
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-commons-net}"
             bundleID="" />
 
+        <libraryNeeded
+                context="plugin:org.talend.libraries.apache.common"
+                id="commons-lang-3.4.jar"
+                name="commons-lang-3.4.jar" mvn_uri="mvn:org.apache.commons/commons-lang3/3.4"
+                uripath="platform:/plugin/org.talend.libraries.apache.common/lib/commons-lang-3.4.jar"
+                bundleID="" />
+
         <libraryNeededGroup
                 description="camel-ftp"
                 id="camel-ftp"

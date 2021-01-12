@@ -24,7 +24,7 @@ public class CamelNewBeansJarWizardPage extends NewRoutinesJarWizardPage {
         super(property, destinationPath); //$NON-NLS-1$
 
         setTitle(Messages.getString("NewBeansJarWizardPage.title")); //$NON-NLS-1$
-        setDescription(Messages.getString("NewBeansJarWizard.description")); //$NON-NLS-1$
+        setDescription(Messages.getString("NewBeansJarWizardPage.description")); //$NON-NLS-1$
     }
 
     public ERepositoryObjectType getRepositoryObjectType() {

@@ -15,7 +15,6 @@ package org.talend.camel.designer.ui.view.handler;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -23,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
 import org.talend.camel.core.model.camelProperties.BeanItem;
 import org.talend.core.model.components.IComponent;
 import org.talend.core.model.general.ModuleNeeded;
+import org.talend.core.model.routines.RoutinesUtil;
 import org.talend.core.ui.component.ComponentsFactoryProvider;
 import org.talend.designer.core.model.utils.emf.component.ComponentFactory;
 import org.talend.designer.core.model.utils.emf.component.IMPORTType;
@@ -41,6 +41,15 @@ public class BeanImportHandler extends ImportRepTypeHandler {
      */
     public BeanImportHandler() {
         super();
+    }
+
+    @Override
+    public boolean valid(ImportItem importItem) {
+        boolean valid = super.valid(importItem);
+        if (valid && RoutinesUtil.isInnerCodes(importItem.getProperty())) {
+            return false;
+        }
+        return valid;
     }
 
     /*

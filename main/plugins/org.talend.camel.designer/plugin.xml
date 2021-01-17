@@ -454,6 +454,18 @@
                  </parameter>
               </importItemsHandler>
            </importItemsProvider>
+           <importItemsProvider
+                 id="org.talend.camel.designer.importProvider.beansJar"
+                 name="Beans Jar importer"
+                 priority="HIGH">
+              <importItemsHandler
+                    class="org.talend.camel.designer.ui.view.handler.BeansJarImportHandler">
+                 <parameter
+                       name="type"
+                       value="BEANSJAR">
+                 </parameter>
+              </importItemsHandler>
+           </importItemsProvider>
         </extension>
         <extension
               point="org.talend.designer.maven.ui.repositoryMavenSetting">

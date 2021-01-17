@@ -12,25 +12,13 @@
 // ============================================================================
 package org.talend.camel.designer.ui.view.handler;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.EList;
-import org.talend.camel.core.model.camelProperties.BeansJarItem;
 import org.talend.commons.CommonsPlugin;
-import org.talend.core.model.components.IComponent;
-import org.talend.core.model.general.ModuleNeeded;
 import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.model.routines.RoutinesUtil;
 import org.talend.core.repository.utils.RoutineUtils;
 import org.talend.core.runtime.CoreRuntimePlugin;
-import org.talend.core.ui.component.ComponentsFactoryProvider;
 import org.talend.core.utils.ProductUtils;
-import org.talend.designer.core.model.utils.emf.component.ComponentFactory;
-import org.talend.designer.core.model.utils.emf.component.IMPORTType;
 import org.talend.librariesmanager.model.ModulesNeededProvider;
 import org.talend.repository.items.importexport.handlers.imports.ImportRepTypeHandler;
 import org.talend.repository.items.importexport.handlers.model.ImportItem;
@@ -101,76 +89,10 @@ public class BeansJarImportHandler extends ImportRepTypeHandler {
         }
 
         // import jar for BeansJar
-        IComponent component = ComponentsFactoryProvider.getInstance().get("cTimer", "CAMEL");
-
-        String camelVersionSubString = "";
-        String camelVersion = "";
-        String camelPrefix = "camel-core-";
-
-        for (ModuleNeeded mn : component.getModulesNeeded()) {
-            if (mn.getModuleName().startsWith(camelPrefix)) {
-                camelVersionSubString = mn.getModuleName().substring(camelPrefix.length());
-                camelVersion = camelVersionSubString.substring(0, camelVersionSubString.lastIndexOf(".jar"));
-                break;
-            }
-        }
-
-        if (importItem != null && importItem.getItem() != null && importItem.getItem() instanceof BeansJarItem) {
-
-            EList<IMPORTType> imports = ((BeansJarItem) importItem.getItem()).getRoutinesJarType().getImports();
-
-            // add default modules to the list of modules that are being imported from external project
-            List<ModuleNeeded> modulesNeededForBeans = ModulesNeededProvider.getModulesNeededForBeans();
-
-            Set<String> importedModulesForBeansNames = new HashSet<String>();
-            for (IMPORTType item : imports) {
-                importedModulesForBeansNames.add(item.getMODULE());
-            }
-
-            for (ModuleNeeded model : modulesNeededForBeans) {
-                if (!importedModulesForBeansNames.contains(model.getModuleName())) {
-                    IMPORTType importType = ComponentFactory.eINSTANCE.createIMPORTType();
-                    importType.setMODULE(model.getModuleName());
-                    importType.setMESSAGE(model.getInformationMsg());
-                    importType.setREQUIRED(model.isRequired());
-                    importType.setMVN(model.getMavenUri());
-                    imports.add(importType);
-                }
-            }
-
-            String camelCxfPrefix = "camel-cxf-";
-
-            for (Object imp : imports) {
-
-                if (imp instanceof IMPORTType) {
-                    IMPORTType importType = (IMPORTType) imp;
-
-                    String impName = importType.getMODULE().substring(importType.getMODULE().lastIndexOf('-') + 1);
-                    if (StringUtils.startsWith(importType.getMODULE(), camelCxfPrefix) && "TESB.jar".equals(impName)) {
-                        importType.setMODULE(camelCxfPrefix + camelVersionSubString);
-                        importType.setMVN("mvn:org.talend.libraries/" + camelCxfPrefix + camelVersion + "/6.0.0-SNAPSHOT/jar");
-                    }
-                }
-
-                for (ModuleNeeded defaultNeed : ModulesNeededProvider.getModulesNeededForBeans()) {
-                    String moduleName = defaultNeed.getId();
-
-                    if (imp instanceof IMPORTType) {
-                        IMPORTType importType = (IMPORTType) imp;
-
-                        if (importType.getMODULE().indexOf('-') > 0) {
-                            String impName = importType.getMODULE().substring(0, importType.getMODULE().lastIndexOf('-'));
-                            if (moduleName.equals(impName) && !importType.getMODULE().equals(defaultNeed.getModuleName())) {
-                                importType.setMODULE(defaultNeed.getModuleName());
-                                importType.setMESSAGE(defaultNeed.getInformationMsg());
-                                importType.setMVN(defaultNeed.getMavenUri());
-                                // needResave = true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+//        if (importItem != null && importItem.getItem() != null && importItem.getItem() instanceof BeansJarItem) {
+//            EList<IMPORTType> imports = ((BeansJarItem) importItem.getItem()).getRoutinesJarType().getImports();
+//            BeansImportHandlerUtil.arrangeBeansMoudulesImport(imports);
+//        }
     }
 
 }

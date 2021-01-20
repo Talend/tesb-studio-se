@@ -13,6 +13,7 @@
 package org.talend.repository.services.maven;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -22,6 +23,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.maven.model.Activation;
 import org.apache.maven.model.ActivationProperty;
 import org.apache.maven.model.Build;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Parent;
 import org.apache.maven.model.Plugin;
@@ -43,6 +45,7 @@ import org.talend.core.model.repository.SVNConstant;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.core.repository.utils.ItemResourceUtil;
 import org.talend.core.runtime.maven.MavenConstants;
+import org.talend.designer.core.model.utils.emf.talendfile.ProcessType;
 import org.talend.designer.maven.model.TalendJavaProjectConstants;
 import org.talend.designer.maven.model.TalendMavenConstants;
 import org.talend.designer.maven.template.ETalendMavenVariables;
@@ -396,4 +399,15 @@ public class CreateMavenDataServicePom extends CreateMavenJobPom {
         return plugin;
 
     }
+
+    @Override
+    protected ProcessType getProcessType() {
+        return null;
+    }
+
+    @Override
+    protected List<Dependency> getCodesJarDependencies() {
+        return Collections.emptyList();
+    }
+
 }

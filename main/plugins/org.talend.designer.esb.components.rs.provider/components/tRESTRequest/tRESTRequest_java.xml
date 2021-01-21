@@ -246,7 +246,7 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/jackson-annotations-${jackson.version}.jar"
                 REQUIRED="true"/>
 
-            <IMPORT MODULE="guava-${guava.version}.jar" MVN="mvn:com.google.guava/guava/20.0" NAME="guava-${guava.version}.jar"
+            <IMPORT MODULE="guava-${guava.version}.jar" MVN="mvn:com.google.guava/guava/${guava.version}" NAME="guava-${guava.version}.jar"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/guava-${guava.version}.jar"
                 REQUIRED="true"/>
 

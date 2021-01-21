@@ -531,7 +531,8 @@ public class <%=className%> extends org.apache.camel.builder.RouteBuilder implem
     for (INode node : graphicalNodes) {
         if ("cMQConnectionFactory".equals(node.getComponent().getName())) {
             boolean hasPooledConnectionFactory = Boolean.parseBoolean(ElementParameterParser.getValue(node, "__AMQ_POOL__").trim());
-			if (hasPooledConnectionFactory) {
+            boolean isActiveMQ = "ActiveMQ".equals(ElementParameterParser.getValue(node, "__MQ_TYPE__"));
+			if (hasPooledConnectionFactory && isActiveMQ) {
                 String cid = node.getUniqueName();
 %>
 
@@ -2282,7 +2283,8 @@ if (isProvider) {
     for (INode node : graphicalNodes) {
         if ("cMQConnectionFactory".equals(node.getComponent().getName())) {
             boolean hasPooledConnectionFactory = Boolean.parseBoolean(ElementParameterParser.getValue(node, "__AMQ_POOL__").trim());
-			if (hasPooledConnectionFactory) {
+            boolean isActiveMQ = "ActiveMQ".equals(ElementParameterParser.getValue(node, "__MQ_TYPE__"));
+			if (hasPooledConnectionFactory && isActiveMQ) {
                 String cid = node.getUniqueName();
 %>
 

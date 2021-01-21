@@ -14,7 +14,7 @@
       <swagger.version>1.5.24</swagger.version>
 	  <slf4j-api.version>1.7.26</slf4j-api.version>
 	  <reflections.version>0.9.11</reflections.version>
-	  <guava.version>20.0</guava.version>
+	  <guava.version>30.0-jre</guava.version>
 	  <snakeyaml.version>1.26</snakeyaml.version>
   </properties>
     <dependencies>

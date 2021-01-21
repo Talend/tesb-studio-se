@@ -488,6 +488,7 @@ try {
 			}
 
 			<%=connResponseName%>.statusCode = webClientResponseStatus_<%=cid%>;
+			<%=connResponseName%>.string = "";
 			<% if (!MULTIPART_MIXED.equals(acceptType)) {%>
 				<% if ("GET".equals(method)) {%>
 				{
@@ -519,26 +520,6 @@ try {
 				globalMap.put("<%=cid%>_CORRELATION_ID", webClient_<%=cid%>.getResponse().getHeaders().get("CorrelationID").get(0));
 			}
 			<% } %>
-			
-            <% if (!MULTIPART_MIXED.equals(acceptType) && !"GET".equals(method)) { %>
-            // handle "oneway" for PUT, POST and PATCH with empty response payload
-            if (webClientResponseStatus_<%=cid%> == 202 && responseObj_<%=cid%> == null){
-                    <%=connResponseName%>.string = "";
-                <%
-                boolean needResponse = false;
-                IProcess process = node.getProcess();
-                List<? extends INode> graphicalNodes = process.getGraphicalNodes();
-                    for (INode graphicalNode : graphicalNodes) {
-                        if ("tRESTResponse".equals(graphicalNode.getComponent().getName()) ) {
-                           needResponse=true;
-                        }
-                    }
-                if(!needResponse) {
-                %>
-                    return;
-                <% } %>
-            }
-            <% } %>
 		<% } %>
 
 	} catch (javax.ws.rs.WebApplicationException ex_<%=cid%>) {

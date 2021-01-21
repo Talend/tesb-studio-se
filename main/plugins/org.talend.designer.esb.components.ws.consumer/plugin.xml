@@ -461,11 +461,10 @@
             id="cryptacular"
             uripath="platform:/plugin/org.talend.libraries.esb/lib/${tesb-cryptacular}"
             bundleID="" />
-        <!-- ${tesb-bcprov-jdk15on} -->
         <libraryNeeded context="plugin:org.talend.libraries.esb"
-            name="bcprov-jdk15on-1.65.jar"
+            name="${tesb-bcprov-jdk15on}"
             id="bcprov-jdk15on"
-            uripath="platform:/plugin/org.talend.libraries.esb/lib/bcprov-jdk15on-1.65.jar"
+            mvn_uri="mvn:org.bouncycastle/bcprov-jdk15on/1.68"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.libraries.esb"
             name="${tesb-opensaml-xmlsec-impl}"
@@ -479,10 +478,10 @@
             bundleID="" /-->
         <!-- ${tesb-guava} -->
         <libraryNeeded context="plugin:org.talend.libraries.esb"
-            name="guava-20.0.jar"
+            name="guava-30.0-jre.jar"
             id="guava"
-            mvn_uri="mvn:com.google.guava/guava/20.0"
-            uripath="platform:/plugin/org.talend.libraries.esb/lib/guava-20.0.jar"
+            mvn_uri="mvn:com.google.guava/guava/30.0-jre"
+            uripath="platform:/plugin/org.talend.libraries.esb/lib/guava-30.0-jre.jar"
             bundleID="" />
         <libraryNeeded context="plugin:org.talend.libraries.esb"
             name="${tesb-joda-time}"

@@ -320,10 +320,9 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         	TalendJavaProjectManager.generatePom(procesItem);
         	
         	jobName = PomUtil.getPomProperty(pomFile, "talend.job.name");
-        	
-            if (jobName != null) {
-            	jobName = jobName.toLowerCase();
-            }
+        }
+        if (jobName != null) {
+            jobName = jobName.toLowerCase();
         }
         
         return projectName + "/" + jobFolderPath + jobName; //$NON-NLS-1$

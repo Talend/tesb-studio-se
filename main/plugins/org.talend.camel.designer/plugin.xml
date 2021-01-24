@@ -312,6 +312,15 @@
                 version="7.3.1">
           </projecttask>
           <projecttask
+                 beforeLogon="true"
+                 breaks="7.3.0"
+                 class="org.talend.camel.designer.migration.UpdateBeansLibrariesMigrationTask"
+                 description="Update Beans libraries"
+                 id="org.talend.camel.designer.migration.UpdateBeansLibrariesMigrationTask.7.3.1"
+                 name="UpdateBeansLibrariesMigrationTask 7.3.1"
+                 version="7.3.1">
+          </projecttask>
+          <projecttask
                 beforeLogon="false"
                 breaks="5.6.0"
                 class="org.talend.camel.designer.migration.UpdateBuildTypeForCTalendJobMigrationTask"

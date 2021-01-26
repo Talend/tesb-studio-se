@@ -38,7 +38,7 @@
               folder="code/beansjar"
               isResouce="true"
               key="BeansJar"
-              label="Custom Beans Jar"
+              label="Custom Bean Jars"
               parentNodeType="CODE"
               products="DI"
               type="BEANSJAR"/>

@@ -90,7 +90,7 @@
                   class="org.talend.camel.designer.ui.beansjar.CreateCamelBeansJarAction"
                   id="org.talend.camel.designer.ui.beansjar.createCamelBeansJar"
                   level="10"
-                  name="Create Camel Beans Jar">
+                  name="Create Camel Bean Jar">
             </Action>
             <Action
                   class="org.talend.camel.designer.ui.bean.AssignBeansToJarAction"
@@ -456,7 +456,7 @@
            </importItemsProvider>
            <importItemsProvider
                  id="org.talend.camel.designer.importProvider.beansJar"
-                 name="Beans Jar importer"
+                 name="Bean Jar importer"
                  priority="HIGH">
               <importItemsHandler
                     class="org.talend.camel.designer.ui.view.handler.BeansJarImportHandler">

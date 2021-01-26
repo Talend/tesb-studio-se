@@ -68,7 +68,7 @@
             contentProvider="org.talend.repository.view.route.viewer.content.BeansContentProvider"
             id="org.talend.repository.view.route.beans"
             labelProvider="org.talend.repository.viewer.label.RepositoryViewLabelProvider"
-            name="%NavigatorContent.beans" >
+            name="%NavigatorContent.globalbeans" >
          <triggerPoints>
             <and>
                <instanceof

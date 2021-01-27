@@ -45,12 +45,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.talend.camel.designer.ui.editor.RouteProcess;
 import org.talend.commons.exception.ExceptionHandler;
+import org.talend.commons.utils.VersionUtils;
 import org.talend.core.CorePlugin;
 import org.talend.core.context.Context;
 import org.talend.core.context.RepositoryContext;
 import org.talend.core.model.process.IProcess;
 import org.talend.core.model.process.IProcess2;
 import org.talend.core.model.process.JobInfo;
+import org.talend.core.model.process.ProcessUtils;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.Property;
 import org.talend.core.model.repository.ERepositoryObjectType;
@@ -61,9 +63,11 @@ import org.talend.core.runtime.projectsetting.IProjectSettingPreferenceConstants
 import org.talend.core.runtime.projectsetting.IProjectSettingTemplateConstants;
 import org.talend.designer.core.IDesignerCoreService;
 import org.talend.designer.maven.model.TalendMavenConstants;
+import org.talend.designer.maven.template.ETalendMavenVariables;
 import org.talend.designer.maven.template.MavenTemplateManager;
 import org.talend.designer.maven.tools.AggregatorPomsHelper;
 import org.talend.designer.maven.tools.creator.CreateMavenJobPom;
+import org.talend.designer.maven.utils.JobUtils;
 import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.maven.utils.PomUtil;
 import org.talend.designer.runprocess.IProcessor;
@@ -313,9 +317,14 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 String buildType = null;
                 if (!jobInfo.isJoblet()) {
                     property = jobInfo.getProcessItem().getProperty();
-                    groupId = PomIdsHelper.getJobGroupId(property);
+                    if (isJob(jobInfo) && ProcessUtils.isChildRouteProcess(getProcessor(jobInfo).getProcess()))  {
+                        groupId = PomIdsHelper.getJobGroupId(getJobProcessor().getProperty());     
+                        version = PomIdsHelper.getJobVersion(getJobProcessor().getProperty());
+                    }else {
+                        groupId = PomIdsHelper.getJobGroupId(property);     
+                        version = PomIdsHelper.getJobVersion(property);                    	
+                    }
                     artifactId = PomIdsHelper.getJobArtifactId(jobInfo);
-                    version = PomIdsHelper.getJobVersion(property);
                     // try to get the pom version of children job and load from the pom file.
                     String childPomFileName = PomUtil.getPomFileName(jobInfo.getJobName(), jobInfo.getJobVersion());
                     IProject codeProject = getJobProcessor().getCodeProject();
@@ -637,15 +646,24 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         Xpp3Dom configuration = new Xpp3Dom("configuration");
 
         Xpp3Dom groupId = new Xpp3Dom("groupId");
-        groupId.setValue(PomIdsHelper.getJobGroupId(job.getProcessItem().getProperty())); // bundleModel.getGroupId()
+        if (isJob(job) && ProcessUtils.isChildRouteProcess(getProcessor(job).getProcess()))  {
+            groupId.setValue(PomIdsHelper.getJobGroupId(getJobProcessor().getProperty())); 
+        } else {
+            groupId.setValue(PomIdsHelper.getJobGroupId(job.getProcessItem().getProperty())); // bundleModel.getGroupId()
+        }
 
         Xpp3Dom artifactId = new Xpp3Dom("artifactId");
         artifactId.setValue(bundleModel.getArtifactId() + "_" + job.getJobName());
 
         Xpp3Dom version = new Xpp3Dom("version");
-        // TESB-24336 Use route same version in routelet
-        // version.setValue(PomIdsHelper.getJobVersion(getJobProcessor().getProperty()));
-        version.setValue(PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()));
+        if (isJob(job) && ProcessUtils.isChildRouteProcess(getProcessor(job).getProcess()))  {
+            version.setValue(PomIdsHelper.getJobVersion(getJobProcessor().getProperty()));  	
+        } else {
+            // TESB-24336 Use route same version in routelet
+            // version.setValue(PomIdsHelper.getJobVersion(getJobProcessor().getProperty()));
+            version.setValue(PomIdsHelper.getJobVersion(job.getProcessItem().getProperty()));
+        }
+        
 
         Xpp3Dom packaging = new Xpp3Dom("packaging");
         packaging.setValue("jar");

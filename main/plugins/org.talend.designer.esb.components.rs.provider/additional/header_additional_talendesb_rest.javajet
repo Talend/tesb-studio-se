@@ -560,6 +560,8 @@ public static class RestServiceProviderImpl4TalendJob {
 
 		// pass job concurrent map
 		requestGlobalMap.put("concurrentHashMap", job.globalMap.get("concurrentHashMap"));
+
+		requestGlobalMap.putAll(job.globalMap);
 	}
 
 	private void closePassedDataSourceConnections(java.util.Map<String, Object> requestGlobalMap) {

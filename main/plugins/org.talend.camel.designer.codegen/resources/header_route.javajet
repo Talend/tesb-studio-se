@@ -85,6 +85,11 @@ package <%= packageName %>;
         }
     }
 */
+
+	for (String codesJar : CodeGeneratorRoutine.getRequiredCodesJarName(process)) {
+		importsSet.add("import "+ codesJar);
+	}
+
     importsSet.add("import java.util.HashMap");
     importsSet.add("import java.util.Map");
     importsSet.add("import routines.TalendString");

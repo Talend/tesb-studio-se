@@ -19,7 +19,6 @@ import org.talend.core.model.routines.RoutinesUtil;
 import org.talend.core.repository.utils.RoutineUtils;
 import org.talend.core.runtime.CoreRuntimePlugin;
 import org.talend.core.utils.ProductUtils;
-import org.talend.librariesmanager.model.ModulesNeededProvider;
 import org.talend.repository.items.importexport.handlers.imports.ImportRepTypeHandler;
 import org.talend.repository.items.importexport.handlers.model.ImportItem;
 import org.talend.repository.items.importexport.manager.ResourcesManager;
@@ -73,7 +72,7 @@ public class BeansJarImportHandler extends ImportRepTypeHandler {
      */
     @Override
     public void afterImportingItems(IProgressMonitor monitor, ResourcesManager resManager, ImportItem importItem) {
-        ModulesNeededProvider.fireLibrariesChanges();
+        // ModulesNeededProvider.fireLibrariesChanges();
     }
 
     /*
@@ -87,6 +86,7 @@ public class BeansJarImportHandler extends ImportRepTypeHandler {
             RoutineUtils.changeInnerCodePackage(importItem.getItem(), true);
             return;
         }
+        // TODO if it's codesjar item, clean m2 cache record if exists
 
         // import jar for BeansJar
 //        if (importItem != null && importItem.getItem() != null && importItem.getItem() instanceof BeansJarItem) {

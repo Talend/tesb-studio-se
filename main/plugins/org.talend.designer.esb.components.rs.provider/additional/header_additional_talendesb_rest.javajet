@@ -1662,7 +1662,19 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 			return engine.eval(expression).toString();
 		}
 		
-		public static String getContext(String context, String contextName) throws Exception {
-			return contextName.contains("context.") ? evaluate(context, contextName) : contextName;
-		}
+        public static String getContext(String context, String contextName, String jobName) throws Exception {
+
+            String currentContext = null;
+            String jobNameStripped = jobName.substring(jobName.lastIndexOf(".") + 1);
+
+            boolean inOSGi = routines.system.BundleUtils.inOSGi();
+
+            if (inOSGi) {
+                java.util.Dictionary<String, Object> jobProperties = routines.system.BundleUtils.getJobProperties(jobNameStripped);
+
+                currentContext = (String)jobProperties.get("context");
+            }
+
+            return contextName.contains("context.") ? evaluate(currentContext == null ? context : currentContext, contextName) : contextName;
+        }
 	}

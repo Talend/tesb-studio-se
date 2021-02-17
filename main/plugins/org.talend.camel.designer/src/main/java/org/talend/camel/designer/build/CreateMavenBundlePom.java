@@ -45,7 +45,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.talend.camel.designer.ui.editor.RouteProcess;
 import org.talend.commons.exception.ExceptionHandler;
-import org.talend.commons.utils.VersionUtils;
+import org.talend.commons.ui.runtime.CommonUIPlugin;
 import org.talend.core.CorePlugin;
 import org.talend.core.context.Context;
 import org.talend.core.context.RepositoryContext;
@@ -63,11 +63,9 @@ import org.talend.core.runtime.projectsetting.IProjectSettingPreferenceConstants
 import org.talend.core.runtime.projectsetting.IProjectSettingTemplateConstants;
 import org.talend.designer.core.IDesignerCoreService;
 import org.talend.designer.maven.model.TalendMavenConstants;
-import org.talend.designer.maven.template.ETalendMavenVariables;
 import org.talend.designer.maven.template.MavenTemplateManager;
 import org.talend.designer.maven.tools.AggregatorPomsHelper;
 import org.talend.designer.maven.tools.creator.CreateMavenJobPom;
-import org.talend.designer.maven.utils.JobUtils;
 import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.maven.utils.PomUtil;
 import org.talend.designer.runprocess.IProcessor;
@@ -317,7 +315,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                 String buildType = null;
                 if (!jobInfo.isJoblet()) {
                     property = jobInfo.getProcessItem().getProperty();
-                    if (isJob(jobInfo) && ProcessUtils.isChildRouteProcess(getProcessor(jobInfo).getProcess()))  {
+                    if (!CommonUIPlugin.isFullyHeadless() && isJob(jobInfo) && ProcessUtils.isChildRouteProcess(getProcessor(jobInfo).getProcess()))  {
                         groupId = PomIdsHelper.getJobGroupId(getJobProcessor().getProperty());     
                         version = PomIdsHelper.getJobVersion(getJobProcessor().getProperty());
                     }else {
@@ -532,8 +530,11 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         Set<JobInfo> subjobs = getJobProcessor().getBuildChildrenJobs();
         if (subjobs != null && !subjobs.isEmpty()) {
             for (JobInfo subjob : subjobs) {
-                if (isRoutelet(subjob) || isJob(subjob)) {
-
+                if (isRoutelet(subjob) || (isJob(subjob))) {
+                    if (CommonUIPlugin.isFullyHeadless() && isJob(subjob) && !ProcessUtils.isChildRouteProcess(getProcessor(subjob).getProcess())) {
+                        //skip export of subjobs which are referenced from child Route Job
+                        continue;
+                    }
                     Xpp3Dom subjobFile = new Xpp3Dom("file");
                     boolean addFile = false;
                     if (getJobProcessor() != null && getProcessor(subjob) != null) {
@@ -585,13 +586,20 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
                         if (isRoutelet(subjob)) {
                             subjobGroupId.setValue(bundleModel.getGroupId());
                         } else {
-                            subjobGroupId.setValue(PomIdsHelper.getJobGroupId(subjob.getProcessItem().getProperty()));
+                            if (CommonUIPlugin.isFullyHeadless() && isJob(subjob))  {
+                                subjobGroupId.setValue(PomIdsHelper.getJobGroupId(getJobProcessor().getProperty()));    
+                            }else {
+                                subjobGroupId.setValue(PomIdsHelper.getJobGroupId(subjob.getProcessItem().getProperty()));                   	
+                            }
                         }
                         Xpp3Dom subjobArtifactId = new Xpp3Dom("artifactId");
                         subjobArtifactId.setValue(bundleModel.getArtifactId() + "_" + subjob.getJobName());
                         Xpp3Dom subjobVersion = new Xpp3Dom("version");
-                        subjobVersion.setValue(PomIdsHelper.getJobVersion(subjob.getProcessItem().getProperty()));
-
+                        if (CommonUIPlugin.isFullyHeadless() && isJob(subjob))  {
+                            subjobVersion.setValue(PomIdsHelper.getJobVersion(getJobProcessor().getProperty()));
+                        }else {
+                            subjobVersion.setValue(PomIdsHelper.getJobVersion(subjob.getProcessItem().getProperty()));                	
+                        }
                         Xpp3Dom subjobPackaging = new Xpp3Dom("packaging");
                         subjobPackaging.setValue("jar");
 

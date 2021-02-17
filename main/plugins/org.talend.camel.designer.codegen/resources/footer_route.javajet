@@ -613,7 +613,12 @@ if (isTestContainer) {
 
                     if (inContext!=null) {
                         try {
-                            context.load(inContext);
+				context.load(inContext);
+				if (null != getContext().hasComponent("<%=className %>_properties")) {
+					org.apache.camel.component.properties.PropertiesComponent props = getContext().getComponent("<%=className %>_properties", org.apache.camel.component.properties.PropertiesComponent.class);
+					context.putAll(props.getOverrideProperties());
+				}
+							
                         } finally {
                             inContext.close();
                         }

@@ -216,7 +216,14 @@ public class RunContainerPreferencePage extends FieldLayoutPreferencePage implem
         groupOption.setLayout(gridLayoutDefault);
         groupOption.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         groupOption.setText(RunContainerMessages.getString("RunContainerPreferencePage.Group2")); //$NON-NLS-1$
+        
+        Group deprecated = new Group(body, SWT.NONE);
+        deprecated.setLayout(gridLayoutDefault);
+        deprecated.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
+        Label deprecationNote = new Label(deprecated, SWT.WRAP);
+        deprecationNote.setText(RunContainerMessages.getString("RunContainerPreferencePage.Deprecation"));
+        
         compositeOptionBody = new Composite(groupOption, SWT.NONE);
         compositeOptionBody.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 

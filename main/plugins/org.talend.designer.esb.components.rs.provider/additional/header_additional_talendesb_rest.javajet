@@ -1672,7 +1672,9 @@ class Thread4RestServiceProviderEndpoint extends Thread {
             if (inOSGi) {
                 java.util.Dictionary<String, Object> jobProperties = routines.system.BundleUtils.getJobProperties(jobNameStripped);
 
-                currentContext = (String)jobProperties.get("context");
+                if (jobProperties != null) {
+                    currentContext = (String)jobProperties.get("context");
+                }
             }
 
             return contextName.contains("context.") ? evaluate(currentContext == null ? context : currentContext, contextName) : contextName;

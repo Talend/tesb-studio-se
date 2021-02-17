@@ -71,7 +71,7 @@
         <mvn-commons-lang>mvn:commons-lang/commons-lang/2.6</mvn-commons-lang>
         <mvn-commons-pool>mvn:commons-pool/commons-pool/1.6</mvn-commons-pool>
         
-        <jetty-all.version>9.4.18.v20190429</jetty-all.version>
+        <jetty-all.version>9.4.35.v20201120</jetty-all.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
 
         <hamcrest.version>1.3</hamcrest.version>

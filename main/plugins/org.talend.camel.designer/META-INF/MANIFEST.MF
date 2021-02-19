@@ -78,7 +78,6 @@ Export-Package: org.talend.camel.designer.dialog;
    org.talend.designer.core.model.utils.emf.talendfile,
    org.eclipse.ui,
    org.eclipse.core.runtime,
-   org.talend.core.nexus,
    org.talend.commons.ui.runtime.image,
    org.talend.designer.core.ui.editor.process,
    org.talend.repository.model,
@@ -90,6 +89,7 @@ Export-Package: org.talend.camel.designer.dialog;
  org.talend.camel.designer.ui.wizards;
   uses:="org.talend.repository.ui.wizards.exportjob.scriptsmanager,
    org.talend.core.model.repository,
+   org.eclipse.swt.layout,
    org.eclipse.swt.graphics,
    org.talend.core.model.properties,
    org.talend.core.repository.ui.editor,

@@ -31,6 +31,8 @@ import org.talend.designer.esb.runcontainer.server.RuntimeServerController;
 import org.talend.designer.esb.runcontainer.ui.progress.CheckingBundlesProgress;
 import org.talend.designer.esb.runcontainer.ui.progress.StartRuntimeProgress;
 import org.talend.designer.runprocess.IProcessMessageManager;
+import org.talend.designer.runprocess.ProcessMessage;
+import org.talend.designer.runprocess.ProcessMessage.MsgType;
 import org.talend.designer.runprocess.ProcessorException;
 import org.talend.designer.runprocess.maven.MavenJavaProcessor;
 
@@ -45,6 +47,7 @@ public class RunContainerProcessor extends MavenJavaProcessor {
     @Override
     public Process run(int statisticsPort, int tracePort, String watchParam, String log4jLevel, IProgressMonitor monitor,
             IProcessMessageManager processMessageManager) throws ProcessorException {
+    	processMessageManager.addDebugResultToConsole(new ProcessMessage(MsgType.LOG4J_WARN, RunContainerMessages.getString("StartRuntimeAction.Deprecated")));
         if (!RuntimeServerController.getInstance().isRunning()) {
             try {
                 new StartRuntimeProgress(true).run(monitor);

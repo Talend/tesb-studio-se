@@ -2314,6 +2314,22 @@ if (isProvider) {
                 compositeRegistry.addRegistry(registry);
                 ((org.apache.camel.impl.DefaultCamelContext) camelContext).setRegistry(compositeRegistry);
 
+                <%if(exportTypeSpringBoot){%>
+                    <%
+                        if(process.getNodesOfType("cSOAP").size() > 0){
+                    %>
+                        String keyStore = System.getProperty("javax.net.ssl.keyStore");
+                        String keyStorePassword = System.getProperty("javax.net.ssl.keyStorePassword");
+
+                        if (keyStore == null) {
+                            System.setProperty("javax.net.ssl.keyStore", "config/clientstore-conduits.jks");
+                        }
+                        if (keyStorePassword == null) {
+                            System.setProperty("javax.net.ssl.keyStorePassword", "cspass");
+                        }
+                    <%}%>
+                <%}%>
+
                 <%
                 	if(process.getNodesOfType("cREST").size() > 0){
                 %>

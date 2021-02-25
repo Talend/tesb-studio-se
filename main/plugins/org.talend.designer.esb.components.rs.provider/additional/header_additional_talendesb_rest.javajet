@@ -561,6 +561,8 @@ public static class RestServiceProviderImpl4TalendJob {
 
 		// pass job concurrent map
 		requestGlobalMap.put("concurrentHashMap", job.globalMap.get("concurrentHashMap"));
+
+		requestGlobalMap.putAll(job.globalMap);
 	}
 
 	private void closePassedDataSourceConnections(java.util.Map<String, Object> requestGlobalMap) {
@@ -657,7 +659,7 @@ public static class RestServiceProviderImpl4TalendJob {
 
 		javax.ws.rs.core.StreamingOutput streamingOutput = new javax.ws.rs.core.StreamingOutput() {
 			public void write(java.io.OutputStream output) {
-				
+
 				<%
 				if(codeGenArgument.getIsRunInMultiThread() || NodeUtil.containsMultiThreadComponent(process)){
 				%>
@@ -669,7 +671,7 @@ public static class RestServiceProviderImpl4TalendJob {
 				<%
 				}
 				%>
-				
+
 				try {
 					globalMap.put("restResponseStream", output);
 
@@ -1169,7 +1171,7 @@ if (exposeSwagger) {
 							sdf.setLenient(false);
 							<%=variableName%> = sdf.parse(<%=variableName%>_<%=cid%>);
 						} catch (Exception e) {
-							return handleWrongRequest(messageContext, 400, "[<%=variableName%>_<%=cid%>] Date parameter has invalid format!");				
+							return handleWrongRequest(messageContext, 400, "[<%=variableName%>_<%=cid%>] Date parameter has invalid format!");
 						}
 					}
 				<% } %>
@@ -1226,9 +1228,9 @@ if (exposeSwagger) {
 			org.apache.cxf.jaxrs.ext.MessageContext context, int status, String error) {
 
 		// System.out.println("wrong call [uri: " + context.getUriInfo().getPath() + " ; method: " + context.getRequest().getMethod() + " ; status: " + status + " ; error: " + error + "]");
-		
+
 		java.util.Map<String, Object> wrongRequest = new java.util.HashMap<String, Object>();
-		
+
 		wrongRequest.put("ERROR", error);
 		wrongRequest.put("STATUS", status);
 		wrongRequest.put("VERB", context.getRequest().getMethod());
@@ -1454,7 +1456,7 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 	private final <%=process.getName()%> job;
 
 	private org.apache.cxf.endpoint.Server server;
-	
+
 	private org.apache.cxf.jaxrs.JAXRSServerFactoryBean sf;
 
 	public Thread4RestServiceProviderEndpoint(<%=process.getName()%> job, String endpointUrl) {
@@ -1462,9 +1464,9 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 		this.endpointUrl = endpointUrl;
 		this.sf = new org.apache.cxf.jaxrs.JAXRSServerFactoryBean();
 	}
-	
+
 	boolean inOSGi = routines.system.BundleUtils.inOSGi();
-	
+
 	public org.apache.cxf.endpoint.Server getServer(){
 		return server;
 	}
@@ -1472,12 +1474,12 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 	public org.apache.cxf.jaxrs.JAXRSServerFactoryBean getJAXRSServerFactoryBean(){
 		return sf;
 	}
-	
+
 	public void run() {
 
 		try {
 			RestServiceProviderImpl4TalendJob provider = new RestServiceProviderImpl4TalendJob(job);
-			
+
 			if(sf.getProperties() == null){
         		sf.setProperties(new java.util.HashMap<String, Object>());
         	}
@@ -1486,14 +1488,14 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 			providers.add(new ExceptionMapper4TalendJobRestService(provider));
 			providers.add(new StreamingDOM4JProvider());
 			<%if (Boolean.valueOf(ElementParameterParser.getValue(node,"__NEED_AUTH__")) && "OIDC_PASSWORD_GRANT".equals(ElementParameterParser.getValue(node,"__AUTH_TYPE__"))) {%>
-			
+
 			if (!inOSGi) {
 				org.springframework.context.support.ClassPathXmlApplicationContext context_<%=cid%> =
 					new org.springframework.context.support.ClassPathXmlApplicationContext("META-INF/tesb/oidc-context.xml");
 				org.talend.esb.security.oidc.OidcConfiguration oidcConfiguration_<%=cid%> = context_<%=cid%>.getBean(org.talend.esb.security.oidc.OidcConfiguration.class);
 				providers.add(new org.talend.esb.security.oidc.OidcAccessTokenValidator(oidcConfiguration_<%=cid%>));
 			}else{
-				providers.add(new org.talend.esb.security.oidc.OidcAccessTokenValidator()); 
+				providers.add(new org.talend.esb.security.oidc.OidcAccessTokenValidator());
 			}
 			<%}%>
 			org.apache.cxf.jaxrs.provider.json.JSONProvider jsonProvider =
@@ -1522,16 +1524,16 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 					new java.util.ArrayList<org.apache.cxf.feature.Feature>() : sf.getFeatures();
 
 			<% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__SERVICE_LOCATOR__"))) { %>
-				<% 
+				<%
 				boolean ignoreSLStudio = !Boolean.valueOf(System.getProperty("ignoreSLStudio"));
-				if (ignoreSLStudio && !exportTypeSpringBoot) { 
+				if (ignoreSLStudio && !exportTypeSpringBoot) {
 				%>
 				if(inOSGi){
 				<% } %>
 				sf.setServiceName(new javax.xml.namespace.QName(
 						<%=ElementParameterParser.getValue(node,"__SERVICE_NAMESPACE__")%>,
 						<%=ElementParameterParser.getValue(node,"__SERVICE_NAME__")%>));
-						
+
 				org.talend.esb.servicelocator.cxf.LocatorFeature slFeature = null;
 				<% if (ignoreSLStudio) { %>
 					<% if(exportTypeSpringBoot) { %>
@@ -1547,7 +1549,7 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 			    	org.springframework.context.support.ClassPathXmlApplicationContext context_ = new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/locator/beans.xml" });
 			    	slFeature = (org.talend.esb.servicelocator.cxf.LocatorFeature) context_.getBean(org.talend.esb.servicelocator.cxf.LocatorFeature.class);
 
-		        }				
+		        }
 				<% } %>
 
 				<% List<Map<String, String>> customProperties = (List<Map<String,String>>)
@@ -1557,7 +1559,7 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 					<% for (int k = 0; k < customProperties.size(); k++) { %>
 						slCustomProps_<%=cid%>.put(<%=customProperties.get(k).get("PROP_NAME")%>, <%=customProperties.get(k).get("PROP_VALUE")%>);
 					<% } %>
-            	
+
             		sf.getProperties().put(org.talend.esb.servicelocator.cxf.LocatorFeature.LOCATOR_PROPERTIES,slCustomProps_<%=cid%>);
 				<% } %>
 
@@ -1569,10 +1571,10 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 
 			<% if (Boolean.valueOf(ElementParameterParser.getValue(node,"__SERVICE_ACTIVITY_MONITOR__"))) { %>
 				org.talend.esb.sam.agent.feature.EventFeature samEventFeature_<%=cid%> = null;
-				
+
 				if(!inOSGi){
 			    	samEventFeature_<%=cid%> = (org.talend.esb.sam.agent.feature.EventFeature) new org.springframework.context.support.ClassPathXmlApplicationContext(new String[] { "META-INF/tesb/agent-context.xml" }).getBean(org.talend.esb.sam.agent.feature.EventFeature.class);
-		        }else{  
+		        }else{
 					samEventFeature_<%=cid%> = routines.system.BundleUtils.getService(org.talend.esb.sam.agent.feature.EventFeature.class);
 		        }
 
@@ -1583,7 +1585,7 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 					<% for (int k = 0; k < samCustomProperties.size(); k++) { %>
 						samCustomProps_<%=cid%>.put(<%=samCustomProperties.get(k).get("PROP_NAME")%>, <%=samCustomProperties.get(k).get("PROP_VALUE")%>);
 					<% } %>
-					
+
 					sf.getProperties().put(org.talend.esb.sam.agent.feature.EventFeature.SAM_PROPERTIES,samCustomProps_<%=cid%>);
 				<% } %>
 
@@ -1639,7 +1641,7 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 			// System.out.println("REST service [endpoint: " + endpointUrl + "] unpublished");
 		}
 	}
-}	
+}
 <%
 }
 %>
@@ -1672,7 +1674,7 @@ class Thread4RestServiceProviderEndpoint extends Thread {
             }
 			return isExpression ? evaluateContextExpression(contextExpression) : contextExpression;
 		}
-		
+
 		public static String evaluateContextExpression(String expression) throws javax.script.ScriptException {
 			javax.script.ScriptEngineManager manager = new javax.script.ScriptEngineManager();
 			javax.script.ScriptEngine engine = manager.getEngineByName("nashorn");
@@ -1680,8 +1682,22 @@ class Thread4RestServiceProviderEndpoint extends Thread {
 			expression = expression.replaceAll("System.getProperty", "java.lang.System.getProperty");
 			return engine.eval(expression).toString();
 		}
-		
-		public static String getContext(String context, String contextName) throws Exception {
-			return contextName.contains("context.") ? evaluate(context, contextName) : contextName;
-		}
-	}
+
+        public static String getContext(String context, String contextName, String jobName) throws Exception {
+
+            String currentContext = null;
+            String jobNameStripped = jobName.substring(jobName.lastIndexOf(".") + 1);
+
+            boolean inOSGi = routines.system.BundleUtils.inOSGi();
+
+            if (inOSGi) {
+                java.util.Dictionary<String, Object> jobProperties = routines.system.BundleUtils.getJobProperties(jobNameStripped);
+
+                if (jobProperties != null) {
+                    currentContext = (String)jobProperties.get("context");
+                }
+            }
+
+            return contextName.contains("context.") ? evaluate(currentContext == null ? context : currentContext, contextName) : contextName;
+        }
+    }

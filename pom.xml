@@ -28,7 +28,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <cxf.version>3.3.7</cxf.version>
-    <spring.version>5.1.18.RELEASE</spring.version>
+    <spring.version>5.2.12.RELEASE</spring.version>
     <scala.version>2.11.7</scala.version>
     <jettison.version>1.4.1</jettison.version>
     <!--slf4j.version>1.7.9</slf4j.version-->
@@ -141,10 +141,8 @@
     <module>main/plugins/org.talend.rcp.branding.esbstandard</module>
     <module>main/plugins/org.talend.repository.services</module>
     <module>main/plugins/org.talend.repository.view.route</module>
-    <module>main/plugins/org.talend.designer.esb.runcontainer</module>
     <module>main/plugins/org.talend.resources.export.route</module>
     <module>test/features/org.talend.esb.tooling.test.feature</module>
-    <module>test/plugins/org.talend.esb.designer.esb.runcontainer.test</module>
     <module>test/plugins/org.talend.esb.designer.esb.routines.test</module>
     <module>test/plugins/org.talend.esb.designer.camel.dependencies.core.test</module>
     <module>test/plugins/org.talend.esb.designer.camel.resource.core.test</module>

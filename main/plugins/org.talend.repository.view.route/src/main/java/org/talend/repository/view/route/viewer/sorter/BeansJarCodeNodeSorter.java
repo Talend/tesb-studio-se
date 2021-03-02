@@ -16,31 +16,31 @@ import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.repository.model.RepositoryNode;
 import org.talend.repository.viewer.sorter.CodeRepositoryNodeSorter;
 
-public class BeanCodeNodeSorter extends CodeRepositoryNodeSorter {
+public class BeansJarCodeNodeSorter extends CodeRepositoryNodeSorter {
 
     /**
-     * should be 3rd.
+     * should be 4th.
      */
     @Override
     protected void sortChildren(Object[] children) {
-        int routinesIndex = -1;
         int beansIndex = -1;
+        int beansJarIndex = -1;
         for (int i = 0; i < children.length; i++) {
             if (children[i] instanceof RepositoryNode) {
                 RepositoryNode node = (RepositoryNode) children[i];
-                if (codeTester.isTypeTopNode(node, ERepositoryObjectType.ROUTINESJAR)) {
-                    routinesIndex = i;
-                } else if (codeTester.isTypeTopNode(node, ERepositoryObjectType.BEANS)) {
+                if (codeTester.isTypeTopNode(node, ERepositoryObjectType.BEANS)) {
                     beansIndex = i;
+                } else if (codeTester.isTypeTopNode(node, ERepositoryObjectType.BEANSJAR)) {
+                    beansJarIndex = i;
                 }
             }
         }
         int realIndex = 0; // top by default
-        if (routinesIndex > -1) { // existed
-            realIndex = 2;
+        if (beansIndex > -1) { // existed
+            realIndex = 3;
         }
-        if (beansIndex > -1) {
-            swap(children, beansIndex, realIndex);
+        if (beansJarIndex > -1) {
+            swap(children, beansJarIndex, realIndex);
         }
     }
 }

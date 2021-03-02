@@ -90,6 +90,11 @@ public class CamelDesignerCoreService implements ICamelDesignerCoreService {
     }
 
     @Override
+    public boolean isInstanceofCamelBeansJar(Item item) {
+        return item == null ? false : item.eClass() == CamelPropertiesPackage.Literals.BEANS_JAR_ITEM;
+    }
+
+    @Override
     public boolean isInstanceofCamel(Item item) {
         if (item == null) {
             return false;

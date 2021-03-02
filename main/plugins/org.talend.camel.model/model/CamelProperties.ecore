@@ -3,6 +3,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="camelProperties" nsURI="http://www.talend.org/CamelProperties"
     nsPrefix="CamelProperties">
   <eClassifiers xsi:type="ecore:EClass" name="BeanItem" eSuperTypes="../../org.talend.model/model/properties.ecore#//RoutineItem"/>
+  <eClassifiers xsi:type="ecore:EClass" name="BeansJarItem" eSuperTypes="../../org.talend.model/model/properties.ecore#//RoutinesJarItem"/>
   <eClassifiers xsi:type="ecore:EClass" name="CamelProcessItem" eSuperTypes="../../org.talend.model/model/properties.ecore#//ProcessItem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="springContent" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
         defaultValueLiteral=""/>

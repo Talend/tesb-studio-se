@@ -27,13 +27,21 @@
               products="DI"
               type="ROUTE"/>
         <repositoryNode
-            folder="code/beans"
-            isResouce="true"
-            key="Bean"
-            label="Beans"
-            parentNodeType="CODE"
-            products="DI"
-            type="BEANS" />
+              folder="code/beans"
+              isResouce="true"
+              key="Bean"
+              label="Global Beans"
+              parentNodeType="CODE"
+              products="DI"
+              type="BEANS"/>
+        <repositoryNode
+              folder="code/beansjar"
+              isResouce="true"
+              key="BeansJar"
+              label="Custom Bean Jars"
+              parentNodeType="CODE"
+              products="DI"
+              type="BEANSJAR"/>
     </extension>
 
 </plugin>

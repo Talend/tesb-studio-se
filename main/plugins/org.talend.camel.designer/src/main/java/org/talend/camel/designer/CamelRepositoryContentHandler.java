@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.talend.camel.core.model.camelProperties.BeanItem;
+import org.talend.camel.core.model.camelProperties.BeansJarItem;
 import org.talend.camel.core.model.camelProperties.CamelPropertiesFactory;
 import org.talend.camel.core.model.camelProperties.CamelPropertiesPackage;
 import org.talend.camel.core.model.camelProperties.RouteDocumentItem;
@@ -28,13 +29,22 @@ import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.exception.PersistenceException;
 import org.talend.commons.ui.runtime.image.ECoreImage;
 import org.talend.commons.ui.runtime.image.IImage;
+import org.talend.core.model.general.Project;
 import org.talend.core.model.properties.FileItem;
 import org.talend.core.model.properties.Item;
 import org.talend.core.model.properties.ProcessItem;
+import org.talend.core.model.properties.Property;
 import org.talend.core.model.properties.Status;
 import org.talend.core.model.repository.ERepositoryObjectType;
+import org.talend.core.model.repository.IRepositoryViewObject;
+import org.talend.core.model.repository.RepositoryViewObject;
+import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.core.repository.utils.AbstractResourceRepositoryContentHandler;
 import org.talend.core.runtime.CoreRuntimePlugin;
+import org.talend.repository.ProjectManager;
+import org.talend.repository.model.IRepositoryNode.ENodeType;
+import org.talend.repository.model.IRepositoryNode.EProperties;
+import org.talend.repository.model.RepositoryNode;
 
 /**
  * DOC guanglong.du class global comment. Detailled comment
@@ -83,8 +93,10 @@ public class CamelRepositoryContentHandler extends AbstractResourceRepositoryCon
         ERepositoryObjectType type = null;
         if (item.eClass() == CamelPropertiesPackage.Literals.CAMEL_PROCESS_ITEM) {
             return create(project, (ProcessItem) item, path, CamelRepositoryNodeType.repositoryRoutesType);
+        } else if (item.eClass() == CamelPropertiesPackage.Literals.BEANS_JAR_ITEM) {
+            return create(project, (BeansJarItem) item, path, ERepositoryObjectType.BEANSJAR);
         } else if (item.eClass() == CamelPropertiesPackage.Literals.BEAN_ITEM) {
-            type = CamelRepositoryNodeType.repositoryBeansType;
+            type = /* RoutinesUtil.isInnerCodes(item.getProperty()) ? ERepositoryObjectType.BEANSJAR : */ERepositoryObjectType.BEANS;
         } else if (item.eClass() == CamelPropertiesPackage.Literals.ROUTE_RESOURCE_ITEM) {
             type = CamelRepositoryNodeType.repositoryRouteResourceType;
         } else if (item.eClass() == CamelPropertiesPackage.Literals.ROUTE_DOCUMENT_ITEM) {
@@ -94,6 +106,13 @@ public class CamelRepositoryContentHandler extends AbstractResourceRepositoryCon
             return create(project, (FileItem) item, path, type);
         }
         return null;
+    }
+
+    private Resource create(IProject project, BeansJarItem item, IPath path, ERepositoryObjectType type)
+            throws PersistenceException {
+        Resource itemResource = getXmiResourceManager().createItemResource(project, item, path, type, false);
+        itemResource.getContents().add(item.getRoutinesJarType());
+        return itemResource;
     }
 
     @Override
@@ -111,6 +130,8 @@ public class CamelRepositoryContentHandler extends AbstractResourceRepositoryCon
             return save((ProcessItem) item);
         } else if (item.eClass() == CamelPropertiesPackage.Literals.BEAN_ITEM) {
             return save((BeanItem) item);
+        } else if (item.eClass() == CamelPropertiesPackage.Literals.BEANS_JAR_ITEM) {
+            return save((BeansJarItem) item);
         } else if (item.eClass() == CamelPropertiesPackage.Literals.ROUTE_RESOURCE_ITEM) {
             return save((RouteResourceItem) item);
         } else if (item.eClass() == CamelPropertiesPackage.Literals.ROUTE_DOCUMENT_ITEM) {
@@ -133,6 +154,8 @@ public class CamelRepositoryContentHandler extends AbstractResourceRepositoryCon
             return ECoreImage.ROUTES_ICON;
         } else if (type == CamelRepositoryNodeType.repositoryBeansType) {
             return ECamelCoreImage.BEAN_ICON;
+        } else if (type == ERepositoryObjectType.BEANSJAR) {
+            return ECoreImage.ROUTINESJAR_ICON;
         } else if (type == CamelRepositoryNodeType.repositoryRouteResourceType) {
             return ECamelCoreImage.RESOURCE_ICON;
         } else if (type == CamelRepositoryNodeType.repositoryDocumentationType) {
@@ -161,13 +184,40 @@ public class CamelRepositoryContentHandler extends AbstractResourceRepositoryCon
         if (item.eClass() == CamelPropertiesPackage.Literals.CAMEL_PROCESS_ITEM) {
             return CamelRepositoryNodeType.repositoryRoutesType;
         } else if (item.eClass() == CamelPropertiesPackage.Literals.BEAN_ITEM) {
-            return CamelRepositoryNodeType.repositoryBeansType;
+            return /* RoutinesUtil.isInnerCodes(item.getProperty()) ? ERepositoryObjectType.BEANSJAR : */ERepositoryObjectType.BEANS;
+        } else if (item.eClass() == CamelPropertiesPackage.Literals.BEANS_JAR_ITEM) {
+            return ERepositoryObjectType.BEANSJAR;
         } else if (item.eClass() == CamelPropertiesPackage.Literals.ROUTE_RESOURCE_ITEM) {
             return CamelRepositoryNodeType.repositoryRouteResourceType;
         } else if (item.eClass() == CamelPropertiesPackage.Literals.ROUTE_DOCUMENT_ITEM) {
             return CamelRepositoryNodeType.repositoryDocumentationType;
         }
         return null;
+    }
+
+    @Override
+    public void addNode(ERepositoryObjectType type, RepositoryNode recBinNode, IRepositoryViewObject repositoryObject,
+            RepositoryNode node) {
+        Property property = repositoryObject.getProperty();
+        if (type != ERepositoryObjectType.BEANSJAR || !(property.getItem() instanceof BeansJarItem)) {
+            return;
+        }
+        try {
+            Project project = ProjectManager.getInstance()
+                    .getProjectFromProjectTechLabel(ProjectManager.getInstance().getProject(property).getTechnicalLabel());
+            List<IRepositoryViewObject> innerRoutinesObj = ProxyRepositoryFactory.getInstance().getAllInnerCodes(project, type,
+                    property);
+            for (IRepositoryViewObject innerRoutineObj : innerRoutinesObj) {
+                Property innerRoutineProperty = innerRoutineObj.getProperty();
+                RepositoryNode innerRoutineNode = new RepositoryNode(new RepositoryViewObject(innerRoutineProperty), node,
+                        ENodeType.REPOSITORY_ELEMENT);
+                innerRoutineNode.setProperties(EProperties.LABEL, innerRoutineProperty.getLabel());
+                innerRoutineNode.setProperties(EProperties.CONTENT_TYPE, ERepositoryObjectType.BEANSJAR);
+                node.getChildren().add(innerRoutineNode);
+            }
+        } catch (PersistenceException e) {
+            ExceptionHandler.process(e);
+        }
     }
 
 }

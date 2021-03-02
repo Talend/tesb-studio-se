@@ -29,6 +29,7 @@ public class RouteNodeTester extends AbstractNodeTypeTester {
         {
             put("isRoutesTopNode", CamelRepositoryNodeType.repositoryRoutesType); //$NON-NLS-1$
             put("isBeans", CamelRepositoryNodeType.repositoryBeansType); //$NON-NLS-1$
+            put("isBeansJar", ERepositoryObjectType.BEANSJAR); //$NON-NLS-1$
         }
     };
 

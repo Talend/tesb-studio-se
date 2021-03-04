@@ -307,8 +307,8 @@
                 breaks="7.3.0"
                 class="org.talend.camel.designer.migration.UpdateBeansDefaultLibrariesMigrationTask"
                 description="Update Beans default libraries"
-                id="org.talend.camel.designer.migration.UpdateBeansDefaultLibrariesMigrationTask.7.3.1-R2020-12"
-                name="UpdateBeansDefaultLibrariesMigrationTask 7.3.1-R2020-12"
+                id="org.talend.camel.designer.migration.UpdateBeansDefaultLibrariesMigrationTask.7.3.1-R2021-03"
+                name="UpdateBeansDefaultLibrariesMigrationTask 7.3.1-R2020-03"
                 version="7.3.1">
           </projecttask>
           <projecttask

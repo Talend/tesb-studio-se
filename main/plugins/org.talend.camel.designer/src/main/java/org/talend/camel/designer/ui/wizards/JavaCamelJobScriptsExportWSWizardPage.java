@@ -943,14 +943,15 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                     }
                 };
 
-                action = new JavaCamelJobScriptsExportWSAction(nodes[0], version, destinationKar, false);
-
                 ProcessorUtilities.setExportAsOSGI(true);
             }
 
             try {
-            	getContainer().run(false, true, action);
-                getContainer().run(false, true, buildJobHandlerAction);
+                if (needMavenScript) {
+                    getContainer().run(false, true, action);
+                } else {
+                    getContainer().run(false, true, buildJobHandlerAction);
+                }
             } catch (Exception e) {
                 MessageBoxExceptionHandler.process(e.getCause(), getShell());
                 return false;

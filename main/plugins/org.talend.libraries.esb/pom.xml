@@ -570,12 +570,6 @@
       <artifactId>jackson-dataformat-yaml</artifactId>
       <version>${jackson.version}</version>
     </dependency>
-    <!-- This can be removed once we pick up Jackson 2.10.5+ -->
-    <dependency>
-      <groupId>org.yaml</groupId>
-      <artifactId>snakeyaml</artifactId>
-      <version>1.26</version>
-    </dependency>
 
     <!-- Validation API -->
     <dependency>

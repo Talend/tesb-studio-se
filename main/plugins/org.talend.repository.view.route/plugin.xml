@@ -130,6 +130,10 @@
                <instanceof
                      value="org.talend.repository.model.RepositoryNode">
                </instanceof>
+               <test
+                     forcePluginActivation="true"
+                     property="org.talend.repository.node.code.isNeedShowCustomJarNode">
+               </test>
                <or>
                   <test
                         forcePluginActivation="true"

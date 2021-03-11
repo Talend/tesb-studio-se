@@ -28,6 +28,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.intro.IIntroSite;
 import org.eclipse.ui.intro.config.IIntroAction;
+import org.talend.camel.core.model.camelProperties.BeanItem;
 import org.talend.camel.designer.i18n.Messages;
 import org.talend.camel.designer.ui.wizards.CamelNewBeanWizard;
 import org.talend.camel.designer.ui.wizards.CamelNewInnerBeanWizard;
@@ -38,9 +39,12 @@ import org.talend.commons.ui.runtime.exception.MessageBoxExceptionHandler;
 import org.talend.commons.ui.runtime.image.ImageProvider;
 import org.talend.commons.ui.runtime.image.OverlayImageProvider;
 import org.talend.core.model.repository.ERepositoryObjectType;
+import org.talend.core.model.routines.RoutinesUtil;
 import org.talend.core.model.utils.RepositoryManagerHelper;
 import org.talend.core.repository.model.ProjectRepositoryNode;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
+import org.talend.core.utils.CodesJarResourceCache;
+import org.talend.designer.runprocess.IRunProcessService;
 import org.talend.repository.ProjectManager;
 import org.talend.repository.model.IProxyRepositoryFactory;
 import org.talend.repository.model.IRepositoryNode;
@@ -151,9 +155,15 @@ public class CreateCamelBean extends AbstractBeanAction implements IIntroAction 
         WizardDialog dlg = new WizardDialog(Display.getCurrent().getActiveShell(), beanWizard);
 
         if (dlg.open() == Window.OK) {
-
             try {
-                openBeanEditor(beanWizard.getBean(), false);
+                BeanItem beanItem = beanWizard.getBean();
+                openBeanEditor(beanItem, false);
+                if (RoutinesUtil.isInnerCodes(beanItem.getProperty())) {
+                    IRunProcessService.get().getTalendCodesJarJavaProject(CodesJarResourceCache.getCodesJarByInnerCode(beanItem))
+                            .buildWholeCodeProject();
+                } else {
+                    IRunProcessService.get().getTalendCodeJavaProject(ERepositoryObjectType.BEANS).buildWholeCodeProject();
+                }
             } catch (PartInitException e) {
                 MessageBoxExceptionHandler.process(e);
             } catch (SystemException e) {

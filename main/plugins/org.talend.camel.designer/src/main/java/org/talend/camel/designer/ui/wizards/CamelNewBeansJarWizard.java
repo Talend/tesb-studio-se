@@ -82,7 +82,7 @@ public class CamelNewBeansJarWizard extends Wizard {
             if (!folder.exists()) {
                 ResourceUtils.createFolder(folder);
             }
-            CodesJarM2CacheManager.updateCodesJarProject(property);
+            CodesJarM2CacheManager.updateCodesJarProject(property, false);
         } catch (Exception e) {
             MessageDialog.openError(getShell(), Messages.getString("NewBeanWizard.failureTitle"), ""); //$NON-NLS-1$ //$NON-NLS-2$
             ExceptionHandler.process(e);

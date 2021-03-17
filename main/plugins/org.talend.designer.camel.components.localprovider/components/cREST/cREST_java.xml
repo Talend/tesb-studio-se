@@ -251,8 +251,8 @@
             <IMPORT MODULE_GROUP="security-common"
                 REQUIRED_IF="(ENABLE_SECURITY == 'true') AND ((SECURITY_TYPE == 'SAML') OR  (SECURITY_TYPE == 'OIDC'))" />
 
-            <IMPORT MODULE="swagger-annotations-1.5.24.jar" MVN="mvn:org.talend.libraries/swagger-annotations/6.0.0" NAME="swagger-annotations-1.5.24"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/swagger-annotations-1.5.24.jar"
+            <IMPORT MODULE="swagger-annotations-1.6.2.jar" MVN="mvn:org.talend.libraries/swagger-annotations/6.0.0" NAME="swagger-annotations-1.6.2"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/swagger-annotations-1.6.2.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
             <IMPORT MODULE="cxf-rt-rs-service-description-swagger-3.3.4.jar" MVN="mvn:org.talend.libraries/cxf-rt-rs-service-description-swagger/6.0.0"
@@ -270,16 +270,16 @@
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/cxf-rt-rs-service-description-swagger-ui-3.3.4.jar"
                 REQUIRED="true"/>
 
-            <IMPORT MODULE="swagger-jaxrs-1.5.24.jar" MVN="mvn:org.talend.libraries/swagger-jaxrs/6.0.0" NAME="swagger-jaxrs-1.5.24"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/swagger-jaxrs-1.5.24.jar"
+            <IMPORT MODULE="swagger-jaxrs-1.6.2.jar" MVN="mvn:org.talend.libraries/swagger-jaxrs/6.0.0" NAME="swagger-jaxrs-1.6.2"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/swagger-jaxrs-1.6.2.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="swagger-core-1.5.24.jar" MVN="mvn:org.talend.libraries/swagger-core/6.0.0" NAME="swagger-core-1.5.24"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/swagger-core-1.5.24.jar"
+            <IMPORT MODULE="swagger-core-1.6.2.jar" MVN="mvn:org.talend.libraries/swagger-core/6.0.0" NAME="swagger-core-1.6.2"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/swagger-core-1.6.2.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
-            <IMPORT MODULE="swagger-models-1.5.24.jar" MVN="mvn:org.talend.libraries/swagger-models/6.0.0" NAME="swagger-models-1.5.24"
-                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/swagger-models-1.5.24.jar"
+            <IMPORT MODULE="swagger-models-1.6.2.jar" MVN="mvn:org.talend.libraries/swagger-models/6.0.0" NAME="swagger-models-1.6.2"
+                UrlPath="platform:/plugin/org.talend.libraries.esb/lib/swagger-models-1.6.2.jar"
                 REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>
 
 			<IMPORT NAME="commons-lang3" MODULE="commons-lang3-3.8.1.jar" MVN="mvn:org.apache.commons/commons-lang3/3.8.1" REQUIRED_IF="(EXPOSE_SWAGGER_SPEC == 'true')"/>

@@ -18,7 +18,7 @@
         <!-- camel-groovy -->
         <groovy.version>2.4.8</groovy.version>
         <!-- camel-xstream -->
-        <xstream.version>1.4.14</xstream.version>
+        <xstream.version>1.4.16</xstream.version>
         <xpp3.version>1.1.6</xpp3.version>
         <!-- camel-amqp -->
         <qpid-jms-client.version>0.38.0</qpid-jms-client.version>

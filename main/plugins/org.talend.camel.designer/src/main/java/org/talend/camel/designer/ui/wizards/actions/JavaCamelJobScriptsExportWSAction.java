@@ -28,7 +28,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.model.Dependency;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -52,7 +51,6 @@ import org.talend.core.model.process.JobInfo;
 import org.talend.core.model.process.ProcessUtils;
 import org.talend.core.model.properties.ProcessItem;
 import org.talend.core.model.properties.ProjectReference;
-import org.talend.core.model.properties.Property;
 import org.talend.core.model.relationship.RelationshipItemBuilder;
 import org.talend.core.model.repository.ERepositoryObjectType;
 import org.talend.core.model.repository.IRepositoryObject;
@@ -61,7 +59,6 @@ import org.talend.core.model.repository.RepositoryObject;
 import org.talend.core.repository.constants.FileConstants;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.core.runtime.CoreRuntimePlugin;
-import org.talend.core.runtime.maven.MavenConstants;
 import org.talend.core.runtime.maven.MavenUrlHelper;
 import org.talend.core.runtime.process.IBuildJobHandler;
 import org.talend.core.runtime.process.ITalendProcessJavaProject;
@@ -427,7 +424,8 @@ public class JavaCamelJobScriptsExportWSAction implements IRunnableWithProgress 
                                 fileList, null);
                 if (!fileList.isEmpty()) {
                     for (File f : fileList) {
-                        if (f.isFile() && f.getName().endsWith(extension) && destination != null) {
+                        if (f.isFile() && f.getName().endsWith(extension) && destination != null
+                                && StringUtils.isNotBlank(destination.getPath())) {
                             if (!"classpath.jar".equalsIgnoreCase(f.getName())) {
                                 FilesUtils.copyFile(f, destination);
                                 break;

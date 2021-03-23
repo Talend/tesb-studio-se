@@ -853,8 +853,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         JavaCamelJobScriptsExportWSAction action = null;
 
         IRunnableWithProgress buildJobHandlerAction = null;
-        IRunnableWithProgress buildJobHandlerPrepare = null;
-        IRunnableWithProgress actionMS = null;
+
       
         Map<ExportChoice, Object> exportChoiceMap = getExportChoiceMap();
         boolean needMavenScript = false;
@@ -915,26 +914,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
 
                 exportChoiceMap.put(ExportChoice.esbExportType, "kar");
 
-                buildJobHandlerPrepare = new IRunnableWithProgress() {
-
-                    @Override
-                    public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-
-                        IBuildJobHandler buildJobHandler  = BuildJobFactory.createBuildJobHandler(getProcessItem(), getContextName(), version,
-                                            exportChoiceMap, "ROUTE");
-
-                        Map<String, Object> prepareParams = new HashMap<String, Object>();
-                        prepareParams.put(IBuildResourceParametes.OPTION_ITEMS, true);
-                        prepareParams.put(IBuildResourceParametes.OPTION_ITEMS_DEPENDENCIES, true);
-
-                        try {
-                              buildJobHandler.prepare(monitor, prepareParams);
-                        } catch (Exception e) {
-                            MessageBoxExceptionHandler.process(e.getCause() == null ? e : e.getCause(), getShell());
-                        }
-                    }
-                };
-
                 buildJobHandlerAction = new IRunnableWithProgress() {
 
                     @Override
@@ -968,15 +947,15 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                     }
                 };
 
-                action = new JavaCamelJobScriptsExportWSAction(nodes[0], version, destinationKar, false);
-
                 ProcessorUtilities.setExportAsOSGI(true);
             }
 
             try {
-            	getContainer().run(false, true, buildJobHandlerPrepare);
-            	getContainer().run(false, true, action);
-            	getContainer().run(false, true, buildJobHandlerAction);
+                if (needMavenScript) {
+                    getContainer().run(false, true, action);
+                } else {
+                    getContainer().run(false, true, buildJobHandlerAction);
+                }
             } catch (Exception e) {
                 MessageBoxExceptionHandler.process(e.getCause(), getShell());
                 return false;

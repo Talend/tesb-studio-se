@@ -27,6 +27,14 @@
 			breaks="5.1.1"
 			version="5.1.2"
 			beforeLogon="false" />
+		<projecttask
+			id="org.talend.designer.esb.webservice.migration.ReplaceDefaultProxyIPMigrationTask"
+			class="org.talend.designer.esb.webservice.migration.ReplaceDefaultProxyIPMigrationTask"
+			name="ReplaceDefaultProxyIPMigrationTask"
+			description="Replace the default proxy IP to 127.0.0.1"
+			breaks="7.3.0"
+			version="7.3.1"
+			beforeLogon="false" />
 	</extension>
 
     <extension point="org.talend.core.runtime.librariesNeeded">

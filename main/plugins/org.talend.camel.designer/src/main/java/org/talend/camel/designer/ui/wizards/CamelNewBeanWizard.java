@@ -155,6 +155,8 @@ public class CamelNewBeanWizard extends Wizard {
      */
     @Override
     public boolean performFinish() {
+        // avoid to click Finish button many times
+        mainPage.setPageComplete(false);
         IProxyRepositoryFactory repositoryFactory = ProxyRepositoryFactory.getInstance();
         try {
             property.setId(repositoryFactory.getNextId());

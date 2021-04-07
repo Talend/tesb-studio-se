@@ -14,6 +14,10 @@ package org.talend.camel.designer.ui.wizards;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.talend.camel.core.model.camelProperties.BeansJarItem;
@@ -24,6 +28,7 @@ import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.utils.VersionUtils;
 import org.talend.commons.utils.workbench.resources.ResourceUtils;
 import org.talend.core.CorePlugin;
+import org.talend.core.PluginChecker;
 import org.talend.core.context.Context;
 import org.talend.core.context.RepositoryContext;
 import org.talend.core.model.general.Project;
@@ -34,6 +39,7 @@ import org.talend.core.model.routines.CodesJarInfo;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.designer.maven.tools.CodesJarM2CacheManager;
 import org.talend.repository.ProjectManager;
+import org.talend.repository.RepositoryPlugin;
 import org.talend.repository.model.IProxyRepositoryFactory;
 
 public class CamelNewBeansJarWizard extends Wizard {
@@ -83,7 +89,26 @@ public class CamelNewBeansJarWizard extends Wizard {
             if (!folder.exists()) {
                 ResourceUtils.createFolder(folder);
             }
-            CodesJarM2CacheManager.updateCodesJarProject(CodesJarInfo.create(property), false);
+            if (PluginChecker.isSWTBotLoaded()) {
+                CodesJarM2CacheManager.updateCodesJarProject(CodesJarInfo.create(property), false);
+            } else {
+                Job job = new Job("Update custom jar project") { //$NON-NLS-1$
+
+                    @Override
+                    protected IStatus run(IProgressMonitor monitor) {
+                        try {
+                            CodesJarM2CacheManager.updateCodesJarProject(CodesJarInfo.create(property), false);
+                            return Status.OK_STATUS;
+                        } catch (Exception e) {
+                            return new Status(IStatus.ERROR, RepositoryPlugin.PLUGIN_ID, 1, e.getMessage(), e);
+                        }
+                    }
+
+                };
+                job.setUser(false);
+                job.setPriority(Job.INTERACTIVE);
+                job.schedule();
+            }
         } catch (Exception e) {
             MessageDialog.openError(getShell(), Messages.getString("NewBeanWizard.failureTitle"), ""); //$NON-NLS-1$ //$NON-NLS-2$
             ExceptionHandler.process(e);

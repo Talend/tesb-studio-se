@@ -514,7 +514,7 @@
            <provider
                  collector="org.talend.camel.designer.ui.token.CamelMessagingEndpointTokenCollector"
                  description="collect component tMessagingEndpoint info"
-                 id="org.talend.camel.designer.provider1"
+                 id="org.talend.camel.designer.ui.token.CamelMessagingEndpointTokenCollector"
                  name="cMessagingEndpointCollector">
            </provider>
         </extension>

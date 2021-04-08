@@ -23,7 +23,7 @@ public class AssignBeansToJarAction extends AbstractAssignCodesToJarAction {
 
     @Override
     protected String getActionText() {
-        return "Assign Bean to..."; //$NON-NLS-1$
+        return "Copy Bean to..."; //$NON-NLS-1$
     }
 
     @Override

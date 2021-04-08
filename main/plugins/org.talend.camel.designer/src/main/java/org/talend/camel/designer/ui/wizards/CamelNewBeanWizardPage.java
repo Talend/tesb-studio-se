@@ -38,4 +38,9 @@ public class CamelNewBeanWizardPage extends NewRoutineWizardPage {
         return CamelRepositoryNodeType.repositoryBeansType;
     }
 
+    @Override
+    protected Property getJarPropery() {
+        return ((CamelNewInnerBeanWizard) getWizard()).getJarProperty();
+    }
+
 }

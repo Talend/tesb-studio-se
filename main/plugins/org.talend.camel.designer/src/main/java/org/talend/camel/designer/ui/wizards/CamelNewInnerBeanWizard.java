@@ -45,4 +45,8 @@ public class CamelNewInnerBeanWizard extends CamelNewBeanWizard {
         RoutinesUtil.setInnerCodes(property, ERepositoryObjectType.BEANSJAR);
     }
 
+    public Property getJarProperty() {
+        return node.getObject().getProperty();
+    }
+
 }

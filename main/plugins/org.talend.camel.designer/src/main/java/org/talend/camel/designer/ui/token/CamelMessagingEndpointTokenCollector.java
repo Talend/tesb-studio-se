@@ -129,7 +129,7 @@ public class CamelMessagingEndpointTokenCollector extends AbstractTokenCollector
                                 EList elementValue = ep.getElementValue();
                                 for (Object ob : elementValue) {
                                     String value = ((ElementValueType) ob).getValue();
-                                    recordInMap(camelComponents, value);
+                                    recordInMap(camelComponents, value.toLowerCase());
                                 }
                             } else if (ep.getName().equalsIgnoreCase("LIBRARY")) {
                                 String mvnUrl = ep.getValue();

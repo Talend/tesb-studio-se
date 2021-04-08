@@ -509,5 +509,14 @@
            </buildType>
            </buildProvider>           
         </extension>
+        <extension
+              point="org.talend.core.runtime.tokenInfo_provider">
+           <provider
+                 collector="org.talend.camel.designer.ui.token.CamelMessagingEndpointTokenCollector"
+                 description="collect component tMessagingEndpoint info"
+                 id="org.talend.camel.designer.provider1"
+                 name="cMessagingEndpointCollector">
+           </provider>
+        </extension>
 
 </plugin>

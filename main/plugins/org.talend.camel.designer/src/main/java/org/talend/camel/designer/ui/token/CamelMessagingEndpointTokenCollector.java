@@ -48,21 +48,12 @@ public class CamelMessagingEndpointTokenCollector extends AbstractTokenCollector
 
     @Override
     public void priorCollect() throws Exception {
-        JSONObject cMessagingEndpointRecords = null;
-
+        JSONObject cMessagingEndpointRecords = new JSONObject();
         IPreferenceStore preferenceStore = CamelDesignerPlugin.getDefault().getPreferenceStore();
-        String records = preferenceStore.getString(PREF_TOS_JOBS_RECORDS);
-        try {
-            // reset
-            cMessagingEndpointRecords = new JSONObject(records);
-        } catch (Exception e) {
-            // the value is not set, or is empty
-            cMessagingEndpointRecords = new JSONObject();
-        }
 
         JSONObject ComponentDetails = collectComponentDetails(ERepositoryObjectType.PROCESS_ROUTE,
                 ERepositoryObjectType.PROCESS_ROUTELET);
-        cMessagingEndpointRecords.put(PROJECTS_REPOSITORY.getKey(), ComponentDetails);
+        cMessagingEndpointRecords.put(PROJECTS_REPOSITORY.getKey(), ComponentDetails);// set projects.repository node
         //
         preferenceStore.setValue(PREF_TOS_JOBS_RECORDS, cMessagingEndpointRecords.toString());
     }
@@ -76,11 +67,11 @@ public class CamelMessagingEndpointTokenCollector extends AbstractTokenCollector
         try {
             for (ERepositoryObjectType type : types) {
                 JSONArray routeArray = new JSONArray();
-                JSONObject routeDetailsJson = new JSONObject();// route node
-                routeDetailsJson.put("components", routeArray);
+                JSONObject routeDetailsJson = new JSONObject();//
+                routeDetailsJson.put("components", routeArray); // set components node
                 JSONObject routeStats = new JSONObject();
-                routeStats.put("details", routeDetailsJson);
-                repoStats.put(type.getType(), routeStats);
+                routeStats.put("details", routeDetailsJson); // set details node
+                repoStats.put(type.getType(), routeStats); // set the route/routelet node
 
                 Map<String, Integer> camelComponentMap = new HashMap<>();
                 Map<String, Integer> customCamelComponentMap = new HashMap<>();
@@ -106,12 +97,13 @@ public class CamelMessagingEndpointTokenCollector extends AbstractTokenCollector
                     customCamelComponentsArray.put(customCamelComponents);
                 }
 
-                JSONObject CamelJson = new JSONObject();// route node
-                JSONObject customCamelJson = new JSONObject();// route node
+                JSONObject CamelJson = new JSONObject();//
+                JSONObject customCamelJson = new JSONObject();//
                 CamelJson.put("camel.components", camelComponentsArray);
-                customCamelJson.put("custom.camel.components", customCamelComponentsArray);
                 CamelJson.put("component_name", TARGET_COMPONENT);
+                customCamelJson.put("custom.camel.components", customCamelComponentsArray);
                 customCamelJson.put("component_name", TARGET_COMPONENT);
+
                 routeArray.put(CamelJson);
                 routeArray.put(customCamelJson);
             }
@@ -185,7 +177,6 @@ public class CamelMessagingEndpointTokenCollector extends AbstractTokenCollector
         String records = preferenceStore.getString(PREF_TOS_JOBS_RECORDS);
         JSONObject cMessagingEndpointRecords = null;
         try {
-            // reset
             cMessagingEndpointRecords = new JSONObject(records);
         } catch (Exception e) {
             // the value is not set, or is empty

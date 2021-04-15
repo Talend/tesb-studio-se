@@ -291,9 +291,13 @@ public class ExportServiceAction implements IRunnableWithProgress {
             if (exportChoiceMap == null) {
                 exportChoiceMap = new HashMap<ExportChoice, Object>();
                 exportChoiceMap.put(ExportChoice.needContext, true);
+                exportChoiceMap.put(ExportChoice.bundleVersion, getServiceVersion());
             } else {
                 if (exportChoiceMap.get(ExportChoice.needContext) == null) {
                     exportChoiceMap.put(ExportChoice.needContext, true);
+                }
+                if (exportChoiceMap.get(ExportChoice.bundleVersion) == null) {
+                    exportChoiceMap.put(ExportChoice.bundleVersion, getServiceVersion());
                 }
             }
 

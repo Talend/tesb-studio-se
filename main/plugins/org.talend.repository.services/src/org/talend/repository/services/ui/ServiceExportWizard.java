@@ -35,6 +35,7 @@ import org.talend.core.prefs.IDEWorkbenchPlugin;
 import org.talend.core.runtime.process.ITalendProcessJavaProject;
 import org.talend.core.runtime.repository.build.IBuildResourceParametes;
 import org.talend.designer.maven.tools.BuildCacheManager;
+import org.talend.designer.maven.utils.PomIdsHelper;
 import org.talend.designer.runprocess.IRunProcessService;
 import org.talend.designer.runprocess.ProcessorUtilities;
 import org.talend.repository.services.Messages;
@@ -114,6 +115,7 @@ public class ServiceExportWizard extends Wizard implements IExportWizard {
         exportChoiceMap.put(ExportChoice.includeLibs, true);
         exportChoiceMap.put(ExportChoice.needLog4jLevel, false);
         exportChoiceMap.put(ExportChoice.needAssembly, true);
+        exportChoiceMap.put(ExportChoice.bundleVersion,  PomIdsHelper.getJobVersion(serviceItem.getProperty()));
 
         // update to use BuildDataServiceHandler
         IProgressMonitor pMonitor = new NullProgressMonitor();

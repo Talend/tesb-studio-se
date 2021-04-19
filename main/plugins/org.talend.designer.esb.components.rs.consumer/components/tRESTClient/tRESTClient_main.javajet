@@ -449,7 +449,11 @@ try {
 	try {
 		// start send request
 		<% if ("GET".equals(method)) { %>
-			responseDoc_<%=cid%> = webClient_<%=cid%>.get<%if (MULTIPART_MIXED.equals(acceptType)) {%>Collection<%}%>(responseClass_<%=cid%>);
+			responseDoc_<%=cid%> = webClient_<%=cid%>.get<%if (MULTIPART_MIXED.equals(acceptType)) {%>Collection<%}%>();
+			javax.ws.rs.core.Response responseObjBase_<%=cid%> = (javax.ws.rs.core.Response)responseDoc_<%=cid%>;
+            if (responseObjBase_<%=cid%>.getEntity() != null) {
+				responseDoc_<%=cid%> = responseObjBase_<%=cid%>.readEntity(responseClass_<%=cid%>);
+			}
 		<% } else if ("POST".equals(method)) { %>
 			<%if (MULTIPART_MIXED.equals(acceptType)) { %>
 				responseDoc_<%=cid%> = webClient_<%=cid%>.postObjectGetCollection(requestBody_<%=cid%>, responseClass_<%=cid%>);
@@ -491,13 +495,15 @@ try {
 					responseObj_<%=cid%> = responseDoc_<%=cid%>.readEntity(responseClass_<%=cid%>);
 				<%}%>
 				if(responseObj_<%=cid%> != null){
-					if (responseClass_<%=cid%> == String.class) {
-						<%=connResponseName%>.string = (String) responseObj_<%=cid%>;
+					if (responseClass_<%=cid%> == String.class && responseObj_<%=cid%> instanceof String) {
+							<%=connResponseName%>.string = (String) responseObj_<%=cid%>;
 					} else {
 						routines.system.Document responseTalendDoc_<%=cid%> = null;
 						if (null != responseObj_<%=cid%>) {
 							responseTalendDoc_<%=cid%> = new routines.system.Document();
-							responseTalendDoc_<%=cid%>.setDocument((org.dom4j.Document) responseObj_<%=cid%>);
+							if (responseObj_<%=cid%> instanceof org.dom4j.Document) {
+								responseTalendDoc_<%=cid%>.setDocument((org.dom4j.Document) responseObj_<%=cid%>);
+							}
 						}
 						<%=connResponseName%>.body = responseTalendDoc_<%=cid%>;
 					}

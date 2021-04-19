@@ -276,7 +276,7 @@ try {
 	factoryBean_<%=cid%>.setTransportId("http://cxf.apache.org/transports/http");
 
 	boolean use_auth_<%=cid%> = <%=useAuth%>;
-	
+
 	<% if("true".equals(useAuth)){%>
 		if (use_auth_<%=cid%> && "SAML".equals(<%=authType%>)) {
 			if (!inOSGi) {
@@ -285,7 +285,7 @@ try {
 			// set SAML Token authentication
 			<% passwordFieldName = "__AUTH_PASSWORD__"; %>
 			<%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>
-	
+
 			org.apache.cxf.ws.security.trust.STSClient stsClient =
 				org.talend.esb.security.saml.STSClientUtils.createSTSClient(factoryBean_<%=cid%>.getBus(),
 					<%=ElementParameterParser.getValue(node, "__AUTH_USERNAME__")%>, decryptedPassword_<%=cid%>);
@@ -323,12 +323,12 @@ try {
 	<% } %>
 
 	<% if("true".equals(useAuth)){%>
-	
+
 			if (use_auth_<%=cid%> && "BASIC".equals(<%=authType%>)) {
 			// set BASIC auth
 			<% passwordFieldName = "__AUTH_PASSWORD__"; %>
 			<%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>
-	
+
 			org.apache.cxf.configuration.security.AuthorizationPolicy authPolicy_<%=cid%> = new org.apache.cxf.configuration.security.AuthorizationPolicy();
 				authPolicy_<%=cid%>.setAuthorizationType("Basic");
 				authPolicy_<%=cid%>.setUserName(<%=paramsHelper.getStringParam("__AUTH_USERNAME__")%>);
@@ -338,14 +338,14 @@ try {
 			// set Digest auth
 			<% passwordFieldName = "__AUTH_PASSWORD__"; %>
 			<%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>
-	
+
 			org.apache.cxf.configuration.security.AuthorizationPolicy authPolicy_<%=cid%> = new org.apache.cxf.configuration.security.AuthorizationPolicy();
 			authPolicy_<%=cid%>.setAuthorizationType("Digest");
 			authPolicy_<%=cid%>.setUserName(<%=paramsHelper.getStringParam("__AUTH_USERNAME__")%>);
 			authPolicy_<%=cid%>.setPassword(decryptedPassword_<%=cid%>);
 			conduit_<%=cid%>.setAuthorization(authPolicy_<%=cid%>);
 		}
-	
+
 	<%}%>
 
 	if (!inOSGi) {
@@ -356,7 +356,7 @@ try {
 			if (use_proxy_<%=cid %>) {
 				<% passwordFieldName = "__PROXY_PASSWORD__"; %>
 				<%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>
-	
+
 				conduit_<%=cid%>.getClient().setProxyServer(<%=paramsHelper.getStringParam("__PROXY_HOST__")%>);
 				conduit_<%=cid%>.getClient().setProxyServerPort(Integer.valueOf(<%=paramsHelper.getStringParam("__PROXY_PORT__")%>));
 				conduit_<%=cid%>.getProxyAuthorization().setUserName(<%=paramsHelper.getStringParam("__PROXY_USERNAME__")%>);
@@ -408,19 +408,19 @@ try {
 		authSupplier.setAccessToken(<%=paramsHelper.getStringParam("__AUTH_BEARER_TOKEN__")%>);
 		conduit_<%=cid%>.setAuthSupplier(authSupplier);
 	}
-	
+
 	<%if("true".equals(useAuth)){%>
-	
+
 		if (use_auth_<%=cid%> && "OIDC_PASSWORD_GRANT".equals(<%=authType%>)) {
-	
+
 	        <% passwordFieldName = "__AUTH_PASSWORD__"; %>
 	        <%@ include file="@{org.talend.designer.components.localprovider}/components/templates/password.javajet"%>
-	
+
 	        String username_<%=cid%> = <%=paramsHelper.getStringParam("__AUTH_USERNAME__")%>;
 	        String password_<%=cid%> = decryptedPassword_<%=cid%>;
-	
+
 	        String bearerHeader_<%=cid%> = null;
-	
+
 	        try {
 				if (!inOSGi) {
 					org.springframework.context.support.ClassPathXmlApplicationContext context_<%=cid%> =
@@ -433,12 +433,12 @@ try {
 			} catch (Exception ex) {
 	            throw new javax.ws.rs.WebApplicationException("Failed to get OIDC access token: ", ex);
 	        }
-	
+
 			webClient_<%=cid%>.header("Authorization", bearerHeader_<%=cid%>);
 		}
-	
+
 	<%}%>
-    
+
 	// if FORM request then capture query parameters into Form, otherwise set them as queries
 	<% List<Map<String, String>> queries = paramsHelper.getObjectParam("__QUERY__");
 		if ("application/x-www-form-urlencoded".equals(contentType) && !"GET".equals(method) && !"DELETE".equals(method)) { %>
@@ -457,7 +457,11 @@ try {
 	try {
 		// start send request
 		<% if ("GET".equals(method)) { %>
-			responseDoc_<%=cid%> = webClient_<%=cid%>.get<%if (MULTIPART_MIXED.equals(acceptType)) {%>Collection<%}%>(responseClass_<%=cid%>);
+			responseDoc_<%=cid%> = webClient_<%=cid%>.get<%if (MULTIPART_MIXED.equals(acceptType)) {%>Collection<%}%>();
+			javax.ws.rs.core.Response responseObjBase_<%=cid%> = (javax.ws.rs.core.Response)responseDoc_<%=cid%>;
+            if (responseObjBase_<%=cid%>.getEntity() != null) {
+				responseDoc_<%=cid%> = responseObjBase_<%=cid%>.readEntity(responseClass_<%=cid%>);
+			}
 		<% } else if ("POST".equals(method)) { %>
 			<%if (MULTIPART_MIXED.equals(acceptType)) { %>
 				responseDoc_<%=cid%> = webClient_<%=cid%>.postObjectGetCollection(requestBody_<%=cid%>, responseClass_<%=cid%>);
@@ -499,13 +503,15 @@ try {
 					responseObj_<%=cid%> = responseDoc_<%=cid%>.readEntity(responseClass_<%=cid%>);
 				<%}%>
 				if(responseObj_<%=cid%> != null){
-					if (responseClass_<%=cid%> == String.class) {
-						<%=connResponseName%>.string = (String) responseObj_<%=cid%>;
+					if (responseClass_<%=cid%> == String.class && responseObj_<%=cid%> instanceof String) {
+							<%=connResponseName%>.string = (String) responseObj_<%=cid%>;
 					} else {
 						routines.system.Document responseTalendDoc_<%=cid%> = null;
 						if (null != responseObj_<%=cid%>) {
 							responseTalendDoc_<%=cid%> = new routines.system.Document();
-							responseTalendDoc_<%=cid%>.setDocument((org.dom4j.Document) responseObj_<%=cid%>);
+							if (responseObj_<%=cid%> instanceof org.dom4j.Document) {
+								responseTalendDoc_<%=cid%>.setDocument((org.dom4j.Document) responseObj_<%=cid%>);
+							}
 						}
 						<%=connResponseName%>.body = responseTalendDoc_<%=cid%>;
 					}

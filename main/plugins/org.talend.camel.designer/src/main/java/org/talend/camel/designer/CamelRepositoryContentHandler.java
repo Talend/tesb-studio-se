@@ -41,7 +41,6 @@ import org.talend.core.model.routines.CodesJarInfo;
 import org.talend.core.repository.model.ProxyRepositoryFactory;
 import org.talend.core.repository.utils.AbstractResourceRepositoryContentHandler;
 import org.talend.core.runtime.CoreRuntimePlugin;
-import org.talend.core.utils.CodesJarResourceCache;
 import org.talend.repository.model.IRepositoryNode.ENodeType;
 import org.talend.repository.model.IRepositoryNode.EProperties;
 import org.talend.repository.model.RepositoryNode;
@@ -198,15 +197,17 @@ public class CamelRepositoryContentHandler extends AbstractResourceRepositoryCon
     @Override
     public void addNode(ERepositoryObjectType type, RepositoryNode recBinNode, IRepositoryViewObject repositoryObject,
             RepositoryNode node) {
-        if (type != ERepositoryObjectType.BEANSJAR) {
+        if (type != ERepositoryObjectType.BEANSJAR
+                || repositoryObject.getRepositoryObjectType() != ERepositoryObjectType.BEANSJAR) {
             return;
         }
-        CodesJarInfo info = CodesJarResourceCache.getCodesJarById(node.getId());
-        if (info == null) {
+        Property property = repositoryObject.getProperty();
+        if (property == null) {
             return;
         }
         try {
-            List<IRepositoryViewObject> innerRoutinesObj = ProxyRepositoryFactory.getInstance().getAllInnerCodes(info);
+            List<IRepositoryViewObject> innerRoutinesObj = ProxyRepositoryFactory.getInstance()
+                    .getAllInnerCodes(CodesJarInfo.create(property));
             for (IRepositoryViewObject innerRoutineObj : innerRoutinesObj) {
                 Property innerRoutineProperty = innerRoutineObj.getProperty();
                 RepositoryNode innerRoutineNode = new RepositoryNode(new RepositoryViewObject(innerRoutineProperty), node,

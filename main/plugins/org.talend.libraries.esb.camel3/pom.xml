@@ -12,7 +12,7 @@
 	<artifactId>org.talend.libraries.esb.camel3</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<properties>
-		<camel3.version>3.8.0</camel3.version>
+		<camel3.version>3.9.0</camel3.version>
 	</properties>
 	<build>
 		<plugins>

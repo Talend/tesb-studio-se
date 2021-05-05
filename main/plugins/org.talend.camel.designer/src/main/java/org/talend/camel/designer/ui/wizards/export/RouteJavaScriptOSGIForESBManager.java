@@ -401,6 +401,11 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                         if (springBeansNsp.equals(ref.getNamespace())) {
                             Attribute refBean = ref.attribute("bean");
                             if (refBean != null) {
+                                // skip sub elements of "constructor-arg" to avoid TESB-31904
+                                // as it is not supported by blueprint
+                                if (hasParentElement(refBean.getParent(), "constructor-arg")) {
+                                     continue;
+                                }
                                 ref.setQName(QName.get(ref.getName(), "bp", BLUEPRINT_NSURI));
                                 ref.addAttribute("component-id", refBean.getValue());
                                 ref.remove(refBean);
@@ -423,6 +428,17 @@ public class RouteJavaScriptOSGIForESBManager extends AdaptedJobJavaScriptOSGIFo
                 Logger.getAnonymousLogger().log(Level.WARNING, "Unexpected File closing failure. ", e);
             }
         }
+    }
+    
+    private boolean hasParentElement(Element element, String elementName) {
+        if (element == null || elementName == null)  {
+            return false;
+        }
+
+        if (elementName.equalsIgnoreCase(element.getName())) {
+            return true;
+        }
+        return hasParentElement(element.getParent(), elementName);
     }
 
     private Map<String, Object> collectRouteInfo(ProcessItem processItem, IProcess process) {

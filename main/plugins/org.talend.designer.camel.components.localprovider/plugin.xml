@@ -1085,7 +1085,7 @@
             bundleID="" />
             
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="aws-core-2.16.23.jar"
+            name="sdk-core-2.16.23.jar"
             id="aws-sdk-sdk-core"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/sdk-core-2.16.23.jar"
             mvn_uri="mvn:software.amazon.awssdk/sdk-core/2.16.23"
@@ -1190,7 +1190,7 @@
             bundleID="" />
             
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="metrics-spi-2.16.23.jar"
+            name="reactive-streams-1.0.2.jar"
             id="reactive-streams"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/reactive-streams-1.0.2.jar"
             mvn_uri="mvn:org.reactivestreams/reactive-streams/1.0.2"
@@ -1569,22 +1569,62 @@
             bundleID="" />
 
         <!-- camel-aws2 -->
+        
         <libraryNeededGroup
-              description="camel-aws-connection"
-              id="camel-aws-connection"
-              name="camel-aws-connection">
-           <library
+            description="camel-aws-connection"
+            id="camel-aws-connection"
+            name="camel-aws-connection">
+            <group id="aws-sdk" />
+        </libraryNeededGroup>
+        
+        <libraryNeededGroup
+            description="camel-aws-s3"
+            id="camel-aws-s3"
+            name="camel-aws-s3">
+            <group id="aws-sdk" />
+            <library
                  id="camel-aws2-s3">
            </library>
-           <library
+        </libraryNeededGroup>
+        
+        
+        <libraryNeededGroup
+            description="camel-aws-ses"
+            id="camel-aws-ses"
+            name="camel-aws-ses">
+            <group id="aws-sdk" />
+            <library
                  id="camel-aws2-ses">
            </library>
-           <library
+        </libraryNeededGroup>
+        
+        
+        <libraryNeededGroup
+            description="camel-aws-sqs"
+            id="camel-aws-sqs"
+            name="camel-aws-sqs">
+            <group id="aws-sdk" />
+            <library
                  id="camel-aws2-sqs">
            </library>
-           <library
+        </libraryNeededGroup>
+        
+        
+        <libraryNeededGroup
+            description="camel-aws-sns"
+            id="camel-aws-sns"
+            name="camel-aws-sns">
+            <group id="aws-sdk" />
+            <library
                  id="camel-aws2-sns">
            </library>
+        </libraryNeededGroup>
+        
+       
+        <libraryNeededGroup
+              description="aws-sdk"
+              id="aws-sdk"
+              name="aws-sdk">
            <library
                  id="protocol-core">
            </library>
@@ -1877,6 +1917,20 @@
                 id="camel-xstream"
                 name="camel-xstream">
                 <library id="camel-xstream" />
+        </libraryNeededGroup>       <libraryNeededGroup
+                description="activemq-all"
+                id="activemq-all"
+                name="activemq-all">
+            <library id="slf4j-api" />
+            <library id="geronimo-jms_1.1_spec" />
+            <library id="geronimo-j2ee-management_1.1_spec" />
+            <library id="geronimo-jta_1.1_spec" />
+            <library id="commons-logging" />
+            <library id="hawtbuf" />
+            <library id="xbean-spring" />
+			<library id="commons-pool2" />
+            <group id="aws-jackson" />
+            <group id="activemq" />
         </libraryNeededGroup>
         
         <!-- Camel 3 Dependencies end -->

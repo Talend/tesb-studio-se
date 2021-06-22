@@ -55,6 +55,8 @@ imports="
 		}
 		builder.addParam(argName, argValue);
 	}
+	builder.addParam("binary", "true");
+	builder.addParam("passiveMode", "true");
 	String uri = builder.build();
     
 	List< ? extends IConnection> conns = node.getIncomingConnections();

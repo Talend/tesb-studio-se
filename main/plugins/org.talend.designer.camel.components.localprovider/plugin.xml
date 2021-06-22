@@ -672,67 +672,12 @@
             id="azure-keyvault-core"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-azure-keyvault-core}"
             bundleID="" />            
-        <!-- aws s3 -->
-        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="${tesb-aws-java-sdk-s3}"
-            id="aws-java-sdk-s3"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-s3}"
-            bundleID="" />
-        
-        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="${tesb-aws-java-sdk-kms}"
-            id="aws-java-sdk-kms"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-kms}"
-            bundleID="" />
-            
-        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="${tesb-aws-java-sdk-kinesis}"
-            id="aws-java-sdk-kinesis"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-kinesis}"
-            bundleID="" />
-            
-        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="${tesb-aws-java-sdk-cloudfront}"
-            id="aws-java-sdk-cloudfront"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-cloudfront}"
-            bundleID="" />
-            
-        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="${tesb-aws-java-sdk-core}"
-            id="aws-java-sdk-core"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-core}"
-            bundleID="" />
-        <libraryNeeded
-              context="plugin:org.talend.designer.camel.components.localprovider"
-              id="aws-java-sdk-sqs"
-              name="${tesb-aws-java-sdk-sqs}"
-              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-sqs}" bundleID="">
-        </libraryNeeded>
-        <libraryNeeded
-              context="plugin:org.talend.designer.camel.components.localprovider"
-              id="aws-java-sdk-sns"
-              name="${tesb-aws-java-sdk-sns}"
-              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-sns}" bundleID="">
-        </libraryNeeded>
-        <libraryNeeded 
-              context="plugin:org.talend.designer.camel.components.localprovider"
-              name="${tesb-aws-java-sdk-mq}"
-              id="aws-java-sdk-mq"
-              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-mq}"
-              bundleID="" />        
-            
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
             name="${tesb-camel-azure}"
             id="camel-azure"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-azure}"
             bundleID="" />
         
-        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="${tesb-camel-aws}"
-            id="camel-aws"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-aws}"
-            bundleID="" />
-
         <libraryNeededGroup
                 description="camel-azure"
                 id="camel-azure"
@@ -742,24 +687,6 @@
             <library id="azure-keyvault-core" />
         </libraryNeededGroup>
 
-        <libraryNeededGroup
-                description="camel-aws-s3"
-                id="camel-aws-s3"
-                name="camel-aws-s3">
-            <library id="camel-aws" />
-            <library id="aws-java-sdk-core" />
-            <library id="aws-java-sdk-kms" />
-            <library id="aws-java-sdk-kinesis" />
-            <library id="aws-java-sdk-cloudfront" />
-            <library id="aws-java-sdk-s3" />
-        </libraryNeededGroup>
-
-        <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="${tesb-aws-java-sdk-ses}"
-            id="aws-java-sdk-ses"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-aws-java-sdk-ses}"
-            bundleID="" />
-            
         <libraryNeededGroup
                 description="jackson-providers"
                 id="jackson-providers"
@@ -809,75 +736,7 @@
               name="${tesb-jackson-module-jaxb-annotations}"
               uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-jackson-module-jaxb-annotations}">
         </libraryNeeded>
-        
-        <libraryNeededGroup
-            description="camel-aws-ses"
-            id="camel-aws-ses"
-            name="camel-aws-ses">
-            <library id="camel-aws" />
-            <library id="aws-java-sdk-core" />
-            <library id="aws-java-sdk-kinesis" />
-            <library id="aws-java-sdk-ses" />
-            <library id="javax.mail" />
-        </libraryNeededGroup>
-        <libraryNeededGroup
-            description="camel-aws-mq"
-            id="camel-aws-mq"
-            name="camel-aws-mq">
-            <library id="camel-aws" />
-            <library id="aws-java-sdk-core" />
-            <library id="aws-java-sdk-kinesis" />
-            <library id="aws-java-sdk-mq" />
-            <library id="javax.mail" />
-        </libraryNeededGroup>
-        <libraryNeededGroup
-              description="camel-aws-connection"
-              id="camel-aws-connection"
-              name="camel-aws-connection">
-           <library
-                 id="camel-aws">
-           </library>
-           <library
-                 id="aws-java-sdk-core">
-           </library>
-           <library
-                 id="aws-java-sdk-kinesis">
-           </library>
-        </libraryNeededGroup>
-        <libraryNeededGroup
-              description="camel-aws-sqs"
-              id="camel-aws-sqs"
-              name="camel-aws-sqs">
-           <library
-                 id="camel-aws">
-           </library>
-           <library
-                 id="aws-java-sdk-core">
-           </library>
-           <library
-                 id="aws-java-sdk-sqs">
-           </library>
-           <library
-                 id="aws-java-sdk-kinesis">
-           </library>
-        </libraryNeededGroup>
-        <libraryNeededGroup
-              description="camel-aws-sns"
-              id="camel-aws-sns"
-              name="camel-aws-sns">
-           <library
-                 id="camel-aws">
-           </library>
-           <library
-                 id="aws-java-sdk-core">
-           </library>
-           <library
-                 id="aws-java-sdk-sns">
-           </library>
-           <library
-                 id="aws-java-sdk-kinesis">
-           </library>
-        </libraryNeededGroup>
+
         <libraryNeededGroup
               description="camel-hawtdb-alldep"
               id="camel-hawtdb-alldep"
@@ -1219,8 +1078,8 @@
             bundleID="" />
         
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
-            name="aws-sdk-protocol-core-2.16.23.jar"
-            id="aws-sdk-protocol-core"
+            name="protocol-core-2.16.23.jar"
+            id="protocol-core"
             uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/protocol-core-2.16.23.jar"
             mvn_uri="mvn:software.amazon.awssdk/protocol-core/2.16.23"
             bundleID="" />
@@ -1709,18 +1568,7 @@
             mvn_uri="mvn:org.eclipse.paho/org.eclipse.paho.client.mqttv3/1.2.5"
             bundleID="" />
 
-
-        <libraryNeededGroup
-                description="camel-aws-s3"
-                id="camel-aws-s3"
-                name="camel-aws-s3">
-            <library id="camel-aws" />
-            <library id="aws-java-sdk-core" />
-            <library id="aws-java-sdk-kms" />
-            <library id="aws-java-sdk-kinesis" />
-            <library id="aws-java-sdk-cloudfront" />
-            <library id="aws-java-sdk-s3" />
-        </libraryNeededGroup>     
+        <!-- camel-aws2 -->
         <libraryNeededGroup
               description="camel-aws-connection"
               id="camel-aws-connection"
@@ -1738,7 +1586,7 @@
                  id="camel-aws2-sns">
            </library>
            <library
-                 id="aws-sdk-protocol-core">
+                 id="protocol-core">
            </library>
            <library
                  id="aws-sdk-aws-core">

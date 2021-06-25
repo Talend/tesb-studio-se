@@ -133,11 +133,6 @@
             <IMPORT MODULE_GROUP="camel-groovy" REQUIRED_IF="LANGUAGES == 'groovy'" />
             <IMPORT MODULE_GROUP="camel-jsonpath-alldep" REQUIRED_IF="LANGUAGES == 'jsonpath'" />
             <IMPORT MODULE_GROUP="camel-saxon-alldep" REQUIRED_IF="LANGUAGES == 'xquery'" />
-            <!-- camel-script -->
-            <IMPORT NAME="camel-script"
-                    MODULE="camel-script-${camel.version}.jar" MVN="${mvn-camel-script}"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'javascript'" />
             <IMPORT MODULE="geronimo-ws-metadata_2.0_spec-1.1.3.jar" MVN="mvn:org.talend.libraries/geronimo-ws-metadata_2.0_spec/1.1.3" NAME="geronimo-ws-metadata_2.0_spec-1.1.3"
                 UrlPath="platform:/plugin/org.talend.libraries.esb/lib/geronimo-ws-metadata_2.0_spec-1.1.3.jar"
                 REQUIRED="true"/>

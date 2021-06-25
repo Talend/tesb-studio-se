@@ -1899,12 +1899,6 @@
         </libraryNeededGroup>
         
         <libraryNeededGroup
-                description="camel-script"
-                id="camel-script"
-                name="camel-script">
-        </libraryNeededGroup>
-        
-        <libraryNeededGroup
               description="camel-test"
               id="camel-test"
               name="camel-test">

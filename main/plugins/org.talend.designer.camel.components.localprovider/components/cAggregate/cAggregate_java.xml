@@ -200,11 +200,6 @@
             <IMPORT MODULE_GROUP="camel-groovy" REQUIRED_IF="LANGUAGES == 'groovy'" />
             <IMPORT MODULE_GROUP="camel-jsonpath-alldep" REQUIRED_IF="LANGUAGES == 'jsonpath'" />
             <IMPORT MODULE_GROUP="camel-saxon-alldep" REQUIRED_IF="LANGUAGES == 'xquery'" />
-            <!-- camel-script -->
-            <IMPORT NAME="camel-script"
-                    MODULE="camel-script-${camel.version}.jar" MVN="${mvn-camel-script}"
-                    UrlPath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-script-${camel.version}.jar"
-                    REQUIRED_IF="LANGUAGES == 'javascript'" />
 		</IMPORTS>
 	</CODEGENERATION>
 

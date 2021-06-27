@@ -22,7 +22,7 @@ public class UpdatecKafkaMigrationTask extends AbstractRouteItemComponentMigrati
 
 	@Override
 	protected boolean execute(NodeType node) throws Exception {
-		return renameAdvancedParameters(node);
+        return renameAdvancedParameters(node);
 	}
 
 	private boolean renameAdvancedParameters(NodeType currentNode) throws PersistenceException {
@@ -31,24 +31,20 @@ public class UpdatecKafkaMigrationTask extends AbstractRouteItemComponentMigrati
         for (Object e : currentNode.getElementParameter()) {
             ElementParameterType p = (ElementParameterType) e;
             if ("URI_OPTIONS".equals(p.getName())) {
-            	
-            	for (Object v : p.getElementValue()) {
-            		ElementValueType ev = (ElementValueType) v;
-
+                for (Object v : p.getElementValue()) {
+                    ElementValueType ev = (ElementValueType) v;
                     if ("\"kafkaHeaderSerializer\"".equalsIgnoreCase(ev.getValue()) && "NAME".equalsIgnoreCase(ev.getElementRef())) {
-                    	ev.setValue("\"headerSerializer\"");
+                        ev.setValue("\"headerSerializer\"");
                         needSave = true;
-                    }
+                        }
                     if ("\"kafkaHeaderDeserializer\"".equalsIgnoreCase(ev.getValue()) && "NAME".equalsIgnoreCase(ev.getElementRef())) {
-                    	ev.setValue("\"headerDeserializer\"");
+                        ev.setValue("\"headerDeserializer\"");
                         needSave = true;
                     }
                     needSave = true;
-            	}
+                }
             }           
         }
-
         return needSave;
-	}
-
+    }
 }

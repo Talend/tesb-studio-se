@@ -1484,7 +1484,7 @@ static class CxfPayloadProvider implements javax.ws.rs.ext.MessageBodyWriter<org
                         public void configure(org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory factory) {
                         }
                         public void configureClient(org.apache.cxf.endpoint.Client client) {
-                            String configName = "org.apache.cxf.http.conduits-" + cxfEndpoint.getPortName().getLocalPart() + ".cfg";
+                            String configName = "org.apache.cxf.http.conduits-" + cxfEndpoint.getPortNameAsQName().getLocalPart() + ".cfg";
                             java.util.Dictionary<String, String> dic = loadHttpConduitProperties(configName);
 
                             org.apache.cxf.transport.http.HTTPConduit conduit = (org.apache.cxf.transport.http.HTTPConduit) client.getConduit();
@@ -1824,7 +1824,7 @@ private void addRegistry(org.apache.camel.component.cxf.CxfEndpoint cxfEndpoint,
             public void configureClient(org.apache.cxf.endpoint.Client client) {
 
                 <%if(exportTypeSpringBoot){%>
-                    String configName = "org.apache.cxf.http.conduits-" + cxfEndpointTrans.getPortName().getLocalPart() + ".cfg";
+                    String configName = "org.apache.cxf.http.conduits-" + cxfEndpointTrans.getPortNameAsQName().getLocalPart() + ".cfg";
                     java.util.Dictionary<String, String> dic = loadHttpConduitProperties(configName);
 
                     org.apache.cxf.transport.http.HTTPConduit conduit = (org.apache.cxf.transport.http.HTTPConduit) client.getConduit();

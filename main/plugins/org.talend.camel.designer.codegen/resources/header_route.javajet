@@ -1480,7 +1480,7 @@ static class CxfPayloadProvider implements javax.ws.rs.ext.MessageBodyWriter<org
                 final org.apache.camel.component.cxf.CxfEndpoint cxfEndpoint = (org.apache.camel.component.cxf.CxfEndpoint) endpoint(uri);
 
                 <%if(exportTypeSpringBoot){%>
-                    cxfEndpoint.setCxfEndpointConfigurer(new org.apache.camel.component.cxf.CxfEndpointConfigurer() {
+                    cxfEndpoint.setCxfConfigurer(new org.apache.camel.component.cxf.CxfConfigurer() {
                         public void configure(org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory factory) {
                         }
                         public void configureClient(org.apache.cxf.endpoint.Client client) {
@@ -1812,9 +1812,9 @@ private void addRegistry(org.apache.camel.component.cxf.CxfEndpoint cxfEndpoint,
         cxfEndpoint.setProperties(clientProps);
         <%//for fix [TESB-12172], set default address to null to avoid override after wsdl from registry initialized.
         %>
-        final org.apache.camel.component.cxf.CxfEndpointConfigurer cxfEndpointConfigurer = cxfEndpoint.getCxfEndpointConfigurer();
+        final org.apache.camel.component.cxf.CxfConfigurer cxfEndpointConfigurer = cxfEndpoint.getCxfConfigurer();
         final org.apache.camel.component.cxf.CxfEndpoint cxfEndpointTrans= cxfEndpoint;
-        cxfEndpoint.setCxfEndpointConfigurer(new org.apache.camel.component.cxf.CxfEndpointConfigurer() {
+        cxfEndpoint.setCxfConfigurer(new org.apache.camel.component.cxf.CxfConfigurer() {
             public void configure(org.apache.cxf.frontend.AbstractWSDLBasedEndpointFactory factory) {
                 if (cxfEndpointConfigurer != null) {
                     cxfEndpointConfigurer.configure(factory);

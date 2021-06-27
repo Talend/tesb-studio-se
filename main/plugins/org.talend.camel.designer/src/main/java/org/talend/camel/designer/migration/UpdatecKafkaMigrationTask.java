@@ -36,14 +36,13 @@ public class UpdatecKafkaMigrationTask extends AbstractRouteItemComponentMigrati
                     if ("\"kafkaHeaderSerializer\"".equalsIgnoreCase(ev.getValue()) && "NAME".equalsIgnoreCase(ev.getElementRef())) {
                         ev.setValue("\"headerSerializer\"");
                         needSave = true;
-                        }
+                    }
                     if ("\"kafkaHeaderDeserializer\"".equalsIgnoreCase(ev.getValue()) && "NAME".equalsIgnoreCase(ev.getElementRef())) {
                         ev.setValue("\"headerDeserializer\"");
                         needSave = true;
                     }
-                    needSave = true;
                 }
-            }           
+            }
         }
         return needSave;
     }

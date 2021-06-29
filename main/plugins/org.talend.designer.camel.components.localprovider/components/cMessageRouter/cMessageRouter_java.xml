@@ -42,7 +42,6 @@
                 <ITEM NAME="EL"         VALUE="el" />
                 <ITEM NAME="GROOVY"     VALUE="groovy" />
                 <ITEM NAME="HEADER"     VALUE="header" />
-                <ITEM NAME="JAVASCRIPT" VALUE="javaScript" />
                 <ITEM NAME="JOSQL"      VALUE="sql" />
                 <ITEM NAME="JSONPATH"   VALUE="jsonpath" />
                 <ITEM NAME="JXPATH"     VALUE="jxpath" />

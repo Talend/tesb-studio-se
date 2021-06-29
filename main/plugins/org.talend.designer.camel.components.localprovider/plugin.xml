@@ -1514,7 +1514,7 @@
         <libraryNeeded context="plugin:org.talend.designer.camel.components.localprovider"
             name="camel-seda-3.9.0.jar"
             id="camel-seda"
-            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-timer-3.9.0.jar"
+            uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/camel-seda-3.9.0.jar"
             mvn_uri="mvn:org.apache.camel/camel-seda/3.9.0"
             bundleID="" />
             

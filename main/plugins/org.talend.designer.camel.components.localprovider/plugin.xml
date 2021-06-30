@@ -215,6 +215,12 @@
 
         <libraryNeeded
               context="plugin:org.talend.designer.camel.components.localprovider"
+              id="camel-xml-jaxp"
+              name="${tesb-camel-xml-jaxp}"
+              uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-xml-jaxp}">
+        </libraryNeeded>	    
+        <libraryNeeded
+              context="plugin:org.talend.designer.camel.components.localprovider"
               id="camel-jackson"
               name="${tesb-camel-jackson}"
               uripath="platform:/plugin/org.talend.designer.camel.components.localprovider/lib/${tesb-camel-jackson}">

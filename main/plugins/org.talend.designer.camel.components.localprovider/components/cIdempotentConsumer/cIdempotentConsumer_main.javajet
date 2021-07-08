@@ -50,11 +50,11 @@ imports="
 		
 		if("MEMORY".equals(repository)) { //BEGIN 2
 %>
-			org.apache.camel.processor.idempotent.MemoryIdempotentRepository.memoryIdempotentRepository(<%=(cacheSize.length()>0 && !("".equals(cacheSize)))?Integer.parseInt(cacheSize):200%>)
+			org.apache.camel.support.processor.idempotent.MemoryIdempotentRepository.memoryIdempotentRepository(<%=(cacheSize.length()>0 && !("".equals(cacheSize)))?Integer.parseInt(cacheSize):200%>)
 <%
 		} else if("FILE".equals(repository)) {
 %>
-			org.apache.camel.processor.idempotent.FileIdempotentRepository.fileIdempotentRepository(new java.io.File(<%=fileStore%>), <%=(cacheSize.length()>0 && !("".equals(cacheSize)))?Integer.parseInt(cacheSize):200%>)
+			org.apache.camel.support.processor.idempotent.FileIdempotentRepository.fileIdempotentRepository(new java.io.File(<%=fileStore%>), <%=(cacheSize.length()>0 && !("".equals(cacheSize)))?Integer.parseInt(cacheSize):200%>)
 <%
 		} //END 2
 %>

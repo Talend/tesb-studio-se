@@ -61,16 +61,8 @@
 %>
                     new org.apache.camel.spring.SpringCamelContext(
                         new org.springframework.context.support.ClassPathXmlApplicationContext("META-INF/spring/<%=className.toLowerCase()%>.xml"));
-				camelContext.setRegistry(registry);
-                camelContext.setName("<%=className %>");
-                // add notifier
-                java.util.Collection<org.apache.camel.management.JmxNotificationEventNotifier> jmxEventNotifiers = camelContext
-                        .getRegistry().findByType(
-                                org.apache.camel.management.JmxNotificationEventNotifier.class);
-                if (jmxEventNotifiers != null && !jmxEventNotifiers.isEmpty()) {
-                    camelContext.getManagementStrategy().addEventNotifier(
-                            jmxEventNotifiers.iterator().next());
-                }
+                        camelContext.setName("<%=className %>");
+                        camelContext.getRegistry().bind("main", registry.lookupByName("main"));
 <%
                 } else { // Routelet
 %>

@@ -2336,6 +2336,16 @@ if (isProvider) {
 		        DefaultRegistry registry = new DefaultRegistry(realRegistry);
 		        
 		        ((org.apache.camel.impl.DefaultCamelContext) camelContext).setRegistry(realRegistry);
+				
+			// add notifier
+			java.util.Collection<org.apache.camel.management.JmxNotificationEventNotifier> jmxEventNotifiers = camelContext
+				.getRegistry().findByType(
+					org.apache.camel.management.JmxNotificationEventNotifier.class);
+			if (jmxEventNotifiers != null && !jmxEventNotifiers.isEmpty()) {
+			    camelContext.getManagementStrategy().addEventNotifier(
+				    jmxEventNotifiers.iterator().next());
+			}
+				
 
                 <%if(exportTypeSpringBoot){%>
                     <%

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Codegen
 Bundle-SymbolicName: org.talend.camel.designer.codegen;singleton:=true
-Bundle-Version: 7.4.1.qualifier
+Bundle-Version: 8.0.1.qualifier
 Bundle-Vendor: .Talend SA.
 Bundle-Activator: org.talend.camel.designer.codegen.Activator
 Require-Bundle: org.eclipse.ui,

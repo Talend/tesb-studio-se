@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.talend.esb.repository.view.route.test
 Bundle-SymbolicName: org.talend.esb.repository.view.route.test
-Bundle-Version: 7.4.1.qualifier
+Bundle-Version: 8.0.1.qualifier
 Fragment-Host: org.talend.repository.view.route
 Require-Bundle: org.talend.testutils,
  org.talend.model,

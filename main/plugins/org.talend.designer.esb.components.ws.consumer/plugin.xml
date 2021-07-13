@@ -740,9 +740,9 @@
             <library id="org.apache.servicemix.specs.jaxws-api" />
         </libraryNeededGroup>
         <libraryNeeded context="plugin:org.talend.libraries.esb"
-                       name="istack-commons-runtime-3.0.8.jar"
+                       name="istack-commons-runtime-3.0.11.jar"
                        id="istack-commons-runtime"
-                       uripath="platform:/plugin/org.talend.libraries.esb/lib/istack-commons-runtime-3.0.8.jar"
+                       uripath="platform:/plugin/org.talend.libraries.esb/lib/istack-commons-runtime-3.0.11.jar"
                        bundleID="" />
         <libraryNeeded context="plugin:org.talend.libraries.esb"
                        name="jakarta.xml.bind-api-2.3.2.jar"

@@ -556,7 +556,7 @@
                  id="build.provider.esb.route.osgibundle"
                  provider="org.talend.camel.designer.build.RouteOSGiBundleBuildProvider">
                  <buildType
-                       label="Route"
+                       label="Talend Runtime (OSGi)"
                        name="ROUTE"
                  order="20">
            </buildType>

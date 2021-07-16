@@ -178,8 +178,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                             || destination.equals(EXPORTTYPE_SPRING_BOOT_DOCKER_IMAGE);
 
                     if (isMS) {
-                        contextButton.dispose();
-                        addBSButton.dispose();
+
                         exportAsZipButton.dispose();
                         enablePrometheusMetricsEndpointButton.dispose();
 
@@ -189,6 +188,7 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                             updateDestinationGroup(false);
                             createOptionsForKar(optionsGroupComposite, optionsGroupFont);
                             optionsGroupComposite.layout(true, true);
+                            
                         } else {
                             updateDestinationGroup(true);
                             createOptionsForDocker(optionsGroupComposite, optionsGroupFont);
@@ -665,45 +665,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
             return;
         }
 
-        addBSButton = new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
-        addBSButton.setText("Add maven script");
-        addBSButton.setSelection(addMavenScript);
-        addBSButton.addSelectionListener(new SelectionAdapter() {
-
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                addMavenScript = addBSButton.getSelection();
-            }
-        });
-
-        // TESB-17856: ESB Microservice can be exported only with Default context
-        contextButton = new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
-        contextButton.setText("Only export the default context"); //$NON-NLS-1$
-        contextButton.setSelection(onlyExportDefaultContext);
-        contextButton.setFont(font);
-        contextButton.setVisible(PluginChecker.isTIS());
-        contextButton.addSelectionListener(new SelectionAdapter() {
-
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                onlyExportDefaultContext = contextButton.getSelection();
-            }
-        });
-
-        exportAsZipButton = new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
-        exportAsZipButton.setText("Export as ZIP"); //$NON-NLS-1$
-        exportAsZipButton.setSelection(exportAsZip);
-        exportAsZipButton.setFont(getFont());
-        exportAsZipButton.addSelectionListener(new SelectionAdapter() {
-
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                boolean selectContext = exportAsZipButton.getSelection();
-                exportAsZip = selectContext;
-                exportTypeCombo.notifyListeners(SWT.Selection, null);
-            }
-        });
-
         if ("ROUTE_MICROSERVICE".equals(
                 getProcessItem().getProperty().getAdditionalProperties().get(TalendProcessArgumentConstant.ARG_BUILD_TYPE))) {
 
@@ -719,6 +680,20 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
                     enablePrometheusMetricsEndpoint = selectContext;
                 }
             });
+            
+            exportAsZipButton = new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
+            exportAsZipButton.setText("Export as ZIP"); //$NON-NLS-1$
+            exportAsZipButton.setSelection(exportAsZip);
+            exportAsZipButton.setFont(getFont());
+            exportAsZipButton.addSelectionListener(new SelectionAdapter() {
+
+                @Override
+                public void widgetSelected(SelectionEvent e) {
+                    boolean selectContext = exportAsZipButton.getSelection();
+                    exportAsZip = selectContext;
+                    exportTypeCombo.notifyListeners(SWT.Selection, null);
+                }
+            });
         }
 
         optionsGroupCompositeLayout = (GridData) optionsGroup.getParent().getLayoutData();
@@ -728,19 +703,6 @@ public class JavaCamelJobScriptsExportWSWizardPage extends JobScriptsExportWizar
         if (!PluginChecker.isTIS()) {
             return;
         }
-
-        // TESB-17856: ESB Microservice can be exported only with Default context
-        contextButton = new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
-        contextButton.setText("Only export the default context"); //$NON-NLS-1$
-        contextButton.setFont(font);
-        contextButton.setVisible(PluginChecker.isTIS());
-        contextButton.addSelectionListener(new SelectionAdapter() {
-
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                onlyExportDefaultContext = contextButton.getSelection();
-            }
-        });
 
         enablePrometheusMetricsEndpointButton = new Button(optionsGroup, SWT.CHECK | SWT.LEFT);
         enablePrometheusMetricsEndpointButton.setText("Enable Prometheus metrics endpoint"); //$NON-NLS-1$
